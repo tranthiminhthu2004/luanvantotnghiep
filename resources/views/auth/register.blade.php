@@ -5,142 +5,262 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng ký tài khoản</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wdth,wght@100.6,527&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
-    .montserrat {
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 700;
-    }
-    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
 </head>
 
-<body class="min-h-screen flex items-center justify-center p-6" ">
+<body class="bg-[#eef5ff] min-h-screen flex items-center justify-center p-6">
 
-    <div class=" bg-gray-100 rounded-3xl shadow-2xl overflow-hidden max-w-4xl w-full">
+    <div class="bg-white rounded-[40px] shadow-2xl overflow-hidden max-w-6xl w-full">
 
-    <div class="grid md:grid-cols-2">
+        <div class="grid md:grid-cols-2">
 
-        <!-- BÊN TRÁI -->
-        <div class="bg-[#DCEEFF] flex flex-col justify-center items-center p-10 mt-1">
+            <!-- LEFT SIDE -->
+            <div class="relative min-h-[850px]">
 
-            <img src="{{ asset('images/anhdangki.jpg') }}" alt="Hotel"
-                class="rounded-3xl shadow-lg w-full max-w-md h-3/4">
+                <img src="{{ asset('images/anhdangki.png') }}" alt="Hotel"
+                    class="absolute inset-0 w-full h-full object-cover">
 
-            <h2 class="text-4xl font-bold text-gray-800 mt-8 montserrat">
-                HOTEL BOOKING
-            </h2>
+                <div class="absolute inset-0 bg-gradient-to-t from-blue-900/60 via-blue-900/10 to-white/10">
+                </div>
 
-            <p class="text-gray-600 mt-3 text-center">
-                Đặt phòng khách sạn dễ dàng, nhanh chóng và tiện lợi.
-            </p>
+                <!-- Logo -->
+                <div class="absolute top-8 left-10 z-10">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-32 h-auto">
+                </div>
 
-        </div>
+                <!-- Text -->
+                <div class="absolute top-28 left-10 right-10 z-10">
 
-        <!-- BÊN PHẢI -->
-        <div class="p-8 flex items-center">
+                    <h1 class="text-[#061755] text-5xl font-extrabold leading-tight drop-shadow-lg">
 
-            <div class="w-full">
+                        Trải nghiệm kỳ nghỉ
 
-                <h1 class="text-5xl font-bold text-gray-900 mb-2 montserrat">
-                    Đăng ký
-                </h1>
+                        <span class="text-[#1040C5] ">
+                            tuyệt vời
+                        </span>
 
-                <p class=" text-black mb-8">
-                    Tạo tài khoản mới
-                </p>
+                        cùng chúng tôi
 
-                <form method="POST" action="{{ route('register') }}">
-                    @csrf
+                    </h1>
 
-                    <!-- Email -->
-                    <div class="mb-5">
-
-                        <label class="block mb-2 font-medium">
-                            Email
-                        </label>
-
-                        <input type="email" name="email" value="{{ old('email') }}" required
-                            class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                            placeholder="Nhập email">
-
-                        @error('email')
-                        <p class="text-red-500 text-sm mt-1">
-                            {{ $message }}
-                        </p>
-                        @enderror
-
-                    </div>
-
-                    <!-- Password -->
-                    <div class="mb-6">
-
-                        <label class="block mb-2 font-medium">
-                            Mật khẩu
-                        </label>
-
-                        <input type="password" name="password" required
-                            class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                            placeholder="Nhập mật khẩu">
-
-                        @error('password')
-                        <p class="text-red-500 text-sm mt-1">
-                            {{ $message }}
-                        </p>
-                        @enderror
-
-                    </div>
-
-                    <!-- Button Register -->
-                    <button type="submit"
-                        class="w-full bg-black text-white py-3 rounded-xl font-semibold hover:bg-gray-800 transition">
-                        Đăng ký
-                    </button>
-
-                </form>
-
-                <!-- Divider -->
-                <div class="flex items-center my-6">
-
-                    <div class="flex-1 border-t border-gray-300"></div>
-
-                    <span class="mx-4 text-gray-400">
-                        Hoặc
-                    </span>
-
-                    <div class="flex-1 border-t border-gray-300"></div>
+                    <p class="text-white/90 text-lg mt-6 leading-relaxed max-w-md">
+                        Đặt phòng dễ dàng, nhanh chóng và tận hưởng
+                        những ưu đãi hấp dẫn mỗi ngày.
+                    </p>
 
                 </div>
 
-                <!-- Google -->
-                <a href="{{ route('google.login') }}"
-                    class="border border-gray-300 rounded-xl py-3 flex justify-center items-center gap-3 hover:bg-gray-50 transition">
+                <!-- FEATURES -->
+                <div class="absolute bottom-10 left-8 right-8 z-20">
 
-                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="22">
+                    <div class="bg-white/95 backdrop-blur-md rounded-3xl shadow-xl p-6">
 
-                    <span class="font-medium">
-                        Đăng ký bằng Google
-                    </span>
+                        <div class="grid grid-cols-3 divide-x divide-gray-200">
 
-                </a>
+                            <!-- Ưu đãi -->
+                            <div class="text-center px-4">
 
-                <!-- Login -->
-                <p class="text-center mt-8 text-black">
+                                <div class="flex justify-center mb-3">
 
-                    Đã có tài khoản?
+                                    <div class="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center">
 
-                    <a href="{{ route('login') }}" class="text-blue-600 font-semibold hover:underline">
-                        Đăng nhập
+                                        <i class="fa-solid fa-award text-blue-600 text-2xl"></i>
+
+                                    </div>
+
+                                </div>
+
+                                <h4 class="font-semibold text-gray-800 text-sm">
+                                    Ưu đãi độc quyền
+                                </h4>
+
+                                <p class="text-xs text-gray-500 mt-1">
+                                    Giá tốt mỗi ngày
+                                </p>
+
+                            </div>
+
+                            <!-- Thanh toán -->
+                            <div class="text-center px-4">
+
+                                <div class="flex justify-center mb-3">
+
+                                    <div class="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center">
+
+                                        <i class="fa-solid fa-shield-halved text-blue-600 text-2xl"></i>
+
+                                    </div>
+
+                                </div>
+
+                                <h4 class="font-semibold text-gray-800 text-sm">
+                                    Thanh toán an toàn
+                                </h4>
+
+                                <p class="text-xs text-gray-500 mt-1">
+                                    Bảo mật tuyệt đối
+                                </p>
+
+                            </div>
+
+                            <!-- Hỗ trợ -->
+                            <div class="text-center px-4">
+
+                                <div class="flex justify-center mb-3">
+
+                                    <div class="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center">
+
+                                        <i class="fa-solid fa-headset text-blue-600 text-2xl"></i>
+
+                                    </div>
+
+                                </div>
+
+                                <h4 class="font-semibold text-gray-800 text-sm">
+                                    Hỗ trợ 24/7
+                                </h4>
+
+                                <p class="text-xs text-gray-500 mt-1">
+                                    Luôn sẵn sàng
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT SIDE -->
+            <div class="p-12 flex items-center">
+
+                <div class="w-full">
+
+                    <h1 class="text-5xl font-bold text-slate-900">
+                        Đăng ký
+                    </h1>
+
+                    <p class="text-gray-500 mt-3 mb-8">
+                        Tạo tài khoản mới để bắt đầu
+                    </p>
+
+                    <form method="POST" action="{{ route('register') }}">
+
+                        @csrf
+
+                        <!-- Name -->
+                        <div class="mb-5">
+
+                            <label class="block mb-2 font-semibold">
+                                Họ và tên
+                            </label>
+
+                            <input type="text" name="name" value="{{ old('name') }}" required
+                                placeholder="Nhập họ và tên của bạn"
+                                class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-5">
+
+                            <label class="block mb-2 font-semibold">
+                                Email
+                            </label>
+
+                            <input type="email" name="email" value="{{ old('email') }}" required
+                                placeholder="Nhập email của bạn"
+                                class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                            @error('email')
+                            <p class="text-red-500 text-sm mt-2">
+                                {{ $message }}
+                            </p>
+                            @enderror
+
+                        </div>
+
+                        <!-- Password -->
+                        <div class="mb-5">
+
+                            <label class="block mb-2 font-semibold">
+                                Mật khẩu
+                            </label>
+
+                            <input type="password" name="password" required placeholder="Nhập mật khẩu"
+                                class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="mb-8">
+
+                            <label class="block mb-2 font-semibold">
+                                Xác nhận mật khẩu
+                            </label>
+
+                            <input type="password" name="password_confirmation" required placeholder="Nhập lại mật khẩu"
+                                class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                        </div>
+
+                        <button type="submit"
+                            class="w-full bg-[#0c1d4d] hover:bg-[#18357f] text-white py-4 rounded-2xl font-bold transition duration-300">
+                            Đăng ký
+                        </button>
+
+                    </form>
+
+                    <!-- Divider -->
+                    <div class="flex items-center my-8">
+
+                        <div class="flex-1 border-t border-gray-300">
+                        </div>
+
+                        <span class="mx-4 text-gray-400">
+                            Hoặc
+                        </span>
+
+                        <div class="flex-1 border-t border-gray-300">
+                        </div>
+
+                    </div>
+
+                    <!-- Google Login -->
+                    <a href="{{ route('google.login') }}"
+                        class="border border-gray-300 rounded-2xl py-4 flex justify-center items-center gap-3 hover:bg-gray-50 transition">
+
+                        <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="24" alt="Google">
+
+                        <span class="font-semibold">
+                            Đăng ký bằng Google
+                        </span>
+
                     </a>
 
-                </p>
+                    <!-- Login -->
+                    <p class="text-center mt-8 text-gray-500">
+
+                        Đã có tài khoản?
+
+                        <a href="{{ route('login') }}" class="text-blue-600 font-semibold hover:underline">
+                            Đăng nhập
+                        </a>
+
+                    </p>
+
+                </div>
 
             </div>
 
         </div>
-
-    </div>
 
     </div>
 
