@@ -5,8 +5,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('users/welcome');
-});
+    return view('users.welcome');
+})->name('users.home');
 
 Route::get('/google-login', [GoogleController::class, 'redirect'])
     ->name('google.login');
@@ -28,5 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
 });
-
+Route::get('/khachsan', function () {
+    return view('users.khachsan.khachsan');
+})->name('khachsan.khachsan');
 require __DIR__.'/auth.php';

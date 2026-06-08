@@ -1,7 +1,7 @@
 <section class="relative h-[600px]">
 
     <!-- Ảnh nền -->
-    <img src="{{ asset('images/timkiem.png') }}" alt="Banner" class="absolute inset-0 w-full h-full object-cover">
+    <img src="{{ asset('images/tc.png') }}" alt="Banner" class="absolute inset-0 w-full h-full object-cover">
 
     <!-- Overlay -->
     <div class="absolute inset-0 bg-black/20"></div>
@@ -13,18 +13,17 @@
         <div class="max-w-xl text-white">
 
             <h1 class="text-6xl font-bold leading-tight">
-                KHÁM PHÁ NHỮNG ĐIỂM ĐẾN PHÙ HỢP VỚI BẠN
+                KHÁCH SẠN
             </h1>
 
             <p class="mt-6 text-xl text-white/90">
-                Tìm kiếm khách sạn và địa điểm du lịch
-                cho chuyến đi hoàn hảo của bạn
+                Khám phá và đặt phòng khách sạn phù hợp cho những chuyến đi của bạn
             </p>
 
         </div>
 
         <!-- Search Box -->
-        <div class="mt-20">
+        <div class="mb-20">
 
             <div class="bg-white rounded-2xl shadow-2xl p-5">
 
@@ -65,7 +64,7 @@
                     <div>
 
                         <label class="text-lg font-semibold text-black">
-                            Số người
+                            Số người và số phòng
                         </label>
 
                         <select class="mt-2 w-full border rounded-xl px-4 py-3">

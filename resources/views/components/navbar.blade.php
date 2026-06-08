@@ -1,51 +1,51 @@
 <nav class="bg-white shadow-sm">
 
-    <div class="max-w-7xl mx-auto px-0">
+    <div class="w-full px-6 ">
 
         <div class="flex items-center justify-between h-24">
 
             <!-- Logo -->
-            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-auto w-40 -ml-64 ">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-auto w-40 ml-40 ">
 
             <ul class="hidden lg:flex items-center justify-center gap-5 text-xl font-bold">
 
-                <li class="gap-4">
-                    <a href="#" class="hover:text-blue-600 text-[#061755]">
+                <li>
+                    <a href="{{ route('users.home') }}" class="hover:text-blue-600 text-[#061755]">
                         Trang chủ
                     </a>
                 </li>
 
-                <li class="gap-4">
-                    <a href="#" class="hover:text-blue-600 target:">
+                <li>
+                    <a href="{{ route('khachsan.khachsan') }}" class="hover:text-blue-600 text-[#061755]">
                         Khách sạn
                     </a>
                 </li>
 
-                <li class="gap-4">
+                <li>
                     <a href="#" class="hover:text-blue-600 text-[#061755]">
                         Địa điểm du lịch
                     </a>
                 </li>
 
-                <li class="gap-4">
+                <li>
                     <a href="#" class="hover:text-blue-600 text-[#061755]">
                         Ưu đãi
                     </a>
                 </li>
 
-                <li class="gap-4">
+                <li class="">
                     <a href="#" class="hover:text-blue-600 text-[#061755]">
                         Tra cứu đặt phòng
                     </a>
                 </li>
 
-                <li class="gap-4">
+                <li class="">
                     <a href="#" class="hover:text-blue-600 text-[#061755]">
                         Tin tức
                     </a>
                 </li>
 
-                <li class="gap-4">
+                <li class="">
                     <a href="#" class="hover:text-blue-600 text-[#061755]">
                         Liên hệ
                     </a>
@@ -54,7 +54,7 @@
             </ul>
 
             <!-- Desktop Buttons -->
-            <div class="hidden lg:flex items-center gap-8 -mr-64">
+            <div class="hidden lg:flex items-center gap-8 mr-40">
 
                 <button
                     class="px-5 py-3 rounded-full border text-xl border-[#295AB7] text-[#1040C5] font-bold hover:bg-blue-50">
