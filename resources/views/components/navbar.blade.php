@@ -22,16 +22,12 @@
                 </li>
 
                 <li>
-                    <a href="#" class="hover:text-blue-600 text-[#061755]">
+                    <a href="{{ route('diadiemdulich.diadem') }}" class="hover:text-blue-600 text-[#061755]">
                         Địa điểm du lịch
                     </a>
                 </li>
 
-                <li>
-                    <a href="#" class="hover:text-blue-600 text-[#061755]">
-                        Ưu đãi
-                    </a>
-                </li>
+
 
                 <li class="">
                     <a href="#" class="hover:text-blue-600 text-[#061755]">

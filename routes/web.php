@@ -31,4 +31,10 @@ Route::middleware('auth')->group(function () {
 Route::get('/khachsan', function () {
     return view('users.khachsan.khachsan');
 })->name('khachsan.khachsan');
+Route::get('/chitietkhachsan', function () {
+    return view('users.chitietkhachsan.chitiet');
+})->name('chitietkhachsan.chitiet');
+Route::get('/diadiemdulich', function () {
+    return view('users.diadiemdulich.diadem');
+})->name('diadiemdulich.diadem');
 require __DIR__.'/auth.php';

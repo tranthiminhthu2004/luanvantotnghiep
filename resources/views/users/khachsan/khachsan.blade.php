@@ -13,6 +13,34 @@
 <body>
     @include('components.navbar')
     @include('users.khachsan.search')
+    <section class="max-w-7xl mx-auto px-4 py-8">
+
+        <div class="flex gap-6">
+
+            {{-- Sidebar bộ lọc --}}
+            @include('users.khachsan.boloc')
+
+            {{-- Danh sách khách sạn --}}
+            <div class="flex-1">
+
+                {{-- Header --}}
+                @include('users.khachsan.header')
+
+                {{-- Danh sách --}}
+                <div class="space-y-5">
+
+                    @include('users.khachsan.thekhachsan')
+
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+    </section>
 </body>
 
 </html>

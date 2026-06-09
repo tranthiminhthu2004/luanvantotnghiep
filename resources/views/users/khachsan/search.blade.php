@@ -23,7 +23,7 @@
         </div>
 
         <!-- Search Box -->
-        <div class="mb-20">
+        <div class="mt-60">
 
             <div class="bg-white rounded-2xl shadow-2xl p-5">
 
