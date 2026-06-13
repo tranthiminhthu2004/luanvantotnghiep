@@ -1,12 +1,38 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+
+use App\Http\Controllers\KhachSan\UserKhachSanController;
+use App\Http\Controllers\KhachSan\AdminKhachSanController;
+use App\Http\Controllers\KhachSan\AdminHinhAnhKhachSanController;
+
+/*
+|--------------------------------------------------------------------------
+| Trang chủ
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/', function () {
-    return view('users.welcome');
-})->name('users.home');
+
+    if (
+        auth()->check() &&
+        auth()->user()->ma_vai_tro == 1
+    ) {
+        return redirect()->route('dashboard');
+    }
+
+    return view('users.index');
+
+})->name('users.index');
+
+/*
+|--------------------------------------------------------------------------
+| Google Login
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/google-login', [GoogleController::class, 'redirect'])
     ->name('google.login');
@@ -14,11 +40,34 @@ Route::get('/google-login', [GoogleController::class, 'redirect'])
 Route::get('/google-callback', [GoogleController::class, 'callback'])
     ->name('google.callback');
 
+/*
+|--------------------------------------------------------------------------
+| Dashboard Admin
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+
+    if (
+        !auth()->check()
+        || auth()->user()->ma_vai_tro != 1
+    ) {
+        abort(403);
+    }
+
+    return view('admin.dashboard');
+
+})->middleware('auth')
+  ->name('dashboard');
+
+/*
+|--------------------------------------------------------------------------
+| Profile
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware('auth')->group(function () {
+
     Route::get('/profile', [ProfileController::class, 'edit'])
         ->name('profile.edit');
 
@@ -28,13 +77,97 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
 });
-Route::get('/khachsan', function () {
-    return view('users.khachsan.khachsan');
-})->name('khachsan.khachsan');
-Route::get('/chitietkhachsan', function () {
-    return view('users.chitietkhachsan.chitiet');
-})->name('chitietkhachsan.chitiet');
+
+// Logout
+
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->name('logout');
+
+
+//USER - KHÁCH SẠN
+
+Route::get(
+    '/khachsan',
+    [UserKhachSanController::class, 'index']
+)->name('khachsan.index');
+
+Route::get(
+    '/khachsan/{id}',
+    [UserKhachSanController::class, 'show']
+)->name('khachsan.show');
+
+//ADMIN - KHÁCH SẠN
+
+Route::middleware('auth')->group(function () {
+
+    Route::get(
+        '/admin/khachsan',
+        [AdminKhachSanController::class, 'index']
+    )->name('admin.khachsan.index');
+
+});
+
+Route::get(
+    '/admin/khachsan/create',
+    [AdminKhachSanController::class,'create']
+)->name('admin.khachsan.create');
+
+Route::post(
+    '/admin/khachsan/store',
+    [AdminKhachSanController::class,'store']
+)->name('admin.khachsan.store');
+
+Route::get(
+    '/admin/khachsan/{id}/edit',
+    [AdminKhachSanController::class,'edit']
+)->name('admin.khachsan.edit');
+
+Route::put(
+    '/admin/khachsan/{id}',
+    [AdminKhachSanController::class,'update']
+)->name('admin.khachsan.update');
+
+Route::delete(
+    '/admin/khachsan/{id}',
+    [AdminKhachSanController::class,'destroy']
+)->name('admin.khachsan.destroy');
+
+Route::get(
+    '/admin/khachsan/{id}',
+    [AdminKhachSanController::class,'show']
+)->name('admin.khachsan.show');
+
+//Quản lý hình ảnh khách san
+Route::get(
+    '/admin/khachsan/{id}/hinhanh',
+    [AdminHinhAnhKhachSanController::class,'index']
+)->name('admin.hinhanh.index');
+
+Route::post(
+    '/admin/khachsan/{id}/hinhanh',
+    [AdminHinhAnhKhachSanController::class,'store']
+)->name('admin.hinhanh.store');
+
+Route::delete(
+    '/admin/hinhanh/{id}',
+    [AdminHinhAnhKhachSanController::class,'destroy']
+)->name('admin.hinhanh.destroy');
+
+//USER - ĐỊA ĐIỂM DU LỊCH
+
 Route::get('/diadiemdulich', function () {
-    return view('users.diadiemdulich.diadem');
-})->name('diadiemdulich.diadem');
+
+    return view('users.diadiemdulich.index');
+
+})->name('diadiemdulich.index');
+
+// USER - CHI TIẾT KHÁCH SẠN
+
+
+Route::get('/chitietkhachsan', function () {
+
+    return view('users.chitietkhachsan.index');
+
+})->name('chitietkhachsan.index');
+
 require __DIR__.'/auth.php';

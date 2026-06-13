@@ -9,7 +9,7 @@ class NguoiDung extends Authenticatable
 {
     use Notifiable;
 
-    protected $table = 'nguoidung';
+    protected $table = 'nguoi_dung';
 
     protected $primaryKey = 'ma_nguoi_dung';
 

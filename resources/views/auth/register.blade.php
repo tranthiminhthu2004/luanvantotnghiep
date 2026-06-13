@@ -14,12 +14,12 @@
 
 <body class="bg-[#eef5ff] min-h-screen flex items-center justify-center p-6">
 
-    <div class="bg-white rounded-[40px] shadow-2xl overflow-hidden max-w-6xl w-full">
+    <div class="bg-white rounded-[40px] shadow-2xl overflow-hidden max-w-5xl w-full">
 
         <div class="grid md:grid-cols-2">
 
             <!-- LEFT SIDE -->
-            <div class="relative min-h-[850px]">
+            <div class="relative min-h-[650px]">
 
                 <img src="{{ asset('images/anhdangki.png') }}" alt="Hotel"
                     class="absolute inset-0 w-full h-full object-cover">
@@ -139,7 +139,7 @@
             </div>
 
             <!-- RIGHT SIDE -->
-            <div class="p-12 flex items-center">
+            <div class="p-8 flex items-center">
 
                 <div class="w-full">
 
@@ -158,26 +158,25 @@
                         <!-- Name -->
                         <div class="mb-5">
 
-                            <label class="block mb-2 font-semibold">
+                            <label class=" text-lg block mb-2 font-semibold ">
                                 Họ và tên
                             </label>
 
                             <input type="text" name="name" value="{{ old('name') }}" required
                                 placeholder="Nhập họ và tên của bạn"
-                                class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
-
+                                class="w-full border border-gray-300 px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-full">
                         </div>
 
                         <!-- Email -->
                         <div class="mb-5">
 
-                            <label class="block mb-2 font-semibold">
+                            <label class="block mb-2 font-semibold text-lg">
                                 Email
                             </label>
 
                             <input type="email" name="email" value="{{ old('email') }}" required
                                 placeholder="Nhập email của bạn"
-                                class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                class="w-full border border-gray-300  px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-full">
 
                             @error('email')
                             <p class="text-red-500 text-sm mt-2">
@@ -190,29 +189,51 @@
                         <!-- Password -->
                         <div class="mb-5">
 
-                            <label class="block mb-2 font-semibold">
+                            <label class="block mb-2 font-semibold text-lg">
                                 Mật khẩu
                             </label>
 
-                            <input type="password" name="password" required placeholder="Nhập mật khẩu"
-                                class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <div class="relative">
 
+                                <input type="password" id="password" name="password" required
+                                    placeholder="Nhập mật khẩu"
+                                    class="w-full border border-gray-300 rounded-full px-5 py-4 pr-14 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                                <button type="button" onclick="togglePassword('password','passwordIcon')"
+                                    class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500">
+
+                                    <i id="passwordIcon" class="fa-solid fa-eye"></i>
+
+                                </button>
+
+                            </div>
                         </div>
-
                         <!-- Confirm Password -->
                         <div class="mb-8">
 
-                            <label class="block mb-2 font-semibold">
+                            <label class="block mb-2 font-semibold text-lg">
                                 Xác nhận mật khẩu
                             </label>
 
-                            <input type="password" name="password_confirmation" required placeholder="Nhập lại mật khẩu"
-                                class="w-full border border-gray-300 rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <div class="relative">
+
+                                <input type="password" id="password_confirmation" name="password_confirmation" required
+                                    placeholder="Nhập lại mật khẩu"
+                                    class="w-full border border-gray-300 rounded-full px-5 py-4 pr-14 focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                                <button type="button" onclick="togglePassword('password_confirmation','confirmIcon')"
+                                    class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500">
+
+                                    <i id="confirmIcon" class="fa-solid fa-eye"></i>
+
+                                </button>
+
+                            </div>
 
                         </div>
 
                         <button type="submit"
-                            class="w-full bg-[#0c1d4d] hover:bg-[#18357f] text-white py-4 rounded-2xl font-bold transition duration-300">
+                            class="w-full bg-[#0c1d4d] hover:bg-[#18357f] text-white py-4 rounded-full font-bold transition duration-300 text-lg">
                             Đăng ký
                         </button>
 
@@ -235,22 +256,22 @@
 
                     <!-- Google Login -->
                     <a href="{{ route('google.login') }}"
-                        class="border border-gray-300 rounded-2xl py-4 flex justify-center items-center gap-3 hover:bg-gray-50 transition">
+                        class="border border-gray-300 rounded-full py-4 flex justify-center items-center gap-3 hover:bg-gray-50 transition">
 
                         <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="24" alt="Google">
 
-                        <span class="font-semibold">
+                        <span class="font-semibold text-lg">
                             Đăng ký bằng Google
                         </span>
 
                     </a>
 
                     <!-- Login -->
-                    <p class="text-center mt-8 text-gray-500">
+                    <p class="text-center mt-8 text-gray-500 text-lg">
 
                         Đã có tài khoản?
 
-                        <a href="{{ route('login') }}" class="text-blue-600 font-semibold hover:underline">
+                        <a href="{{ route('login') }}" class="text-blue-600 font-semibold hover:underline text-lg">
                             Đăng nhập
                         </a>
 
@@ -263,7 +284,29 @@
         </div>
 
     </div>
+    <script>
+    function togglePassword(inputId, iconId) {
 
+        let input = document.getElementById(inputId);
+        let icon = document.getElementById(iconId);
+
+        if (!input || !icon) return;
+
+        if (input.type === "password") {
+
+            input.type = "text";
+
+            icon.className = "fa-solid fa-eye-slash";
+
+        } else {
+
+            input.type = "password";
+
+            icon.className = "fa-solid fa-eye";
+
+        }
+    }
+    </script>
 </body>
 
 </html>

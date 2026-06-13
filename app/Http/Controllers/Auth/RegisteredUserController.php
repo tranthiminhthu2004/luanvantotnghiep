@@ -24,7 +24,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:nguoidung,email'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:nguoi_dung,email'],
             'password' => ['required', Rules\Password::defaults()],
         ]);
 
@@ -41,7 +41,7 @@ class RegisteredUserController extends Controller
             'ten' => $ten,
             'email' => $request->email,
             'mat_khau' => Hash::make($request->password),
-            'ma_vai_tro' => 1,
+            'ma_vai_tro' => 2,
             'trang_thai' => 1,
         ]);
 
@@ -49,6 +49,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect()->route('users.index');
     }
 }

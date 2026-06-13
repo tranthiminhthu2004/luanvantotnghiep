@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('google_id')->nullable()->after('password');
-        });
+        Schema::create('vai_tro', function (Blueprint $table) {
+
+    $table->id('ma_vai_tro');
+
+    $table->string('ten_vai_tro', 50);
+
+});
     }
 
     /**
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('google_id');
-        });
+        Schema::dropIfExists('vai_tro');
     }
 };

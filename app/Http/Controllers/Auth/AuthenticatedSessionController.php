@@ -28,11 +28,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        $user = Auth::user();
-        if ($user->ma_vai_tro == 4) {
-            return redirect()->intended('/admin/dashboard');
-        } 
-        return redirect()->intended('/');
+        return redirect()->intended(route('dashboard', absolute: false));
     }
 
     /**

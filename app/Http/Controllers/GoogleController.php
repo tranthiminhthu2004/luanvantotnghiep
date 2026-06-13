@@ -15,7 +15,7 @@ class GoogleController extends Controller
 
     public function callback()
     {
-        $googleUser = Socialite::driver('google')->user();
+        $googleUser = Socialite::driver('google')->stateless()->user();
 
         $user = NguoiDung::where('email', $googleUser->getEmail())->first();
 
@@ -30,13 +30,14 @@ class GoogleController extends Controller
                 'email' => $googleUser->getEmail(), 
                 'mat_khau' => bcrypt(uniqid()), 
                 'ma_google' => $googleUser->getId(), 
-                'ma_vai_tro' => 4, 
+                'anh_dai_dien' => $googleUser->getAvatar(),
+                'ma_vai_tro' => 2, 
                 'trang_thai' => 1, 
             ]); 
         }
 
         Auth::login($user);
-        if ($user->ma_vai_tro == 4) {
+        if ($user->ma_vai_tro == 1) {
             return redirect()->intended('/admin/dashboard');
         }
         return redirect('/');

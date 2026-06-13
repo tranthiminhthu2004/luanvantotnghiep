@@ -1,74 +1,93 @@
-<div class="bg-white rounded-xl border overflow-hidden flex">
+<div class="bg-white rounded-2xl border overflow-hidden flex shadow-sm hover:shadow-lg transition">
 
-    <img src="{{ asset('images/muonthanh.jpg') }}" class="w-80 h-56 object-cover">
+    {{-- Ảnh khách sạn --}}
+    @if($khachSan->hinhAnh->count())
 
-    <div class="flex-1 p-5">
+    <img src="{{ asset($khachSan->hinhAnh->first()->duong_dan_anh) }}" class="w-[350px] object-cover self-stretch">
+    @else
+    <img src="{{ asset('images/no-image.jpg') }}" class="w-[350px] h-full object-cover">
+    @endif
+    {{-- Nội dung --}}
+    <div class="flex-1 p-5 flex flex-col justify-between">
 
-        <h2 class="text-2xl font-bold">
+        <div>
 
-            Khách sạn Mường Thanh Luxury Đà Nẵng
+            {{-- Tên khách sạn --}}
+            <h2 class="text-2xl font-bold text-slate-800">
 
-        </h2>
+                {{ $khachSan->ten_khach_san }}
 
-        <div class="mt-2">
+            </h2>
 
-            ⭐⭐⭐⭐⭐
-            <span class="text-gray-500">
-                4.8 (1256 đánh giá)
-            </span>
+            {{-- Thành phố --}}
+            <p class="mt-2 text-gray-600 flex items-center gap-2 ">
+
+                <i class="fa-solid fa-location-dot text-red-500"></i>
+
+                {{ $khachSan->thanh_pho }}
+
+            </p>
+
+            {{-- Địa chỉ --}}
+            <p class="text-gray-500 mt-1 ">
+
+                {{ $khachSan->dia_chi }}
+
+            </p>
+
+            {{-- Số sao --}}
+            <div class="flex items-center gap-3 mt-3">
+
+                <div class="flex">
+
+                    @for($i = 1; $i <= $khachSan->so_sao_khach_san; $i++)
+
+                        <i class="fa-solid fa-star text-yellow-400"></i>
+
+                        @endfor
+
+                </div>
+
+            </div>
+
+            {{-- Trạng thái --}}
+            <div class="mt-3">
+
+                @if($khachSan->trang_thai)
+
+                <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm">
+
+                    Đang hoạt động
+
+                </span>
+
+                @else
+
+                <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm">
+
+                    Tạm dừng
+
+                </span>
+
+                @endif
+
+            </div>
 
         </div>
 
-        <p class="mt-2 text-gray-600">
-            📍 Sơn Trà, Đà Nẵng
-        </p>
+        {{-- Nút xem chi tiết --}}
+        <div class="mt-5">
 
-        <p class="mt-2 text-green-600">
+            <a href="{{ route('khachsan.show',$khachSan->ma_khach_san) }}"
+                class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-full inline-flex items-center gap-1">
 
-            Gần:
-            Biển Mỹ Khê • Cầu Rồng • Chợ Hàn
+                <i class="fa-solid fa-eye"></i>
 
-        </p>
+                Xem chi tiết
 
-        <div class="flex gap-2 mt-4">
-
-            <span class="bg-gray-100 px-3 py-1 rounded-full text-sm">
-                Wifi
-            </span>
-
-            <span class="bg-gray-100 px-3 py-1 rounded-full text-sm">
-                Hồ bơi
-            </span>
-
-            <span class="bg-gray-100 px-3 py-1 rounded-full text-sm">
-                Spa
-            </span>
+            </a>
 
         </div>
-
-    </div>
-
-    <div class="w-52 flex flex-col justify-center items-center border-l">
-
-        <p class="text-gray-500">
-            Giá từ
-        </p>
-
-        <h3 class="text-3xl font-bold text-blue-600">
-
-            1.250.000đ
-
-        </h3>
-
-        <p class="text-sm text-gray-500">
-            / đêm
-        </p>
-
-        <a href="{{ route('chitietkhachsan.chitiet') }}" class="mt-4 bg-[#1040C5] text-white px-5 py-2 rounded-full">
-
-            Xem chi tiết
-
-        </a>
 
     </div>
 

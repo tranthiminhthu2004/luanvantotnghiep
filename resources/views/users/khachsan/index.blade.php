@@ -29,8 +29,11 @@
                 {{-- Danh sách --}}
                 <div class="space-y-5">
 
+                    @foreach($khachSans as $khachSan)
+
                     @include('users.khachsan.thekhachsan')
 
+                    @endforeach
 
                 </div>
 
