@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\KhachSan\UserKhachSanController;
 use App\Http\Controllers\KhachSan\AdminKhachSanController;
 use App\Http\Controllers\KhachSan\AdminHinhAnhKhachSanController;
+use App\Http\Controllers\KhachSan\AdminLoaiPhongController;
 
 /*
 |--------------------------------------------------------------------------
@@ -152,6 +153,43 @@ Route::delete(
     '/admin/hinhanh/{id}',
     [AdminHinhAnhKhachSanController::class,'destroy']
 )->name('admin.hinhanh.destroy');
+
+//Loai Phòng 
+Route::get(
+    '/admin/loaiphong',
+    [AdminLoaiPhongController::class,'index']
+)->name('admin.loaiphong.index');
+ // LOẠI PHÒNG
+
+Route::get(
+    '/admin/loaiphong/create',
+    [AdminLoaiPhongController::class,'create']
+)->name('admin.loaiphong.create');
+
+Route::post(
+    '/admin/loaiphong/store',
+    [AdminLoaiPhongController::class,'store']
+)->name('admin.loaiphong.store');
+
+Route::get(
+    '/admin/loaiphong/{id}/edit',
+    [AdminLoaiPhongController::class,'edit']
+)->name('admin.loaiphong.edit');
+
+Route::put(
+    '/admin/loaiphong/{id}',
+    [AdminLoaiPhongController::class,'update']
+)->name('admin.loaiphong.update');
+
+Route::delete(
+    '/admin/loaiphong/{id}',
+    [AdminLoaiPhongController::class,'destroy']
+)->name('admin.loaiphong.destroy');
+
+Route::get(
+    '/admin/loaiphong/{id}',
+    [AdminLoaiPhongController::class,'show']
+)->name('admin.loaiphong.show');
 
 //USER - ĐỊA ĐIỂM DU LỊCH
 

@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\LoaiPhong;
 use Illuminate\Database\Eloquent\Model;
+
 
 class KhachSan extends Model
 {
@@ -28,6 +29,14 @@ class KhachSan extends Model
 {
     return $this->hasMany(
         HinhAnhKhachSan::class,
+        'ma_khach_san',
+        'ma_khach_san'
+    );
+}
+public function loaiPhong()
+{
+    return $this->hasMany(
+        LoaiPhong::class,
         'ma_khach_san',
         'ma_khach_san'
     );

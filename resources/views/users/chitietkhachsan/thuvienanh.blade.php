@@ -1,42 +1,72 @@
 <div>
 
-    <h1 class="text-5xl font-bold mb-3 text-[#061755]">
-        Khách sạn Mường Thanh Luxury Đà Nẵng
+    {{-- Tên khách sạn --}}
+    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-3 text-[#061755]">
+
+        {{ $khachSan->ten_khach_san }}
+
     </h1>
 
-    <div class="flex gap-4 mb-5">
+    {{-- Thông tin --}}
+    <div class="flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-5 mb-5">
 
-        <span>⭐⭐⭐⭐⭐</span>
+        <div class="flex">
 
-        <span>4.8 (1.256 đánh giá)</span>
+            @for($i = 1; $i <= $khachSan->so_sao_khach_san; $i++)
 
-        <span>
-            <i class="fa-solid fa-location-dot"></i>
-            Sơn Trà, Đà Nẵng
+                <i class="fa-solid fa-star text-yellow-400"></i>
+
+                @endfor
+
+        </div>
+
+        <span class="text-gray-500">
+
+            {{ $khachSan->thanh_pho }}
+
+        </span>
+
+        <span class="text-gray-500">
+
+            <i class="fa-solid fa-location-dot text-red-500"></i>
+
+            {{ $khachSan->dia_chi }}
+
         </span>
 
     </div>
 
-    <div class="grid grid-cols-12 gap-3">
+    {{-- Thư viện ảnh --}}
+    @if($khachSan->hinhAnh->count())
 
-        <div class="col-span-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-3">
 
-            <img src="{{ asset('images/muonthanh.jpg') }}" class="w-full h-[420px] rounded-xl object-cover">
+        {{-- Ảnh lớn --}}
+        <div class="lg:col-span-6">
+
+            <img src="{{ asset($khachSan->hinhAnh->first()->duong_dan_anh) }}"
+                class="w-full h-[250px] md:h-[350px] lg:h-[420px] rounded-xl object-cover">
 
         </div>
 
-        <div class="col-span-6 grid grid-cols-2 gap-3">
+        {{-- Ảnh nhỏ --}}
+        <div class="lg:col-span-6 grid grid-cols-2 gap-3">
 
-            <img src="{{ asset('images/muonthanh1.jpg') }}" class="w-full h-[200px] rounded-xl object-cover">
+            @foreach($khachSan->hinhAnh->skip(1)->take(4) as $anh)
 
-            <img src="{{ asset('images/muonthanh2.png') }}" class="w-full h-[200px] rounded-xl object-cover">
+            <img src="{{ asset($anh->duong_dan_anh) }}"
+                class="w-full h-[150px] md:h-[180px] lg:h-[200px] rounded-xl object-cover">
 
-            <img src="{{ asset('images/vinpearl.png') }}" class="w-full h-[200px] rounded-xl object-cover">
-
-            <img src="{{ asset('images/muonthanh.jpg') }}" class="w-full h-[200px] rounded-xl object-cover">
+            @endforeach
 
         </div>
 
     </div>
+
+    @else
+
+    <img src="{{ asset('images/no-image.jpg') }}" class="w-full h-[350px] rounded-xl object-cover">
+
+    @endif
 
 </div>

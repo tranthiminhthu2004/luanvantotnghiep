@@ -12,11 +12,13 @@
 <body>
 
     @include('components.navbar')
-    @include('users.trangchu.search')
-    @include('users.trangchu.nhucaudulich')
-    @include('users.trangchu.diemdennoibat')
-    @include('users.trangchu.khachsannoibat')
-    @include('components.footer')
+    <div class="pt-24">
+        @include('users.trangchu.search')
+        @include('users.trangchu.nhucaudulich')
+        @include('users.trangchu.diemdennoibat')
+        @include('users.trangchu.khachsannoibat')
+        @include('components.footer')
+    </div>
 </body>
 
 </html>

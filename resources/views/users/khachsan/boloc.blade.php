@@ -1,9 +1,10 @@
-<div class="w-72 bg-white rounded-xl border p-5 h-fit">
+<div class="w-full lg:w-72 bg-white rounded-xl border p-5 h-fit">
 
     <h3 class="font-bold text-lg mb-4">
         Bộ lọc tìm kiếm
     </h3>
 
+    <!-- Khoảng giá -->
     <div class="mb-6">
 
         <h4 class="font-semibold mb-2">
@@ -12,69 +13,76 @@
 
         <div class="space-y-2">
 
-            <label class="block">
+            <label class="flex items-center gap-2">
                 <input type="checkbox">
-                Dưới 500.000đ
+                <span>Dưới 500.000đ</span>
             </label>
 
-            <label class="block">
+            <label class="flex items-center gap-2">
                 <input type="checkbox">
-                500.000đ - 1 triệu
+                <span>500.000đ - 1 triệu</span>
             </label>
 
-            <label class="block">
+            <label class="flex items-center gap-2">
                 <input type="checkbox">
-                Trên 1 triệu
+                <span>Trên 1 triệu</span>
             </label>
 
         </div>
 
     </div>
 
+    <!-- Số sao -->
     <div class="mb-6">
 
         <h4 class="font-semibold mb-2">
             Số sao
         </h4>
 
-        <label class="block">
-            <input type="checkbox">
-            5 sao
-        </label>
+        <div class="space-y-2">
 
-        <label class="block">
-            <input type="checkbox">
-            4 sao
-        </label>
+            <label class="flex items-center gap-2">
+                <input type="checkbox">
+                <span>⭐⭐⭐⭐⭐ 5 sao</span>
+            </label>
 
-        <label class="block">
-            <input type="checkbox">
-            3 sao
-        </label>
+            <label class="flex items-center gap-2">
+                <input type="checkbox">
+                <span>⭐⭐⭐⭐ 4 sao</span>
+            </label>
+
+            <label class="flex items-center gap-2">
+                <input type="checkbox">
+                <span>⭐⭐⭐ 3 sao</span>
+            </label>
+
+        </div>
+
     </div>
 
-
+    <!-- Tiện ích -->
     <div>
 
         <h4 class="font-semibold mb-2">
-            Tiêu chí
+            Tiện ích
         </h4>
 
         <div class="space-y-2">
 
-            <label class="block">
+            <label class="flex items-center gap-2">
                 <input type="checkbox">
-                Wifi miễn phí
+                <span>Wifi miễn phí</span>
             </label>
 
-            <label class="block">
+            <label class="flex items-center gap-2">
                 <input type="checkbox">
-                Hồ bơi
+                <span>Hồ bơi</span>
             </label>
 
-            <label class="block">
+            <label class="flex items-center gap-2">
+                <span></span>
                 <input type="checkbox">
-                Spa
+                <span>Spa</span>
             </label>
 
         </div>

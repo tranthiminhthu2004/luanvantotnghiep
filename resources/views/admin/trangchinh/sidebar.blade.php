@@ -7,25 +7,25 @@
     transition-transform duration-300 ease-in-out">
 
     <!-- Header -->
-    <div class=" border-b border-blue-900 flex  justify-between">
+    <div class="border-b border-blue-900 flex justify-between">
 
         <div>
-            <img src="{{ asset('images/logodb.png') }}" alt="Logo" class="w-52 rounded-lg ">
+            <img src="{{ asset('images/logodb.png') }}" alt="Logo" class="w-52 rounded-lg">
         </div>
 
         <!-- Nút đóng mobile -->
-        <button id="closeSidebar" class="lg:hidden text-xl">
+        <button id="closeSidebar" class="lg:hidden text-xl p-4">
             <i class="fa-solid fa-xmark"></i>
         </button>
 
     </div>
 
     <!-- Menu -->
-    <nav class="flex-1 py-6 overflow-y-auto ">
+    <nav class="flex-1 py-6 overflow-y-auto">
 
         <!-- Dashboard -->
-        <a href="{{route('dashboard')}}"
-            class="mx-3 mb-2 flex items-center gap-3 rounded-full text-lg  px-4 py-3 font-medium">
+        <a href="{{ route('dashboard') }}"
+            class="mx-3 mb-2 flex items-center gap-3 rounded-full text-lg px-4 py-3 font-medium hover:bg-blue-900 transition">
 
             <i class="fa-solid fa-house"></i>
             Dashboard
@@ -37,14 +37,58 @@
             QUẢN LÝ
         </p>
 
-        <a href="{{route('admin.khachsan.index')}}"
-            class=" text-base flex items-center gap-3 px-6 py-3 hover:bg-blue-900 transition hover:rounded-full">
+        <!-- KHÁCH SẠN -->
+        <div class="mx-2">
 
-            <i class="fa-solid fa-hotel w-5"></i>
-            Khách sạn
+            <button id="khachSanMenuBtn"
+                class="w-full flex items-center justify-between px-4 py-3 hover:bg-blue-900 rounded-full transition">
 
-        </a>
+                <div class="flex items-center gap-3">
 
+                    <i class="fa-solid fa-hotel w-5"></i>
+
+                    <span>Khách sạn</span>
+
+                </div>
+
+                <i id="khachSanIcon" class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+
+            </button>
+
+            <div id="khachSanSubMenu" class="
+                {{ request()->routeIs('admin.khachsan.*')
+                || request()->routeIs('admin.loaiphong.*')
+                || request()->routeIs('admin.phong.*')
+                ? ''
+                : 'hidden' }}
+
+                ml-8 mt-2 space-y-1">
+
+                <a href="{{route('admin.khachsan.index') }}"
+                    class="block px-4 py-2 rounded-full hover:bg-blue-900 transition">
+                    <i class="fa-solid fa-building text-blue-300"></i>
+                    Danh sách khách sạn
+
+                </a>
+
+                <a href="{{route('admin.loaiphong.index')}}"
+                    class="block px-4 py-2 rounded-full hover:bg-blue-900 transition">
+                    <i class="fa-solid fa-bed text-yellow-300"></i>
+                    Loại phòng
+
+                </a>
+
+                <a href="#" class="block px-4 py-2 rounded-full hover:bg-blue-900 transition">
+                    <i class="fa-solid fa-door-open text-green-300"></i>
+                    Phòng
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- Địa điểm du lịch -->
         <a href="#" class="flex items-center gap-3 px-6 py-3 hover:bg-blue-900 transition hover:rounded-full">
 
             <i class="fa-solid fa-location-dot w-5"></i>
@@ -52,6 +96,7 @@
 
         </a>
 
+        <!-- Đặt phòng -->
         <a href="#" class="flex items-center gap-3 px-6 py-3 hover:bg-blue-900 transition hover:rounded-full">
 
             <i class="fa-solid fa-calendar-check w-5"></i>
@@ -59,6 +104,7 @@
 
         </a>
 
+        <!-- Người dùng -->
         <a href="#" class="flex items-center gap-3 px-6 py-3 hover:bg-blue-900 transition hover:rounded-full">
 
             <i class="fa-solid fa-users w-5"></i>
@@ -66,6 +112,7 @@
 
         </a>
 
+        <!-- Đánh giá -->
         <a href="#" class="flex items-center gap-3 px-6 py-3 hover:bg-blue-900 transition hover:rounded-full">
 
             <i class="fa-solid fa-star w-5"></i>
@@ -75,7 +122,7 @@
 
         <!-- Thống kê -->
         <p class="px-6 mt-8 mb-3 text-xs text-gray-400 uppercase tracking-wider">
-            Thống kê
+            THỐNG KÊ
         </p>
 
         <a href="#" class="flex items-center gap-3 px-6 py-3 hover:bg-blue-900 transition hover:rounded-full">
@@ -94,7 +141,7 @@
 
         <!-- Cài đặt -->
         <p class="px-6 mt-8 mb-3 text-xs text-gray-400 uppercase tracking-wider">
-            Cài đặt
+            CÀI ĐẶT
         </p>
 
         <a href="#" class="flex items-center gap-3 px-6 py-3 hover:bg-blue-900 transition hover:rounded-full">
@@ -104,12 +151,14 @@
 
         </a>
 
-        <a href="#" class="flex items-center gap-3 px-6 py-3 hover:bg-blue-900 transition rounded-full">
+        <a href="#" class="flex items-center gap-3 px-6 py-3 hover:bg-blue-900 transition hover:rounded-full">
 
             <i class="fa-solid fa-user-shield w-5"></i>
             Phân quyền
 
         </a>
+
+        <!-- Đăng xuất -->
         <form method="POST" action="{{ route('logout') }}">
             @csrf
 
@@ -123,6 +172,7 @@
             </button>
 
         </form>
+
     </nav>
 
     <!-- Footer -->
@@ -159,6 +209,27 @@ if (closeSidebar) {
     closeSidebar.addEventListener('click', () => {
 
         sidebar.classList.add('-translate-x-full');
+
+    });
+
+}
+
+const khachSanMenuBtn =
+    document.getElementById('khachSanMenuBtn');
+
+const khachSanSubMenu =
+    document.getElementById('khachSanSubMenu');
+
+const khachSanIcon =
+    document.getElementById('khachSanIcon');
+
+if (khachSanMenuBtn) {
+
+    khachSanMenuBtn.addEventListener('click', () => {
+
+        khachSanSubMenu.classList.toggle('hidden');
+
+        khachSanIcon.classList.toggle('rotate-180');
 
     });
 

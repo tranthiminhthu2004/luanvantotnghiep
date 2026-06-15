@@ -1,4 +1,4 @@
-<nav class="bg-white shadow-sm">
+<nav class="fixed top-0 left-0 w-full bg-white shadow-sm z-50">
 
     <div class="w-full px-6">
 
@@ -145,7 +145,7 @@
             </div>
 
             <!-- Mobile Button -->
-            <button id=" menuBtn" class="lg:hidden">
+            <button id="menuBtn" class="lg:hidden">
 
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">

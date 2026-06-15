@@ -1,31 +1,38 @@
-<div class="flex justify-between items-center mb-6">
+<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
 
     <div>
 
-        <h1 class="text-6xl font-bold text-[#061755] mb-3">
+        <h1 class="text-3xl md:text-4xl lg:text-6xl font-bold text-[#061755] mb-2">
+
             Tất cả khách sạn
+
         </h1>
 
     </div>
 
-    <select class="border rounded-lg px-4 py-2">
+    <div class="w-full lg:w-auto">
 
-        <option>
-            Phổ biến nhất
-        </option>
+        <select
+            class="w-full lg:w-auto border rounded-xl px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
 
-        <option>
-            Giá thấp đến cao
-        </option>
+            <option>
+                Phổ biến nhất
+            </option>
 
-        <option>
-            Giá cao đến thấp
-        </option>
+            <option>
+                Giá thấp đến cao
+            </option>
 
-        <option>
-            Đánh giá cao nhất
-        </option>
+            <option>
+                Giá cao đến thấp
+            </option>
 
-    </select>
+            <option>
+                Đánh giá cao nhất
+            </option>
+
+        </select>
+
+    </div>
 
 </div>

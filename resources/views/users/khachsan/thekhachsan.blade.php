@@ -1,26 +1,31 @@
-<div class="bg-white rounded-2xl border overflow-hidden flex shadow-sm hover:shadow-lg transition">
+<div class="bg-white rounded-2xl border overflow-hidden flex flex-col lg:flex-row shadow-sm hover:shadow-lg transition">
 
     {{-- Ảnh khách sạn --}}
     @if($khachSan->hinhAnh->count())
 
-    <img src="{{ asset($khachSan->hinhAnh->first()->duong_dan_anh) }}" class="w-[350px] object-cover self-stretch">
+    <img src="{{ asset($khachSan->hinhAnh->first()->duong_dan_anh) }}"
+        class="w-full lg:w-[350px] h-[250px] lg:h-auto object-cover">
+
     @else
-    <img src="{{ asset('images/no-image.jpg') }}" class="w-[350px] h-full object-cover">
+
+    <img src="{{ asset('images/no-image.jpg') }}" class="w-full lg:w-[350px] h-[250px] lg:h-auto object-cover">
+
     @endif
+
     {{-- Nội dung --}}
     <div class="flex-1 p-5 flex flex-col justify-between">
 
         <div>
 
             {{-- Tên khách sạn --}}
-            <h2 class="text-2xl font-bold text-slate-800">
+            <h2 class="text-xl lg:text-2xl font-bold text-slate-800">
 
                 {{ $khachSan->ten_khach_san }}
 
             </h2>
 
             {{-- Thành phố --}}
-            <p class="mt-2 text-gray-600 flex items-center gap-2 ">
+            <p class="mt-2 text-gray-600 flex items-center gap-2">
 
                 <i class="fa-solid fa-location-dot text-red-500"></i>
 
@@ -29,24 +34,26 @@
             </p>
 
             {{-- Địa chỉ --}}
-            <p class="text-gray-500 mt-1 ">
+            <p class="text-gray-500 mt-1">
 
                 {{ $khachSan->dia_chi }}
 
             </p>
 
             {{-- Số sao --}}
-            <div class="flex items-center gap-3 mt-3">
+            <div class="flex items-center gap-2 mt-3 flex-wrap">
 
-                <div class="flex">
+                @for($i = 1; $i <= $khachSan->so_sao_khach_san; $i++)
 
-                    @for($i = 1; $i <= $khachSan->so_sao_khach_san; $i++)
+                    <i class="fa-solid fa-star text-yellow-400"></i>
 
-                        <i class="fa-solid fa-star text-yellow-400"></i>
+                    @endfor
 
-                        @endfor
+                    <span class="text-gray-500 text-sm">
 
-                </div>
+                        {{ $khachSan->so_sao_khach_san }} sao
+
+                    </span>
 
             </div>
 
@@ -79,7 +86,7 @@
         <div class="mt-5">
 
             <a href="{{ route('khachsan.show',$khachSan->ma_khach_san) }}"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-full inline-flex items-center gap-1">
+                class="w-full lg:w-auto justify-center bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-full inline-flex items-center gap-2">
 
                 <i class="fa-solid fa-eye"></i>
 

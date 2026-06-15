@@ -15,31 +15,46 @@
 
     @include('components.navbar')
 
-    <div class="max-w-7xl mx-auto px-4 py-6">
+    <div class="pt-24">
 
-        @include('users.chitietkhachsan.thuvienanh')
+        <div class="max-w-7xl mx-auto px-4 py-6">
 
-        <div class="grid grid-cols-12 gap-5 mt-5">
+            {{-- Thư viện ảnh --}}
+            @include('users.chitietkhachsan.thuvienanh')
 
-            <div class="col-span-8">
+            {{-- Nội dung --}}
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 mt-5">
 
-                @include('users.chitietkhachsan.thongtinkhachsan')
+                {{-- Cột trái --}}
+                <div class="lg:col-span-8">
 
-                @include('users.chitietkhachsan.danhsachphong')
+                    @include('users.chitietkhachsan.thongtinkhachsan')
+
+                    @include('users.chitietkhachsan.danhsachphong')
+
+                </div>
+
+                {{-- Cột phải --}}
+                <div class="lg:col-span-4 space-y-5">
+
+                    @include('users.chitietkhachsan.diadiemganday')
+
+                    @include('users.chitietkhachsan.danhgia')
+
+                    @include('users.chitietkhachsan.bando')
+
+                </div>
 
             </div>
 
-            <div class="col-span-4">
-                @include('users.chitietkhachsan.diadiemganday')
-                @include('users.chitietkhachsan.danhgia')
+            {{-- Khách sạn tương tự --}}
+            <div class="mt-8">
 
-                @include('users.chitietkhachsan.bando')
+                @include('users.chitietkhachsan.khachsantuongtu')
 
             </div>
 
         </div>
-
-        @include('users.chitietkhachsan.khachsantuongtu')
 
     </div>
 

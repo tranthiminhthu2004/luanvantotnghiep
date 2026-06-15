@@ -16,58 +16,59 @@
 
     {{-- Navbar --}}
     @include('components.navbar')
+    <div class="pt-24">
+        {{-- Banner tìm kiếm --}}
+        @include('users.diadiemdulich.searchdd')
 
-    {{-- Banner tìm kiếm --}}
-    @include('users.diadiemdulich.searchdd')
+        <div class="max-w-7xl mx-auto px-4 py-12">
 
-    <div class="max-w-7xl mx-auto px-4 py-12">
+            {{-- Địa điểm nổi bật --}}
+            @include('users.diadiemdulich.diadiemnoibat')
 
-        {{-- Địa điểm nổi bật --}}
-        @include('users.diadiemdulich.diadiemnoibat')
+            {{-- Khám phá địa điểm --}}
+            <section class="mt-16">
 
-        {{-- Khám phá địa điểm --}}
-        <section class="mt-16">
+                <h2 class="text-6xl font-bold mb-8 text-[#061755]">
 
-            <h2 class="text-6xl font-bold mb-8 text-[#061755]">
+                    Khám phá địa điểm
 
-                Khám phá địa điểm
+                </h2>
 
-            </h2>
+                <div class="grid grid-cols-12 gap-6">
 
-            <div class="grid grid-cols-12 gap-6">
+                    {{-- Bộ lọc --}}
+                    <div class="col-span-3">
 
-                {{-- Bộ lọc --}}
-                <div class="col-span-3">
+                        @include('users.diadiemdulich.boloc')
 
-                    @include('users.diadiemdulich.boloc')
+                    </div>
 
-                </div>
+                    {{-- Danh sách địa điểm --}}
+                    <div class="col-span-9">
 
-                {{-- Danh sách địa điểm --}}
-                <div class="col-span-9">
+                        <div class="grid grid-cols-3 gap-6">
 
-                    <div class="grid grid-cols-3 gap-6">
+                            @include('users.diadiemdulich.thediadiem')
 
-                        @include('users.diadiemdulich.thediadiem')
+                            @include('users.diadiemdulich.thediadiem')
 
-                        @include('users.diadiemdulich.thediadiem')
+                            @include('users.diadiemdulich.thediadiem')
 
-                        @include('users.diadiemdulich.thediadiem')
+                        </div>
 
                     </div>
 
                 </div>
 
-            </div>
+            </section>
 
-        </section>
+            {{-- Địa điểm theo nhu cầu --}}
+            @include('users.trangchu.nhucaudulich')
 
-        {{-- Địa điểm theo nhu cầu --}}
-        @include('users.trangchu.nhucaudulich')
+            {{-- Khách sạn gần địa điểm --}}
+            @include('users.diadiemdulich.khachsanganday')
 
-        {{-- Khách sạn gần địa điểm --}}
-        @include('users.diadiemdulich.khachsanganday')
-
+        </div>
     </div>
 
 </body>
