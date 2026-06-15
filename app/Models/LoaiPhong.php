@@ -31,5 +31,21 @@ class LoaiPhong extends Model
             'ma_khach_san'
         );
     }
+    public function hinhAnh()
+{
+    return $this->hasMany(
+        HinhAnhLoaiPhong::class,
+        'ma_loai_phong',
+        'ma_loai_phong'
+    );
+}
+    public function phongs()
+{
+    return $this->hasMany(
+        Phong::class,
+        'ma_loai_phong',
+        'ma_loai_phong'
+    );
+}
    
 }

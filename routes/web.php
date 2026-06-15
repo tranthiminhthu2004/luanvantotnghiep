@@ -9,7 +9,8 @@ use App\Http\Controllers\KhachSan\UserKhachSanController;
 use App\Http\Controllers\KhachSan\AdminKhachSanController;
 use App\Http\Controllers\KhachSan\AdminHinhAnhKhachSanController;
 use App\Http\Controllers\KhachSan\AdminLoaiPhongController;
-
+use App\Http\Controllers\KhachSan\AdminHinhAnhLoaiPhongController;
+use App\Http\Controllers\KhachSan\AdminPhongController;
 /*
 |--------------------------------------------------------------------------
 | Trang chủ
@@ -159,7 +160,6 @@ Route::get(
     '/admin/loaiphong',
     [AdminLoaiPhongController::class,'index']
 )->name('admin.loaiphong.index');
- // LOẠI PHÒNG
 
 Route::get(
     '/admin/loaiphong/create',
@@ -190,6 +190,60 @@ Route::get(
     '/admin/loaiphong/{id}',
     [AdminLoaiPhongController::class,'show']
 )->name('admin.loaiphong.show');
+
+//QUẢN LÝ HÌNH ẢNH LOẠI PHÒNG 
+Route::get(
+    '/admin/loaiphong/{id}/hinhanh',
+    [AdminHinhAnhLoaiPhongController::class,'index']
+)->name('admin.loaiphong.hinhanh.index');
+
+Route::post(
+    '/admin/loaiphong/{id}/hinhanh',
+    [AdminHinhAnhLoaiPhongController::class,'store']
+)->name('admin.loaiphong.hinhanh.store');
+
+Route::delete(
+    '/admin/loaiphong/hinhanh/{id}',
+    [AdminHinhAnhLoaiPhongController::class,'destroy']
+)->name('admin.loaiphong.hinhanh.destroy');
+
+//Quản lý phòng
+// PHÒNG
+
+Route::get(
+    '/admin/phong',
+    [AdminPhongController::class,'index']
+)->name('admin.phong.index');
+
+Route::get(
+    '/admin/phong/create',
+    [AdminPhongController::class,'create']
+)->name('admin.phong.create');
+
+Route::post(
+    '/admin/phong/store',
+    [AdminPhongController::class,'store']
+)->name('admin.phong.store');
+
+Route::get(
+    '/admin/phong/{id}/edit',
+    [AdminPhongController::class,'edit']
+)->name('admin.phong.edit');
+
+Route::put(
+    '/admin/phong/{id}',
+    [AdminPhongController::class,'update']
+)->name('admin.phong.update');
+
+Route::delete(
+    '/admin/phong/{id}',
+    [AdminPhongController::class,'destroy']
+)->name('admin.phong.destroy');
+
+Route::get(
+    '/admin/phong/{id}',
+    [AdminPhongController::class,'show']
+)->name('admin.phong.show');
 
 //USER - ĐỊA ĐIỂM DU LỊCH
 

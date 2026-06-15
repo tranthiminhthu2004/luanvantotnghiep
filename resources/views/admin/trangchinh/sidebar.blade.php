@@ -78,7 +78,8 @@
 
                 </a>
 
-                <a href="#" class="block px-4 py-2 rounded-full hover:bg-blue-900 transition">
+                <a href="{{ route('admin.phong.index')}}"
+                    class="block px-4 py-2 rounded-full hover:bg-blue-900 transition">
                     <i class="fa-solid fa-door-open text-green-300"></i>
                     Phòng
 

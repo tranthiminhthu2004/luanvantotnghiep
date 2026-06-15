@@ -2,11 +2,11 @@
 
     <div class="overflow-x-auto">
 
-        <table class="w-full">
+        <table class="min-w-[1200px] w-full">
 
             <thead class="bg-slate-50">
 
-                <tr class="text-left">
+                <tr class="text-left text-sm uppercase tracking-wider text-slate-600">
 
                     <th class="px-6 py-4">
                         ID
@@ -24,15 +24,15 @@
                         Loại phòng
                     </th>
 
-                    <th class="px-6 py-4">
+                    <th class="px-6 py-4 hidden lg:table-cell">
                         Diện tích
                     </th>
 
-                    <th class="px-6 py-4">
+                    <th class="px-6 py-4 hidden lg:table-cell">
                         Giường
                     </th>
 
-                    <th class="px-6 py-4">
+                    <th class="px-6 py-4 hidden lg:table-cell">
                         Số người
                     </th>
 
@@ -44,7 +44,7 @@
                         Trạng thái
                     </th>
 
-                    <th class="px-6 py-4">
+                    <th class="px-6 py-4 text-center">
                         Thao tác
                     </th>
 
@@ -56,10 +56,10 @@
 
                 @forelse($loaiPhongs as $loaiPhong)
 
-                <tr class="border-t hover:bg-slate-50">
+                <tr class="border-t hover:bg-slate-50 transition">
 
                     <!-- ID -->
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 font-semibold">
 
                         {{ $loaiPhong->ma_loai_phong }}
 
@@ -68,47 +68,64 @@
                     <!-- Hình ảnh -->
                     <td class="px-6 py-4">
 
-                        <img src="{{ asset('images/no-room.jpg') }}" class="w-24 h-16 object-cover rounded-xl">
+                        @if($loaiPhong->hinhAnh->count())
+
+                        <img src="{{ asset($loaiPhong->hinhAnh->first()->duong_dan_anh) }}"
+                            class="w-24 h-16 object-cover rounded-xl border">
+
+                        @else
+
+                        <img src="{{ asset('images/no-room.jpg') }}" class="w-24 h-16 object-cover rounded-xl border">
+
+                        @endif
 
                     </td>
 
                     <!-- Khách sạn -->
                     <td class="px-6 py-4">
 
-                        {{ $loaiPhong->khachSan->ten_khach_san }}
+                        <div class="max-w-[220px] truncate font-medium">
+
+                            {{ $loaiPhong->khachSan->ten_khach_san }}
+
+                        </div>
 
                     </td>
 
-                    <!-- Tên loại phòng -->
-                    <td class="px-6 py-4 font-medium">
+                    <!-- Loại phòng -->
+                    <td class="px-6 py-4">
 
-                        {{ $loaiPhong->ten_loai_phong }}
+                        <div class="max-w-[180px] truncate font-semibold text-slate-800">
+
+                            {{ $loaiPhong->ten_loai_phong }}
+
+                        </div>
 
                     </td>
 
                     <!-- Diện tích -->
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 hidden lg:table-cell">
 
                         {{ $loaiPhong->dien_tich }} m²
 
                     </td>
 
                     <!-- Giường -->
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 hidden lg:table-cell">
 
                         {{ $loaiPhong->so_giuong }}
 
                     </td>
 
                     <!-- Số người -->
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 hidden lg:table-cell">
 
                         {{ $loaiPhong->so_nguoi_toi_da }}
 
                     </td>
 
                     <!-- Giá -->
-                    <td class="px-6 py-4 font-semibold text-blue-600">
+                    <td class="px-6 py-4 font-bold text-blue-600 whitespace-nowrap">
 
                         {{ number_format($loaiPhong->gia_co_ban,0,',','.') }}đ
 
@@ -119,7 +136,7 @@
 
                         @if($loaiPhong->trang_thai)
 
-                        <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full">
+                        <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-medium">
 
                             Hoạt động
 
@@ -127,7 +144,7 @@
 
                         @else
 
-                        <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full">
+                        <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm font-medium">
 
                             Tạm dừng
 
@@ -140,24 +157,24 @@
                     <!-- Thao tác -->
                     <td class="px-6 py-4">
 
-                        <div class="flex gap-3">
+                        <div class="flex flex-wrap justify-center gap-2">
 
                             <a href="{{ route('admin.loaiphong.show', $loaiPhong->ma_loai_phong) }}"
-                                class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">
+                                class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center hover:bg-blue-200">
 
                                 <i class="fa-solid fa-eye"></i>
 
                             </a>
 
-                            <a href="{{ route('admin.loaiphong.edit', $loaiPhong->ma_loai_phong)}}"
-                                class="w-10 h-10 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center">
+                            <a href="{{ route('admin.loaiphong.edit', $loaiPhong->ma_loai_phong) }}"
+                                class="w-10 h-10 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center hover:bg-yellow-200">
 
                                 <i class="fa-solid fa-pen"></i>
 
                             </a>
 
-                            <a href="#"
-                                class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center">
+                            <a href="{{ route('admin.loaiphong.hinhanh.index', $loaiPhong->ma_loai_phong) }}"
+                                class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center hover:bg-purple-200">
 
                                 <i class="fa-solid fa-image"></i>
 
@@ -167,10 +184,10 @@
                                 method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa loại phòng này?');">
 
                                 @csrf
-
                                 @method('DELETE')
 
-                                <button type="submit" class="w-10 h-10 rounded-full bg-red-100 text-red-600">
+                                <button type="submit"
+                                    class="w-10 h-10 rounded-full bg-red-100 text-red-600 hover:bg-red-200">
 
                                     <i class="fa-solid fa-trash"></i>
 
@@ -203,5 +220,6 @@
         </table>
 
     </div>
+    ```
 
 </div>
