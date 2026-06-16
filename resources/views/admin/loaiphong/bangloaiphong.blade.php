@@ -179,6 +179,12 @@
                                 <i class="fa-solid fa-image"></i>
 
                             </a>
+                            <a href="{{ route( 'admin.loaiphong.tiennghi', $loaiPhong->ma_loai_phong) }}"
+                                class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center">
+
+                                <i class="fa-solid fa-list-check"></i>
+
+                            </a>
 
                             <form action="{{ route('admin.loaiphong.destroy', $loaiPhong->ma_loai_phong) }}"
                                 method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa loại phòng này?');">

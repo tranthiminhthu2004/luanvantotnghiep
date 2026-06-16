@@ -96,6 +96,43 @@
             </p>
 
         </div>
+        <div class="mt-10">
+
+            <h3 class="text-2xl font-bold mb-5">
+
+                Tiện nghi khách sạn
+
+            </h3>
+
+            <div class="flex flex-wrap gap-3">
+
+                @forelse($khachSan->tienNghis as $tienNghi)
+
+                <div class="px-4 py-2 bg-blue-50 text-blue-700 rounded-full flex items-center gap-2">
+
+                    <i class="fa-solid {{ $tienNghi->icon }}"></i>
+
+                    <span>
+
+                        {{ $tienNghi->ten_tien_nghi }}
+
+                    </span>
+
+                </div>
+
+                @empty
+
+                <span class="text-gray-500">
+
+                    Chưa có tiện nghi
+
+                </span>
+
+                @endforelse
+
+            </div>
+
+        </div>
 
         <div class="mt-10">
 

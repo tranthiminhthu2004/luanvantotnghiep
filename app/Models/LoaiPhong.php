@@ -47,5 +47,14 @@ class LoaiPhong extends Model
         'ma_loai_phong'
     );
 }
+public function tienNghis()
+{
+    return $this->belongsToMany(
+        TienNghi::class,
+        'loai_phong_tien_nghi',
+        'ma_loai_phong',
+        'ma_tien_nghi'
+    );
+}
    
 }

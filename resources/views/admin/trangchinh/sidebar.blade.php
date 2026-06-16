@@ -24,8 +24,8 @@
     <nav class="flex-1 py-6 overflow-y-auto">
 
         <!-- Dashboard -->
-        <a href="{{ route('dashboard') }}"
-            class="mx-3 mb-2 flex items-center gap-3 rounded-full text-lg px-4 py-3 font-medium hover:bg-blue-900 transition">
+        <a href="{{ route('dashboard') }}" class="mx-3 mb-2 flex items-center gap-3 rounded-full text-lg px-4 py-3 font-medium hover:bg-blue-900 transition
+    {{ request()->routeIs('dashboard') ? 'bg-blue-900' : '' }}">
 
             <i class="fa-solid fa-house"></i>
             Dashboard
@@ -71,6 +71,7 @@
 
                 </a>
 
+
                 <a href="{{route('admin.loaiphong.index')}}"
                     class="block px-4 py-2 rounded-full hover:bg-blue-900 transition">
                     <i class="fa-solid fa-bed text-yellow-300"></i>
@@ -88,7 +89,15 @@
             </div>
 
         </div>
+        <!-- Tiện nghi -->
+        <a href="{{ route('admin.tiennghi.index') }}" class="flex items-center gap-3 px-6 py-3 hover:bg-blue-900 transition hover:rounded-full
+    {{ request()->routeIs('admin.tiennghi.*') ? 'bg-blue-900 rounded-full' : '' }}">
 
+            <i class="fa-solid fa-gift w-5"></i>
+
+            Tiện nghi
+
+        </a>
         <!-- Địa điểm du lịch -->
         <a href="#" class="flex items-center gap-3 px-6 py-3 hover:bg-blue-900 transition hover:rounded-full">
 

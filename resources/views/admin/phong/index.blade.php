@@ -4,6 +4,7 @@
 
 @section('content')
 
+@include('admin.phong.thongke')
 <div class="flex justify-end mb-6">
 
     <a href="{{ route('admin.phong.create')}}"
@@ -17,9 +18,8 @@
 
 </div>
 
-@include('admin.phong.thongke')
-
 @include('admin.phong.boloc')
+
 
 @include('admin.phong.bangphong')
 

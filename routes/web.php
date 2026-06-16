@@ -11,6 +11,9 @@ use App\Http\Controllers\KhachSan\AdminHinhAnhKhachSanController;
 use App\Http\Controllers\KhachSan\AdminLoaiPhongController;
 use App\Http\Controllers\KhachSan\AdminHinhAnhLoaiPhongController;
 use App\Http\Controllers\KhachSan\AdminPhongController;
+use App\Http\Controllers\KhachSan\AdminTienNghiController;
+use App\Http\Controllers\KhachSan\AdminKhachSanTienNghiController;
+use App\Http\Controllers\KhachSan\AdminLoaiPhongTienNghiController;
 /*
 |--------------------------------------------------------------------------
 | Trang chủ
@@ -139,6 +142,16 @@ Route::get(
     [AdminKhachSanController::class,'show']
 )->name('admin.khachsan.show');
 
+Route::get(
+    '/admin/khachsan/{id}/tiennghi',
+    [AdminKhachSanTienNghiController::class, 'edit']
+)->name('admin.khachsan.tiennghi');
+
+Route::put(
+    '/admin/khachsan/{id}/tiennghi',
+    [AdminKhachSanTienNghiController::class, 'update']
+)->name('admin.khachsan.tiennghi.update');
+
 //Quản lý hình ảnh khách san
 Route::get(
     '/admin/khachsan/{id}/hinhanh',
@@ -191,6 +204,16 @@ Route::get(
     [AdminLoaiPhongController::class,'show']
 )->name('admin.loaiphong.show');
 
+Route::get(
+    '/admin/loaiphong/{id}/tiennghi',
+    [AdminLoaiPhongTienNghiController::class,'edit']
+)->name('admin.loaiphong.tiennghi');
+
+Route::put(
+    '/admin/loaiphong/{id}/tiennghi',
+    [AdminLoaiPhongTienNghiController::class,'update']
+)->name('admin.loaiphong.tiennghi.update');
+
 //QUẢN LÝ HÌNH ẢNH LOẠI PHÒNG 
 Route::get(
     '/admin/loaiphong/{id}/hinhanh',
@@ -208,7 +231,6 @@ Route::delete(
 )->name('admin.loaiphong.hinhanh.destroy');
 
 //Quản lý phòng
-// PHÒNG
 
 Route::get(
     '/admin/phong',
@@ -245,6 +267,11 @@ Route::get(
     [AdminPhongController::class,'show']
 )->name('admin.phong.show');
 
+// tiện nghi
+Route::resource(
+    'admin/tiennghi',
+    AdminTienNghiController::class
+)->names('admin.tiennghi');
 //USER - ĐỊA ĐIỂM DU LỊCH
 
 Route::get('/diadiemdulich', function () {

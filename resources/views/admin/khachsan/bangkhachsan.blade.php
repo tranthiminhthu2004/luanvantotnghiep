@@ -135,6 +135,12 @@
                                 <i class="fa-solid fa-image"></i>
 
                             </a>
+                            <a href="{{ route('admin.khachsan.tiennghi',$khachSan->ma_khach_san) }}"
+                                class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center">
+
+                                <i class="fa-solid fa-list-check"></i>
+
+                            </a>
                             <form action="{{ route('admin.khachsan.destroy', $khachSan->ma_khach_san) }}" method="POST"
                                 onsubmit="return confirm('Bạn có chắc muốn xóa khách sạn này?'  );">
                                 @csrf

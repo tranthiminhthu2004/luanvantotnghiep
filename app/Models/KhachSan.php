@@ -41,4 +41,13 @@ public function loaiPhong()
         'ma_khach_san'
     );
 }
+public function tienNghis()
+{
+    return $this->belongsToMany(
+        TienNghi::class,
+        'khach_san_tien_nghi',
+        'ma_khach_san',
+        'ma_tien_nghi'
+    );
+}
 }
