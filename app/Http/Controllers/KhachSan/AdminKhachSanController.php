@@ -37,7 +37,7 @@ class AdminKhachSanController extends Controller
         );
     }
 
-    // Lọc theo thành phố
+    // Lọc theo địa điểm 
     if ($request->filled('ma_dia_diem'))
     {
         $query->where(
@@ -81,7 +81,12 @@ class AdminKhachSanController extends Controller
         );
     }
 
-    $khachSans = $query->get();
+   $khachSans = $query
+    ->with([
+        'diaDiem',
+        'hinhAnh'
+    ])
+    ->get();
 
     $tongKhachSan = KhachSan::count();
 
@@ -95,10 +100,9 @@ class AdminKhachSanController extends Controller
         0
     )->count();
 
-    $diaDiems = KhachSan::select('ma_dia_diem')
-        ->distinct()
-        ->orderBy('ma_dia_diem')
-        ->get();
+   $diaDiems = DiaDiem::orderBy(
+    'ten_dia_diem'
+)->get();
 
     $soSaos = KhachSan::select('so_sao_khach_san')
         ->distinct()
