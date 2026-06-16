@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use App\Models\LoaiPhong;
+use App\Models\DiaDiem;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -16,7 +17,7 @@ class KhachSan extends Model
     protected $fillable = [
         'ten_khach_san',
         'dia_chi',
-        'thanh_pho',
+        'ma_dia_diem',
         'vi_do',
         'kinh_do',
         'so_sao_khach_san',
@@ -48,6 +49,14 @@ public function tienNghis()
         'khach_san_tien_nghi',
         'ma_khach_san',
         'ma_tien_nghi'
+    );
+}
+public function diaDiem()
+{
+    return $this->belongsTo(
+        DiaDiem::class,
+        'ma_dia_diem',
+        'ma_dia_diem'
     );
 }
 }

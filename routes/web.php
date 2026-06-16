@@ -14,6 +14,7 @@ use App\Http\Controllers\KhachSan\AdminPhongController;
 use App\Http\Controllers\KhachSan\AdminTienNghiController;
 use App\Http\Controllers\KhachSan\AdminKhachSanTienNghiController;
 use App\Http\Controllers\KhachSan\AdminLoaiPhongTienNghiController;
+use App\Http\Controllers\KhachSan\AdminDiaDiemController;
 /*
 |--------------------------------------------------------------------------
 | Trang chủ
@@ -272,6 +273,13 @@ Route::resource(
     'admin/tiennghi',
     AdminTienNghiController::class
 )->names('admin.tiennghi');
+
+//Địa điểm 
+Route::resource(
+    'admin/diadiem',
+    AdminDiaDiemController::class
+)->names('admin.diadiem');
+
 //USER - ĐỊA ĐIỂM DU LỊCH
 
 Route::get('/diadiemdulich', function () {

@@ -31,9 +31,9 @@
 
                 <p>
 
-                    <strong>Thành phố:</strong>
+                    <strong>Địa điểm:</strong>
 
-                    {{ $khachSan->thanh_pho }}
+                    {{ $khachSan->diaDiem->ten_dia_diem ?? 'Chưa cập nhật' }}
 
                 </p>
 

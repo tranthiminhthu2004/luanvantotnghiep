@@ -5,6 +5,7 @@ namespace App\Http\Controllers\KhachSan;
 use App\Http\Controllers\Controller;
 use App\Models\KhachSan;
 use Illuminate\Http\Request;
+use App\Models\DiaDiem;
 class AdminKhachSanController extends Controller
 {
     public function index(Request $request)
@@ -37,11 +38,11 @@ class AdminKhachSanController extends Controller
     }
 
     // Lọc theo thành phố
-    if ($request->filled('thanh_pho'))
+    if ($request->filled('ma_dia_diem'))
     {
         $query->where(
-            'thanh_pho',
-            $request->thanh_pho
+            'ma_dia_diem',
+            $request->ma_dia_diem
         );
     }
 
@@ -94,9 +95,9 @@ class AdminKhachSanController extends Controller
         0
     )->count();
 
-    $thanhPhos = KhachSan::select('thanh_pho')
+    $diaDiems = KhachSan::select('ma_dia_diem')
         ->distinct()
-        ->orderBy('thanh_pho')
+        ->orderBy('ma_dia_diem')
         ->get();
 
     $soSaos = KhachSan::select('so_sao_khach_san')
@@ -111,23 +112,31 @@ class AdminKhachSanController extends Controller
             'tongKhachSan',
             'dangHoatDong',
             'tamDung',
-            'thanhPhos',
+            'diaDiems',
             'soSaos'
         )
     );
 }
 
-    public function create()
-    {
-        return view('admin.khachsan.create');
-    }
+        public function create()
+{
+    $diaDiems = DiaDiem::orderBy(
+        'ten_dia_diem'
+    )->get();
+
+    return view(
+        'admin.khachsan.create',
+        compact('diaDiems')
+    );
+}
+    
 
     public function store(Request $request)
     {
     $request->validate([
         'ten_khach_san' => 'required|max:255',
         'dia_chi' => 'required',
-        'thanh_pho' => 'required',
+        'ma_dia_diem' => 'required',
         'so_sao_khach_san' => 'required|integer|min:1|max:5',
     ]);
 
@@ -137,7 +146,7 @@ class AdminKhachSanController extends Controller
 
         'dia_chi' => $request->dia_chi,
 
-        'thanh_pho' => $request->thanh_pho,
+        'ma_dia_diem' => $request->ma_dia_diem,
 
         'vi_do' => $request->vi_do,
 
@@ -159,15 +168,22 @@ class AdminKhachSanController extends Controller
         ->with('success', 'Thêm khách sạn thành công');
 }
 
-    public function edit($id)
-    {
+   public function edit($id)
+{
     $khachSan = KhachSan::findOrFail($id);
+
+    $diaDiems = DiaDiem::orderBy(
+        'ten_dia_diem'
+    )->get();
 
     return view(
         'admin.khachsan.edit',
-        compact('khachSan')
+        compact(
+            'khachSan',
+            'diaDiems'
+        )
     );
-    }
+}
     public function show($id)
 {
     $khachSan = KhachSan::findOrFail($id);
@@ -186,7 +202,7 @@ class AdminKhachSanController extends Controller
     $request->validate([
         'ten_khach_san' => 'required|max:255',
         'dia_chi' => 'required',
-        'thanh_pho' => 'required',
+        'ma_dia_diem' => 'required',
         'so_sao_khach_san' => 'required|integer|min:1|max:5',
     ]);
 
@@ -198,7 +214,7 @@ class AdminKhachSanController extends Controller
 
         'dia_chi' => $request->dia_chi,
 
-        'thanh_pho' => $request->thanh_pho,
+        'ma_dia_diem' => $request->ma_dia_diem,
 
         'vi_do' => $request->vi_do,
 

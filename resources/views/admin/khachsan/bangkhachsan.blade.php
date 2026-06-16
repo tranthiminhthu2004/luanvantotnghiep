@@ -21,7 +21,7 @@
                     </th>
 
                     <th class="px-6 py-4">
-                        Thành phố
+                        Địa điểm
                     </th>
 
                     <th class="px-6 py-4">
@@ -69,12 +69,13 @@
 
                     </td>
 
-                    <!-- Thành phố -->
+                    <!-- Địa điểm -->
                     <td class="px-6 py-4 text-base">
 
-                        {{ $khachSan->thanh_pho }}
+                        {{ $khachSan->diaDiem->ten_dia_diem ?? '-' }}
 
                     </td>
+
 
                     <!-- Số sao -->
                     <td class="px-6 py-4 text-base">

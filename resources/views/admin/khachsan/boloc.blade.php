@@ -9,19 +9,19 @@
                 value="{{ request('ten_khach_san') }}"
                 class="border rounded-full text-base px-5 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
 
-            <!-- Thành phố -->
-            <select name="thanh_pho" class="border rounded-full text-base px-5 py-3">
+            <!-- Địa điểm -->
+            <select name="ma_dia_diem" class="border rounded-full text-base px-5 py-3">
 
                 <option value="">
-                    Tất cả thành phố
+                    Tất cả địa điểm
                 </option>
 
-                @foreach($thanhPhos as $thanhPho)
+                @foreach($diaDiems as $diaDiem)
 
-                <option value="{{ $thanhPho->thanh_pho }}"
-                    {{ request('thanh_pho') == $thanhPho->thanh_pho ? 'selected' : '' }}>
+                <option value="{{ $diaDiem->ma_dia_diem }}"
+                    {{ request('ma_dia_diem') == $diaDiem->ma_dia_diem ? 'selected' : '' }}>
 
-                    {{ $thanhPho->thanh_pho }}
+                    {{ $diaDiem->ten_dia_diem }}
 
                 </option>
 

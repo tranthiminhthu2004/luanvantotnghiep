@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class DiaDiem extends Model
+{
+    protected $table = 'dia_diem';
+
+    protected $primaryKey = 'ma_dia_diem';
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'ten_dia_diem'
+    ];
+
+    public function khachSans()
+    {
+        return $this->hasMany(
+            KhachSan::class,
+            'ma_dia_diem',
+            'ma_dia_diem'
+        );
+    }
+}

@@ -46,16 +46,29 @@
                 </div>
 
                 <!-- Thành phố -->
+                <!-- Địa điểm -->
                 <div>
 
                     <label class="font-medium text-slate-700 text-base">
 
-                        Thành phố
+                        Địa điểm
 
                     </label>
 
-                    <input type="text" name="thanh_pho" value="{{ old('thanh_pho',$khachSan->thanh_pho) }}"
-                        placeholder="Nhập thành phố" class="w-full mt-2 border rounded-full px-5 py-3 text-base">
+                    <select name="ma_dia_diem" class="w-full mt-2 border rounded-full px-5 py-3 text-base">
+
+                        @foreach($diaDiems as $diaDiem)
+
+                        <option value="{{ $diaDiem->ma_dia_diem }}"
+                            {{ old('ma_dia_diem',$khachSan->ma_dia_diem) == $diaDiem->ma_dia_diem ? 'selected' : '' }}>
+
+                            {{ $diaDiem->ten_dia_diem }}
+
+                        </option>
+
+                        @endforeach
+
+                    </select>
 
                 </div>
 

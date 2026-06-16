@@ -98,6 +98,14 @@
             Tiện nghi
 
         </a>
+        <a href="{{ route('admin.diadiem.index') }}"
+            class="flex items-center gap-3 px-6 py-3 hover:bg-blue-900 transition hover:rounded-full">
+
+            <i class="fa-solid fa-location-dot w-5"></i>
+
+            Địa điểm khách sạn
+
+        </a>
         <!-- Địa điểm du lịch -->
         <a href="#" class="flex items-center gap-3 px-6 py-3 hover:bg-blue-900 transition hover:rounded-full">
 
