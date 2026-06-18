@@ -32,11 +32,26 @@ class NguoiDung extends Authenticatable
     protected $hidden = [
         'mat_khau',
         'remember_token',
-
     ];
 
     public function getAuthPassword()
     {
         return $this->mat_khau;
+    }
+
+    public function vaiTro()
+    {
+        return $this->belongsTo(
+            VaiTro::class,
+            'ma_vai_tro',
+            'ma_vai_tro'
+        );
+    }
+
+    public function getHoTenAttribute()
+    {
+        return trim(
+            $this->ho_va_ten_dem . ' ' . $this->ten
+        );
     }
 }

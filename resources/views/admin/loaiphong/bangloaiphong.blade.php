@@ -6,7 +6,7 @@
 
             <thead class="bg-slate-50">
 
-                <tr class="text-left text-sm uppercase tracking-wider text-slate-600">
+                <tr class="text-left text-lg tracking-wider text-black">
 
                     <th class="px-6 py-4">
                         ID

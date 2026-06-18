@@ -98,22 +98,52 @@
             Tiện nghi
 
         </a>
-        <a href="{{ route('admin.diadiem.index') }}"
-            class="flex items-center gap-3 px-6 py-3 hover:bg-blue-900 transition hover:rounded-full">
+        <!-- ĐỊA ĐIỂM -->
+        <div class="mx-2">
 
-            <i class="fa-solid fa-location-dot w-5"></i>
+            <button id="diaDiemMenuBtn"
+                class="w-full flex items-center justify-between px-4 py-3 hover:bg-blue-900 rounded-full transition">
 
-            Địa điểm khách sạn
+                <div class="flex items-center gap-3">
 
-        </a>
-        <!-- Địa điểm du lịch -->
-        <a href="#" class="flex items-center gap-3 px-6 py-3 hover:bg-blue-900 transition hover:rounded-full">
+                    <i class="fa-solid fa-location-dot w-5"></i>
 
-            <i class="fa-solid fa-location-dot w-5"></i>
-            Địa điểm du lịch
+                    <span>Địa điểm</span>
 
-        </a>
+                </div>
 
+                <i id="diaDiemIcon" class="fa-solid fa-chevron-down text-xs transition-transform duration-300"></i>
+
+            </button>
+
+            <div id="diaDiemSubMenu" class="
+        {{ request()->routeIs('admin.diadiem.*')
+        || request()->routeIs('admin.diadiemdulich.*')
+        ? ''
+        : 'hidden' }}
+
+        ml-8 mt-2 space-y-1">
+
+                <a href="{{ route('admin.diadiem.index') }}"
+                    class="block px-4 py-2 rounded-full hover:bg-blue-900 transition">
+
+                    <i class="fa-solid fa-hotel text-blue-300"></i>
+
+                    Địa điểm khách sạn
+
+                </a>
+
+                <a href="#" class="block px-4 py-2 rounded-full hover:bg-blue-900 transition">
+
+                    <i class="fa-solid fa-map-location-dot text-green-300"></i>
+
+                    Địa điểm du lịch
+
+                </a>
+
+            </div>
+
+        </div>
         <!-- Đặt phòng -->
         <a href="#" class="flex items-center gap-3 px-6 py-3 hover:bg-blue-900 transition hover:rounded-full">
 
@@ -123,7 +153,8 @@
         </a>
 
         <!-- Người dùng -->
-        <a href="#" class="flex items-center gap-3 px-6 py-3 hover:bg-blue-900 transition hover:rounded-full">
+        <a href="{{route('admin.nguoidung.index')}}"
+            class="flex items-center gap-3 px-6 py-3 hover:bg-blue-900 transition hover:rounded-full">
 
             <i class="fa-solid fa-users w-5"></i>
             Người dùng
@@ -248,6 +279,26 @@ if (khachSanMenuBtn) {
         khachSanSubMenu.classList.toggle('hidden');
 
         khachSanIcon.classList.toggle('rotate-180');
+
+    });
+
+}
+const diaDiemMenuBtn =
+    document.getElementById('diaDiemMenuBtn');
+
+const diaDiemSubMenu =
+    document.getElementById('diaDiemSubMenu');
+
+const diaDiemIcon =
+    document.getElementById('diaDiemIcon');
+
+if (diaDiemMenuBtn) {
+
+    diaDiemMenuBtn.addEventListener('click', () => {
+
+        diaDiemSubMenu.classList.toggle('hidden');
+
+        diaDiemIcon.classList.toggle('rotate-180');
 
     });
 

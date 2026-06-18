@@ -1,70 +1,46 @@
 @extends('admin.trangchinh.admin')
 
-@section('title','Thêm khách sạn')
+@section('title','Thêm người dùng')
 
 @section('content')
 
 <div class="max-w-7xl mx-auto">
 
+    ```
     <div class="bg-white rounded-3xl shadow p-4 md:p-6">
 
-        <!-- Tiêu đề -->
         <div class="mb-8">
 
             <h2 class="text-4xl font-bold text-[#061755]">
 
-                Thêm khách sạn mới
+                Thêm người dùng mới
 
             </h2>
 
-
         </div>
 
-        <!-- Form -->
-        <form action="{{ route('admin.khachsan.store') }}" method="POST">
+        <form action="{{ route('admin.nguoidung.store') }}" method="POST" enctype="multipart/form-data">
 
             @csrf
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                <!-- Tên khách sạn -->
+                <!-- Vai trò -->
                 <div>
 
-                    <label class="font-medium text-slate-700 text-base">
+                    <label class="font-medium text-slate-700">
 
-                        Tên khách sạn
+                        Vai trò
 
                     </label>
 
-                    <input type="text" name="ten_khach_san" value="{{ old('ten_khach_san') }}"
-                        placeholder="Nhập tên khách sạn" class="w-full mt-2 border rounded-full px-5 py-3 text-base">
+                    <select name="ma_vai_tro" class="w-full mt-2 border rounded-full px-5 py-3">
 
-                </div>
+                        @foreach($vaiTros as $vaiTro)
 
-                <!-- Thành phố -->
-                <!-- Địa điểm -->
-                <div>
+                        <option value="{{ $vaiTro->ma_vai_tro }}">
 
-                    <label class="font-medium text-slate-700 text-base">
-
-                        Địa điểm
-
-                    </label>
-
-                    <select name="ma_dia_diem" class="w-full mt-2 border rounded-full px-5 py-3 text-base">
-
-                        <option value="">
-
-                            Chọn địa điểm
-
-                        </option>
-
-                        @foreach($diaDiems as $diaDiem)
-
-                        <option value="{{ $diaDiem->ma_dia_diem }}"
-                            {{ old('ma_dia_diem') == $diaDiem->ma_dia_diem ? 'selected' : '' }}>
-
-                            {{ $diaDiem->ten_dia_diem }}
+                            {{ $vaiTro->ten_vai_tro }}
 
                         </option>
 
@@ -74,151 +50,135 @@
 
                 </div>
 
-                <!-- Địa chỉ -->
-                <div class="md:col-span-2">
+                <!-- Họ và tên đệm -->
+                <div>
 
-                    <label class="font-medium text-slate-700 text-base">
+                    <label class="font-medium text-slate-700">
 
-                        Địa chỉ
+                        Họ và tên đệm
 
                     </label>
 
-                    <input type="text" name="dia_chi" value="{{ old('dia_chi') }}" placeholder="Nhập địa chỉ khách sạn"
-                        class="w-full mt-2 border rounded-full px-5 py-3 text-base">
+                    <input type="text" name="ho_va_ten_dem" value="{{ old('ho_va_ten_dem') }}"
+                        class="w-full mt-2 border rounded-full px-5 py-3">
 
                 </div>
 
-                <!-- Vĩ độ -->
+                <!-- Tên -->
                 <div>
 
-                    <label class="font-medium text-slate-700 text-base">
+                    <label class="font-medium text-slate-700">
 
-                        Vĩ độ
+                        Tên
 
                     </label>
 
-                    <input type="text" name="vi_do" value="{{ old('vi_do') }}" placeholder="Ví dụ: 10.776889"
-                        class="w-full mt-2 border rounded-full px-5 py-3 text-base">
+                    <input type="text" name="ten" value="{{ old('ten') }}"
+                        class="w-full mt-2 border rounded-full px-5 py-3">
 
                 </div>
 
-                <!-- Kinh độ -->
+                <!-- Email -->
                 <div>
 
-                    <label class="font-medium text-slate-700 text-base">
+                    <label class="font-medium text-slate-700">
 
-                        Kinh độ
+                        Email
 
                     </label>
 
-                    <input type="text" name="kinh_do" value="{{ old('kinh_do') }}" placeholder="Ví dụ: 106.700806"
-                        class="w-full mt-2 border rounded-full px-5 py-3 text-base">
+                    <input type="email" name="email" value="{{ old('email') }}"
+                        class="w-full mt-2 border rounded-full px-5 py-3">
 
                 </div>
 
-                <!-- Số sao -->
+                <!-- Mật khẩu -->
                 <div>
 
-                    <label class="font-medium text-slate-700 text-base">
+                    <label class="font-medium text-slate-700">
 
-                        Số sao khách sạn
+                        Mật khẩu
 
                     </label>
 
-                    <select name="so_sao_khach_san" class="w-full mt-2 border rounded-full px-5 py-3 text-base">
-
-                        <option value="1">1 Sao</option>
-                        <option value="2">2 Sao</option>
-                        <option value="3">3 Sao</option>
-                        <option value="4">4 Sao</option>
-                        <option value="5">5 Sao</option>
-
-                    </select>
+                    <input type="password" name="mat_khau" class="w-full mt-2 border rounded-full px-5 py-3">
 
                 </div>
 
-                <!-- Số điện thoại -->
+                <!-- SĐT -->
                 <div>
 
-                    <label class="font-medium text-slate-700 text-base">
+                    <label class="font-medium text-slate-700">
 
                         Số điện thoại
 
                     </label>
 
                     <input type="text" name="so_dien_thoai" value="{{ old('so_dien_thoai') }}"
-                        placeholder="Nhập số điện thoại" class="w-full mt-2 border rounded-full px-5 py-3 text-base">
+                        class="w-full mt-2 border rounded-full px-5 py-3">
 
                 </div>
 
-                <!-- Email -->
-                <div class="md:col-span-2">
-
-                    <label class="font-medium text-slate-700 text-base">
-
-                        Email
-
-                    </label>
-
-                    <input type="email" name="email" value="{{ old('email') }}" placeholder="Nhập email"
-                        class="w-full mt-2 border rounded-full px-5 py-3 text-base">
-
-                </div>
-
-                <!-- Mô tả -->
-                <div class="md:col-span-2">
-
-                    <label class="font-medium text-slate-700 text-base">
-
-                        Mô tả
-
-                    </label>
-
-                    <textarea name="mo_ta" rows="5" placeholder="Nhập mô tả khách sạn..."
-                        class="w-full mt-2 border rounded-2xl px-5 py-3 text-base">{{ old('mo_ta') }}</textarea>
-
-                </div>
-
-                <!-- Trạng thái -->
+                <!-- Giới tính -->
                 <div>
 
-                    <label class="font-medium text-slate-700 text-base">
+                    <label class="font-medium text-slate-700">
 
-                        Trạng thái
+                        Giới tính
 
                     </label>
 
-                    <select name="trang_thai" class="w-full mt-2 border rounded-full px-5 py-3 text-base">
+                    <select name="gioi_tinh" class="w-full mt-2 border rounded-full px-5 py-3">
 
-                        <option value="1">
+                        <option value="Nam">Nam</option>
 
-                            Hoạt động
+                        <option value="Nu">Nữ</option>
 
-                        </option>
-
-                        <option value="0">
-
-                            Tạm dừng
-
-                        </option>
+                        <option value="Khac">Khác</option>
 
                     </select>
 
                 </div>
 
+                <!-- Ngày sinh -->
+                <div>
+
+                    <label class="font-medium text-slate-700">
+
+                        Ngày sinh
+
+                    </label>
+
+                    <input type="date" name="ngay_sinh" value="{{ old('ngay_sinh') }}"
+                        class="w-full mt-2 border rounded-full px-5 py-3">
+
+                </div>
+
+                <!-- Ảnh đại diện -->
+                <div class="md:col-span-2">
+
+                    <label class="font-medium text-slate-700">
+
+                        Ảnh đại diện
+
+                    </label>
+
+                    <input type="file" name="anh_dai_dien" class="w-full mt-2 border rounded-xl px-5 py-3">
+
+                </div>
+
             </div>
 
-            <!-- Button -->
             <div class="flex flex-col md:flex-row gap-4 mt-8">
 
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-base">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl">
 
-                    Lưu khách sạn
+                    Lưu người dùng
 
                 </button>
 
-                <a href="{{ route('admin.khachsan.index') }}"
-                    class="bg-slate-200 hover:bg-slate-300 px-6 py-3 rounded-xl text-base text-center">
+                <a href="{{ route('admin.nguoidung.index') }}"
+                    class="bg-slate-200 hover:bg-slate-300 px-6 py-3 rounded-xl text-center">
 
                     Quay lại
 
@@ -229,6 +189,7 @@
         </form>
 
     </div>
+    ```
 
 </div>
 

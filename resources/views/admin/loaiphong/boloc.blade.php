@@ -65,7 +65,7 @@
 
             <!-- Nút lọc -->
             <button type="submit"
-                class="bg-slate-100 rounded-full text-base hover:bg-slate-200 flex items-center justify-center gap-2">
+                class="bg-slate-100 rounded-full text-base hover:bg-slate-200 flex items-center justify-center gap-2 p-3">
 
                 <i class="fa-solid fa-filter"></i>
 

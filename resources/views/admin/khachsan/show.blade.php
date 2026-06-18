@@ -76,6 +76,23 @@
                     {{ $khachSan->trang_thai ? 'Hoạt động' : 'Tạm dừng' }}
 
                 </p>
+                <p>
+                    <strong>Nhận phòng:</strong>
+
+                    {{ \Carbon\Carbon::parse($khachSan->gio_check_in)->format('H:i') }}
+                </p>
+
+                <p>
+                    <strong>Trả phòng:</strong>
+
+                    {{ \Carbon\Carbon::parse($khachSan->gio_check_out)->format('H:i') }}
+                </p>
+
+                <p>
+                    <strong>Hủy miễn phí:</strong>
+
+                    {{ $khachSan->so_gio_huy_mien_phi }} giờ trước giờ nhận phòng
+                </p>
 
             </div>
 

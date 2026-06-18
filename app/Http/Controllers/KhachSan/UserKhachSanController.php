@@ -10,7 +10,7 @@ class UserKhachSanController extends Controller
     public function index()
     {
         $khachSans = KhachSan::where('trang_thai', 1)
-                            ->get();
+                                ->paginate(5);;
 
         return view(
             'users.khachsan.index',

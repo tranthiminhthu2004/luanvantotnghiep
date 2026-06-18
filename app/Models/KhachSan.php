@@ -24,7 +24,10 @@ class KhachSan extends Model
         'mo_ta',
         'so_dien_thoai',
         'email',
-        'trang_thai'
+        'trang_thai',
+        'gio_check_in',
+        'gio_check_out',
+        'so_gio_huy_mien_phi',
     ];
     public function hinhAnh()
 {
@@ -34,7 +37,7 @@ class KhachSan extends Model
         'ma_khach_san'
     );
 }
-public function loaiPhong()
+public function loaiPhongs()
 {
     return $this->hasMany(
         LoaiPhong::class,

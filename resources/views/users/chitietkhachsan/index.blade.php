@@ -22,28 +22,17 @@
             {{-- Thư viện ảnh --}}
             @include('users.chitietkhachsan.thuvienanh')
 
-            {{-- Nội dung --}}
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 mt-5">
+            <div class="space-y-5 mt-5">
 
-                {{-- Cột trái --}}
-                <div class="lg:col-span-8">
+                @include('users.chitietkhachsan.thongtinkhachsan')
 
-                    @include('users.chitietkhachsan.thongtinkhachsan')
+                @include('users.chitietkhachsan.danhsachloaiphong')
 
-                    @include('users.chitietkhachsan.danhsachphong')
+                @include('users.chitietkhachsan.bando')
 
-                </div>
+                @include('users.chitietkhachsan.danhgia')
 
-                {{-- Cột phải --}}
-                <div class="lg:col-span-4 space-y-5">
-
-                    @include('users.chitietkhachsan.diadiemganday')
-
-                    @include('users.chitietkhachsan.danhgia')
-
-                    @include('users.chitietkhachsan.bando')
-
-                </div>
+                @include('users.chitietkhachsan.diadiemganday')
 
             </div>
 

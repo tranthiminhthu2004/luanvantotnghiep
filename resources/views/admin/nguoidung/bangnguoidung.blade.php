@@ -13,19 +13,23 @@
                     </th>
 
                     <th class="px-6 py-4 text-lg">
-                        Hình ảnh
+                        Ảnh đại diện
                     </th>
 
                     <th class="px-6 py-4 text-lg">
-                        Tên khách sạn
+                        Họ tên
                     </th>
 
                     <th class="px-6 py-4 text-lg">
-                        Địa điểm
+                        Email
                     </th>
 
                     <th class="px-6 py-4 text-lg">
-                        Số sao
+                        Số điện thoại
+                    </th>
+
+                    <th class="px-6 py-4 text-lg">
+                        Vai trò
                     </th>
 
                     <th class="px-6 py-4 text-lg">
@@ -42,58 +46,66 @@
 
             <tbody>
 
-                @forelse($khachSans as $khachSan)
+                @forelse($nguoiDungs as $nguoiDung)
 
                 <tr class="border-t hover:bg-slate-50">
 
                     <!-- ID -->
                     <td class="px-6 py-4 text-base">
 
-                        {{ $khachSan->ma_khach_san }}
+                        {{ $nguoiDung->ma_nguoi_dung }}
 
                     </td>
 
-                    <!-- Hình ảnh -->
+                    <!-- Avatar -->
                     <td class="px-6 py-4">
-                        @if($khachSan->hinhAnh->count())
 
-                        <img src="{{ asset($khachSan->hinhAnh->first()->duong_dan_anh) }}"
-                            class="w-24 h-16 object-cover rounded-xl">
+                        <img src="{{ $nguoiDung->anh_dai_dien
+                                ? asset($nguoiDung->anh_dai_dien)
+                                : asset('images/avatar-default.png') }}"
+                            class="w-14 h-14 rounded-full object-cover border">
 
-                        @endif
+                    </td>
 
-                        <!-- Tên khách sạn -->
+                    <!-- Họ tên -->
                     <td class="px-6 py-4 font-medium text-base">
 
-                        {{ $khachSan->ten_khach_san }}
+                        {{ $nguoiDung->ho_va_ten_dem }}
+                        {{ $nguoiDung->ten }}
 
                     </td>
 
-                    <!-- Địa điểm -->
+                    <!-- Email -->
                     <td class="px-6 py-4 text-base">
 
-                        {{ $khachSan->diaDiem->ten_dia_diem ?? '-' }}
+                        {{ $nguoiDung->email }}
 
                     </td>
 
-
-                    <!-- Số sao -->
+                    <!-- SĐT -->
                     <td class="px-6 py-4 text-base">
 
-                        @for($i = 1; $i <= $khachSan->so_sao_khach_san; $i++)
+                        {{ $nguoiDung->so_dien_thoai ?? '-' }}
 
-                            ⭐
+                    </td>
 
-                            @endfor
+                    <!-- Vai trò -->
+                    <td class="px-6 py-4">
+
+                        <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm">
+
+                            {{ $nguoiDung->vaiTro->ten_vai_tro ?? '-' }}
+
+                        </span>
 
                     </td>
 
                     <!-- Trạng thái -->
                     <td class="px-6 py-4">
 
-                        @if($khachSan->trang_thai)
+                        @if($nguoiDung->trang_thai)
 
-                        <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-base">
+                        <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm">
 
                             Hoạt động
 
@@ -101,9 +113,9 @@
 
                         @else
 
-                        <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-base">
+                        <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm">
 
-                            Tạm dừng
+                            Đã khóa
 
                         </span>
 
@@ -114,36 +126,28 @@
                     <!-- Thao tác -->
                     <td class="px-6 py-4">
 
-                        <div class="flex gap-4">
+                        <div class="flex gap-3">
 
-                            <a href="{{ route('admin.khachsan.show',$khachSan->ma_khach_san) }}"
+                            <!-- Xem -->
+                            <a href="{{ route('admin.nguoidung.show',$nguoiDung->ma_nguoi_dung) }}"
                                 class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">
 
                                 <i class="fa-solid fa-eye"></i>
 
                             </a>
 
-                            <a href="{{ route('admin.khachsan.edit',$khachSan->ma_khach_san) }}" class=" w-10 h-10 rounded-full bg-yellow-100 text-yellow-600 flex items-center
-                                justify-center">
+                            <!-- Sửa -->
+                            <a href="{{ route('admin.nguoidung.edit',$nguoiDung->ma_nguoi_dung) }}"
+                                class="w-10 h-10 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center">
 
                                 <i class="fa-solid fa-pen"></i>
 
                             </a>
-                            <!-- Quản lý ảnh -->
-                            <a href="{{ route('admin.hinhanh.index',$khachSan->ma_khach_san) }}"
-                                class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center">
 
-                                <i class="fa-solid fa-image"></i>
+                            <!-- Xóa -->
+                            <form action="{{ route('admin.nguoidung.destroy',$nguoiDung->ma_nguoi_dung) }}"
+                                method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa người dùng này?');">
 
-                            </a>
-                            <a href="{{ route('admin.khachsan.tiennghi',$khachSan->ma_khach_san) }}"
-                                class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center">
-
-                                <i class="fa-solid fa-list-check"></i>
-
-                            </a>
-                            <form action="{{ route('admin.khachsan.destroy', $khachSan->ma_khach_san) }}" method="POST"
-                                onsubmit="return confirm('Bạn có chắc muốn xóa khách sạn này?'  );">
                                 @csrf
 
                                 @method('DELETE')
@@ -155,6 +159,7 @@
                                 </button>
 
                             </form>
+
                         </div>
 
                     </td>
@@ -165,9 +170,9 @@
 
                 <tr>
 
-                    <td colspan="7" class="text-center py-10 text-gray-500 text-base">
+                    <td colspan="8" class="text-center py-10 text-gray-500 text-base">
 
-                        Chưa có khách sạn nào
+                        Chưa có người dùng nào
 
                     </td>
 
@@ -176,10 +181,15 @@
                 @endforelse
 
             </tbody>
+
         </table>
 
     </div>
+
     <div class="mt-6 px-6 py-4">
-        {{ $khachSans->links() }}
+
+        {{ $nguoiDungs->links() }}
+
     </div>
+
 </div>

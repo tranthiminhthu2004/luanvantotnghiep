@@ -126,11 +126,11 @@
                         <i class="fa-brands fa-instagram"></i>
                     </a>
 
-                    <a href="#" class="hover:text-red-400">
+                    <a href="#" class="hover:text-red-600">
                         <i class="fa-brands fa-youtube"></i>
                     </a>
 
-                    <a href="#" class="hover:text-sky-400">
+                    <a href="#" class="hover:text-white">
                         <i class="fa-brands fa-tiktok"></i>
                     </a>
 

@@ -86,7 +86,8 @@ class AdminKhachSanController extends Controller
         'diaDiem',
         'hinhAnh'
     ])
-    ->get();
+    ->paginate(10)
+    ->withQueryString();;
 
     $tongKhachSan = KhachSan::count();
 
@@ -164,7 +165,13 @@ class AdminKhachSanController extends Controller
 
         'email' => $request->email,
 
-        'trang_thai' => 1
+        'trang_thai' => 1 ,
+        
+        'gio_check_in' => $request->gio_check_in,
+
+        'gio_check_out' => $request->gio_check_out,
+
+        'so_gio_huy_mien_phi' => $request->so_gio_huy_mien_phi
     ]);
 
     return redirect()
@@ -232,7 +239,13 @@ class AdminKhachSanController extends Controller
 
         'email' => $request->email,
 
-        'trang_thai' => $request->trang_thai
+        'trang_thai' => $request->trang_thai,
+        
+        'gio_check_in' => $request->gio_check_in,
+
+        'gio_check_out' => $request->gio_check_out,
+
+        'so_gio_huy_mien_phi' => $request->so_gio_huy_mien_phi
     ]);
 
     return redirect()
@@ -256,6 +269,17 @@ class AdminKhachSanController extends Controller
             'Xóa khách sạn thành công'
         );
     }
+    public function album($id)
+{
+    $khachSan = KhachSan::with(
+        'hinhAnh'
+    )->findOrFail($id);
+
+    return view(
+        'users.albumkhachsan',
+        compact('khachSan')
+    );
+}
     private function boDau($chuoi)
 {
     $chuoi = mb_strtolower($chuoi, 'UTF-8');

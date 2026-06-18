@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
-        ->name('register');
+        ->name('register'); //Route::{Loại route (get/post/put/delete)}('đường dẫn', [class chạy, hàm được chạy trong class])
+                            //redirect('/product/data') ; route('product')
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 

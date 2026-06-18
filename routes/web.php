@@ -6,6 +6,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 use App\Http\Controllers\KhachSan\UserKhachSanController;
+use App\Http\Controllers\NguoiDung\AdminNguoiDungController;
+use App\Http\Controllers\KhachSan\UserChiTietKhachSanController;
 use App\Http\Controllers\KhachSan\AdminKhachSanController;
 use App\Http\Controllers\KhachSan\AdminHinhAnhKhachSanController;
 use App\Http\Controllers\KhachSan\AdminLoaiPhongController;
@@ -15,6 +17,7 @@ use App\Http\Controllers\KhachSan\AdminTienNghiController;
 use App\Http\Controllers\KhachSan\AdminKhachSanTienNghiController;
 use App\Http\Controllers\KhachSan\AdminLoaiPhongTienNghiController;
 use App\Http\Controllers\KhachSan\AdminDiaDiemController;
+
 /*
 |--------------------------------------------------------------------------
 | Trang chủ
@@ -279,6 +282,42 @@ Route::resource(
     'admin/diadiem',
     AdminDiaDiemController::class
 )->names('admin.diadiem');
+//Quản lý người dùng 
+
+Route::get(
+    '/admin/nguoi-dung',
+    [AdminNguoiDungController::class,'index']
+)->name('admin.nguoidung.index');
+
+Route::get(
+    '/admin/nguoi-dung/create',
+    [AdminNguoiDungController::class,'create']
+)->name('admin.nguoidung.create');
+
+Route::post(
+    '/admin/nguoi-dung/store',
+    [AdminNguoiDungController::class,'store']
+)->name('admin.nguoidung.store');
+
+Route::get(
+    '/admin/nguoi-dung/{id}',
+    [AdminNguoiDungController::class,'show']
+)->name('admin.nguoidung.show');
+
+Route::get(
+    '/admin/nguoi-dung/{id}/edit',
+    [AdminNguoiDungController::class,'edit']
+)->name('admin.nguoidung.edit');
+
+Route::put(
+    '/admin/nguoi-dung/{id}',
+    [AdminNguoiDungController::class,'update']
+)->name('admin.nguoidung.update');
+
+Route::delete(
+    '/admin/nguoi-dung/{id}',
+    [AdminNguoiDungController::class,'destroy']
+)->name('admin.nguoidung.destroy');
 
 //USER - ĐỊA ĐIỂM DU LỊCH
 
@@ -297,4 +336,15 @@ Route::get('/chitietkhachsan', function () {
 
 })->name('chitietkhachsan.index');
 
+Route::get(
+    '/khach-san/{id}/album',
+    [KhachSanController::class,'album']
+)->name('khachsan.album');
+
+//Useser loại phòng
+
+Route::get(
+    '/khach-san/{id}',
+    [ChiTietKhachSanController::class, 'show']
+)->name('users.chitietkhachsan');
 require __DIR__.'/auth.php';

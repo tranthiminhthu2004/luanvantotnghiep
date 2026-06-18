@@ -166,6 +166,48 @@
                         placeholder="Nhập email" class="w-full mt-2 border rounded-full px-5 py-3 text-base">
 
                 </div>
+                <!-- Giờ nhận phòng -->
+                <div>
+
+                    <label class="font-medium text-slate-700 text-base">
+
+                        Giờ nhận phòng
+
+                    </label>
+
+                    <input type="time" name="gio_check_in" value="{{ old('gio_check_in',$khachSan->gio_check_in) }}"
+                        class="w-full mt-2 border rounded-full px-5 py-3 text-base">
+
+                </div>
+
+                <!-- Giờ trả phòng -->
+                <div>
+
+                    <label class="font-medium text-slate-700 text-base">
+
+                        Giờ trả phòng
+
+                    </label>
+
+                    <input type="time" name="gio_check_out" value="{{ old('gio_check_out',$khachSan->gio_check_out) }}"
+                        class="w-full mt-2 border rounded-full px-5 py-3 text-base">
+
+                </div>
+
+                <!-- Hủy miễn phí -->
+                <div>
+
+                    <label class="font-medium text-slate-700 text-base">
+
+                        Hủy miễn phí trước (giờ)
+
+                    </label>
+
+                    <input type="number" name="so_gio_huy_mien_phi"
+                        value="{{ old('so_gio_huy_mien_phi',$khachSan->so_gio_huy_mien_phi) }}" placeholder="Ví dụ: 24"
+                        class="w-full mt-2 border rounded-full px-5 py-3 text-base">
+
+                </div>
 
                 <!-- Mô tả -->
                 <div class="md:col-span-2">

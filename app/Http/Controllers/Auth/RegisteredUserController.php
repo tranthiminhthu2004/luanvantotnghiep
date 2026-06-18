@@ -17,7 +17,8 @@ class RegisteredUserController extends Controller
 {
     public function create(): View
     {
-        return view('auth.register');
+        return view('auth.register'); //view => load resources/views + đường dẫn bên trong
+        //load resources/views/auth/register.blade.php
     }
 
     public function store(Request $request): RedirectResponse

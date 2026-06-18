@@ -4,31 +4,57 @@
 
 @section('content')
 
-<div class="max-w-5xl mx-auto">
+<div class="max-w-7xl mx-auto">
 
-    <div class="bg-white rounded-3xl shadow p-8">
+    <div class="bg-white rounded-3xl shadow p-6">
 
-        <div class="flex items-center gap-6 mb-8">
+        <h2 class="text-4xl font-bold text-[#061755] mb-8">
 
-            <div class="w-24 h-24 rounded-full bg-slate-100 flex items-center justify-center">
+            {{ $tienNghi->ten_tien_nghi }}
 
-                <i class="{{ $tienNghi->icon }} text-5xl"></i>
+        </h2>
 
-            </div>
+        <div class="grid md:grid-cols-2 gap-8">
 
-            <div>
+            <div class="space-y-4 text-lg">
 
-                <h2 class="text-4xl font-bold text-[#061755]">
+                <p>
+
+                    <strong>ID:</strong>
+
+                    {{ $tienNghi->ma_tien_nghi }}
+
+                </p>
+
+                <p>
+
+                    <strong>Tên tiện nghi:</strong>
 
                     {{ $tienNghi->ten_tien_nghi }}
 
-                </h2>
+                </p>
 
-                <div class="mt-3">
+                <p>
+
+                    <strong>Icon:</strong>
+
+                    <i class="fa-solid {{ $tienNghi->icon }} text-blue-600 ml-2"></i>
+
+                    <span class="ml-2">
+
+                        {{ $tienNghi->icon }}
+
+                    </span>
+
+                </p>
+
+                <p>
+
+                    <strong>Trạng thái:</strong>
 
                     @if($tienNghi->trang_thai)
 
-                    <span class="bg-green-100 text-green-600 px-4 py-2 rounded-full">
+                    <span class="text-green-600 font-medium">
 
                         Hoạt động
 
@@ -36,7 +62,7 @@
 
                     @else
 
-                    <span class="bg-red-100 text-red-600 px-4 py-2 rounded-full">
+                    <span class="text-red-600 font-medium">
 
                         Tạm dừng
 
@@ -44,39 +70,23 @@
 
                     @endif
 
-                </div>
+                </p>
+
+                <p>
+
+                    <strong>Mô tả:</strong>
+
+                    {{ $tienNghi->mo_ta ?: 'Chưa có mô tả' }}
+
+                </p>
 
             </div>
 
         </div>
 
-        <div class="border-t pt-6">
+        <div class="mt-8 flex gap-4">
 
-            <h3 class="font-bold text-xl mb-3">
-
-                Mô tả
-
-            </h3>
-
-            <p class="text-slate-600">
-
-                {{ $tienNghi->mo_ta ?: 'Chưa có mô tả' }}
-
-            </p>
-
-        </div>
-
-        <div class="mt-8">
-
-            <a href="{{ route('admin.tiennghi.edit',$tienNghi->ma_tien_nghi) }}"
-                class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-xl">
-
-                Chỉnh sửa
-
-            </a>
-
-            <a href="{{ route('admin.tiennghi.index') }}"
-                class="bg-slate-200 hover:bg-slate-300 px-6 py-3 rounded-xl ml-3">
+            <a href="{{ route('admin.tiennghi.index') }}" class="bg-slate-200 hover:bg-slate-300 px-6 py-3 rounded-xl">
 
                 Quay lại
 

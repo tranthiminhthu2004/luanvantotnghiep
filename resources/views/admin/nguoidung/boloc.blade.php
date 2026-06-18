@@ -1,54 +1,35 @@
 <div class="bg-white rounded-3xl shadow p-5 mb-6">
 
-    <form method="GET" action="{{ route('admin.khachsan.index') }}">
+    <form method="GET" action="{{ route('admin.nguoidung.index') }}">
 
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4">
 
-            <!-- Tên khách sạn -->
-            <input type="text" name="ten_khach_san" placeholder="Tên khách sạn..."
-                value="{{ request('ten_khach_san') }}"
+            <!-- Tìm kiếm -->
+            <input type="text" name="tu_khoa" placeholder="Tên hoặc email..." value="{{ request('tu_khoa') }}"
                 class="border rounded-full text-base px-5 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
 
-            <!-- Địa điểm -->
-            <select name="ma_dia_diem" class="border rounded-full text-base px-5 py-3 text-black">
+            <!-- Vai trò -->
+            <select name="ma_vai_tro" class="border rounded-full text-base px-5 py-3 text-black">
 
                 <option value="">
-                    Tất cả địa điểm
+                    Tất cả vai trò
                 </option>
 
-                @foreach($diaDiems as $diaDiem)
+                @foreach($vaiTros as $vaiTro)
 
-                <option value="{{ $diaDiem->ma_dia_diem }}"
-                    {{ request('ma_dia_diem') == $diaDiem->ma_dia_diem ? 'selected' : '' }}>
+                <option value="{{ $vaiTro->ma_vai_tro }}"
+                    {{ request('ma_vai_tro') == $vaiTro->ma_vai_tro ? 'selected' : '' }}>
 
-                    {{ $diaDiem->ten_dia_diem }}
+                    {{ $vaiTro->ten_vai_tro }}
 
                 </option>
 
                 @endforeach
 
             </select>
-            <!-- Số sao -->
-            <select name="so_sao_khach_san" class="border rounded-full text-base px-5 py-3">
 
-                <option value="">
-                    Tất cả sao
-                </option>
-
-                @foreach($soSaos as $soSao)
-
-                <option value="{{ $soSao->so_sao_khach_san }}"
-                    {{ request('so_sao_khach_san') == $soSao->so_sao_khach_san ? 'selected' : '' }}>
-
-                    {{ $soSao->so_sao_khach_san }} Sao
-
-                </option>
-
-                @endforeach
-            </select>
             <!-- Trạng thái -->
             <select name="trang_thai" class="border rounded-full text-base px-5 py-3">
-
 
                 <option value="1" {{ request('trang_thai') === '1' ? 'selected' : '' }}>
 
@@ -58,11 +39,12 @@
 
                 <option value="0" {{ request('trang_thai') === '0' ? 'selected' : '' }}>
 
-                    Tạm dừng
+                    Đã khóa
 
                 </option>
 
             </select>
+
             <!-- Sắp xếp -->
             <select name="sap_xep" class="border rounded-full text-base px-5 py-3">
 

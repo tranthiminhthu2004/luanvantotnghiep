@@ -51,6 +51,9 @@
                         @endforelse
 
                     </div>
+                    <div class="mt-6">
+                        {{ $khachSans->links() }}
+                    </div>
 
                 </div>
 
