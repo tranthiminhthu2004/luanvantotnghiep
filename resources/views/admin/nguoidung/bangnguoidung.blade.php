@@ -186,7 +186,7 @@
 
     </div>
 
-    <div class="mt-6 px-6 py-4">
+    <div class="mt-6 px-6 pt-4">
 
         {{ $nguoiDungs->links() }}
 

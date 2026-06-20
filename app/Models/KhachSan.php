@@ -62,4 +62,12 @@ public function diaDiem()
         'ma_dia_diem'
     );
 }
+public function datPhongs()
+{
+    return $this->hasMany(
+        DatPhong::class,
+        'ma_khach_san',
+        'ma_khach_san'
+    );
+}
 }

@@ -2,7 +2,7 @@
 
     <div class="overflow-x-auto">
 
-        <table class="w-full">
+        <table class="min-w-[1000px] w-full">
 
             <thead class="bg-slate-50">
 
@@ -61,8 +61,8 @@
                             class="w-24 h-16 object-cover rounded-xl">
 
                         @endif
-
-                        <!-- Tên khách sạn -->
+                    </td>
+                    <!-- Tên khách sạn -->
                     <td class="px-6 py-4 font-medium text-base">
 
                         {{ $khachSan->ten_khach_san }}

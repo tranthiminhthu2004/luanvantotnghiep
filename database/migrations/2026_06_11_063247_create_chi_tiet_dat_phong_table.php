@@ -6,41 +6,67 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
-{
-    Schema::create('chi_tiet_dat_phong', function (Blueprint $table) {
+    {
+        Schema::create('chi_tiet_dat_phong', function (Blueprint $table)
+        {
+            $table->unsignedBigInteger(
+                'ma_don_dat_phong'
+            );
 
-        $table->unsignedBigInteger('ma_don_dat_phong');
+            $table->unsignedBigInteger(
+                'ma_loai_phong'
+            );
 
-        $table->unsignedBigInteger('ma_phong');
+            $table->integer(
+                'so_luong_phong'
+            )->default(1);
 
-        $table->decimal('gia_dat_thuc_te', 12, 2);
+            $table->decimal(
+                'gia_dat_thuc_te',
+                12,
+                2
+            );
 
-        $table->primary([
-            'ma_don_dat_phong',
-            'ma_phong'
-        ]);
+            $table->integer(
+                'so_dem'
+            );
 
-        $table->foreign('ma_don_dat_phong')
-            ->references('ma_don_dat_phong')
+            $table->decimal(
+                'thanh_tien',
+                12,
+                2
+            );
+
+            $table->primary([
+                'ma_don_dat_phong',
+                'ma_loai_phong'
+            ]);
+
+            $table->foreign(
+                'ma_don_dat_phong'
+            )
+            ->references(
+                'ma_don_dat_phong'
+            )
             ->on('dat_phong')
             ->cascadeOnDelete();
 
-        $table->foreign('ma_phong')
-            ->references('ma_phong')
-            ->on('phong')
+            $table->foreign(
+                'ma_loai_phong'
+            )
+            ->references(
+                'ma_loai_phong'
+            )
+            ->on('loai_phong')
             ->cascadeOnDelete();
-    });
-}
+        });
+    }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('chi_tiet_dat_phong');
+        Schema::dropIfExists(
+            'chi_tiet_dat_phong'
+        );
     }
 };

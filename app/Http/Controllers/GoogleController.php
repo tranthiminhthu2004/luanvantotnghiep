@@ -35,7 +35,16 @@ class GoogleController extends Controller
                 'trang_thai' => 1, 
             ]); 
         }
-
+        // Kiểm tra tài khoản bị khóa
+if (!$user->trang_thai)
+{
+    return redirect()
+        ->route('login')
+        ->with(
+            'error',
+            'Tài khoản của bạn đã bị khóa.'
+        );
+}
         Auth::login($user);
         if ($user->ma_vai_tro == 1) {
             return redirect()->intended('/admin/dashboard');

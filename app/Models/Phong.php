@@ -27,4 +27,5 @@ class Phong extends Model
             'ma_loai_phong'
         );
     }
+   
 }

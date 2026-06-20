@@ -60,11 +60,10 @@ class AdminNguoiDungController extends Controller
         }
 
         // Sắp xếp
-        $query->orderBy(
-            'ma_nguoi_dung',
-            'desc'
-        );
-
+      $query->orderBy(
+    'ma_nguoi_dung',
+    $request->sap_xep ?? 'desc'
+);
         $nguoiDungs = $query
             ->paginate(10)
             ->withQueryString();

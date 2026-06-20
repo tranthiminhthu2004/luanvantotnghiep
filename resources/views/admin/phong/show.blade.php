@@ -54,17 +54,14 @@
 
                     <strong>Trạng thái:</strong>
 
-                    @if($phong->trang_thai_phong == 'DangHoatDong')
+                    @if($phong->trang_thai_phong == 'HoatDong')
 
                     Đang hoạt động
 
-                    @elseif($phong->trang_thai_phong == 'BaoTri')
+                    @else
 
                     Bảo trì
 
-                    @else
-
-                    Ngưng hoạt động
 
                     @endif
 

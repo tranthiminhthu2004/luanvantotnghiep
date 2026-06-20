@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use App\Models\NguoiDung;
 
 class LoginRequest extends FormRequest
 {
@@ -38,20 +39,39 @@ class LoginRequest extends FormRequest
      *
      * @throws ValidationException
      */
-    public function authenticate(): void
+   public function authenticate(): void
+{
+    $this->ensureIsNotRateLimited();
+
+    // Tìm người dùng theo email
+    $nguoiDung = NguoiDung::where(
+        'email',
+        $this->email
+    )->first();
+
+    // Kiểm tra tài khoản bị khóa
+    if ($nguoiDung && !$nguoiDung->trang_thai)
     {
-        $this->ensureIsNotRateLimited();
-
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
-
-            throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
-            ]);
-        }
-
-        RateLimiter::clear($this->throttleKey());
+        throw ValidationException::withMessages([
+            'email' => 'Tài khoản của bạn đã bị khóa.',
+        ]);
     }
+
+    // Đăng nhập
+    if (! Auth::attempt(
+        $this->only('email', 'password'),
+        $this->boolean('remember')
+    ))
+    {
+        RateLimiter::hit($this->throttleKey());
+
+        throw ValidationException::withMessages([
+            'email' => 'Email hoặc mật khẩu không chính xác.',
+        ]);
+    }
+
+    RateLimiter::clear($this->throttleKey());
+}
 
     /**
      * Ensure the login request is not rate limited.

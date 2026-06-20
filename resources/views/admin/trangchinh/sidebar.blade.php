@@ -145,7 +145,8 @@
 
         </div>
         <!-- Đặt phòng -->
-        <a href="#" class="flex items-center gap-3 px-6 py-3 hover:bg-blue-900 transition hover:rounded-full">
+        <a href="{{ route('admin.datphong.index')}}"
+            class="flex items-center gap-3 px-6 py-3 hover:bg-blue-900 transition hover:rounded-full">
 
             <i class="fa-solid fa-calendar-check w-5"></i>
             Đặt phòng

@@ -111,7 +111,6 @@
                             Ngưng hoạt động
 
                         </option>
-
                     </select>
 
                 </div>

@@ -17,6 +17,7 @@ use App\Http\Controllers\KhachSan\AdminTienNghiController;
 use App\Http\Controllers\KhachSan\AdminKhachSanTienNghiController;
 use App\Http\Controllers\KhachSan\AdminLoaiPhongTienNghiController;
 use App\Http\Controllers\KhachSan\AdminDiaDiemController;
+use App\Http\Controllers\DatPhong\AdminDatPhongController;
 
 /*
 |--------------------------------------------------------------------------
@@ -318,7 +319,46 @@ Route::delete(
     '/admin/nguoi-dung/{id}',
     [AdminNguoiDungController::class,'destroy']
 )->name('admin.nguoidung.destroy');
+// đặt phòng 
+Route::get(
+    '/admin/datphong',
+    [AdminDatPhongController::class, 'index']
+)->name('admin.datphong.index');
 
+Route::get(
+    '/admin/datphong/create',
+    [AdminDatPhongController::class, 'create']
+)->name('admin.datphong.create');
+
+Route::post(
+    '/admin/datphong',
+    [AdminDatPhongController::class, 'store']
+)->name('admin.datphong.store');
+
+Route::get(
+    '/admin/datphong/{id}',
+    [AdminDatPhongController::class, 'show']
+)->name('admin.datphong.show');
+
+Route::get(
+    '/admin/datphong/{id}/edit',
+    [AdminDatPhongController::class, 'edit']
+)->name('admin.datphong.edit');
+
+Route::put(
+    '/admin/datphong/{id}',
+    [AdminDatPhongController::class, 'update']
+)->name('admin.datphong.update');
+
+Route::delete(
+    '/admin/datphong/{id}',
+    [AdminDatPhongController::class, 'destroy']
+)->name('admin.datphong.destroy');
+
+Route::post(
+    '/kiem-tra-phong',
+    [AdminDatPhongController::class, 'kiemTraPhong']
+)->name('admin.datphong.kiemTraPhong');
 //USER - ĐỊA ĐIỂM DU LỊCH
 
 Route::get('/diadiemdulich', function () {

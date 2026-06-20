@@ -193,61 +193,6 @@
 
                     </thead>
 
-                    <tbody>
-
-                        <tr class="border-b">
-
-                            <td class="py-3">
-                                #DP001
-                            </td>
-
-                            <td>
-                                Nguyễn Văn A
-                            </td>
-
-                            <td>
-                                Vinpearl Nha Trang
-                            </td>
-
-                            <td>
-
-                                <span class="px-3 py-1 rounded-full bg-green-100 text-green-600 text-sm">
-
-                                    Đã xác nhận
-
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                        <tr class="border-b">
-
-                            <td class="py-3">
-                                #DP002
-                            </td>
-
-                            <td>
-                                Trần Thị B
-                            </td>
-
-                            <td>
-                                Sheraton Đà Nẵng
-                            </td>
-
-                            <td>
-
-                                <span class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-600 text-sm">
-
-                                    Chờ xử lý
-
-                                </span>
-
-                            </td>
-
-                        </tr>
-
-                    </tbody>
 
                 </table>
 
@@ -266,45 +211,7 @@
 
             <div class="space-y-4">
 
-                <div class="flex justify-between">
 
-                    <span>Vinpearl Nha Trang</span>
-
-                    <span class="font-bold">245</span>
-
-                </div>
-
-                <div class="flex justify-between">
-
-                    <span>Sheraton Đà Nẵng</span>
-
-                    <span class="font-bold">198</span>
-
-                </div>
-
-                <div class="flex justify-between">
-
-                    <span>Mường Thanh Luxury</span>
-
-                    <span class="font-bold">154</span>
-
-                </div>
-
-                <div class="flex justify-between">
-
-                    <span>InterContinental</span>
-
-                    <span class="font-bold">132</span>
-
-                </div>
-
-                <div class="flex justify-between">
-
-                    <span>Fusion Resort</span>
-
-                    <span class="font-bold">120</span>
-
-                </div>
 
             </div>
 

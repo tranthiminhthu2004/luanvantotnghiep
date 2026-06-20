@@ -150,7 +150,15 @@
                     <p class="text-gray-500 mt-3 mb-8">
                         Chào mừng bạn quay trở lại
                     </p>
+                    @if(session('error'))
 
+                    <div class="mb-4 p-3 bg-red-100 text-red-600 rounded-lg">
+
+                        {{ session('error') }}
+
+                    </div>
+
+                    @endif
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
@@ -232,6 +240,7 @@
                         </button>
 
                     </form>
+
 
                     <!-- Divider -->
                     <div class="flex items-center my-8">
