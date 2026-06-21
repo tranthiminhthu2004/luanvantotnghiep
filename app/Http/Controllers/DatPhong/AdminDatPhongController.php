@@ -23,50 +23,114 @@ class AdminDatPhongController extends Controller
     {
         $this->phongService = $phongService;
     }
-     public function index()
+    public function index()
+{
+    $query = DatPhong::with([
+        'nguoiDung',
+        'khachSan'
+    ]);
+
+    // Mã đặt phòng
+    if(request('ma_dat_phong'))
     {
-        $datPhongs = DatPhong::with([
-            'nguoiDung',
-            'khachSan'
-        ])
-        ->orderByDesc('ma_don_dat_phong')
-        ->paginate(10);
+        $query->where(
+            'ma_dat_phong',
+            'like',
+            '%' . request('ma_dat_phong') . '%'
+        );
+    }
 
-        $tongDon = DatPhong::count();
+    // Khách hàng
+    if(request('khach_hang'))
+    {
+        $query->where(function($q){
 
-        $choXacNhan = DatPhong::where(
+            $q->where(
+                'ho_va_ten_dem_khach',
+                'like',
+                '%' . request('khach_hang') . '%'
+            )
+            ->orWhere(
+                'ten_khach',
+                'like',
+                '%' . request('khach_hang') . '%'
+            );
+
+        });
+    }
+
+    // Khách sạn
+    if(request('ma_khach_san'))
+    {
+        $query->where(
+            'ma_khach_san',
+            request('ma_khach_san')
+        );
+    }
+
+    // Trạng thái
+    if(request('trang_thai_dat_phong'))
+    {
+        $query->where(
             'trang_thai_dat_phong',
-            'ChoXacNhan'
-        )->count();
+            request('trang_thai_dat_phong')
+        );
+    }
 
-        $daXacNhan = DatPhong::where(
-            'trang_thai_dat_phong',
-            'DaXacNhan'
-        )->count();
-        $hoanThanh = DatPhong::where(
+    // Sắp xếp
+    $query->orderBy(
+        'ma_don_dat_phong',
+        request('sap_xep','desc')
+    );
+
+    $datPhongs = $query
+        ->paginate(10)
+        ->withQueryString();
+
+    // Thống kê
+    $tongDon = DatPhong::count();
+
+    $choXacNhan = DatPhong::where(
+        'trang_thai_dat_phong',
+        'ChoXacNhan'
+    )->count();
+
+    $daXacNhan = DatPhong::where(
+        'trang_thai_dat_phong',
+        'DaXacNhan'
+    )->count();
+
+    $hoanThanh = DatPhong::where(
         'trang_thai_dat_phong',
         'HoanThanh'
-        )->count();
+    )->count();
 
-        $daHuy = DatPhong::where(
-            'trang_thai_dat_phong',
-            'DaHuy'
-        )->count();
-        
-        $khachSans = KhachSan::all();
-        
-        return view(
-            'admin.datphong.index',
-            compact(
-                'datPhongs',
-                'tongDon',
-                'choXacNhan',
-                'daXacNhan',
-                'daHuy',
-                'hoanThanh',
-                'khachSans'
-            )
-        );}
+    $daHuy = DatPhong::where(
+        'trang_thai_dat_phong',
+        'DaHuy'
+    )->count();
+
+    $khongDen = DatPhong::where(
+        'trang_thai_dat_phong',
+        'KhongDen'
+    )->count();
+
+    $khachSans = KhachSan::all();
+
+    return view(
+        'admin.datphong.index',
+        compact(
+            'datPhongs',
+            'tongDon',
+            'choXacNhan',
+            'daXacNhan',
+            'hoanThanh',
+            'daHuy',
+            'khongDen',
+            'khachSans'
+        )
+    );
+}
 
     public function create()
     {
@@ -295,5 +359,112 @@ public function store(Request $request)
             $e->getMessage()
         );
     }
+}
+public function capNhatTrangThai(
+    Request $request,
+    $id
+)
+{
+    $datPhong = DatPhong::findOrFail($id);
+
+    $datPhong->update([
+        'trang_thai_dat_phong'
+            => $request->trang_thai_dat_phong
+    ]);
+
+    return back()->with(
+        'success',
+        'Cập nhật trạng thái thành công'
+    );
+}
+public function show($id)
+{
+    $datPhong = DatPhong::with([
+        'khachSan',
+        'nguoiDung',
+        'chiTietDatPhong.loaiPhong'
+    ])->findOrFail($id);
+
+    return view(
+        'admin.datphong.show',
+        compact('datPhong')
+    );
+}
+public function destroy($id)
+{
+    $datPhong = DatPhong::findOrFail($id);
+
+    ChiTietDatPhong::where(
+        'ma_don_dat_phong',
+        $id
+    )->delete();
+
+    $datPhong->delete();
+
+    return redirect()
+        ->route('admin.datphong.index')
+        ->with(
+            'success',
+            'Xóa đơn đặt phòng thành công'
+        );
+}
+public function edit($id)
+{
+    $datPhong = DatPhong::with([
+        'khachSan',
+        'chiTietDatPhong.loaiPhong'
+    ])->findOrFail($id);
+
+    return view(
+        'admin.datphong.edit',
+        compact('datPhong')
+    );
+}
+public function update(
+    Request $request,
+    $id
+)
+{
+    $request->validate([
+
+        'ho_va_ten_dem_khach'
+            => 'required',
+
+        'ten_khach'
+            => 'required',
+
+        'email_khach'
+            => 'required|email',
+
+        'so_dien_thoai_khach'
+            => 'required'
+    ]);
+
+    $datPhong = DatPhong::findOrFail($id);
+
+    $datPhong->update([
+
+        'ho_va_ten_dem_khach'
+            => $request->ho_va_ten_dem_khach,
+
+        'ten_khach'
+            => $request->ten_khach,
+
+        'email_khach'
+            => $request->email_khach,
+
+        'so_dien_thoai_khach'
+            => $request->so_dien_thoai_khach
+
+    ]);
+
+    return redirect()
+        ->route(
+            'admin.datphong.index'
+        )
+        ->with(
+            'success',
+            'Cập nhật đơn đặt phòng thành công'
+        );
 }
 }

@@ -2,18 +2,22 @@
 
     <div class="overflow-x-auto">
 
-        <table class="min-w-[1200px] w-full">
+        <table class="min-w-[1400px] w-full">
 
             <thead class="bg-slate-50">
 
                 <tr class="text-left">
 
                     <th class="px-6 py-4 text-lg">
-                        ID
+                        Mã đơn
                     </th>
 
                     <th class="px-6 py-4 text-lg">
                         Khách hàng
+                    </th>
+
+                    <th class="px-6 py-4 text-lg">
+                        Số điện thoại
                     </th>
 
                     <th class="px-6 py-4 text-lg">
@@ -50,8 +54,8 @@
 
                 <tr class="border-t hover:bg-slate-50">
 
-                    <!-- ID -->
-                    <td class="px-6 py-4 text-base">
+                    <!-- Mã đơn -->
+                    <td class="px-6 py-4 font-bold text-blue-600">
 
                         {{ $datPhong->ma_dat_phong }}
 
@@ -72,6 +76,13 @@
                             {{ $datPhong->email_khach }}
 
                         </div>
+
+                    </td>
+
+                    <!-- Số điện thoại -->
+                    <td class="px-6 py-4">
+
+                        {{ $datPhong->so_dien_thoai_khach }}
 
                     </td>
 
@@ -102,51 +113,70 @@
                         {{ number_format($datPhong->tong_tien,0,',','.') }}đ
 
                     </td>
-
                     <!-- Trạng thái -->
                     <td class="px-6 py-4">
 
-                        @if($datPhong->trang_thai_dat_phong == 'ChoXacNhan')
+                        <form action="{{ route('admin.datphong.trangthai',$datPhong->ma_don_dat_phong) }}"
+                            method="POST">
 
-                        <span class="bg-yellow-100 text-yellow-600 px-3 py-1 rounded-full">
+                            @csrf
+                            @method('PUT')
 
-                            Chờ xác nhận
+                            <select name="trang_thai_dat_phong" onchange="this.form.submit()" class="
+                px-4 py-2 rounded-full
+                font-medium
+                border-0
+                cursor-pointer
 
-                        </span>
+                @if($datPhong->trang_thai_dat_phong == 'ChoXacNhan')
+                    bg-yellow-100 text-yellow-700
+                @elseif($datPhong->trang_thai_dat_phong == 'DaXacNhan')
+                    bg-green-100 text-green-700
+                @elseif($datPhong->trang_thai_dat_phong == 'HoanThanh')
+                    bg-blue-100 text-blue-700
+                @elseif($datPhong->trang_thai_dat_phong == 'DaHuy')
+                    bg-red-100 text-red-700
+                @elseif($datPhong->trang_thai_dat_phong == 'KhongDen')
+                    bg-orange-100 text-orange-700
+                @endif
+            ">
 
-                        @elseif($datPhong->trang_thai_dat_phong == 'DaXacNhan')
+                                <option value="ChoXacNhan"
+                                    {{ $datPhong->trang_thai_dat_phong == 'ChoXacNhan' ? 'selected' : '' }}>
+                                    Chờ xác nhận
+                                </option>
 
-                        <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full">
+                                <option value="DaXacNhan"
+                                    {{ $datPhong->trang_thai_dat_phong == 'DaXacNhan' ? 'selected' : '' }}>
+                                    Đã xác nhận
+                                </option>
 
-                            Đã xác nhận
+                                <option value="HoanThanh"
+                                    {{ $datPhong->trang_thai_dat_phong == 'HoanThanh' ? 'selected' : '' }}>
+                                    Hoàn thành
+                                </option>
 
-                        </span>
+                                <option value="DaHuy"
+                                    {{ $datPhong->trang_thai_dat_phong == 'DaHuy' ? 'selected' : '' }}>
+                                    Đã hủy
+                                </option>
 
-                        @elseif($datPhong->trang_thai_dat_phong == 'DaHuy')
+                                <option value="KhongDen"
+                                    {{ $datPhong->trang_thai_dat_phong == 'KhongDen' ? 'selected' : '' }}>
+                                    Không đến
+                                </option>
 
-                        <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full">
+                            </select>
 
-                            Đã hủy
-
-                        </span>
-
-                        @elseif($datPhong->trang_thai_dat_phong == 'HoanThanh')
-
-                        <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full">
-
-                            Hoàn thành
-
-                        </span>
-
-                        @endif
+                        </form>
 
                     </td>
-
                     <!-- Thao tác -->
                     <td class="px-6 py-4">
 
                         <div class="flex gap-4">
 
+                            <!-- Xem chi tiết -->
                             <a href="{{ route('admin.datphong.show',$datPhong->ma_don_dat_phong) }}"
                                 class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">
 
@@ -154,6 +184,7 @@
 
                             </a>
 
+                            <!-- Sửa -->
                             <a href="{{ route('admin.datphong.edit',$datPhong->ma_don_dat_phong) }}"
                                 class="w-10 h-10 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center">
 
@@ -161,6 +192,7 @@
 
                             </a>
 
+                            <!-- Xóa -->
                             <form action="{{ route('admin.datphong.destroy',$datPhong->ma_don_dat_phong) }}"
                                 method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa đơn đặt phòng này?');">
 
@@ -185,7 +217,7 @@
 
                 <tr>
 
-                    <td colspan="8" class="text-center py-10 text-gray-500 text-base">
+                    <td colspan="9" class="text-center py-10 text-gray-500 text-base">
 
                         Chưa có đơn đặt phòng nào
 

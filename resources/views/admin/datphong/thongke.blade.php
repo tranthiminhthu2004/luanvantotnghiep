@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6 mb-6">
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-6 mb-6">
 
     <!-- Tổng đơn -->
     <div class="bg-white rounded-2xl p-5 shadow">
@@ -127,6 +127,33 @@
 
                 <h3 class="text-3xl font-bold text-red-600 mt-1">
                     {{ $daHuy }}
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Không đến -->
+    <div class="bg-white rounded-2xl p-5 shadow">
+
+        <div class="flex items-center gap-4">
+
+            <div class="w-14 h-14 rounded-full bg-orange-100 flex items-center justify-center">
+
+                <i class="fa-solid fa-user-xmark text-orange-600 text-2xl"></i>
+
+            </div>
+
+            <div>
+
+                <p class="text-black text-base">
+                    Không đến
+                </p>
+
+                <h3 class="text-3xl font-bold text-orange-600 mt-1">
+                    {{ $khongDen }}
                 </h3>
 
             </div>

@@ -359,6 +359,11 @@ Route::post(
     '/kiem-tra-phong',
     [AdminDatPhongController::class, 'kiemTraPhong']
 )->name('admin.datphong.kiemTraPhong');
+
+Route::put(
+    '/admin/datphong/{id}/trangthai',
+    [AdminDatPhongController::class, 'capNhatTrangThai']
+)->name('admin.datphong.trangthai');
 //USER - ĐỊA ĐIỂM DU LỊCH
 
 Route::get('/diadiemdulich', function () {

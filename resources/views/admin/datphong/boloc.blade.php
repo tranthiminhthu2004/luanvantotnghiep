@@ -4,8 +4,8 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-4">
 
-            <!-- Mã đơn -->
-            <input type="text" name="ma_don_dat_phong" placeholder="Mã đơn..." value="{{ request('ma_don_dat_phong') }}"
+            <!-- Mã đặt phòng -->
+            <input type="text" name="ma_dat_phong" placeholder="Mã đặt phòng..." value="{{ request('ma_dat_phong') }}"
                 class="border rounded-full text-base px-5 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
 
             <!-- Khách hàng -->
@@ -40,27 +40,23 @@
                 </option>
 
                 <option value="ChoXacNhan" {{ request('trang_thai_dat_phong') == 'ChoXacNhan' ? 'selected' : '' }}>
-
                     Chờ xác nhận
-
                 </option>
 
                 <option value="DaXacNhan" {{ request('trang_thai_dat_phong') == 'DaXacNhan' ? 'selected' : '' }}>
-
                     Đã xác nhận
-
-                </option>
-
-                <option value="DaHuy" {{ request('trang_thai_dat_phong') == 'DaHuy' ? 'selected' : '' }}>
-
-                    Đã hủy
-
                 </option>
 
                 <option value="HoanThanh" {{ request('trang_thai_dat_phong') == 'HoanThanh' ? 'selected' : '' }}>
-
                     Hoàn thành
+                </option>
 
+                <option value="DaHuy" {{ request('trang_thai_dat_phong') == 'DaHuy' ? 'selected' : '' }}>
+                    Đã hủy
+                </option>
+
+                <option value="KhongDen" {{ request('trang_thai_dat_phong') == 'KhongDen' ? 'selected' : '' }}>
+                    Không đến
                 </option>
 
             </select>
@@ -69,15 +65,11 @@
             <select name="sap_xep" class="border rounded-full text-base px-5 py-3">
 
                 <option value="desc" {{ request('sap_xep','desc') == 'desc' ? 'selected' : '' }}>
-
                     Mới nhất
-
                 </option>
 
                 <option value="asc" {{ request('sap_xep') == 'asc' ? 'selected' : '' }}>
-
                     Cũ nhất
-
                 </option>
 
             </select>
