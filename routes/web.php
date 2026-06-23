@@ -18,7 +18,7 @@ use App\Http\Controllers\KhachSan\AdminKhachSanTienNghiController;
 use App\Http\Controllers\KhachSan\AdminLoaiPhongTienNghiController;
 use App\Http\Controllers\KhachSan\AdminDiaDiemController;
 use App\Http\Controllers\DatPhong\AdminDatPhongController;
-
+use App\Http\Controllers\DatPhong\UserDatPhongController;
 /*
 |--------------------------------------------------------------------------
 | Trang chủ
@@ -100,6 +100,12 @@ Route::get(
     '/khachsan',
     [UserKhachSanController::class, 'index']
 )->name('khachsan.index');
+
+Route::get(
+    '/khachsan/tim-kiem',
+    [UserKhachSanController::class, 'timKiem']
+)->name('khachsan.timkiem');
+
 
 Route::get(
     '/khachsan/{id}',
@@ -320,6 +326,16 @@ Route::delete(
     [AdminNguoiDungController::class,'destroy']
 )->name('admin.nguoidung.destroy');
 // đặt phòng 
+Route::post(
+    '/dat-phong/xac-nhan',
+    [UserDatPhongController::class,'xacNhan']
+)->name('datphong.xacnhan');
+
+Route::post(
+    '/dat-phong/luu',
+    [DatPhongController::class,'store']
+)->name('datphong.store');
+
 Route::get(
     '/admin/datphong',
     [AdminDatPhongController::class, 'index']

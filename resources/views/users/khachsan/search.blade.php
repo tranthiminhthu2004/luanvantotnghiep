@@ -9,7 +9,7 @@
     <!-- Nội dung -->
     <div class="relative z-10 max-w-7xl mx-auto px-4 lg:px-8 pt-10 lg:pt-20">
 
-        <!-- Text -->
+        <!-- Tiêu đề -->
         <div class="max-w-2xl text-white">
 
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
@@ -27,90 +27,347 @@
         </div>
 
         <!-- Search Box -->
-        <div class="mt-10 lg:mt-80">
+        <div class="mt-10 lg:mt-72">
+            <form method="GET" action="{{ route('khachsan.timkiem') }}">
 
-            <div class="bg-white rounded-2xl shadow-2xl p-5">
+                <div class="bg-white rounded-2xl shadow-2xl p-5">
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                    <div class="grid grid-cols-12 gap-3 items-end">
 
-                    <!-- Điểm đến -->
-                    <div>
+                        <!-- Địa điểm -->
+                        <div class="col-span-12 lg:col-span-2">
 
-                        <label class="text-base lg:text-lg font-semibold text-black">
+                            <label class="font-semibold text-black">
+                                Bạn muốn đến đâu?
+                            </label>
 
-                            Bạn muốn đến đâu?
+                            <select name="ma_dia_diem" class="mt-2 w-full border rounded-xl px-4 py-3">
 
-                        </label>
+                                <option value="">
+                                    Chọn địa điểm
+                                </option>
 
-                        <input type="text" placeholder="Nhập nơi bạn muốn đến"
-                            class="mt-2 w-full border rounded-xl px-4 py-3">
+                                @foreach($diaDiems as $diaDiem)
 
-                    </div>
+                                <option value="{{ $diaDiem->ma_dia_diem }}"
+                                    {{ request('ma_dia_diem') == $diaDiem->ma_dia_diem ? 'selected' : '' }}>
 
-                    <!-- Nhận phòng -->
-                    <div>
+                                    {{ $diaDiem->ten_dia_diem }}
 
-                        <label class="text-base lg:text-lg font-semibold text-black">
+                                </option>
 
-                            Ngày nhận phòng
+                                @endforeach
 
-                        </label>
+                            </select>
 
-                        <input type="date" class="mt-2 w-full border rounded-xl px-4 py-3">
+                        </div>
 
-                    </div>
+                        <!-- Ngày nhận phòng -->
+                        <div class="col-span-12 lg:col-span-2">
 
-                    <!-- Trả phòng -->
-                    <div>
+                            <label class="font-semibold text-black">
+                                Ngày nhận phòng
+                            </label>
 
-                        <label class="text-base lg:text-lg font-semibold text-black">
+                            <input type="text" name="ngay_nhan_phong" id="ngay_nhan_phong"
+                                value="{{ request('ngay_nhan_phong') }}" placeholder="Chọn ngày" autocomplete="off"
+                                class="mt-2 w-full border rounded-xl px-4 py-3">
+                        </div>
 
-                            Ngày trả phòng
+                        <!-- Ngày trả phòng -->
+                        <div class="col-span-12 lg:col-span-2">
 
-                        </label>
+                            <label class="font-semibold text-black">
+                                Ngày trả phòng
+                            </label>
 
-                        <input type="date" class="mt-2 w-full border rounded-xl px-4 py-3">
+                            <input type="text" name="ngay_tra_phong" id="ngay_tra_phong"
+                                value="{{ request('ngay_tra_phong') }}" placeholder="Chọn ngày" autocomplete="off"
+                                class="mt-2 w-full border rounded-xl px-4 py-3">
 
-                    </div>
+                        </div>
 
-                    <!-- Số người -->
-                    <div>
+                        <!-- Khách -->
+                        <div class="col-span-12 lg:col-span-5 relative">
 
-                        <label class="text-base lg:text-lg font-semibold text-black">
+                            <label class="font-semibold text-black">
+                                Khách
+                            </label>
 
-                            Số người và số phòng
+                            <button type="button" id="guestButton"
+                                class="mt-2 w-full border rounded-xl px-4 py-3 text-left bg-white">
 
-                        </label>
+                                <span id="guestSummary">
+                                    1 người lớn · 0 trẻ em · 0 người cao tuổi
+                                </span>
 
-                        <select class="mt-2 w-full border rounded-xl px-4 py-3">
+                            </button>
 
-                            <option>1 người</option>
-                            <option>2 người</option>
-                            <option>3 người</option>
-                            <option>4 người</option>
+                            <div id="guestDropdown"
+                                class="hidden absolute z-50 bg-white border rounded-xl shadow-xl p-4 w-80 mt-2">
 
-                        </select>
+                                <div class="flex justify-between items-center mb-4">
 
-                    </div>
+                                    <span>Người lớn</span>
 
-                    <!-- Button -->
-                    <div class="flex items-end">
+                                    <div class="flex items-center gap-3">
 
-                        <button
-                            class="w-full bg-[#1040C5] hover:bg-blue-700 text-white text-lg font-semibold py-3 rounded-full">
+                                        <button type="button" onclick="changeValue('adult',-1)"
+                                            class="w-8 h-8 border rounded">
+                                            -
+                                        </button>
 
-                            Tìm kiếm
+                                        <span id="adultText">
+                                            {{ request('so_nguoi_truong_thanh',1) }}
+                                        </span>
 
-                        </button>
+                                        <button type="button" onclick="changeValue('adult',1)"
+                                            class="w-8 h-8 border rounded">
+                                            +
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="flex justify-between items-center mb-4">
+
+                                    <span>Trẻ em</span>
+
+                                    <div class="flex items-center gap-3">
+
+                                        <button type="button" onclick="changeValue('child',-1)"
+                                            class="w-8 h-8 border rounded">-</button>
+                                        <span id="childText">
+                                            {{ request('so_tre_em',0) }}
+                                        </span>
+
+                                        <button type="button" onclick="changeValue('child',1)"
+                                            class="w-8 h-8 border rounded">+</button>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="flex justify-between items-center mb-4">
+
+                                    <span>Người cao tuổi</span>
+
+                                    <div class="flex items-center gap-3">
+
+                                        <button type="button" onclick="changeValue('elder',-1)"
+                                            class="w-8 h-8 border rounded">-</button>
+
+                                        <span id="elderText">
+                                            {{ request('so_nguoi_cao_tuoi',0) }}
+                                        </span>
+
+                                        <button type="button" onclick="changeValue('elder',1)"
+                                            class="w-8 h-8 border rounded">+</button>
+
+                                    </div>
+
+                                </div>
+                                <div class="flex justify-between items-center">
+
+                                    <span>Số phòng</span>
+
+                                    <div class="flex items-center gap-3">
+
+                                        <button type="button" onclick="changeValue('room',-1)"
+                                            class="w-8 h-8 border rounded">
+                                            -
+                                        </button>
+
+                                        <span id="roomText">
+                                            {{ request('so_luong_phong',1) }}
+                                        </span>
+
+                                        <button type="button" onclick="changeValue('room',1)"
+                                            class="w-8 h-8 border rounded">
+                                            +
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                                <input type="hidden" name="so_nguoi_truong_thanh" id="adultInput"
+                                    value="{{ request('so_nguoi_truong_thanh',1) }}">
+
+                                <input type="hidden" name="so_tre_em" id="childInput"
+                                    value="{{ request('so_tre_em',0) }}">
+
+                                <input type="hidden" name="so_nguoi_cao_tuoi" id="elderInput"
+                                    value="{{ request('so_nguoi_cao_tuoi',0) }}">
+
+                                <input type="hidden" name="so_luong_phong" id="roomInput"
+                                    value="{{ request('so_luong_phong',1) }}">
+
+                            </div>
+
+                        </div>
+
+                        <!-- Nút tìm kiếm -->
+                        <div class="col-span-12 lg:col-span-1">
+
+                            <button type="submit"
+                                class="w-full bg-[#1040C5] hover:bg-blue-700 text-white rounded-xl py-3 h-[52px] mt-2">
+
+                                <i class="fa-solid fa-magnifying-glass"></i>
+
+                            </button>
+
+                        </div>
 
                     </div>
 
                 </div>
 
-            </div>
+            </form>
 
         </div>
 
     </div>
 
+    </div>
 </section>
+
+<script>
+document
+    .getElementById('ngay_nhan_phong')
+    .addEventListener('change', function() {
+        const ngayTra =
+            document.getElementById(
+                'ngay_tra_phong'
+            );
+
+        let ngaySau =
+            new Date(this.value);
+
+        ngaySau.setDate(
+            ngaySau.getDate() + 1
+        );
+
+        ngayTra.min =
+            ngaySau
+            .toISOString()
+            .split('T')[0];
+
+        if (
+            ngayTra.value &&
+            ngayTra.value <= this.value
+        ) {
+            ngayTra.value = '';
+        }
+    });
+
+let adult =
+    parseInt(
+        document.getElementById('adultInput').value
+    );
+
+let child =
+    parseInt(
+        document.getElementById('childInput').value
+    );
+
+let elder =
+    parseInt(
+        document.getElementById('elderInput').value
+    );
+let room =
+    parseInt(
+        document.getElementById('roomInput').value
+    );
+document
+    .getElementById('guestButton')
+    .addEventListener('click', function() {
+        document
+            .getElementById('guestDropdown')
+            .classList.toggle('hidden');
+    });
+
+function updateSummary() {
+    document
+        .getElementById('guestSummary')
+        .innerText =
+        adult + ' người lớn · ' +
+        child + ' trẻ em · ' +
+        elder + ' người cao tuổi · ' +
+        room + ' phòng';
+}
+
+function changeValue(type, amount) {
+    if (type === 'adult') {
+        adult = Math.max(1, adult + amount);
+
+        document.getElementById('adultText').innerText = adult;
+        document.getElementById('adultInput').value = adult;
+    }
+
+    if (type === 'child') {
+        child = Math.max(0, child + amount);
+
+        document.getElementById('childText').innerText = child;
+        document.getElementById('childInput').value = child;
+    }
+
+    if (type === 'elder') {
+        elder = Math.max(0, elder + amount);
+
+        document.getElementById('elderText').innerText = elder;
+        document.getElementById('elderInput').value = elder;
+    }
+    if (type === 'room') {
+        room = Math.max(1, room + amount);
+
+        document.getElementById('roomText').innerText = room;
+
+        document.getElementById('roomInput').value = room;
+    }
+
+    updateSummary();
+}
+
+updateSummary();
+
+const ngayNhan = flatpickr(
+    "#ngay_nhan_phong", {
+        dateFormat: "d/m/Y",
+        minDate: "today"
+    }
+);
+
+const ngayTra = flatpickr(
+    "#ngay_tra_phong", {
+        dateFormat: "d/m/Y",
+        minDate: new Date().fp_incr(1)
+    }
+);
+
+document
+    .getElementById('ngay_nhan_phong')
+    .addEventListener('change', function() {
+        let parts = this.value.split('/');
+
+        let date = new Date(
+            parts[2],
+            parts[1] - 1,
+            parts[0]
+        );
+
+        date.setDate(
+            date.getDate() + 1
+        );
+
+        ngayTra.set(
+            'minDate',
+            date
+        );
+
+        document
+            .getElementById('ngay_tra_phong')
+            .value = '';
+    });
+</script>

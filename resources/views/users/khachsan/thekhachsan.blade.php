@@ -85,8 +85,21 @@
         {{-- Nút xem chi tiết --}}
         <div class="mt-5">
 
-            <a href="{{ route('khachsan.show',$khachSan->ma_khach_san) }}"
-                class="w-full lg:w-auto justify-center bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-full inline-flex items-center gap-2">
+            <a href="{{ route('khachsan.show', [
+    'id' => $khachSan->ma_khach_san,
+
+    'so_nguoi_truong_thanh' => request('so_nguoi_truong_thanh'),
+
+    'so_tre_em' => request('so_tre_em'),
+
+    'so_nguoi_cao_tuoi' => request('so_nguoi_cao_tuoi'),
+
+    'ngay_nhan_phong' => request('ngay_nhan_phong'),
+
+    'ngay_tra_phong' => request('ngay_tra_phong'),
+    
+    'so_luong_phong' => request('so_luong_phong'),
+]) }}" class="w-full lg:w-auto justify-center bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-full inline-flex items-center gap-2">
 
                 <i class="fa-solid fa-eye"></i>
 

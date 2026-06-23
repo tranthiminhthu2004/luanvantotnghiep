@@ -56,13 +56,6 @@ public function tienNghis()
         'ma_tien_nghi'
     );
 }
-public function lichPhongs()
-{
-    return $this->hasMany(
-        LichPhong::class,
-        'ma_phong',
-        'ma_phong'
-    );
-}
+
    
 }
