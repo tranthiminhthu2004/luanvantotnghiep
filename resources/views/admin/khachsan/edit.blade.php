@@ -6,21 +6,15 @@
 
 <div class="max-w-7xl mx-auto">
 
-    <div class="bg-white rounded-3xl shadow p-4 md:p-6">
 
-        <div class="mb-8">
+    <div class="bg-white rounded-2xl shadow-sm p-4 md:p-6">
 
-            <h2 class="text-4xl font-bold text-[#061755]">
+        <div class="mb-6">
 
+            <h2 class="text-2xl md:text-3xl font-bold text-[#061755]">
                 Cập nhật thông tin khách sạn
-
             </h2>
 
-            <p class="text-gray-500 text-base mt-2">
-
-                Chỉnh sửa thông tin khách sạn trong hệ thống.
-
-            </p>
 
         </div>
 
@@ -29,33 +23,33 @@
             @csrf
             @method('PUT')
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                 <!-- Tên khách sạn -->
                 <div>
 
-                    <label class="font-medium text-slate-700 text-base">
-
+                    <label class="block text-sm font-semibold text-black">
                         Tên khách sạn
-
                     </label>
 
                     <input type="text" name="ten_khach_san" value="{{ old('ten_khach_san',$khachSan->ten_khach_san) }}"
-                        placeholder="Nhập tên khách sạn" class="w-full mt-2 border rounded-full px-5 py-3 text-base">
-
+                        placeholder="Nhập tên khách sạn"
+                        class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
+                    @error('ten_khach_san')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                    @enderror
                 </div>
 
-                <!-- Thành phố -->
                 <!-- Địa điểm -->
                 <div>
 
-                    <label class="font-medium text-slate-700 text-base">
-
+                    <label class="block text-sm font-semibold text-black">
                         Địa điểm
-
                     </label>
 
-                    <select name="ma_dia_diem" class="w-full mt-2 border rounded-full px-5 py-3 text-base">
+                    <select name="ma_dia_diem" class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
 
                         @foreach($diaDiems as $diaDiem)
 
@@ -75,56 +69,63 @@
                 <!-- Địa chỉ -->
                 <div class="md:col-span-2">
 
-                    <label class="font-medium text-slate-700 text-base">
-
+                    <label class="block text-sm font-semibold text-black">
                         Địa chỉ
-
                     </label>
 
                     <input type="text" name="dia_chi" value="{{ old('dia_chi',$khachSan->dia_chi) }}"
                         placeholder="Nhập địa chỉ khách sạn"
-                        class="w-full mt-2 border rounded-full px-5 py-3 text-base">
-
+                        class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
+                    @error('dia_chi')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                    @enderror
                 </div>
 
                 <!-- Vĩ độ -->
                 <div>
 
-                    <label class="font-medium text-slate-700 text-base">
-
+                    <label class="block text-sm font-semibold text-black">
                         Vĩ độ
-
                     </label>
 
                     <input type="text" name="vi_do" value="{{ old('vi_do',$khachSan->vi_do) }}"
-                        placeholder="Ví dụ: 10.776889" class="w-full mt-2 border rounded-full px-5 py-3 text-base">
-
+                        placeholder="Ví dụ: 10.776889"
+                        class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
+                    @error('vi_do')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                    @enderror
                 </div>
 
                 <!-- Kinh độ -->
                 <div>
 
-                    <label class="font-medium text-slate-700 text-base">
-
+                    <label class="block text-sm font-semibold text-black">
                         Kinh độ
-
                     </label>
 
                     <input type="text" name="kinh_do" value="{{ old('kinh_do',$khachSan->kinh_do) }}"
-                        placeholder="Ví dụ: 106.700806" class="w-full mt-2 border rounded-full px-5 py-3 text-base">
-
+                        placeholder="Ví dụ: 106.700806"
+                        class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
+                    @error('kinh_do')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                    @enderror
                 </div>
 
                 <!-- Số sao -->
                 <div>
 
-                    <label class="font-medium text-slate-700 text-base">
-
+                    <label class="block text-sm font-semibold text-black">
                         Số sao khách sạn
-
                     </label>
 
-                    <select name="so_sao_khach_san" class="w-full mt-2 border rounded-full px-5 py-3 text-base">
+                    <select name="so_sao_khach_san"
+                        class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
 
                         @for($i = 1; $i <= 5; $i++) <option value="{{ $i }}"
                             {{ $khachSan->so_sao_khach_san == $i ? 'selected' : '' }}>
@@ -142,97 +143,87 @@
                 <!-- Số điện thoại -->
                 <div>
 
-                    <label class="font-medium text-slate-700 text-base">
-
+                    <label class="block text-sm font-semibold text-black">
                         Số điện thoại
-
                     </label>
 
                     <input type="text" name="so_dien_thoai" value="{{ old('so_dien_thoai',$khachSan->so_dien_thoai) }}"
-                        placeholder="Nhập số điện thoại" class="w-full mt-2 border rounded-full px-5 py-3 text-base">
-
+                        class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
+                    @error('so_dien_thoai')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                    @enderror
                 </div>
 
                 <!-- Email -->
                 <div class="md:col-span-2">
 
-                    <label class="font-medium text-slate-700 text-base">
-
+                    <label class="block text-sm font-semibold text-black">
                         Email
-
                     </label>
 
                     <input type="email" name="email" value="{{ old('email',$khachSan->email) }}"
-                        placeholder="Nhập email" class="w-full mt-2 border rounded-full px-5 py-3 text-base">
-
+                        class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
+                    @error('email')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                    @enderror
                 </div>
+
                 <!-- Giờ nhận phòng -->
                 <div>
 
-                    <label class="font-medium text-slate-700 text-base">
-
+                    <label class="block text-sm font-semibold text-black">
                         Giờ nhận phòng
-
                     </label>
 
                     <input type="time" name="gio_check_in" value="{{ old('gio_check_in',$khachSan->gio_check_in) }}"
-                        class="w-full mt-2 border rounded-full px-5 py-3 text-base">
-
+                        class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
+                    @error('gio_check_in')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                    @enderror
                 </div>
 
                 <!-- Giờ trả phòng -->
                 <div>
 
-                    <label class="font-medium text-slate-700 text-base">
-
+                    <label class="block text-sm font-semibold text-black">
                         Giờ trả phòng
-
                     </label>
 
                     <input type="time" name="gio_check_out" value="{{ old('gio_check_out',$khachSan->gio_check_out) }}"
-                        class="w-full mt-2 border rounded-full px-5 py-3 text-base">
-
+                        class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
+                    @error('gio_check_out')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                    @enderror
                 </div>
-
                 <!-- Hủy miễn phí -->
                 <div>
 
-                    <label class="font-medium text-slate-700 text-base">
-
+                    <label class="block text-sm font-semibold text-black">
                         Hủy miễn phí trước (giờ)
-
                     </label>
 
                     <input type="number" name="so_gio_huy_mien_phi"
                         value="{{ old('so_gio_huy_mien_phi',$khachSan->so_gio_huy_mien_phi) }}" placeholder="Ví dụ: 24"
-                        class="w-full mt-2 border rounded-full px-5 py-3 text-base">
-
-                </div>
-
-                <!-- Mô tả -->
-                <div class="md:col-span-2">
-
-                    <label class="font-medium text-slate-700 text-base">
-
-                        Mô tả
-
-                    </label>
-
-                    <textarea name="mo_ta" rows="5" placeholder="Nhập mô tả khách sạn..."
-                        class="w-full mt-2 border rounded-2xl px-5 py-3 text-base">{{ old('mo_ta',$khachSan->mo_ta) }}</textarea>
+                        class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
 
                 </div>
 
                 <!-- Trạng thái -->
                 <div>
 
-                    <label class="font-medium text-slate-700 text-base">
-
+                    <label class="block text-sm font-semibold text-black">
                         Trạng thái
-
                     </label>
 
-                    <select name="trang_thai" class="w-full mt-2 border rounded-full px-5 py-3 text-base">
+                    <select name="trang_thai" class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
 
                         <option value="1" {{ $khachSan->trang_thai == 1 ? 'selected' : '' }}>
 
@@ -250,18 +241,32 @@
 
                 </div>
 
+                <!-- Mô tả -->
+                <div class="md:col-span-2">
+
+                    <label class="block text-sm font-semibold text-black">
+                        Mô tả
+                    </label>
+
+                    <textarea name="mo_ta" rows="5" placeholder="Nhập mô tả khách sạn..."
+                        class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">{{ old('mo_ta',$khachSan->mo_ta) }}</textarea>
+
+                </div>
+
             </div>
 
-            <div class="flex flex-col md:flex-row gap-4 mt-8">
+            <!-- Button -->
+            <div class="flex flex-wrap gap-3 mt-6">
 
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-base">
+                <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition">
 
                     Cập nhật khách sạn
 
                 </button>
 
                 <a href="{{ route('admin.khachsan.index') }}"
-                    class="bg-slate-200 hover:bg-slate-300 px-6 py-3 rounded-xl text-base text-center">
+                    class="bg-slate-200 hover:bg-slate-300 text-black px-5 py-2.5 rounded-full text-sm font-semibold transition">
 
                     Quay lại
 
@@ -272,6 +277,7 @@
         </form>
 
     </div>
+
 
 </div>
 

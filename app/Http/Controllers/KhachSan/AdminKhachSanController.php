@@ -10,32 +10,17 @@ class AdminKhachSanController extends Controller
 {
     public function index(Request $request)
 {
+   
     $query = KhachSan::query();
 
-    // Tìm kiếm theo tên khách sạn (có dấu hoặc không dấu)
-    if ($request->filled('ten_khach_san'))
-    {
-        $tuKhoa = $this->boDau(
-            $request->ten_khach_san
-        );
-
-        $ids = KhachSan::all()
-            ->filter(function ($khachSan) use ($tuKhoa)
-            {
-                return str_contains(
-                    $this->boDau(
-                        $khachSan->ten_khach_san
-                    ),
-                    $tuKhoa
-                );
-            })
-            ->pluck('ma_khach_san');
-
-        $query->whereIn(
-            'ma_khach_san',
-            $ids
-        );
-    }
+    // Tìm kiếm theo tên khách sạn
+   if ($request->filled('ma_khach_san'))
+{
+    $query->where(
+        'ma_khach_san',
+        $request->ma_khach_san
+    );
+}
 
     // Lọc theo địa điểm 
     if ($request->filled('ma_dia_diem'))
@@ -55,13 +40,12 @@ class AdminKhachSanController extends Controller
         );
     }
 
-    // Lọc theo trạng thái
-    if ($request->has('trang_thai')
-    && $request->trang_thai !== '')
+   // Lọc theo trạng thái
+if ($request->filled('trang_thai'))
 {
     $query->where(
         'trang_thai',
-        $request->trang_thai
+        (int) $request->trang_thai
     );
 }
 
@@ -80,6 +64,7 @@ class AdminKhachSanController extends Controller
             'desc'
         );
     }
+
 
    $khachSans = $query
     ->with([
@@ -109,7 +94,9 @@ class AdminKhachSanController extends Controller
         ->distinct()
         ->orderBy('so_sao_khach_san', 'desc')
         ->get();
-
+    $danhSachKhachSan = KhachSan::orderBy(
+    'ten_khach_san'
+)->get();
     return view(
         'admin.khachsan.index',
         compact(
@@ -118,7 +105,8 @@ class AdminKhachSanController extends Controller
             'dangHoatDong',
             'tamDung',
             'diaDiems',
-            'soSaos'
+            'soSaos',
+            'danhSachKhachSan'
         )
     );
 }
@@ -138,13 +126,43 @@ class AdminKhachSanController extends Controller
 
     public function store(Request $request)
     {
-    $request->validate([
-        'ten_khach_san' => 'required|max:255',
-        'dia_chi' => 'required',
-        'ma_dia_diem' => 'required',
-        'so_sao_khach_san' => 'required|integer|min:1|max:5',
-    ]);
+   $request->validate([
+    'ten_khach_san' => 'required|string|max:191',
 
+    'dia_chi' => 'required|string|max:191',
+
+    'so_dien_thoai' => 'required|regex:/^(0)[0-9]{9,10}$/',
+
+    'email' => 'required|email|max:191',
+
+    'gio_check_in' => 'required|date_format:H:i',
+
+    'gio_check_out' => 'required|date_format:H:i',
+
+    'vi_do' => 'nullable|numeric|between:-90,90',
+
+    'kinh_do' => 'nullable|numeric|between:-180,180',
+
+    'so_gio_huy_mien_phi' => 'nullable|integer|min:0',
+
+    'mo_ta' => 'nullable|string',
+], [
+    'ten_khach_san.required' => 'Vui lòng nhập tên khách sạn.',
+
+    'dia_chi.required' => 'Vui lòng nhập địa chỉ.',
+
+    'so_dien_thoai.required' => 'Vui lòng nhập số điện thoại.',
+    
+    'so_dien_thoai.regex' => 'Số điện thoại không hợp lệ.',
+
+    'email.required' => 'Vui lòng nhập email.',
+    
+    'email.email' => 'Email không đúng định dạng.',
+
+    'gio_check_in.required' => 'Vui lòng nhập giờ nhận phòng.',
+
+    'gio_check_out.required' => 'Vui lòng nhập giờ trả phòng.',
+]);
     KhachSan::create([
 
         'ten_khach_san' => $request->ten_khach_san,
@@ -210,13 +228,41 @@ class AdminKhachSanController extends Controller
     $id
 )
 {
-    $request->validate([
-        'ten_khach_san' => 'required|max:255',
-        'dia_chi' => 'required',
-        'ma_dia_diem' => 'required',
-        'so_sao_khach_san' => 'required|integer|min:1|max:5',
-    ]);
+  $request->validate([
+    'ten_khach_san' => 'required|string|max:191',
 
+    'dia_chi' => 'required|string|max:191',
+
+    'so_dien_thoai' => 'required|regex:/^(0)[0-9]{9,10}$/',
+
+    'email' => 'required|email|max:191',
+
+    'gio_check_in' => 'required|date_format:H:i',
+
+    'gio_check_out' => 'required|date_format:H:i',
+
+    'vi_do' => 'nullable|numeric|between:-90,90',
+
+    'kinh_do' => 'nullable|numeric|between:-180,180',
+
+    'so_gio_huy_mien_phi' => 'nullable|integer|min:0',
+
+    'mo_ta' => 'nullable|string',
+], [
+    'ten_khach_san.required' => 'Vui lòng nhập tên khách sạn.',
+
+    'dia_chi.required' => 'Vui lòng nhập địa chỉ.',
+
+    'so_dien_thoai.required' => 'Vui lòng nhập số điện thoại.',
+    'so_dien_thoai.regex' => 'Số điện thoại không hợp lệ.',
+
+    'email.required' => 'Vui lòng nhập email.',
+    'email.email' => 'Email không đúng định dạng.',
+
+    'gio_check_in.required' => 'Vui lòng nhập giờ nhận phòng.',
+
+    'gio_check_out.required' => 'Vui lòng nhập giờ trả phòng.',
+]);
     $khachSan = KhachSan::findOrFail($id);
 
     $khachSan->update([
@@ -280,44 +326,5 @@ class AdminKhachSanController extends Controller
         compact('khachSan')
     );
 }
-    private function boDau($chuoi)
-{
-    $chuoi = mb_strtolower($chuoi, 'UTF-8');
-
-    $chuoi = str_replace(
-        [
-            'à','á','ạ','ả','ã',
-            'â','ầ','ấ','ậ','ẩ','ẫ',
-            'ă','ằ','ắ','ặ','ẳ','ẵ',
-            'è','é','ẹ','ẻ','ẽ',
-            'ê','ề','ế','ệ','ể','ễ',
-            'ì','í','ị','ỉ','ĩ',
-            'ò','ó','ọ','ỏ','õ',
-            'ô','ồ','ố','ộ','ổ','ỗ',
-            'ơ','ờ','ớ','ợ','ở','ỡ',
-            'ù','ú','ụ','ủ','ũ',
-            'ư','ừ','ứ','ự','ử','ữ',
-            'ỳ','ý','ỵ','ỷ','ỹ',
-            'đ'
-        ],
-        [
-            'a','a','a','a','a',
-            'a','a','a','a','a','a',
-            'a','a','a','a','a','a',
-            'e','e','e','e','e',
-            'e','e','e','e','e','e',
-            'i','i','i','i','i',
-            'o','o','o','o','o',
-            'o','o','o','o','o','o',
-            'o','o','o','o','o','o',
-            'u','u','u','u','u',
-            'u','u','u','u','u','u',
-            'y','y','y','y','y',
-            'd'
-        ],
-        $chuoi
-    );
-
-    return $chuoi;
-}
+    
 }

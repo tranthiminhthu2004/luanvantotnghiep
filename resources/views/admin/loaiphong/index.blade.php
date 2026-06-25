@@ -4,21 +4,30 @@
 
 @section('content')
 
-<div class="flex justify-end mb-6">
+<div class="space-y-6">
 
-    <a href="{{ route('admin.loaiphong.create') }}"
-        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full flex items-center gap-2">
+    <!-- Nút thêm -->
+    <div class="flex justify-end">
 
-        <i class="fa-solid fa-plus"></i>
+        <a href="{{ route('admin.loaiphong.create') }}"
+            class="bg-blue-600 hover:bg-blue-700 text-white px-4 md:px-5 py-2.5 rounded-full text-sm font-semibold flex items-center gap-2 transition">
 
-        Thêm loại phòng
+            <i class="fa-solid fa-plus"></i>
 
-    </a>
+            <span class="hidden sm:inline">
+                Thêm loại phòng
+            </span>
+
+        </a>
+
+    </div>
+
+    <!-- Bộ lọc -->
+    @include('admin.loaiphong.boloc')
+
+    <!-- Bảng -->
+    @include('admin.loaiphong.bangloaiphong')
 
 </div>
-
-@include('admin.loaiphong.boloc')
-
-@include('admin.loaiphong.bangloaiphong')
 
 @endsection

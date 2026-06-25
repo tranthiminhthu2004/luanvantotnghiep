@@ -9,17 +9,27 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+    input::-ms-reveal,
+    input::-ms-clear {
+        display: none;
+    }
 
+    input[type="password"]::-webkit-credentials-auto-fill-button,
+    input[type="password"]::-webkit-textfield-decoration-container {
+        display: none !important;
+    }
+    </style>
 </head>
 
-<body class="bg-[#eef5ff] min-h-screen flex items-center justify-center p-6">
+<body class="bg-[#eef5ff] min-h-screen flex items-center justify-center p-4">
 
-    <div class="bg-white rounded-[40px] shadow-2xl overflow-hidden max-w-5xl w-full">
+    <div class="bg-white rounded-[32px] shadow-2xl overflow-hidden max-w-[1000px] w-full">
 
         <div class="grid md:grid-cols-2">
 
             <!-- LEFT SIDE -->
-            <div class="relative min-h-[750px]">
+            <div class="relative min-h-[500px]">
 
                 <img src="{{ asset('images/anhdangki.png') }}" alt="Background"
                     class="absolute inset-0 w-full h-full object-cover">
@@ -35,7 +45,7 @@
                 <!-- Text -->
                 <div class="absolute top-28 left-10 right-10 z-10">
 
-                    <h1 class="text-[#061755] text-5xl font-extrabold leading-tight drop-shadow-lg">
+                    <h1 class="text-[#061755] text-[40px] font-extrabold leading-tight drop-shadow-lg">
 
                         Trải nghiệm kỳ nghỉ
 
@@ -78,9 +88,6 @@
                                     Ưu đãi độc quyền
                                 </h4>
 
-                                <p class="text-xs text-gray-500 mt-1">
-                                    Giá tốt mỗi ngày
-                                </p>
 
                             </div>
 
@@ -101,9 +108,6 @@
                                     Thanh toán an toàn
                                 </h4>
 
-                                <p class="text-xs text-gray-500 mt-1">
-                                    Bảo mật tuyệt đối
-                                </p>
 
                             </div>
 
@@ -124,10 +128,6 @@
                                     Hỗ trợ 24/7
                                 </h4>
 
-                                <p class="text-xs text-gray-500 mt-1">
-                                    Luôn sẵn sàng
-                                </p>
-
                             </div>
 
                         </div>
@@ -139,17 +139,14 @@
             </div>
 
             <!-- RIGHT SIDE -->
-            <div class="p-12 flex items-center">
+            <div class="p-10 flex items-center">
 
                 <div class="w-full">
 
-                    <h1 class="text-5xl font-bold text-slate-900">
+                    <h1 class="text-[40px] font-bold text-slate-900 mb-4 ">
                         Đăng nhập
                     </h1>
 
-                    <p class="text-gray-500 mt-3 mb-8">
-                        Chào mừng bạn quay trở lại
-                    </p>
                     @if(session('error'))
 
                     <div class="mb-4 p-3 bg-red-100 text-red-600 rounded-lg">
@@ -163,15 +160,15 @@
                         @csrf
 
                         <!-- Email -->
-                        <div class="mb-5">
+                        <div class="mb-3">
 
-                            <label class="block mb-2 text-lg font-semibold">
+                            <label class="block mb-2 text-base font-semibold">
                                 Email
                             </label>
 
                             <input type="email" name="email" value="{{ old('email') }}" required
                                 placeholder="Nhập email của bạn"
-                                class="w-full border border-gray-300 rounded-full px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                class="w-full border border-gray-300 rounded-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
 
                             @error('email')
                             <p class="text-red-500 text-sm mt-2">
@@ -182,9 +179,9 @@
                         </div>
 
                         <!-- Password -->
-                        <div class="mb-4">
+                        <div class="mb-3">
 
-                            <label class="block mb-2 font-semibold text-lg">
+                            <label class="block mb-2 font-semibold text-base">
                                 Mật khẩu
                             </label>
 
@@ -192,7 +189,7 @@
 
                                 <input type="password" id="password" name="password" required
                                     placeholder="Nhập mật khẩu"
-                                    class="w-full border border-gray-300 rounded-full px-5 py-4 pr-14 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    class="w-full border border-gray-300 rounded-full px-3 py-2 pr-14 focus:outline-none focus:ring-2 focus:ring-blue-500">
 
                                 <button type="button" onclick="togglePassword()"
                                     class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500">
@@ -233,7 +230,7 @@
 
                         <!-- Submit -->
                         <button type="submit"
-                            class="w-full bg-[#0c1d4d] hover:bg-[#18357f] text-white py-4 rounded-full font-bold transition duration-300 text-lg">
+                            class="w-full bg-[#0c1d4d] hover:bg-[#18357f] text-white py-3 rounded-full font-bold transition duration-300 text-base">
 
                             Đăng nhập
 
@@ -257,22 +254,22 @@
 
                     <!-- Google Login -->
                     <a href="{{ route('google.login') }}"
-                        class="border border-gray-300 rounded-full py-4 flex justify-center items-center gap-3 hover:bg-gray-50 transition">
+                        class="border border-gray-300 rounded-full py-3 flex justify-center items-center gap-3 hover:bg-gray-50 transition">
 
                         <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="24" alt="Google">
 
-                        <span class="font-semibold text-lg">
+                        <span class="font-semibold text-base">
                             Đăng nhập bằng Google
                         </span>
 
                     </a>
 
                     <!-- Register -->
-                    <p class="text-center mt-8 text-gray-500 text-lg">
+                    <p class="text-center mt-5 text-gray-500 text-base">
 
                         Chưa có tài khoản?
 
-                        <a href="{{ route('register') }}" class="text-blue-600 font-semibold hover:underline text-lg">
+                        <a href="{{ route('register') }}" class="text-blue-600 font-semibold hover:underline text-base">
 
                             Đăng ký
 

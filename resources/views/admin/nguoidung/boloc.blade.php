@@ -1,15 +1,17 @@
-<div class="bg-white rounded-3xl shadow p-5 mb-6">
+<div class="bg-white rounded-2xl shadow-sm p-4 mb-6">
 
-    <form method="GET" action="{{ route('admin.nguoidung.index') }}">
+    <form id="filterForm" method="GET" action="{{ route('admin.nguoidung.index') }}">
 
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-3">
 
             <!-- Tìm kiếm -->
-            <input type="text" name="tu_khoa" placeholder="Tên hoặc email..." value="{{ request('tu_khoa') }}"
-                class="border rounded-full text-base px-5 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="text" name="tu_khoa" value="{{ request('tu_khoa') }}" placeholder="Tên hoặc email..."
+                onkeydown="if(event.key==='Enter'){this.form.submit();}"
+                class="border rounded-xl px-4 py-2.5 text-sm text-black">
 
             <!-- Vai trò -->
-            <select name="ma_vai_tro" class="border rounded-full text-base px-5 py-3 text-black">
+            <select name="ma_vai_tro" onchange="this.form.submit()"
+                class="border rounded-xl px-4 py-2.5 text-sm text-black">
 
                 <option value="">
                     Tất cả vai trò
@@ -29,7 +31,14 @@
             </select>
 
             <!-- Trạng thái -->
-            <select name="trang_thai" class="border rounded-full text-base px-5 py-3">
+            <select name="trang_thai" onchange="this.form.submit()"
+                class="border rounded-xl px-4 py-2.5 text-sm text-black">
+
+                <option value="" {{ request('trang_thai') === null || request('trang_thai') === '' ? 'selected' : '' }}>
+
+                    Tất cả trạng thái
+
+                </option>
 
                 <option value="1" {{ request('trang_thai') === '1' ? 'selected' : '' }}>
 
@@ -46,7 +55,8 @@
             </select>
 
             <!-- Sắp xếp -->
-            <select name="sap_xep" class="border rounded-full text-base px-5 py-3">
+            <select name="sap_xep" onchange="this.form.submit()"
+                class="border rounded-xl px-4 py-2.5 text-sm text-black">
 
                 <option value="desc" {{ request('sap_xep','desc') == 'desc' ? 'selected' : '' }}>
 
@@ -62,15 +72,15 @@
 
             </select>
 
-            <!-- Nút lọc -->
-            <button type="submit"
-                class="bg-slate-100 rounded-full text-base hover:bg-slate-200 flex items-center justify-center gap-2">
+            <!-- Xóa lọc -->
+            <a href="{{ route('admin.nguoidung.index') }}"
+                class="bg-red-50 text-red-600 rounded-xl text-sm font-medium hover:bg-red-100 flex items-center justify-center gap-2 py-2">
 
-                <i class="fa-solid fa-filter"></i>
+                <i class="fa-solid fa-rotate-left"></i>
 
-                Lọc
+                Xóa lọc
 
-            </button>
+            </a>
 
         </div>
 

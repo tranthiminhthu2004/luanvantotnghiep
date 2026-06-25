@@ -1,156 +1,175 @@
-<div class="bg-white rounded-2xl shadow overflow-hidden">
+<div class="bg-white rounded-2xl shadow-sm overflow-hidden">
 
     <div class="overflow-x-auto">
 
-        <table class="w-full">
+        <table class="w-full min-w-[1000px]">
 
-            <thead class="bg-slate-50">
-                <tr class="text-left">
+            <thead class="bg-slate-50 text-left">
 
-                    <th class="px-6 py-4">
-                        ID
+                <tr>
+
+                    <th class="px-4 py-3 text-sm font-semibold text-black">
+                        Mã tiện nghi
                     </th>
 
-                    <th class="px-6 py-4">
+                    <th class="px-4 py-3 text-sm font-semibold text-black">
                         Icon
                     </th>
 
-                    <th class="px-6 py-4">
+                    <th class="px-4 py-3 text-sm font-semibold text-black">
                         Tên tiện nghi
                     </th>
 
-                    <th class="px-6 py-4">
+                    <th class="px-4 py-3 text-sm font-semibold text-black">
                         Mô tả
                     </th>
 
-                    <th class="px-6 py-4">
+                    <th class="px-4 py-3 text-sm font-semibold text-black">
                         Trạng thái
                     </th>
 
-                    <th class="px-6 py-4">
+                    <th class="px-4 py-3 text-sm font-semibold  text-black">
                         Thao tác
                     </th>
 
                 </tr>
 
-
             </thead>
-            @forelse($tienNghis as $tienNghi)
 
-            <tr class="border-t hover:bg-slate-50">
+            <tbody>
 
-                <!-- ID -->
-                <td class="px-6 py-4 text-base">
+                @forelse($tienNghis as $tienNghi)
 
-                    {{ $tienNghi->ma_tien_nghi }}
+                <tr class="border-t hover:bg-slate-50 transition">
 
-                </td>
+                    <!-- ID -->
+                    <td class="px-4 py-3 text-sm font-semibold text-black">
 
-                <!-- Icon -->
-                <td class="px-6 py-4">
+                        {{ $tienNghi->ma_tien_nghi }}
 
-                    <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center">
+                    </td>
 
-                        <i class="fa-solid {{ $tienNghi->icon }} text-xl"></i>
+                    <!-- Icon -->
+                    <td class="px-4 py-3">
 
-                    </div>
+                        <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center">
 
-                </td>
+                            <i class="fa-solid {{ $tienNghi->icon }} text-base"></i>
 
-                <!-- Tên tiện nghi -->
-                <td class="px-6 py-4 font-medium text-base">
+                        </div>
 
-                    {{ $tienNghi->ten_tien_nghi }}
+                    </td>
 
-                </td>
+                    <!-- Tên -->
+                    <td class="px-4 py-3">
 
-                <!-- Mô tả -->
-                <td class="px-6 py-4 text-base">
+                        <div class="max-w-[180px] truncate text-sm font-medium text-black">
 
-                    {{ $tienNghi->mo_ta }}
+                            {{ $tienNghi->ten_tien_nghi }}
 
-                </td>
+                        </div>
 
-                <!-- Trạng thái -->
-                <td class="px-6 py-4">
+                    </td>
 
-                    @if($tienNghi->trang_thai)
+                    <!-- Mô tả -->
+                    <td class="px-4 py-3">
 
-                    <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-base">
+                        <div class="max-w-[260px] truncate text-sm text-gray-600">
 
-                        Hoạt động
+                            {{ $tienNghi->mo_ta }}
 
-                    </span>
+                        </div>
 
-                    @else
+                    </td>
 
-                    <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-base">
+                    <!-- Trạng thái -->
+                    <td class="px-4 py-3">
 
-                        Tạm dừng
+                        @if($tienNghi->trang_thai)
 
-                    </span>
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
 
-                    @endif
+                            Hoạt động
 
-                </td>
+                        </span>
 
-                <!-- Thao tác -->
-                <td class="px-6 py-4">
+                        @else
 
-                    <div class="flex gap-4">
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">
 
-                        <a href="{{ route('admin.tiennghi.show',$tienNghi->ma_tien_nghi) }}"
-                            class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">
+                            Tạm dừng
 
-                            <i class="fa-solid fa-eye"></i>
+                        </span>
 
-                        </a>
+                        @endif
 
-                        <a href="{{ route('admin.tiennghi.edit',$tienNghi->ma_tien_nghi) }}"
-                            class="w-10 h-10 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center">
+                    </td>
 
-                            <i class="fa-solid fa-pen"></i>
+                    <!-- Thao tác -->
+                    <td class="px-4 py-3">
 
-                        </a>
+                        <div class="flex flex-wrap justify-center gap-2">
 
-                        <form action="{{ route('admin.tiennghi.destroy',$tienNghi->ma_tien_nghi) }}" method="POST"
-                            onsubmit="return confirm('Bạn có chắc muốn xóa tiện nghi này?');">
+                            <a href="{{ route('admin.tiennghi.show',$tienNghi->ma_tien_nghi) }}"
+                                class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center hover:bg-blue-200 transition">
 
-                            @csrf
-                            @method('DELETE')
+                                <i class="fa-solid fa-eye text-xs"></i>
 
-                            <button type="submit" class="w-10 h-10 rounded-full bg-red-100 text-red-600">
+                            </a>
 
-                                <i class="fa-solid fa-trash"></i>
+                            <a href="{{ route('admin.tiennghi.edit',$tienNghi->ma_tien_nghi) }}"
+                                class="w-8 h-8 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center hover:bg-yellow-200 transition">
 
-                            </button>
+                                <i class="fa-solid fa-pen text-xs"></i>
 
-                        </form>
+                            </a>
 
-                    </div>
+                            <form action="{{ route('admin.tiennghi.destroy',$tienNghi->ma_tien_nghi) }}" method="POST"
+                                onsubmit="return confirm('Bạn có chắc muốn xóa tiện nghi này?');">
 
-                </td>
+                                @csrf
+                                @method('DELETE')
 
-            </tr>
+                                <button type="submit"
+                                    class="w-8 h-8 rounded-full bg-red-100 text-red-600 hover:bg-red-200 flex items-center justify-center transition">
 
-            @empty
+                                    <i class="fa-solid fa-trash text-xs"></i>
 
-            <tr>
+                                </button>
 
-                <td colspan="6" class="text-center py-10 text-gray-500 text-base">
+                            </form>
 
-                    Chưa có tiện nghi nào
+                        </div>
 
-                </td>
+                    </td>
 
-            </tr>
+                </tr>
 
-            @endforelse
+                @empty
 
+                <tr>
+
+                    <td colspan="6" class="text-center py-10 text-gray-500 text-sm">
+
+                        Chưa có tiện nghi nào
+
+                    </td>
+
+                </tr>
+
+                @endforelse
 
             </tbody>
 
         </table>
+
+    </div>
+
+    <div class="border-t px-4 py-3">
+
+        {{ $tienNghis->links() }}
 
     </div>
 

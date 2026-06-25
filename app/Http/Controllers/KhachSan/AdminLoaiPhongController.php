@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\LoaiPhong;
 use App\Models\KhachSan;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AdminLoaiPhongController extends Controller
 {
@@ -14,14 +15,13 @@ class AdminLoaiPhongController extends Controller
     $query = LoaiPhong::with('khachSan');
 
     // Tìm kiếm theo tên loại phòng
-    if ($request->filled('ten_loai_phong'))
-    {
-        $query->where(
-            'ten_loai_phong',
-            'like',
-            '%' . trim($request->ten_loai_phong) . '%'
-        );
-    }
+   if ($request->filled('ten_loai_phong'))
+{
+    $query->where(
+        'ten_loai_phong',
+        $request->ten_loai_phong
+    );
+}
 
     // Lọc theo khách sạn
     if ($request->filled('ma_khach_san'))
@@ -33,16 +33,13 @@ class AdminLoaiPhongController extends Controller
     }
 
     // Lọc theo trạng thái
-    if (
-        $request->has('trang_thai')
-        && $request->trang_thai !== ''
-    )
-    {
-        $query->where(
-            'trang_thai',
-            $request->trang_thai
-        );
-    }
+   if ($request->filled('trang_thai'))
+{
+    $query->where(
+        'trang_thai',
+        (int) $request->trang_thai
+    );
+}
 
     // Sắp xếp
     if ($request->filled('sap_xep'))
@@ -60,7 +57,9 @@ class AdminLoaiPhongController extends Controller
         );
     }
 
-    $loaiPhongs = $query->get();
+  $loaiPhongs = $query
+    ->paginate(10)
+    ->withQueryString();
 
     // Thống kê
     $tongLoaiPhong = LoaiPhong::count();
@@ -76,7 +75,13 @@ class AdminLoaiPhongController extends Controller
     )->count();
 
     $khachSans = KhachSan::all();
-
+    
+$danhSachLoaiPhong = LoaiPhong::select(
+    'ten_loai_phong'
+)
+->distinct()
+->orderBy('ten_loai_phong')
+->get();
     return view(
         'admin.loaiphong.index',
         compact(
@@ -84,7 +89,8 @@ class AdminLoaiPhongController extends Controller
             'tongLoaiPhong',
             'dangHoatDong',
             'tamDung',
-            'khachSans'
+            'khachSans',
+            'danhSachLoaiPhong'
         )
     );
 }
@@ -99,18 +105,51 @@ class AdminLoaiPhongController extends Controller
 }
 public function store(Request $request)
 {
-    $request->validate([
+   $request->validate([
 
-        'ma_khach_san' => 'required',
+    'ten_loai_phong' => [
+        'required',
+        'max:191',
+        Rule::unique('loai_phong')
+            ->where(function ($query) use ($request) {
+                return $query->where(
+                    'ma_khach_san',
+                    $request->ma_khach_san
+                );
+            }),
+    ],
 
-        'ten_loai_phong' => 'required|max:191',
+    'so_nguoi_toi_da' => 'required|integer|min:1',
 
-        'so_nguoi_toi_da' => 'required|integer|min:1',
+    'dien_tich' => 'required|numeric|min:1',
 
-        'gia_co_ban' => 'required|numeric|min:0',
+    'so_giuong' => 'required|integer|min:1',
 
-    ]);
+    'gia_co_ban' => 'required|numeric|min:0',
 
+], [
+
+    'ten_loai_phong.required' => 'Vui lòng nhập tên loại phòng.',
+    'ten_loai_phong.max' => 'Tên loại phòng không được vượt quá 191 ký tự.',
+    'ten_loai_phong.unique' => 'Loại phòng này đã tồn tại trong khách sạn.',
+
+    'so_nguoi_toi_da.required' => 'Vui lòng nhập số người tối đa.',
+    'so_nguoi_toi_da.integer' => 'Số người tối đa phải là số nguyên.',
+    'so_nguoi_toi_da.min' => 'Số người tối đa phải lớn hơn 0.',
+
+    'dien_tich.required' => 'Vui lòng nhập diện tích.',
+    'dien_tich.numeric' => 'Diện tích phải là số.',
+    'dien_tich.min' => 'Diện tích phải lớn hơn 0.',
+
+    'so_giuong.required' => 'Vui lòng nhập số giường.',
+    'so_giuong.integer' => 'Số giường phải là số nguyên.',
+    'so_giuong.min' => 'Số giường phải lớn hơn 0.',
+
+    'gia_co_ban.required' => 'Vui lòng nhập giá cơ bản.',
+    'gia_co_ban.numeric' => 'Giá cơ bản phải là số.',
+    'gia_co_ban.min' => 'Giá cơ bản không được nhỏ hơn 0.',
+
+]);
     LoaiPhong::create([
 
         'ma_khach_san' => $request->ma_khach_san,
@@ -152,23 +191,67 @@ public function edit($id)
         )
     );
 }
-public function update(
-    Request $request,
-    $id
-)
+public function update(Request $request, $id)
 {
+    $loaiPhong = LoaiPhong::findOrFail($id);
+
     $request->validate([
 
-        'ma_khach_san' => 'required',
+        'ten_loai_phong' => [
 
-        'ten_loai_phong' => 'required|max:191',
+            'required',
+
+            'max:191',
+
+            Rule::unique('loai_phong')
+                ->ignore(
+                    $loaiPhong->ma_loai_phong,
+                    'ma_loai_phong'
+                )
+                ->where(function ($query) use ($request) {
+                    return $query->where(
+                        'ma_khach_san',
+                        $request->ma_khach_san
+                    );
+                }),
+
+        ],
 
         'so_nguoi_toi_da' => 'required|integer|min:1',
 
+        'dien_tich' => 'nullable|numeric|min:1',
+
+        'so_giuong' => 'nullable|integer|min:1',
+
         'gia_co_ban' => 'required|numeric|min:0',
 
-    ]);
+    ], [
 
+        'ten_loai_phong.required' => 'Vui lòng nhập tên loại phòng.',
+
+        'ten_loai_phong.unique' => 'Loại phòng này đã tồn tại trong khách sạn.',
+
+        'so_nguoi_toi_da.required' => 'Vui lòng nhập số người tối đa.',
+
+        'so_nguoi_toi_da.integer' => 'Số người tối đa phải là số nguyên.',
+
+        'so_nguoi_toi_da.min' => 'Số người tối đa phải lớn hơn hoặc bằng 1.',
+
+        'dien_tich.numeric' => 'Diện tích phải là số.',
+
+        'dien_tich.min' => 'Diện tích phải lớn hơn hoặc bằng 1.',
+
+        'so_giuong.integer' => 'Số giường phải là số nguyên.',
+
+        'so_giuong.min' => 'Số giường phải lớn hơn hoặc bằng 1.',
+
+        'gia_co_ban.required' => 'Vui lòng nhập giá cơ bản.',
+
+        'gia_co_ban.numeric' => 'Giá cơ bản phải là số.',
+
+        'gia_co_ban.min' => 'Giá cơ bản phải lớn hơn hoặc bằng 0.',
+
+    ]);
     $loaiPhong =
         LoaiPhong::findOrFail($id);
 

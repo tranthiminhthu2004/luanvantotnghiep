@@ -4,53 +4,145 @@
 
 @section('content')
 
-<div class="bg-white rounded-3xl shadow p-6">
+<div class="max-w-7xl mx-auto">
 
-    <h2 class="text-3xl font-bold mb-6">
+    <div class="bg-white rounded-2xl shadow-sm p-4 md:p-6">
 
-        Ảnh - {{ $loaiPhong->ten_loai_phong }}
+        <!-- Tiêu đề -->
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
 
-    </h2>
+            <div>
 
-    <form action="{{ route('admin.loaiphong.hinhanh.store',$loaiPhong->ma_loai_phong) }}" method="POST"
-        enctype="multipart/form-data">
+                <h2 class="text-2xl md:text-3xl font-bold text-[#061755]">
 
-        @csrf
+                    Quản lý ảnh loại phòng
 
-        <input type="file" name="anh[]" multiple class="border p-3 rounded-xl">
+                </h2>
 
-        <button type="submit" class="bg-blue-600 text-white px-5 py-3 rounded-xl ml-3">
+                <p class="text-gray-500 mt-1">
 
-            Tải ảnh lên
+                    {{ $loaiPhong->ten_loai_phong }}
 
-        </button>
+                    ({{ $loaiPhong->hinhAnh->count() }} ảnh)
 
-    </form>
+                </p>
 
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-5 mt-8">
-
-        @foreach($loaiPhong->hinhAnh as $anh)
-
-        <div class="relative">
-
-            <img src="{{ asset($anh->duong_dan_anh) }}" class="w-full h-48 object-cover rounded-2xl">
-
-            <form action="{{ route('admin.loaiphong.hinhanh.destroy',$anh->ma_hinh_anh_phong) }}" method="POST">
-
-                @csrf
-                @method('DELETE')
-
-                <button class="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded-lg">
-
-                    Xóa
-
-                </button>
-
-            </form>
+            </div>
 
         </div>
 
-        @endforeach
+        <!-- Upload -->
+        <form action="{{ route('admin.loaiphong.hinhanh.store',$loaiPhong->ma_loai_phong) }}" method="POST"
+            enctype="multipart/form-data">
+
+            @csrf
+
+            <div class="flex flex-col md:flex-row gap-4">
+
+                <div class="flex-1">
+
+                    <input type="file" name="anh[]" multiple accept="image/*"
+                        class="w-full border rounded-xl px-4 py-2.5 text-sm">
+
+                    @error('anh')
+
+                    <p class="text-red-500 text-sm mt-1">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
+
+                    @error('anh.*')
+
+                    <p class="text-red-500 text-sm mt-1">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
+
+                </div>
+
+                <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-6 py-2.5 text-sm font-semibold transition">
+
+                    <i class="fa-solid fa-upload mr-2"></i>
+
+                    Tải ảnh lên
+
+                </button>
+
+            </div>
+
+        </form>
+
+        <!-- Danh sách ảnh -->
+        <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 mt-8"> @forelse($loaiPhong->hinhAnh as $anh)
+
+            <div class="relative group overflow-hidden rounded-2xl shadow border bg-white">
+
+                <img src="{{ asset($anh->duong_dan_anh) }}"
+                    class="w-full h-52 object-cover transition duration-300 group-hover:scale-105">
+
+                <!-- Overlay -->
+                <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition">
+
+                </div>
+
+                <!-- Nút xóa -->
+                <form action="{{ route('admin.loaiphong.hinhanh.destroy',$anh->ma_hinh_anh_phong) }}" method="POST"
+                    onsubmit="return confirm('Bạn có chắc muốn xóa ảnh này?');" class="absolute top-3 right-3">
+
+                    @csrf
+                    @method('DELETE')
+
+                    <button type="submit"
+                        class="w-10 h-10 rounded-full bg-red-100 hover:bg-red-200 text-red-600 flex items-center justify-center transition">
+
+                        <i class="fa-solid fa-trash"></i>
+
+                    </button>
+
+                </form>
+
+            </div>
+
+            @empty
+
+            <div class="col-span-full">
+
+                <div class="border-2 border-dashed border-slate-300 rounded-2xl py-14 text-center">
+
+                    <i class="fa-regular fa-image text-5xl text-gray-300 mb-4"></i>
+
+                    <p class="text-gray-500">
+
+                        Chưa có ảnh nào cho loại phòng này.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            @endforelse
+
+        </div>
+
+        <!-- Button -->
+        <div class="mt-8">
+
+            <a href="{{ route('admin.loaiphong.index') }}"
+                class="inline-flex items-center bg-slate-200 hover:bg-slate-300 text-black px-5 py-2.5 rounded-full text-sm font-semibold transition">
+
+                Quay lại
+
+            </a>
+
+        </div>
 
     </div>
 

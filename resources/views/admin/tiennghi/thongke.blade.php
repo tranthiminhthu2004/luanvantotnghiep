@@ -1,11 +1,12 @@
-<div class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mb-6">
 
     <!-- Tổng tiện nghi -->
-    <div class="bg-white rounded-3xl shadow p-5">
+    <div class="bg-white rounded-3xl shadow-sm p-5">
 
         <div class="flex items-center gap-4">
 
-            <div class="w-14 h-14 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">
+            <div
+                class="w-14 h-14 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0">
 
                 <i class="fa-solid fa-gift text-xl"></i>
 
@@ -13,11 +14,13 @@
 
             <div>
 
-                <p class="text-gray-500">
+                <p class="text-sm text-black">
+
                     Tổng tiện nghi
+
                 </p>
 
-                <h3 class="text-3xl font-bold">
+                <h3 class="text-2xl font-bold text-slate-800 mt-1">
 
                     {{ $tongTienNghi }}
 
@@ -30,11 +33,12 @@
     </div>
 
     <!-- Hoạt động -->
-    <div class="bg-white rounded-3xl shadow p-5">
+    <div class="bg-white rounded-3xl shadow-sm p-5">
 
         <div class="flex items-center gap-4">
 
-            <div class="w-14 h-14 rounded-full bg-green-100 text-green-600 flex items-center justify-center">
+            <div
+                class="w-14 h-14 rounded-full bg-green-100 text-green-600 flex items-center justify-center flex-shrink-0">
 
                 <i class="fa-solid fa-circle-check text-xl"></i>
 
@@ -42,11 +46,13 @@
 
             <div>
 
-                <p class="text-gray-500">
+                <p class="text-sm text-black">
+
                     Hoạt động
+
                 </p>
 
-                <h3 class="text-3xl font-bold">
+                <h3 class="text-2xl font-bold text-green-600 mt-1">
 
                     {{ $tienNghiHoatDong }}
 
@@ -59,11 +65,11 @@
     </div>
 
     <!-- Tạm dừng -->
-    <div class="bg-white rounded-3xl shadow p-5">
+    <div class="bg-white rounded-3xl shadow-sm p-5">
 
         <div class="flex items-center gap-4">
 
-            <div class="w-14 h-14 rounded-full bg-red-100 text-red-600 flex items-center justify-center">
+            <div class="w-14 h-14 rounded-full bg-red-100 text-red-600 flex items-center justify-center flex-shrink-0">
 
                 <i class="fa-solid fa-ban text-xl"></i>
 
@@ -71,11 +77,13 @@
 
             <div>
 
-                <p class="text-gray-500">
+                <p class="text-sm text-black">
+
                     Tạm dừng
+
                 </p>
 
-                <h3 class="text-3xl font-bold">
+                <h3 class="text-2xl font-bold text-red-600 mt-1">
 
                     {{ $tienNghiTamDung }}
 
@@ -88,17 +96,16 @@
     </div>
 
     <!-- Nút thêm -->
-    <div class=" rounded-3xl  p-5 flex items-center justify-center">
+    <div class="p-5 flex items-center justify-center">
 
-        <a href="{{route('admin.tiennghi.create')}}"
-            class="w-full text-lg h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-semibold flex items-center justify-center gap-3 transition">
+        <a href="{{ route('admin.tiennghi.create') }}"
+            class="w-full h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full text-base font-semibold flex items-center justify-center gap-2 transition">
 
             <i class="fa-solid fa-plus"></i>
 
             Thêm tiện nghi
 
         </a>
-
 
     </div>
 

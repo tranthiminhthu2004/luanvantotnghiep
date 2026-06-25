@@ -8,11 +8,11 @@ use Illuminate\Support\Str;
 
 @section('content')
 
-<div class="max-w-4xl mx-auto">
+<div class="max-w-5xl mx-auto">
 
-    <div class="bg-white rounded-3xl shadow-lg p-8">
+    <div class="bg-white rounded-2xl shadow-sm p-6">
 
-        {{-- Avatar --}}
+        <!-- Avatar -->
         <div class="flex flex-col items-center">
 
             @if($nguoiDung->anh_dai_dien)
@@ -20,39 +20,36 @@ use Illuminate\Support\Str;
             @if(Str::startsWith($nguoiDung->anh_dai_dien,'http'))
 
             <img src="{{ $nguoiDung->anh_dai_dien }}"
-                class="w-44 h-44 rounded-full object-cover border-4 border-blue-100 shadow-lg">
+                class="w-32 h-32 rounded-full object-cover border-4 border-blue-100 shadow">
 
             @else
 
             <img src="{{ asset('storage/'.$nguoiDung->anh_dai_dien) }}"
-                class="w-44 h-44 rounded-full object-cover border-4 border-blue-100 shadow-lg">
+                class="w-32 h-32 rounded-full object-cover border-4 border-blue-100 shadow">
 
             @endif
 
             @else
 
             <img src="{{ asset('images/avatar-default.png') }}"
-                class="w-44 h-44 rounded-full object-cover border-4 border-blue-100 shadow-lg">
+                class="w-32 h-32 rounded-full object-cover border-4 border-blue-100 shadow">
 
             @endif
 
-            {{-- Họ tên --}}
-            <h2 class="text-3xl font-bold text-[#061755] mt-5">
+            <h2 class="text-2xl font-bold text-[#061755] mt-4 text-center">
 
                 {{ $nguoiDung->ho_va_ten_dem }}
                 {{ $nguoiDung->ten }}
 
             </h2>
 
-            {{-- Email --}}
-            <p class="text-gray-500 text-lg mt-2">
+            <p class="text-gray-500 mt-1 text-sm">
 
                 {{ $nguoiDung->email }}
 
             </p>
 
-            {{-- Vai trò --}}
-            <span class="mt-3 px-4 py-2 bg-blue-100 text-blue-600 rounded-full font-medium">
+            <span class="mt-3 bg-blue-100 text-blue-600 px-4 py-1 rounded-full text-sm font-medium">
 
                 {{ $nguoiDung->vaiTro->ten_vai_tro ?? 'Người dùng' }}
 
@@ -60,18 +57,18 @@ use Illuminate\Support\Str;
 
         </div>
 
-        {{-- Thông tin --}}
-        <div class="grid md:grid-cols-2 gap-4 mt-10">
+        <!-- Thông tin -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
 
-            <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4">
+            <div class="bg-slate-50 rounded-xl border p-4">
 
-                <p class="text-gray-500 mb-1">
+                <p class="text-gray-500 text-sm mb-1">
 
                     Số điện thoại
 
                 </p>
 
-                <p class="font-semibold">
+                <p class="font-semibold text-black">
 
                     {{ $nguoiDung->so_dien_thoai ?: 'Chưa cập nhật' }}
 
@@ -79,9 +76,9 @@ use Illuminate\Support\Str;
 
             </div>
 
-            <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4">
+            <div class="bg-slate-50 rounded-xl border p-4">
 
-                <p class="text-gray-500 mb-1">
+                <p class="text-gray-500 text-sm mb-1">
 
                     Giới tính
 
@@ -111,9 +108,9 @@ use Illuminate\Support\Str;
 
             </div>
 
-            <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4">
+            <div class="bg-slate-50 rounded-xl border p-4">
 
-                <p class="text-gray-500 mb-1">
+                <p class="text-gray-500 text-sm mb-1">
 
                     Ngày sinh
 
@@ -129,41 +126,37 @@ use Illuminate\Support\Str;
 
             </div>
 
-            <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4">
+            <div class="bg-slate-50 rounded-xl border p-4">
 
-                <p class="text-gray-500 mb-1">
+                <p class="text-gray-500 text-sm mb-1">
 
                     Trạng thái
 
                 </p>
 
-                <p class="font-semibold">
+                @if($nguoiDung->trang_thai)
 
-                    @if($nguoiDung->trang_thai)
+                <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm">
 
-                    <span class="text-green-600">
+                    Hoạt động
 
-                        Hoạt động
+                </span>
 
-                    </span>
+                @else
 
-                    @else
+                <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm">
 
-                    <span class="text-red-600">
+                    Đã khóa
 
-                        Đã khóa
+                </span>
 
-                    </span>
-
-                    @endif
-
-                </p>
+                @endif
 
             </div>
 
-            <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4">
+            <div class="bg-slate-50 rounded-xl border p-4">
 
-                <p class="text-gray-500 mb-1">
+                <p class="text-gray-500 text-sm mb-1">
 
                     Ngày tạo tài khoản
 
@@ -177,45 +170,41 @@ use Illuminate\Support\Str;
 
             </div>
 
-            <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4">
+            <div class="bg-slate-50 rounded-xl border p-4">
 
-                <p class="text-gray-500 mb-1">
+                <p class="text-gray-500 text-sm mb-1">
 
                     Đăng nhập Google
 
                 </p>
 
-                <p class="font-semibold">
+                @if($nguoiDung->ma_google)
 
-                    @if($nguoiDung->ma_google)
+                <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm">
 
-                    <span class="text-green-600">
+                    Có
 
-                        Có
+                </span>
 
-                    </span>
+                @else
 
-                    @else
+                <span class="bg-slate-200 text-slate-600 px-3 py-1 rounded-full text-sm">
 
-                    <span class="text-gray-500">
+                    Không
 
-                        Không
+                </span>
 
-                    </span>
-
-                    @endif
-
-                </p>
+                @endif
 
             </div>
 
         </div>
 
-        {{-- Nút --}}
-        <div class="mt-10 flex justify-center">
+        <!-- Nút -->
+        <div class="mt-8">
 
             <a href="{{ route('admin.nguoidung.index') }}"
-                class="bg-slate-200 hover:bg-slate-300 px-8 py-3 rounded-xl font-medium transition">
+                class="inline-flex items-center bg-slate-200 hover:bg-slate-300 px-5 py-2.5 rounded-full text-sm font-semibold transition">
 
                 Quay lại
 

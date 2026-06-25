@@ -6,23 +6,16 @@
 
 <div class="max-w-7xl mx-auto">
 
-    <div class="bg-white rounded-3xl shadow p-4 md:p-6">
+    <div class="bg-white rounded-2xl shadow-sm p-4 md:p-6">
 
-        <div class="mb-8">
-
-            <h2 class="text-4xl font-bold text-[#061755]">
-
-                Thêm người dùng mới
-
-            </h2>
-
+        <div class="mb-6">
         </div>
 
         <form action="{{ route('admin.nguoidung.store') }}" method="POST" enctype="multipart/form-data">
 
             @csrf
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-1">
 
                 <!-- Vai trò -->
                 <div>
@@ -37,7 +30,8 @@
 
                         @foreach($vaiTros as $vaiTro)
 
-                        <option value="{{ $vaiTro->ma_vai_tro }}">
+                        <option value="{{ $vaiTro->ma_vai_tro }}"
+                            {{ old('ma_vai_tro') == $vaiTro->ma_vai_tro ? 'selected' : '' }}>
 
                             {{ $vaiTro->ten_vai_tro }}
 
@@ -46,6 +40,16 @@
                         @endforeach
 
                     </select>
+
+                    @error('ma_vai_tro')
+
+                    <p class="text-red-500 text-sm mt-1">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
 
                 </div>
 
@@ -61,6 +65,16 @@
                     <input type="text" name="ho_va_ten_dem" value="{{ old('ho_va_ten_dem') }}"
                         class="w-full mt-2 border rounded-full px-5 py-3">
 
+                    @error('ho_va_ten_dem')
+
+                    <p class="text-red-500 text-sm mt-1">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
+
                 </div>
 
                 <!-- Tên -->
@@ -74,6 +88,16 @@
 
                     <input type="text" name="ten" value="{{ old('ten') }}"
                         class="w-full mt-2 border rounded-full px-5 py-3">
+
+                    @error('ten')
+
+                    <p class="text-red-500 text-sm mt-1">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
 
                 </div>
 
@@ -89,9 +113,17 @@
                     <input type="email" name="email" value="{{ old('email') }}"
                         class="w-full mt-2 border rounded-full px-5 py-3">
 
-                </div>
+                    @error('email')
 
-                <!-- Mật khẩu -->
+                    <p class="text-red-500 text-sm mt-1">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
+
+                </div> <!-- Mật khẩu -->
                 <div>
 
                     <label class="font-medium text-slate-700">
@@ -102,9 +134,19 @@
 
                     <input type="password" name="mat_khau" class="w-full mt-2 border rounded-full px-5 py-3">
 
+                    @error('mat_khau')
+
+                    <p class="text-red-500 text-sm mt-1">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
+
                 </div>
 
-                <!-- SĐT -->
+                <!-- Số điện thoại -->
                 <div>
 
                     <label class="font-medium text-slate-700">
@@ -115,6 +157,16 @@
 
                     <input type="text" name="so_dien_thoai" value="{{ old('so_dien_thoai') }}"
                         class="w-full mt-2 border rounded-full px-5 py-3">
+
+                    @error('so_dien_thoai')
+
+                    <p class="text-red-500 text-sm mt-1">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
 
                 </div>
 
@@ -129,13 +181,37 @@
 
                     <select name="gioi_tinh" class="w-full mt-2 border rounded-full px-5 py-3">
 
-                        <option value="Nam">Nam</option>
 
-                        <option value="Nu">Nữ</option>
 
-                        <option value="Khac">Khác</option>
+                        <option value="Nam" {{ old('gioi_tinh') == 'Nam' ? 'selected' : '' }}>
+
+                            Nam
+
+                        </option>
+
+                        <option value="Nu" {{ old('gioi_tinh') == 'Nu' ? 'selected' : '' }}>
+
+                            Nữ
+
+                        </option>
+
+                        <option value="Khac" {{ old('gioi_tinh') == 'Khac' ? 'selected' : '' }}>
+
+                            Khác
+
+                        </option>
 
                     </select>
+
+                    @error('gioi_tinh')
+
+                    <p class="text-red-500 text-sm mt-1">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
 
                 </div>
 
@@ -151,6 +227,16 @@
                     <input type="date" name="ngay_sinh" value="{{ old('ngay_sinh') }}"
                         class="w-full mt-2 border rounded-full px-5 py-3">
 
+                    @error('ngay_sinh')
+
+                    <p class="text-red-500 text-sm mt-1">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
+
                 </div>
 
                 <!-- Ảnh đại diện -->
@@ -163,6 +249,16 @@
                     </label>
 
                     <input type="file" name="anh_dai_dien" class="w-full mt-2 border rounded-xl px-5 py-3">
+
+                    @error('anh_dai_dien')
+
+                    <p class="text-red-500 text-sm mt-1">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
 
                 </div>
 

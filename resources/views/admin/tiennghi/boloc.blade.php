@@ -1,69 +1,84 @@
-<div class="bg-white rounded-3xl shadow p-5 mb-6">
+<div class="bg-white rounded-2xl shadow-sm p-4 mb-6">
 
-    <div class="flex flex-col lg:flex-row gap-4 justify-between">
+    <form id="filterForm" method="GET" action="{{ route('admin.tiennghi.index') }}">
 
-        <form method="GET" action="{{ route('admin.tiennghi.index') }}" class="flex-1">
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
 
-            <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4">
+            <!-- Tên tiện nghi -->
+            <select name="ten_tien_nghi" onchange="this.form.submit()"
+                class="border rounded-xl px-4 py-2.5 text-sm text-black">
 
-                <!-- Tên tiện nghi -->
-                <input type="text" name="ten_tien_nghi" placeholder="Tên tiện nghi..."
-                    value="{{ request('ten_tien_nghi') }}"
-                    class="border rounded-full text-base px-5 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">
+                    Tất cả tiện nghi
+                </option>
 
-                <!-- Trạng thái -->
-                <select name="trang_thai" class="border rounded-full text-base px-5 py-3">
+                @foreach($danhSachTienNghi as $tienNghi)
 
-                    <option value="">
-                        Tất cả trạng thái
-                    </option>
+                <option value="{{ $tienNghi->ten_tien_nghi }}"
+                    {{ request('ten_tien_nghi') == $tienNghi->ten_tien_nghi ? 'selected' : '' }}>
 
-                    <option value="1" {{ request('trang_thai') === '1' ? 'selected' : '' }}>
+                    {{ $tienNghi->ten_tien_nghi }}
 
-                        Hoạt động
+                </option>
 
-                    </option>
+                @endforeach
 
-                    <option value="0" {{ request('trang_thai') === '0' ? 'selected' : '' }}>
+            </select>
 
-                        Tạm dừng
+            <!-- Trạng thái -->
+            <select name="trang_thai" onchange="this.form.submit()"
+                class="border rounded-xl px-4 py-2.5 text-sm text-black">
 
-                    </option>
+                <option value="" {{ request('trang_thai') === null || request('trang_thai') === '' ? 'selected' : '' }}>
 
-                </select>
+                    Tất cả trạng thái
 
-                <!-- Sắp xếp -->
-                <select name="sap_xep" class="border rounded-full text-base px-5 py-3">
+                </option>
 
-                    <option value="desc" {{ request('sap_xep','desc') == 'desc' ? 'selected' : '' }}>
+                <option value="1" {{ request('trang_thai') === '1' ? 'selected' : '' }}>
 
-                        Mới nhất
+                    Hoạt động
 
-                    </option>
+                </option>
 
-                    <option value="asc" {{ request('sap_xep') == 'asc' ? 'selected' : '' }}>
+                <option value="0" {{ request('trang_thai') === '0' ? 'selected' : '' }}>
 
-                        Cũ nhất
+                    Tạm dừng
 
-                    </option>
+                </option>
 
-                </select>
+            </select>
 
-                <!-- Nút lọc -->
-                <button type="submit"
-                    class="bg-slate-100 rounded-full text-base hover:bg-slate-200 flex items-center justify-center gap-2">
+            <!-- Sắp xếp -->
+            <select name="sap_xep" onchange="this.form.submit()"
+                class="border rounded-xl px-4 py-2.5 text-sm text-black">
 
-                    <i class="fa-solid fa-filter"></i>
+                <option value="desc" {{ request('sap_xep','desc') == 'desc' ? 'selected' : '' }}>
 
-                    Lọc
+                    Mới nhất
 
-                </button>
+                </option>
 
-            </div>
+                <option value="asc" {{ request('sap_xep') == 'asc' ? 'selected' : '' }}>
 
-        </form>
+                    Cũ nhất
 
+                </option>
 
-    </div>
+            </select>
+
+            <!-- Xóa lọc -->
+            <a href="{{ route('admin.tiennghi.index') }}"
+                class="bg-red-50 text-red-600 rounded-xl text-sm font-medium hover:bg-red-100 flex items-center justify-center gap-2 py-2">
+
+                <i class="fa-solid fa-rotate-left"></i>
+
+                Xóa lọc
+
+            </a>
+
+        </div>
+
+    </form>
 
 </div>

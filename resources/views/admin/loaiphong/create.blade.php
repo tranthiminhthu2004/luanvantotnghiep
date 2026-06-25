@@ -6,39 +6,35 @@
 
 <div class="max-w-7xl mx-auto">
 
-    <div class="bg-white rounded-3xl shadow p-4 md:p-6">
+    <div class="bg-white rounded-2xl shadow-sm p-4 md:p-6">
 
-        <!-- Tiêu đề -->
-        <div class="mb-8">
+        <div class="mb-6">
 
-            <h2 class="text-4xl font-bold text-[#061755]">
-
+            <h2 class="text-2xl md:text-3xl font-bold text-[#061755]">
                 Thêm loại phòng mới
-
             </h2>
 
         </div>
 
-        <form action="{{ route('admin.loaiphong.store') }}" method="POST">
+        <form action="{{ route('admin.loaiphong.store') }}" method="POST" novalidate>
 
             @csrf
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                 <!-- Khách sạn -->
                 <div>
 
-                    <label class="font-medium text-slate-700">
-
+                    <label class="block text-sm font-semibold text-black">
                         Khách sạn
-
                     </label>
 
-                    <select name="ma_khach_san" class="w-full mt-2 border rounded-full px-5 py-3">
+                    <select name="ma_khach_san" class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
 
                         @foreach($khachSans as $khachSan)
 
-                        <option value="{{ $khachSan->ma_khach_san }}">
+                        <option value="{{ $khachSan->ma_khach_san }}"
+                            {{ old('ma_khach_san') == $khachSan->ma_khach_san ? 'selected' : '' }}>
 
                             {{ $khachSan->ten_khach_san }}
 
@@ -53,108 +49,120 @@
                 <!-- Tên loại phòng -->
                 <div>
 
-                    <label class="font-medium text-slate-700">
-
+                    <label class="block text-sm font-semibold text-black">
                         Tên loại phòng
-
                     </label>
 
                     <input type="text" name="ten_loai_phong" value="{{ old('ten_loai_phong') }}"
-                        placeholder="Ví dụ: Deluxe" class="w-full mt-2 border rounded-full px-5 py-3">
+                        placeholder="Ví dụ: Deluxe"
+                        class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
+
+                    @error('ten_loai_phong')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                    @enderror
 
                 </div>
 
                 <!-- Số người tối đa -->
                 <div>
 
-                    <label class="font-medium text-slate-700">
-
+                    <label class="block text-sm font-semibold text-black">
                         Số người tối đa
-
                     </label>
 
                     <input type="number" name="so_nguoi_toi_da" value="{{ old('so_nguoi_toi_da') }}"
-                        class="w-full mt-2 border rounded-full px-5 py-3">
+                        placeholder="Ví dụ: 4" class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
+
+                    @error('so_nguoi_toi_da')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                    @enderror
 
                 </div>
 
                 <!-- Diện tích -->
                 <div>
 
-                    <label class="font-medium text-slate-700">
-
+                    <label class="block text-sm font-semibold text-black">
                         Diện tích (m²)
-
                     </label>
 
-                    <input type="number" step="0.01" name="dien_tich" value="{{ old('dien_tich') }}"
-                        class="w-full mt-2 border rounded-full px-5 py-3">
+                    <input type="number" name="dien_tich" value="{{ old('dien_tich') }}" placeholder="Ví dụ: 35"
+                        class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
+
+                    @error('dien_tich')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                    @enderror
 
                 </div>
 
                 <!-- Số giường -->
                 <div>
 
-                    <label class="font-medium text-slate-700">
-
+                    <label class="block text-sm font-semibold text-black">
                         Số giường
-
                     </label>
 
-                    <input type="number" name="so_giuong" value="{{ old('so_giuong') }}"
-                        class="w-full mt-2 border rounded-full px-5 py-3">
+                    <input type="number" name="so_giuong" value="{{ old('so_giuong') }}" placeholder="Ví dụ: 2"
+                        class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
+
+                    @error('so_giuong')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                    @enderror
 
                 </div>
 
                 <!-- Giá cơ bản -->
                 <div>
 
-                    <label class="font-medium text-slate-700">
-
+                    <label class="block text-sm font-semibold text-black">
                         Giá cơ bản
-
                     </label>
 
-                    <input type="number" name="gia_co_ban" value="{{ old('gia_co_ban') }}"
-                        class="w-full mt-2 border rounded-full px-5 py-3">
+                    <input type="number" min="0" name="gia_co_ban" value="{{ old('gia_co_ban') }}"
+                        placeholder="Ví dụ: 1200000"
+                        class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
 
-                </div>
+                    @error('gia_co_ban')
+                    <p class="text-red-500 text-sm mt-1">
+                        {{ $message }}
+                    </p>
+                    @enderror
 
-                <!-- Mô tả -->
+                </div> <!-- Mô tả -->
                 <div class="md:col-span-2">
 
-                    <label class="font-medium text-slate-700">
-
+                    <label class="block text-sm font-semibold text-black">
                         Mô tả
-
                     </label>
 
-                    <textarea name="mo_ta" rows="5"
-                        class="w-full mt-2 border rounded-2xl px-5 py-3">{{ old('mo_ta') }}</textarea>
+                    <textarea name="mo_ta" rows="5" placeholder="Nhập mô tả loại phòng..."
+                        class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">{{ old('mo_ta') }}</textarea>
 
                 </div>
 
                 <!-- Trạng thái -->
                 <div>
 
-                    <label class="font-medium text-slate-700">
-
+                    <label class="block text-sm font-semibold text-black">
                         Trạng thái
-
                     </label>
 
-                    <select name="trang_thai" class="w-full mt-2 border rounded-full px-5 py-3">
+                    <select name="trang_thai" class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
 
-                        <option value="1">
-
+                        <option value="1" {{ old('trang_thai', 1) == 1 ? 'selected' : '' }}>
                             Hoạt động
-
                         </option>
 
-                        <option value="0">
-
+                        <option value="0" {{ old('trang_thai') == '0' ? 'selected' : '' }}>
                             Tạm dừng
-
                         </option>
 
                     </select>
@@ -163,16 +171,18 @@
 
             </div>
 
-            <div class="flex flex-col md:flex-row gap-4 mt-8">
+            <!-- Button -->
+            <div class="flex flex-wrap gap-3 mt-6">
 
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl">
+                <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition">
 
                     Lưu loại phòng
 
                 </button>
 
                 <a href="{{ route('admin.loaiphong.index') }}"
-                    class="bg-slate-200 hover:bg-slate-300 px-6 py-3 rounded-xl text-center">
+                    class="bg-slate-200 hover:bg-slate-300 text-black px-5 py-2.5 rounded-full text-sm font-semibold transition">
 
                     Quay lại
 

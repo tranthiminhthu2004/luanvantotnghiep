@@ -6,60 +6,60 @@
 
 <div class="max-w-7xl mx-auto">
 
-    <div class="bg-white rounded-3xl shadow p-6">
+    <div class="bg-white rounded-2xl shadow-sm p-4 md:p-6">
 
-        <h2 class="text-4xl font-bold text-[#061755] mb-8">
+        <!-- Tiêu đề -->
+        <div class="mb-6">
 
-            Cập nhật địa điểm
+            <h2 class="text-2xl md:text-3xl font-bold text-[#061755]">
 
-        </h2>
+                Cập nhật địa điểm
 
-        @if ($errors->any())
-
-        <div class="mb-6 bg-red-100 text-red-700 px-4 py-3 rounded-xl">
-
-            <ul class="list-disc pl-5">
-
-                @foreach ($errors->all() as $error)
-
-                <li>{{ $error }}</li>
-
-                @endforeach
-
-            </ul>
+            </h2>
 
         </div>
-
-        @endif
 
         <form action="{{ route('admin.diadiem.update',$diaDiem->ma_dia_diem) }}" method="POST">
 
             @csrf
             @method('PUT')
 
+            <!-- Tên địa điểm -->
             <div>
 
-                <label class="font-medium text-slate-700">
+                <label class="block text-sm font-semibold text-black">
 
                     Tên địa điểm
 
                 </label>
 
                 <input type="text" name="ten_dia_diem" value="{{ old('ten_dia_diem',$diaDiem->ten_dia_diem) }}"
-                    class="w-full mt-2 border rounded-full px-5 py-3">
+                    placeholder="Ví dụ: Đà Nẵng" class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
+
+                @error('ten_dia_diem')
+
+                <p class="text-red-500 text-sm mt-1">
+
+                    {{ $message }}
+
+                </p>
+
+                @enderror
 
             </div>
 
-            <div class="flex gap-4 mt-8">
+            <!-- Nút -->
+            <div class="flex flex-wrap gap-3 mt-6">
 
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl">
+                <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition">
 
                     Cập nhật
 
                 </button>
 
                 <a href="{{ route('admin.diadiem.index') }}"
-                    class="bg-slate-200 hover:bg-slate-300 px-6 py-3 rounded-xl">
+                    class="bg-slate-200 hover:bg-slate-300 text-black px-5 py-2.5 rounded-full text-sm font-semibold transition">
 
                     Quay lại
 

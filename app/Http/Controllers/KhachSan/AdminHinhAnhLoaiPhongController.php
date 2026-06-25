@@ -25,10 +25,15 @@ class AdminHinhAnhLoaiPhongController extends Controller
         $id
     )
     {
-        $request->validate([
-            'anh' => 'required',
-            'anh.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048'
-        ]);
+       $request->validate([
+    'anh' => 'required',
+    'anh.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+], [
+    'anh.required' => 'Vui lòng chọn ít nhất một ảnh.',
+    'anh.*.image' => 'Tệp tải lên phải là hình ảnh.',
+    'anh.*.mimes' => 'Ảnh chỉ được có định dạng jpg, jpeg, png hoặc webp.',
+    'anh.*.max' => 'Mỗi ảnh không được vượt quá 2MB.',
+]);
 
         foreach ($request->file('anh') as $file)
         {

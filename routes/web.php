@@ -179,6 +179,10 @@ Route::delete(
     [AdminHinhAnhKhachSanController::class,'destroy']
 )->name('admin.hinhanh.destroy');
 
+Route::put(
+    '/hinhanh/{id}',
+    [AdminHinhAnhKhachSanController::class,'update']
+)->name('admin.hinhanh.update');
 //Loai Phòng 
 Route::get(
     '/admin/loaiphong',
@@ -240,6 +244,11 @@ Route::delete(
     '/admin/loaiphong/hinhanh/{id}',
     [AdminHinhAnhLoaiPhongController::class,'destroy']
 )->name('admin.loaiphong.hinhanh.destroy');
+
+Route::put(
+    '/loaiphong/hinhanh/{id}',
+    [AdminLoaiPhongController::class,'updateHinhAnh']
+)->name('admin.loaiphong.hinhanh.update');
 
 //Quản lý phòng
 

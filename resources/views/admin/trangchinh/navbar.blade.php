@@ -1,53 +1,56 @@
-<div class="h-20 bg-white border-b flex items-center justify-between px-4 md:px-8">
+<div class="h-16 bg-white border-b flex items-center justify-between px-4 md:px-6">
+
     <!-- Bên trái -->
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-3">
 
         <!-- Menu Mobile -->
         <button id="menuBtn" class="lg:hidden">
 
-            <i class="fa-solid fa-bars text-2xl"></i>
+            <i class="fa-solid fa-bars text-xl"></i>
 
         </button>
 
-        <h2 class="text-xl md:text-4xl font-bold">
+        <h2 class="text-xl md:text-2xl font-bold text-slate-800">
             @yield('title')
         </h2>
 
     </div>
 
     <!-- Bên phải -->
-    <div class="flex items-center gap-3 md:gap-5">
+    <div class="flex items-center gap-3">
 
         <!-- Search -->
-        <div class="relative hidden md:block">
+        <div class="relative hidden lg:block">
 
-            <input type="text" placeholder="Tìm kiếm nhanh..."
-                class="w-72 lg:w-80 rounded-xl border px-4 py-2 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <input type="text" placeholder="Tìm kiếm..."
+                class="w-64 rounded-lg border px-4 py-2 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
 
-            <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-400"></i>
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
 
         </div>
 
         <!-- Notification -->
-        <button class="relative">
+        <button class="relative text-slate-600 hover:text-slate-800">
 
-            <i class="fa-regular fa-bell text-xl md:text-2xl"></i>
+            <i class="fa-regular fa-bell text-xl"></i>
 
             <span
-                class="absolute -top-2 -right-2 w-5 h-5 text-white text-xs rounded-full flex items-center justify-center">
+                class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[10px] rounded-full flex items-center justify-center">
+
+                0
 
             </span>
 
         </button>
 
         <!-- Avatar -->
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2">
 
-            <img src="https://ui-avatars.com/api/?name=Admin" class="w-10 h-10 rounded-full border object-cover">
+            <img src="https://ui-avatars.com/api/?name=Admin" class="w-9 h-9 rounded-full border object-cover">
 
             <div class="hidden md:block">
 
-                <h4 class="font-semibold">
+                <h4 class="font-semibold text-sm">
                     Admin
                 </h4>
 

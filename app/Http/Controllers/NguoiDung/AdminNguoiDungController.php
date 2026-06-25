@@ -105,12 +105,56 @@ class AdminNguoiDungController extends Controller
 }
 public function store(Request $request)
 {
-    $request->validate([
-        'ma_vai_tro' => 'required',
-        'ten' => 'required|max:50',
-        'email' => 'required|email|unique:nguoi_dung,email',
-        'mat_khau' => 'required|min:6',
-    ]);
+   $request->validate([
+
+    'ma_vai_tro' => 'required|exists:vai_tro,ma_vai_tro',
+
+    'ho_va_ten_dem' => 'nullable|max:100',
+
+    'ten' => 'required|max:50',
+
+    'email' => 'required|email|max:150|unique:nguoi_dung,email',
+
+    'mat_khau' => 'required|min:6|max:100',
+
+    'so_dien_thoai' => 'nullable|digits_between:10,11|unique:nguoi_dung,so_dien_thoai',
+
+    'gioi_tinh' => 'nullable|in:Nam,Nu,Khac',
+
+    'ngay_sinh' => 'nullable|date|before:today',
+
+    'anh_dai_dien' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+
+],[
+
+    'ma_vai_tro.exists' => 'Vai trò không hợp lệ.',
+
+    'ho_va_ten_dem.max' => 'Họ và tên đệm không được vượt quá 100 ký tự.',
+
+    'ten.required' => 'Vui lòng nhập tên.',
+    'ten.max' => 'Tên không được vượt quá 50 ký tự.',
+
+    'email.required' => 'Vui lòng nhập email.',
+    'email.email' => 'Email không đúng định dạng.',
+    'email.max' => 'Email không được vượt quá 150 ký tự.',
+    'email.unique' => 'Email đã tồn tại.',
+
+    'mat_khau.required' => 'Vui lòng nhập mật khẩu.',
+    'mat_khau.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
+    'mat_khau.max' => 'Mật khẩu không được vượt quá 100 ký tự.',
+
+    'so_dien_thoai.digits_between' => 'Số điện thoại phải từ 10 đến 11 số.',
+    'so_dien_thoai.unique' => 'Số điện thoại đã tồn tại.',
+
+
+    'ngay_sinh.date' => 'Ngày sinh không hợp lệ.',
+    'ngay_sinh.before' => 'Ngày sinh phải nhỏ hơn ngày hiện tại.',
+
+    'anh_dai_dien.image' => 'Ảnh đại diện phải là hình ảnh.',
+    'anh_dai_dien.mimes' => 'Ảnh phải có định dạng jpg, jpeg, png hoặc webp.',
+    'anh_dai_dien.max' => 'Ảnh không được vượt quá 2MB.',
+
+]);
 
     $anhDaiDien = null;
 
@@ -175,13 +219,46 @@ public function update(
     $id
 )
 {
-    $nguoiDung =
-        NguoiDung::findOrFail($id);
-
+    $nguoiDung = NguoiDung::findOrFail($id);
     $request->validate([
-        'ma_vai_tro' => 'required',
-        'ten' => 'required|max:50'
-    ]);
+
+    'ma_vai_tro' => 'required|exists:vai_tro,ma_vai_tro',
+
+    'ho_va_ten_dem' => 'nullable|max:100',
+
+    'ten' => 'required|max:50',
+
+    'so_dien_thoai' =>
+        'nullable|digits_between:10,11|unique:nguoi_dung,so_dien_thoai,' .
+        $id .
+        ',ma_nguoi_dung',
+
+    'gioi_tinh' => 'nullable|in:Nam,Nu,Khac',
+
+    'ngay_sinh' => 'nullable|date|before:today',
+
+    'anh_dai_dien' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+
+],[
+
+    'ma_vai_tro.exists' => 'Vai trò không hợp lệ.',
+
+    'ho_va_ten_dem.max' => 'Họ và tên đệm không được vượt quá 100 ký tự.',
+
+    'ten.required' => 'Vui lòng nhập tên.',
+    'ten.max' => 'Tên không được vượt quá 50 ký tự.',
+
+    'so_dien_thoai.digits_between' => 'Số điện thoại phải từ 10 đến 11 số.',
+    'so_dien_thoai.unique' => 'Số điện thoại đã tồn tại.',
+
+    'ngay_sinh.date' => 'Ngày sinh không hợp lệ.',
+    'ngay_sinh.before' => 'Ngày sinh phải nhỏ hơn ngày hiện tại.',
+
+    'anh_dai_dien.image' => 'Ảnh đại diện phải là hình ảnh.',
+    'anh_dai_dien.mimes' => 'Ảnh phải có định dạng jpg, jpeg, png hoặc webp.',
+    'anh_dai_dien.max' => 'Ảnh không được vượt quá 2MB.',
+
+]);
 
     if($request->hasFile('anh_dai_dien'))
     {

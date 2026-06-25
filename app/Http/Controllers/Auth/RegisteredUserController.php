@@ -23,11 +23,34 @@ class RegisteredUserController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:nguoi_dung,email'],
-            'password' => ['required', Rules\Password::defaults()],
-        ]);
+       $request->validate([
+    'name' => [
+        'required',
+        'string',
+        'max:255',
+        'regex:/^[\pL\s]+$/u'
+    ],
+
+    'email' => [
+        'required',
+        'string',
+        'lowercase',
+        'email',
+        'max:255',
+        'unique:nguoi_dung,email'
+    ],
+
+    'password' => [
+        'required',
+        'confirmed',
+        Rules\Password::defaults()
+    ],
+
+], [
+    'name.regex' => 'Họ và tên chỉ được chứa chữ cái và khoảng trắng.',
+    'email.unique' => 'Email đã tồn tại.',
+    'password.confirmed' => 'Xác nhận mật khẩu không khớp.',
+]);
 
         $fullName = trim($request->name);
 

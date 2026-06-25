@@ -6,47 +6,48 @@
 
 <div class="max-w-7xl mx-auto">
 
-    <div class="bg-white rounded-3xl shadow p-6">
+    <div class="bg-white rounded-2xl shadow-sm p-4 md:p-6">
 
-        <h2 class="text-3xl font-bold text-[#061755] mb-2">
+        <!-- Tiêu đề -->
+        <div class="mb-6">
 
-            Tiện nghi loại phòng
+            <h2 class="text-2xl md:text-3xl font-bold text-[#061755]">
 
-        </h2>
+                Tiện nghi loại phòng
 
-        <p class="text-gray-500 mb-8">
+            </h2>
 
-            {{ $loaiPhong->ten_loai_phong }}
+            <p class="text-sm text-gray-600 mt-2">
 
-        </p>
+                {{ $loaiPhong->ten_loai_phong }}
+
+            </p>
+
+        </div>
 
         <form action="{{ route('admin.loaiphong.tiennghi.update',$loaiPhong->ma_loai_phong) }}" method="POST">
 
             @csrf
             @method('PUT')
 
-            <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
 
                 @foreach($tienNghis as $tienNghi)
 
-                <label class="border rounded-2xl p-4 cursor-pointer hover:bg-slate-50">
+                <label
+                    class="border rounded-xl p-4 cursor-pointer hover:bg-slate-50 transition flex items-center gap-3">
 
-                    <div class="flex items-center gap-3">
+                    <input type="checkbox" name="tien_nghi[]" value="{{ $tienNghi->ma_tien_nghi }}"
+                        class="w-5 h-5 accent-blue-600"
+                        {{ $loaiPhong->tienNghis->contains('ma_tien_nghi',$tienNghi->ma_tien_nghi) ? 'checked' : '' }}>
 
-                        <input type="checkbox" name="tien_nghi[]" value="{{ $tienNghi->ma_tien_nghi }}" {{ $loaiPhong->tienNghis->contains(
-                                'ma_tien_nghi',
-                                $tienNghi->ma_tien_nghi
-                            ) ? 'checked' : '' }}>
+                    <i class="fa-solid {{ $tienNghi->icon }} text-blue-600 text-lg"></i>
 
-                        <i class="fa-solid {{ $tienNghi->icon }}"></i>
+                    <span class="text-sm font-medium text-black">
 
-                        <span>
+                        {{ $tienNghi->ten_tien_nghi }}
 
-                            {{ $tienNghi->ten_tien_nghi }}
-
-                        </span>
-
-                    </div>
+                    </span>
 
                 </label>
 
@@ -54,15 +55,17 @@
 
             </div>
 
-            <div class="mt-8 flex gap-4">
+            <div class="flex flex-wrap gap-3 mt-6">
 
-                <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded-xl">
+                <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition">
 
                     Lưu tiện nghi
 
                 </button>
 
-                <a href="{{ route('admin.loaiphong.index') }}" class="bg-slate-200 px-6 py-3 rounded-xl">
+                <a href="{{ route('admin.loaiphong.index') }}"
+                    class="bg-slate-200 hover:bg-slate-300 text-black px-5 py-2.5 rounded-full text-sm font-semibold transition">
 
                     Quay lại
 

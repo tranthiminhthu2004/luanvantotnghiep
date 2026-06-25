@@ -12,21 +12,20 @@
 
 </head>
 
-<body class="bg-[#f5f7fb]">
+<body class="bg-[#f8fafc] overflow-x-hidden">
 
     <div class="flex min-h-screen">
 
-        {{-- Sidebar --}}
         @include('admin.trangchinh.sidebar')
 
-        {{-- Main Content --}}
-        <div class="flex-1 flex flex-col">
+        <div id="sidebarOverlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden">
+        </div>
 
-            {{-- Navbar --}}
+        <div class="flex-1 flex flex-col min-w-0">
+
             @include('admin.trangchinh.navbar')
 
-            {{-- Nội dung --}}
-            <main class="p-4 md:p-6">
+            <main class="flex-1 p-3 sm:p-4 md:p-6 w-full max-w-[1600px] mx-auto">
 
                 @yield('content')
 
@@ -35,22 +34,27 @@
         </div>
 
     </div>
-
     <script>
     document.addEventListener('DOMContentLoaded', function() {
 
         const menuBtn = document.getElementById('menuBtn');
         const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const closeBtn = document.getElementById('closeSidebar');
 
-        if (menuBtn && sidebar) {
-
-            menuBtn.addEventListener('click', function() {
-
-                sidebar.classList.toggle('-translate-x-full');
-
-            });
-
+        function openSidebar() {
+            sidebar.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden');
         }
+
+        function closeSidebar() {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        }
+
+        menuBtn?.addEventListener('click', openSidebar);
+        closeBtn?.addEventListener('click', closeSidebar);
+        overlay?.addEventListener('click', closeSidebar);
 
     });
     </script>
