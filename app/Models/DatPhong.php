@@ -42,7 +42,10 @@ class DatPhong extends Model
 
         'trang_thai_dat_phong',
         
-            'ngay_dat'
+        'ngay_dat' ,
+        
+        'ghi_chu'
+        
     ];
 
     public function nguoiDung()

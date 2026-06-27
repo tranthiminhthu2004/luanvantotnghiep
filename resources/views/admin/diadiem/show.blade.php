@@ -17,12 +17,6 @@
 
             </h2>
 
-            <p class="text-gray-500 mt-2">
-
-                Thông tin chi tiết địa điểm du lịch
-
-            </p>
-
         </div>
 
         <!-- Nội dung -->

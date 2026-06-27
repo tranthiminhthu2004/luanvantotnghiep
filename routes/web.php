@@ -381,7 +381,7 @@ Route::delete(
 )->name('admin.datphong.destroy');
 
 Route::post(
-    '/kiem-tra-phong',
+    'admin/datphong/kiem-tra-phong',
     [AdminDatPhongController::class, 'kiemTraPhong']
 )->name('admin.datphong.kiemTraPhong');
 

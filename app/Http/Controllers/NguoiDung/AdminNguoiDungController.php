@@ -48,16 +48,14 @@ class AdminNguoiDungController extends Controller
         }
 
         // Lọc trạng thái
-        if (
-            $request->has('trang_thai')
-            && $request->trang_thai !== ''
-        )
-        {
-            $query->where(
-                'trang_thai',
-                $request->trang_thai
-            );
-        }
+       // Lọc trạng thái
+if ($request->filled('trang_thai'))
+{
+    $query->where(
+        'trang_thai',
+        (int) $request->trang_thai
+    );
+}
 
         // Sắp xếp
       $query->orderBy(

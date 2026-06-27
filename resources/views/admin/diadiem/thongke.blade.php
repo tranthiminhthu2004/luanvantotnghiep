@@ -13,7 +13,7 @@
 
             <div>
 
-                <p class="text-gray-500 text-sm">
+                <p class="text-black text-sm">
 
                     Tổng địa điểm
 

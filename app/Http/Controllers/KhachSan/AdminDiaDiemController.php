@@ -16,9 +16,11 @@ class AdminDiaDiemController extends Controller
     );
 
     $diaDiems = DiaDiem::orderBy(
-        'ma_dia_diem',
-        $sapXep
-    )->get();
+    'ma_dia_diem',
+    $sapXep
+)
+->paginate(10)
+->withQueryString();
 
     $tongDiaDiem = DiaDiem::count();
 

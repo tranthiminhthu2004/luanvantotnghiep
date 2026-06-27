@@ -6,311 +6,489 @@
 
 <div class="max-w-7xl mx-auto">
 
-    <div class="bg-white rounded-3xl shadow p-6">
+    <form action="{{ route('admin.datphong.update',$datPhong->ma_don_dat_phong) }}" method="POST">
 
-        <h2 class="text-4xl font-bold text-[#061755] mb-8">
+        @csrf
+        @method('PUT')
 
-            Sửa đơn đặt phòng
+        @if ($errors->any())
 
-        </h2>
+        <div class="bg-red-100 border border-red-300 text-red-700 rounded-xl p-4 mb-6">
 
-        <form action="{{ route('admin.datphong.update',$datPhong->ma_don_dat_phong) }}" method="POST">
+            <ul class="list-disc ml-5">
 
-            @csrf
-            @method('PUT')
+                @foreach ($errors->all() as $error)
 
-            <!-- Thông tin đơn -->
-            <div class="bg-slate-50 rounded-2xl p-6 mb-6">
+                <li>{{ $error }}</li>
 
-                <h3 class="text-xl font-bold mb-4">
+                @endforeach
 
-                    Thông tin đơn đặt phòng
+            </ul>
 
-                </h3>
+        </div>
 
-                <div class="grid md:grid-cols-2 gap-6">
+        @endif
 
-                    <div>
+        <!-- Tiêu đề -->
+        <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
 
-                        <label class="font-medium">
-                            Mã đặt phòng
-                        </label>
+            <h2 class="text-3xl font-bold text-[#061755]">
 
-                        <input type="text" value="{{ $datPhong->ma_dat_phong }}" disabled
-                            class="w-full mt-2 border rounded-xl px-4 py-3 bg-white">
+                Sửa đơn đặt phòng
 
-                    </div>
+            </h2>
 
-                    <div>
+            <p class="text-gray-500 mt-2">
 
-                        <label class="font-medium">
-                            Khách sạn
-                        </label>
+                Cập nhật thông tin khách hàng của đơn đặt phòng.
 
-                        <input type="text" value="{{ $datPhong->khachSan->ten_khach_san ?? '' }}" disabled
-                            class="w-full mt-2 border rounded-xl px-4 py-3 bg-white">
+            </p>
 
-                    </div>
+        </div>
+
+        <!-- Thông tin đơn -->
+        <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
+
+            <h3 class="text-xl font-bold text-black mb-6">
+
+                Thông tin đơn đặt phòng
+
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <div>
+
+                    <label class="block text-sm font-semibold text-black">
+
+                        Mã đặt phòng
+
+                    </label>
+
+                    <input type="text" value="{{ $datPhong->ma_dat_phong }}" readonly
+                        class="w-full mt-2 border rounded-xl px-4 py-3 bg-slate-100 text-black">
+
+                </div>
+
+                <div>
+
+                    <label class="block text-sm font-semibold text-black">
+
+                        Khách sạn
+
+                    </label>
+
+                    <input type="text" value="{{ $datPhong->khachSan->ten_khach_san }}" readonly
+                        class="w-full mt-2 border rounded-xl px-4 py-3 bg-slate-100 text-black">
+
+                </div>
+
+                <div>
+
+                    <label class="block text-sm font-semibold text-black">
+
+                        Trạng thái
+
+                    </label>
+
+                    <input type="text" value="@switch($datPhong->trang_thai_dat_phong)
+                                @case('ChoXacNhan') Chờ xác nhận @break
+                                @case('DaXacNhan') Đã xác nhận @break
+                                @case('HoanThanh') Hoàn thành @break
+                                @case('DaHuy') Đã hủy @break
+                                @case('KhongDen') Không đến @break
+                                @endswitch" readonly
+                        class="w-full mt-2 border rounded-xl px-4 py-3 bg-slate-100 text-black">
+
+                </div>
+
+                <div>
+
+                    <label class="block text-sm font-semibold text-black">
+
+                        Tổng tiền
+
+                    </label>
+
+                    <input type="text" value="{{ number_format($datPhong->tong_tien,0,',','.') }}đ" readonly
+                        class="w-full mt-2 border rounded-xl px-4 py-3 bg-slate-100 text-blue-600 font-semibold">
 
                 </div>
 
             </div>
 
-            <!-- Thông tin lưu trú -->
-            <div class="bg-slate-50 rounded-2xl p-6 mb-6">
+        </div>
 
-                <h3 class="text-xl font-bold mb-4">
+        <!-- Thông tin lưu trú -->
+        <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
 
-                    Thông tin lưu trú
+            <h3 class="text-xl font-bold text-black mb-6">
 
-                </h3>
+                Thông tin lưu trú
 
-                <div class="grid md:grid-cols-3 gap-6">
+            </h3>
 
-                    <div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-                        <label class="font-medium">
-                            Ngày nhận phòng
-                        </label>
+                <div>
 
-                        <input type="text"
-                            value="{{ \Carbon\Carbon::parse($datPhong->ngay_nhan_phong)->format('d/m/Y') }}" disabled
-                            class="w-full mt-2 border rounded-xl px-4 py-3 bg-white">
+                    <label class="block text-sm font-semibold text-black">
 
-                    </div>
+                        Ngày nhận phòng
 
-                    <div>
+                    </label>
 
-                        <label class="font-medium">
-                            Ngày trả phòng
-                        </label>
-
-                        <input type="text"
-                            value="{{ \Carbon\Carbon::parse($datPhong->ngay_tra_phong)->format('d/m/Y') }}" disabled
-                            class="w-full mt-2 border rounded-xl px-4 py-3 bg-white">
-
-                    </div>
-
-                    <div>
-
-                        <label class="font-medium">
-                            Tổng tiền
-                        </label>
-
-                        <input type="text" value="{{ number_format($datPhong->tong_tien,0,',','.') }}đ" disabled
-                            class="w-full mt-2 border rounded-xl px-4 py-3 bg-white">
-
-                    </div>
+                    <input type="text" value="{{ \Carbon\Carbon::parse($datPhong->ngay_nhan_phong)->format('d/m/Y') }}"
+                        readonly class="w-full mt-2 border rounded-xl px-4 py-3 bg-slate-100 text-black">
 
                 </div>
 
-                <div class="grid md:grid-cols-3 gap-6 mt-6">
+                <div>
 
-                    <div>
+                    <label class="block text-sm font-semibold text-black">
 
-                        <label class="font-medium">
-                            Người lớn
-                        </label>
+                        Ngày trả phòng
 
-                        <input type="text" value="{{ $datPhong->so_nguoi_truong_thanh }}" disabled
-                            class="w-full mt-2 border rounded-xl px-4 py-3 bg-white">
+                    </label>
 
-                    </div>
-
-                    <div>
-
-                        <label class="font-medium">
-                            Trẻ em
-                        </label>
-
-                        <input type="text" value="{{ $datPhong->so_tre_em }}" disabled
-                            class="w-full mt-2 border rounded-xl px-4 py-3 bg-white">
-
-                    </div>
-
-                    <div>
-
-                        <label class="font-medium">
-                            Người cao tuổi
-                        </label>
-
-                        <input type="text" value="{{ $datPhong->so_nguoi_cao_tuoi }}" disabled
-                            class="w-full mt-2 border rounded-xl px-4 py-3 bg-white">
-
-                    </div>
+                    <input type="text" value="{{ \Carbon\Carbon::parse($datPhong->ngay_tra_phong)->format('d/m/Y') }}"
+                        readonly class="w-full mt-2 border rounded-xl px-4 py-3 bg-slate-100 text-black">
 
                 </div>
 
-            </div>
+                <div>
 
-            <!-- Thông tin khách hàng -->
-            <div class="bg-slate-50 rounded-2xl p-6 mb-6">
+                    <label class="block text-sm font-semibold text-black">
 
-                <h3 class="text-xl font-bold mb-4">
+                        Số đêm
 
-                    Thông tin khách hàng
+                    </label>
 
-                </h3>
+                    <input type="text"
+                        value="{{ \Carbon\Carbon::parse($datPhong->ngay_nhan_phong)->diffInDays(\Carbon\Carbon::parse($datPhong->ngay_tra_phong)) }}"
+                        readonly class="w-full mt-2 border rounded-xl px-4 py-3 bg-slate-100 text-black">
 
-                <div class="grid md:grid-cols-2 gap-6">
+                </div>
 
-                    <div>
+                <div>
 
-                        <label class="font-medium">
-                            Họ và tên đệm
-                        </label>
+                    <label class="block text-sm font-semibold text-black">
 
-                        <input type="text" name="ho_va_ten_dem_khach" value="{{ $datPhong->ho_va_ten_dem_khach }}"
-                            class="w-full mt-2 border rounded-xl px-4 py-3">
+                        Người lớn
 
-                    </div>
+                    </label>
 
-                    <div>
+                    <input type="text" value="{{ $datPhong->so_nguoi_truong_thanh }}" readonly
+                        class="w-full mt-2 border rounded-xl px-4 py-3 bg-slate-100 text-black">
 
-                        <label class="font-medium">
-                            Tên
-                        </label>
+                </div>
 
-                        <input type="text" name="ten_khach" value="{{ $datPhong->ten_khach }}"
-                            class="w-full mt-2 border rounded-xl px-4 py-3">
+                <div>
 
-                    </div>
+                    <label class="block text-sm font-semibold text-black">
 
-                    <div>
+                        Trẻ em
 
-                        <label class="font-medium">
-                            Email
-                        </label>
+                    </label>
 
-                        <input type="email" name="email_khach" value="{{ $datPhong->email_khach }}"
-                            class="w-full mt-2 border rounded-xl px-4 py-3">
+                    <input type="text" value="{{ $datPhong->so_tre_em }}" readonly
+                        class="w-full mt-2 border rounded-xl px-4 py-3 bg-slate-100 text-black">
 
-                    </div>
+                </div>
 
-                    <div>
+                <div>
 
-                        <label class="font-medium">
-                            Số điện thoại
-                        </label>
+                    <label class="block text-sm font-semibold text-black">
 
-                        <input type="text" name="so_dien_thoai_khach" value="{{ $datPhong->so_dien_thoai_khach }}"
-                            class="w-full mt-2 border rounded-xl px-4 py-3">
+                        Người cao tuổi
 
-                    </div>
+                    </label>
+
+                    <input type="text" value="{{ $datPhong->so_nguoi_cao_tuoi }}" readonly
+                        class="w-full mt-2 border rounded-xl px-4 py-3 bg-slate-100 text-black">
 
                 </div>
 
             </div>
 
-            <!-- Chi tiết phòng -->
-            <div class="bg-slate-50 rounded-2xl p-6">
+        </div> <!-- Thông tin khách hàng -->
+        <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
 
-                <h3 class="text-xl font-bold mb-4">
+            <h3 class="text-xl font-bold text-black mb-6">
+
+                Thông tin khách hàng
+
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Họ và tên đệm -->
+                <div>
+
+                    <label class="block text-sm font-semibold text-black">
+
+                        Họ và tên đệm
+
+                    </label>
+
+                    <input type="text" name="ho_va_ten_dem_khach"
+                        value="{{ old('ho_va_ten_dem_khach',$datPhong->ho_va_ten_dem_khach) }}"
+                        class="w-full mt-2 border rounded-xl px-4 py-3 text-black focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+
+                    @error('ho_va_ten_dem_khach')
+
+                    <p class="text-red-500 text-sm mt-1">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
+
+                </div>
+
+                <!-- Tên -->
+                <div>
+
+                    <label class="block text-sm font-semibold text-black">
+
+                        Tên <span class="text-red-500">*</span>
+
+                    </label>
+
+                    <input type="text" name="ten_khach" value="{{ old('ten_khach',$datPhong->ten_khach) }}"
+                        class="w-full mt-2 border rounded-xl px-4 py-3 text-black focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+
+                    @error('ten_khach')
+
+                    <p class="text-red-500 text-sm mt-1">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
+
+                </div>
+
+                <!-- Email -->
+                <div>
+
+                    <label class="block text-sm font-semibold text-black">
+
+                        Email <span class="text-red-500">*</span>
+
+                    </label>
+
+                    <input type="email" name="email_khach" value="{{ old('email_khach',$datPhong->email_khach) }}"
+                        class="w-full mt-2 border rounded-xl px-4 py-3 text-black focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+
+                    @error('email_khach')
+
+                    <p class="text-red-500 text-sm mt-1">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
+
+                </div>
+
+                <!-- Số điện thoại -->
+                <div>
+
+                    <label class="block text-sm font-semibold text-black">
+
+                        Số điện thoại <span class="text-red-500">*</span>
+
+                    </label>
+
+                    <input type="text" name="so_dien_thoai_khach"
+                        value="{{ old('so_dien_thoai_khach',$datPhong->so_dien_thoai_khach) }}"
+                        class="w-full mt-2 border rounded-xl px-4 py-3 text-black focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+
+                    @error('so_dien_thoai_khach')
+
+                    <p class="text-red-500 text-sm mt-1">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Ghi chú -->
+        <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
+
+            <h3 class="text-xl font-bold text-black mb-6">
+
+                Ghi chú
+
+            </h3>
+
+            <textarea name="ghi_chu" rows="5" maxlength="500"
+                placeholder="Ví dụ: Phòng tầng cao, thêm nôi em bé, gần thang máy..."
+                class="w-full border rounded-xl px-4 py-3 text-black resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">{{ old('ghi_chu',$datPhong->ghi_chu) }}</textarea>
+
+            <div class="flex justify-between mt-2">
+
+                @error('ghi_chu')
+
+                <p class="text-red-500 text-sm">
+
+                    {{ $message }}
+
+                </p>
+
+                @else
+
+                <span></span>
+
+                @enderror
+
+                <span class="text-gray-400 text-sm">
+
+                    Tối đa 500 ký tự
+
+                </span>
+
+            </div>
+
+        </div>
+        <!-- Chi tiết loại phòng -->
+        <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+
+            <div class="p-6 border-b">
+
+                <h3 class="text-xl font-bold text-black">
 
                     Chi tiết loại phòng đã đặt
 
                 </h3>
 
-                <div class="overflow-x-auto">
+            </div>
 
-                    <table class="w-full">
+            <div class="overflow-x-auto">
 
-                        <thead>
+                <table class="min-w-full">
 
-                            <tr class="border-b">
+                    <thead class="bg-slate-50">
 
-                                <th class="text-left py-3">
-                                    Loại phòng
-                                </th>
+                        <tr>
 
-                                <th class="text-left py-3">
-                                    Số lượng
-                                </th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-black">
 
-                                <th class="text-left py-3">
-                                    Giá đặt
-                                </th>
+                                Loại phòng
 
-                                <th class="text-left py-3">
-                                    Số đêm
-                                </th>
+                            </th>
 
-                                <th class="text-left py-3">
-                                    Thành tiền
-                                </th>
+                            <th class="px-6 py-4 text-center text-sm font-semibold text-black">
 
-                            </tr>
+                                Số lượng
 
-                        </thead>
+                            </th>
 
-                        <tbody>
+                            <th class="px-6 py-4 text-right text-sm font-semibold text-black">
 
-                            @foreach($datPhong->chiTietDatPhong as $chiTiet)
+                                Giá đặt
 
-                            <tr class="border-b">
+                            </th>
 
-                                <td class="py-4">
+                            <th class="px-6 py-4 text-center text-sm font-semibold text-black">
 
-                                    {{ $chiTiet->loaiPhong->ten_loai_phong ?? '' }}
+                                Số đêm
 
-                                </td>
+                            </th>
 
-                                <td>
+                            <th class="px-6 py-4 text-right text-sm font-semibold text-black">
 
-                                    {{ $chiTiet->so_luong_phong }}
+                                Thành tiền
 
-                                </td>
+                            </th>
 
-                                <td>
+                        </tr>
 
-                                    {{ number_format($chiTiet->gia_dat_thuc_te,0,',','.') }}đ
+                    </thead>
 
-                                </td>
+                    <tbody>
 
-                                <td>
+                        @foreach($datPhong->chiTietDatPhong as $chiTiet)
 
-                                    {{ $chiTiet->so_dem }}
+                        <tr class="border-t hover:bg-slate-50">
 
-                                </td>
+                            <td class="px-6 py-4 text-black">
 
-                                <td class="font-bold text-blue-600">
+                                {{ $chiTiet->loaiPhong->ten_loai_phong }}
 
-                                    {{ number_format($chiTiet->thanh_tien,0,',','.') }}đ
+                            </td>
 
-                                </td>
+                            <td class="px-6 py-4 text-center text-black">
 
-                            </tr>
+                                {{ $chiTiet->so_luong_phong }}
 
-                            @endforeach
+                            </td>
 
-                        </tbody>
+                            <td class="px-6 py-4 text-right text-black">
 
-                    </table>
+                                {{ number_format($chiTiet->gia_dat_thuc_te,0,',','.') }}đ
 
-                </div>
+                            </td>
+
+                            <td class="px-6 py-4 text-center text-black">
+
+                                {{ $chiTiet->so_dem }}
+
+                            </td>
+
+                            <td class="px-6 py-4 text-right font-semibold text-blue-600">
+
+                                {{ number_format($chiTiet->thanh_tien,0,',','.') }}đ
+
+                            </td>
+
+                        </tr>
+
+                        @endforeach
+
+                    </tbody>
+
+                </table>
 
             </div>
 
-            <div class="mt-8 flex gap-4">
+        </div>
 
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl">
+        <!-- Nút -->
+        <div class="flex flex-wrap gap-4 mt-8">
 
-                    Cập nhật
+            <button type="submit"
+                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-full transition">
 
-                </button>
+                <i class="fa-solid fa-floppy-disk mr-2"></i>
 
-                <a href="{{ route('admin.datphong.index') }}"
-                    class="bg-slate-200 hover:bg-slate-300 px-6 py-3 rounded-xl">
+                Cập nhật đơn đặt phòng
 
-                    Quay lại
+            </button>
 
-                </a>
+            <a href="{{ route('admin.datphong.index') }}"
+                class="bg-slate-200 hover:bg-slate-300 text-black font-semibold px-6 py-3 rounded-full transition">
 
-            </div>
+                <i class="fa-solid fa-arrow-left mr-2"></i>
 
-        </form>
+                Quay lại
 
-    </div>
+            </a>
+
+        </div>
+
+    </form>
 
 </div>
 

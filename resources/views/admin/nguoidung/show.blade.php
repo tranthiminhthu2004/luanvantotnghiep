@@ -36,107 +36,23 @@ use Illuminate\Support\Str;
 
             @endif
 
-            <h2 class="text-2xl font-bold text-[#061755] mt-4 text-center">
-
-                {{ $nguoiDung->ho_va_ten_dem }}
-                {{ $nguoiDung->ten }}
-
-            </h2>
-
-            <p class="text-gray-500 mt-1 text-sm">
+            <p class="mt-4 text-gray-500 text-sm">
 
                 {{ $nguoiDung->email }}
 
             </p>
 
-            <span class="mt-3 bg-blue-100 text-blue-600 px-4 py-1 rounded-full text-sm font-medium">
+            <div class="flex gap-3 mt-4">
 
-                {{ $nguoiDung->vaiTro->ten_vai_tro ?? 'Người dùng' }}
+                <span class="bg-blue-100 text-blue-600 px-4 py-1 rounded-full text-sm font-medium">
 
-            </span>
+                    {{ $nguoiDung->vaiTro->ten_vai_tro ?? 'Người dùng' }}
 
-        </div>
-
-        <!-- Thông tin -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-
-            <div class="bg-slate-50 rounded-xl border p-4">
-
-                <p class="text-gray-500 text-sm mb-1">
-
-                    Số điện thoại
-
-                </p>
-
-                <p class="font-semibold text-black">
-
-                    {{ $nguoiDung->so_dien_thoai ?: 'Chưa cập nhật' }}
-
-                </p>
-
-            </div>
-
-            <div class="bg-slate-50 rounded-xl border p-4">
-
-                <p class="text-gray-500 text-sm mb-1">
-
-                    Giới tính
-
-                </p>
-
-                <p class="font-semibold">
-
-                    @if($nguoiDung->gioi_tinh == 'Nam')
-
-                    Nam
-
-                    @elseif($nguoiDung->gioi_tinh == 'Nu')
-
-                    Nữ
-
-                    @elseif($nguoiDung->gioi_tinh == 'Khac')
-
-                    Khác
-
-                    @else
-
-                    Chưa cập nhật
-
-                    @endif
-
-                </p>
-
-            </div>
-
-            <div class="bg-slate-50 rounded-xl border p-4">
-
-                <p class="text-gray-500 text-sm mb-1">
-
-                    Ngày sinh
-
-                </p>
-
-                <p class="font-semibold">
-
-                    {{ $nguoiDung->ngay_sinh
-                        ? \Carbon\Carbon::parse($nguoiDung->ngay_sinh)->format('d/m/Y')
-                        : 'Chưa cập nhật' }}
-
-                </p>
-
-            </div>
-
-            <div class="bg-slate-50 rounded-xl border p-4">
-
-                <p class="text-gray-500 text-sm mb-1">
-
-                    Trạng thái
-
-                </p>
+                </span>
 
                 @if($nguoiDung->trang_thai)
 
-                <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm">
+                <span class="bg-green-100 text-green-600 px-4 py-1 rounded-full text-sm font-medium">
 
                     Hoạt động
 
@@ -144,7 +60,7 @@ use Illuminate\Support\Str;
 
                 @else
 
-                <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm">
+                <span class="bg-red-100 text-red-600 px-4 py-1 rounded-full text-sm font-medium">
 
                     Đã khóa
 
@@ -154,47 +70,154 @@ use Illuminate\Support\Str;
 
             </div>
 
-            <div class="bg-slate-50 rounded-xl border p-4">
+        </div>
 
-                <p class="text-gray-500 text-sm mb-1">
+        <!-- Thông tin cá nhân -->
+        <div class="mt-8 border rounded-2xl overflow-hidden">
 
-                    Ngày tạo tài khoản
+            <div class="bg-slate-50 px-6 py-4 border-b">
 
-                </p>
+                <h3 class="text-lg font-bold text-[#061755]">
 
-                <p class="font-semibold">
+                    Thông tin cá nhân
 
-                    {{ \Carbon\Carbon::parse($nguoiDung->ngay_tao)->format('d/m/Y H:i') }}
-
-                </p>
+                </h3>
 
             </div>
 
-            <div class="bg-slate-50 rounded-xl border p-4">
+            <div class="p-6 space-y-5">
 
-                <p class="text-gray-500 text-sm mb-1">
+                <div class="flex flex-col md:flex-row">
 
-                    Đăng nhập Google
+                    <div class="w-full md:w-56 font-semibold text-gray-600">
 
-                </p>
+                        Họ và tên
 
-                @if($nguoiDung->ma_google)
+                    </div>
 
-                <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm">
+                    <div class="flex-1">
 
-                    Có
+                        {{ $nguoiDung->ho_va_ten_dem }} {{ $nguoiDung->ten }}
 
-                </span>
+                    </div>
 
-                @else
+                </div>
 
-                <span class="bg-slate-200 text-slate-600 px-3 py-1 rounded-full text-sm">
+                <div class="border-t"></div>
 
-                    Không
+                <div class="flex flex-col md:flex-row">
 
-                </span>
+                    <div class="w-full md:w-56 font-semibold text-gray-600">
 
-                @endif
+                        Số điện thoại
+
+                    </div>
+
+                    <div class="flex-1">
+
+                        {{ $nguoiDung->so_dien_thoai ?: 'Chưa cập nhật' }}
+
+                    </div>
+
+                </div>
+
+                <div class="border-t"></div>
+
+                <div class="flex flex-col md:flex-row">
+
+                    <div class="w-full md:w-56 font-semibold text-gray-600">
+
+                        Giới tính
+
+                    </div>
+
+                    <div class="flex-1">
+
+                        @if($nguoiDung->gioi_tinh == 'Nam')
+
+                        Nam
+
+                        @elseif($nguoiDung->gioi_tinh == 'Nu')
+
+                        Nữ
+
+                        @elseif($nguoiDung->gioi_tinh == 'Khac')
+
+                        Khác
+
+                        @else
+
+                        Chưa cập nhật
+
+                        @endif
+
+                    </div>
+
+                </div>
+
+                <div class="border-t"></div>
+
+                <div class="flex flex-col md:flex-row">
+
+                    <div class="w-full md:w-56 font-semibold text-gray-600">
+
+                        Ngày sinh
+
+                    </div>
+
+                    <div class="flex-1">
+
+                        {{ $nguoiDung->ngay_sinh
+                    ? \Carbon\Carbon::parse($nguoiDung->ngay_sinh)->format('d/m/Y')
+                    : 'Chưa cập nhật' }}
+
+                    </div>
+
+                </div>
+
+                <div class="border-t"></div>
+
+                <div class="flex flex-col md:flex-row">
+
+                    <div class="w-full md:w-56 font-semibold text-gray-600">
+
+                        Ngày tạo tài khoản
+
+                    </div>
+
+                    <div class="flex-1">
+
+                        {{ \Carbon\Carbon::parse($nguoiDung->ngay_tao)->format('d/m/Y H:i') }}
+
+                    </div>
+
+                </div>
+
+                <div class="border-t"></div>
+
+                <div class="flex flex-col md:flex-row">
+
+                    <div class="w-full md:w-56 font-semibold text-gray-600">
+
+                        Đăng nhập Google
+
+                    </div>
+
+                    <div class="flex-1">
+
+                        @if($nguoiDung->ma_google)
+
+                        Có
+
+                        @else
+
+                        Không
+
+                        @endif
+
+                    </div>
+
+                </div>
 
             </div>
 
