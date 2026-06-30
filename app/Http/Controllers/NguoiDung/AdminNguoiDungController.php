@@ -48,7 +48,7 @@ class AdminNguoiDungController extends Controller
         }
 
         // Lọc trạng thái
-       // Lọc trạng thái
+       
 if ($request->filled('trang_thai'))
 {
     $query->where(

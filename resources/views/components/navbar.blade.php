@@ -164,7 +164,8 @@
 
                         <div class="py-2">
 
-                            <a href="#" class="flex items-center gap-3 px-5 py-3 hover:bg-slate-100 transition">
+                            <a href="{{ route('hoso.index')}}"
+                                class="flex items-center gap-3 px-5 py-3 hover:bg-slate-100 transition">
 
                                 <i class="fa-solid fa-user w-5 text-blue-600"></i>
 
@@ -172,7 +173,8 @@
 
                             </a>
 
-                            <a href="#" class="flex items-center gap-3 px-5 py-3 hover:bg-slate-100 transition">
+                            <a href="{{ route('lichsudatphong.index')}}"
+                                class="flex items-center gap-3 px-5 py-3 hover:bg-slate-100 transition">
 
                                 <i class="fa-solid fa-calendar-check w-5 text-green-600"></i>
 

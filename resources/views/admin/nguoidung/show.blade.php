@@ -17,17 +17,8 @@ use Illuminate\Support\Str;
 
             @if($nguoiDung->anh_dai_dien)
 
-            @if(Str::startsWith($nguoiDung->anh_dai_dien,'http'))
-
-            <img src="{{ $nguoiDung->anh_dai_dien }}"
+            <img src="{{ asset($nguoiDung->anh_dai_dien) }}"
                 class="w-32 h-32 rounded-full object-cover border-4 border-blue-100 shadow">
-
-            @else
-
-            <img src="{{ asset('storage/'.$nguoiDung->anh_dai_dien) }}"
-                class="w-32 h-32 rounded-full object-cover border-4 border-blue-100 shadow">
-
-            @endif
 
             @else
 
@@ -35,6 +26,7 @@ use Illuminate\Support\Str;
                 class="w-32 h-32 rounded-full object-cover border-4 border-blue-100 shadow">
 
             @endif
+
 
             <p class="mt-4 text-gray-500 text-sm">
 

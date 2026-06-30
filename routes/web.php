@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\KhachSan\UserKhachSanController;
 
 use App\Http\Controllers\NguoiDung\AdminNguoiDungController;
+use App\Http\Controllers\NguoiDung\UserHoSoController;
 
 use App\Http\Controllers\KhachSan\AdminKhachSanController;
 use App\Http\Controllers\KhachSan\AdminHinhAnhKhachSanController;
@@ -28,6 +29,8 @@ use App\Http\Controllers\DatPhong\AdminDatPhongController;
 use App\Http\Controllers\DatPhong\UserDatPhongController;
 
 use App\Http\Controllers\ThanhToan\UserThanhToanController;
+use App\Http\Controllers\NguoiDung\UserLichSuDatPhongController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -579,8 +582,6 @@ Route::get(
 |--------------------------------------------------------------------------
 */
 
-// Trang demo (nếu còn sử dụng)
-
 // Chi tiết khách sạn
 
 Route::get(
@@ -590,8 +591,35 @@ Route::get(
 
 /*
 |--------------------------------------------------------------------------
-| AUTH ROUTES
+| User người dung 
 |--------------------------------------------------------------------------
 */
+Route::get(
+    '/ho-so',
+    [UserHoSoController::class, 'index']
+)->middleware('auth')->name('hoso.index');
+Route::get(
+    '/ho-so/chinh-sua',
+    [UserHoSoController::class, 'edit']
+)->middleware('auth')->name('hoso.edit');
 
+Route::put(
+    '/ho-so/cap-nhat',
+    [UserHoSoController::class, 'update']
+)->middleware('auth')->name('hoso.update');
+
+/*
+|--------------------------------------------------------------------------
+| Lịch sử đặt phòng 
+|--------------------------------------------------------------------------
+*/
+Route::get(
+    '/lich-su-dat-phong',
+    [UserLichSuDatPhongController::class, 'index']
+)->middleware('auth')->name('lichsudatphong.index');
+
+Route::get(
+    '/lich-su-dat-phong/{maDonDatPhong}',
+    [UserLichSuDatPhongController::class, 'show']
+)->middleware('auth')->name('lichsudatphong.show');
 require __DIR__ . '/auth.php';
