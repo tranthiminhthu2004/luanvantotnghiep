@@ -15,11 +15,10 @@
 
     @include('components.navbar')
 
-    <div class="pt-24">
+    <main class="pt-24">
 
-        <div class="max-w-7xl mx-auto px-4 py-6">
+        <div class="max-w-[1280px] xl:max-w-[1320px] mx-auto px-4 lg:px-5 py-6">
 
-            {{-- Thư viện ảnh --}}
             @include('users.chitietkhachsan.thuvienanh')
 
             <div class="space-y-5 mt-5">
@@ -36,7 +35,6 @@
 
             </div>
 
-            {{-- Khách sạn tương tự --}}
             <div class="mt-8">
 
                 @include('users.chitietkhachsan.khachsantuongtu')
@@ -45,7 +43,9 @@
 
         </div>
 
-    </div>
+    </main>
+
+    @include('components.footer')
 
 </body>
 

@@ -10,8 +10,76 @@ use Carbon\Carbon;
 
 class UserDatPhongController extends Controller
 {
+    /**
+     * Hiển thị trang xác nhận đặt phòng
+     */
+   public function index()
+{
+    $duLieu = session('xac_nhan_dat_phong');
+
+    if (!$duLieu)
+    {
+        return redirect()->route('khachsan.index');
+    }
+
+    $khachSan = KhachSan::with([
+        'hinhAnh',
+        'diaDiem'
+    ])->findOrFail(
+        $duLieu['ma_khach_san']
+    );
+
+    $duLieu['khachSan'] = $khachSan;
+
+    return view(
+        'users.datphong.index',
+        $duLieu
+    );
+}
+    /**
+     * Xử lý dữ liệu từ trang chi tiết khách sạn
+     */
     public function xacNhan(Request $request)
     {
+        $request->validate(
+            [
+                'ma_khach_san' => 'required|exists:khach_san,ma_khach_san',
+
+                'ngay_nhan_phong' => 'required|date_format:d/m/Y',
+
+                'ngay_tra_phong' => 'required|date_format:d/m/Y|after:ngay_nhan_phong',
+
+                'so_nguoi_truong_thanh' => 'required|integer|min:1',
+
+                'so_tre_em' => 'nullable|integer|min:0',
+
+                'so_nguoi_cao_tuoi' => 'nullable|integer|min:0',
+
+                'phong' => 'required|array',
+            ],
+            [
+                'ma_khach_san.required' => 'Không tìm thấy khách sạn.',
+
+                'ma_khach_san.exists' => 'Khách sạn không tồn tại.',
+
+                'ngay_nhan_phong.required' => 'Vui lòng chọn ngày nhận phòng.',
+
+                'ngay_nhan_phong.date_format' => 'Ngày nhận phòng không đúng định dạng.',
+
+                'ngay_tra_phong.required' => 'Vui lòng chọn ngày trả phòng.',
+
+                'ngay_tra_phong.date_format' => 'Ngày trả phòng không đúng định dạng.',
+
+                'ngay_tra_phong.after' => 'Ngày trả phòng phải sau ngày nhận phòng.',
+
+                'so_nguoi_truong_thanh.required' => 'Vui lòng nhập số người lớn.',
+
+                'so_nguoi_truong_thanh.min' => 'Phải có ít nhất 1 người lớn.',
+
+                'phong.required' => 'Vui lòng chọn phòng.',
+            ]
+        );
+
         $phongsDaChon = [];
 
         $tongTien = 0;
@@ -25,6 +93,15 @@ class UserDatPhongController extends Controller
                 $request->ngay_tra_phong
             )
         );
+
+        if ($soDem <= 0)
+        {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'ngay_tra_phong' => 'Số đêm phải lớn hơn 0.'
+                ]);
+        }
 
         foreach ($request->phong as $maLoaiPhong => $soLuong)
         {
@@ -46,30 +123,33 @@ class UserDatPhongController extends Controller
 
             $phongsDaChon[] =
             [
-                'ma_loai_phong' =>
-                    $loaiPhong->ma_loai_phong,
+                'ma_loai_phong' => $loaiPhong->ma_loai_phong,
 
-                'ten' =>
-                    $loaiPhong->ten_loai_phong,
+                'ten' => $loaiPhong->ten_loai_phong,
 
-                'so_luong' =>
-                    $soLuong,
+                'so_luong' => $soLuong,
 
-                'gia' =>
-                    $loaiPhong->gia_co_ban,
+                'gia' => $loaiPhong->gia_co_ban,
 
-                'so_dem' =>
-                    $soDem,
+                'so_dem' => $soDem,
 
-                'thanh_tien' =>
-                    $thanhTien,
+                'thanh_tien' => $thanhTien,
             ];
         }
 
+        if (count($phongsDaChon) == 0)
+        {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'phong' => 'Vui lòng chọn ít nhất một loại phòng.'
+                ]);
+        }
+
         $tongNguoi =
-            (int)$request->so_nguoi_truong_thanh +
-            (int)$request->so_tre_em +
-            (int)$request->so_nguoi_cao_tuoi;
+            (int) $request->so_nguoi_truong_thanh +
+            (int) $request->so_tre_em +
+            (int) $request->so_nguoi_cao_tuoi;
 
         $khachSan = KhachSan::with([
             'hinhAnh',
@@ -78,17 +158,34 @@ class UserDatPhongController extends Controller
             $request->ma_khach_san
         );
 
-        return view(
-            'users.datphong.index',
-            [
-                'khachSan'      => $khachSan,
-                'phongsDaChon'  => $phongsDaChon,
-                'tongTien'      => $tongTien,
-                'tongNguoi'     => $tongNguoi,
-                'soDem'         => $soDem,
-                'ngayNhanPhong' => $request->ngay_nhan_phong,
-                'ngayTraPhong'  => $request->ngay_tra_phong,
-            ]
+      session([
+    'xac_nhan_dat_phong' => [
+
+        'ma_khach_san' => $khachSan->ma_khach_san,
+
+        'phongsDaChon' => $phongsDaChon,
+
+        'tongTien' => $tongTien,
+
+        'tongNguoi' => $tongNguoi,
+
+        'soDem' => $soDem,
+
+        'ngayNhanPhong' => $request->ngay_nhan_phong,
+
+        'ngayTraPhong' => $request->ngay_tra_phong,
+
+        'soNguoiTruongThanh' => (int) $request->so_nguoi_truong_thanh,
+
+        'soTreEm' => (int) $request->so_tre_em,
+
+        'soNguoiCaoTuoi' => (int) $request->so_nguoi_cao_tuoi,
+
+    ]
+]);
+
+        return redirect()->route(
+            'datphong.xacnhan.index'
         );
     }
 }

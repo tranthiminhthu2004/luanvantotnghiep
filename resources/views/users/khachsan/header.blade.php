@@ -2,7 +2,7 @@
 
     <div>
 
-        <h1 class="text-3xl md:text-4xl lg:text-6xl font-bold text-[#061755] mb-2">
+        <h1 class="text-2xl md:text-4xl lg:text-6xl font-bold text-[#061755] mb-2">
 
             Tất cả khách sạn
 

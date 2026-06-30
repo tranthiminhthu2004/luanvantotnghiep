@@ -124,54 +124,106 @@
                             @method('PUT')
 
                             <select name="trang_thai_dat_phong" onchange="this.form.submit()" class="px-3 py-2 rounded-full text-sm font-medium border-0 cursor-pointer
+    @if($datPhong->trang_thai_dat_phong == 'ChoXacNhan')
+        bg-yellow-100 text-yellow-700
+    @elseif($datPhong->trang_thai_dat_phong == 'DaXacNhan')
+        bg-green-100 text-green-700
+    @elseif($datPhong->trang_thai_dat_phong == 'DaNhanPhong')
+        bg-blue-100 text-blue-700
+    @elseif($datPhong->trang_thai_dat_phong == 'DaTraPhong')
+        bg-indigo-100 text-indigo-700
+    @elseif($datPhong->trang_thai_dat_phong == 'DaHuy')
+        bg-red-100 text-red-700
+    @elseif($datPhong->trang_thai_dat_phong == 'KhongDenNhanPhong')
+        bg-orange-100 text-orange-700
+    @endif" @if(in_array($datPhong->trang_thai_dat_phong,[
+                                'DaTraPhong',
+                                'DaHuy',
+                                'KhongDenNhanPhong'
+                                ]))
+                                disabled
+                                @endif
+                                >
+
+                                {{-- Chờ xác nhận --}}
                                 @if($datPhong->trang_thai_dat_phong == 'ChoXacNhan')
-                                    bg-yellow-100 text-yellow-700
-                                @elseif($datPhong->trang_thai_dat_phong == 'DaXacNhan')
-                                    bg-green-100 text-green-700
-                                @elseif($datPhong->trang_thai_dat_phong == 'HoanThanh')
-                                    bg-blue-100 text-blue-700
-                                @elseif($datPhong->trang_thai_dat_phong == 'DaHuy')
-                                    bg-red-100 text-red-700
-                                @elseif($datPhong->trang_thai_dat_phong == 'KhongDen')
-                                    bg-orange-100 text-orange-700
-                                @endif">
-                                <option value="ChoXacNhan"
-                                    {{ $datPhong->trang_thai_dat_phong == 'ChoXacNhan' ? 'selected' : '' }}>
 
+                                <option value="ChoXacNhan" selected>
                                     Chờ xác nhận
-
                                 </option>
 
-                                <option value="DaXacNhan"
-                                    {{ $datPhong->trang_thai_dat_phong == 'DaXacNhan' ? 'selected' : '' }}>
-
+                                <option value="DaXacNhan">
                                     Đã xác nhận
-
                                 </option>
 
-                                <option value="HoanThanh"
-                                    {{ $datPhong->trang_thai_dat_phong == 'HoanThanh' ? 'selected' : '' }}>
-
-                                    Hoàn thành
-
-                                </option>
-
-                                <option value="DaHuy"
-                                    {{ $datPhong->trang_thai_dat_phong == 'DaHuy' ? 'selected' : '' }}>
-
+                                <option value="DaHuy">
                                     Đã hủy
-
                                 </option>
 
-                                <option value="KhongDen"
-                                    {{ $datPhong->trang_thai_dat_phong == 'KhongDen' ? 'selected' : '' }}>
+                                @endif
 
+                                {{-- Đã xác nhận --}}
+                                @if($datPhong->trang_thai_dat_phong == 'DaXacNhan')
+
+                                <option value="DaXacNhan" selected>
+                                    Đã xác nhận
+                                </option>
+
+                                <option value="DaNhanPhong">
+                                    Đã nhận phòng
+                                </option>
+
+                                <option value="DaHuy">
+                                    Đã hủy
+                                </option>
+
+                                <option value="KhongDenNhanPhong">
                                     Không đến
-
                                 </option>
+
+                                @endif
+
+                                {{-- Đã nhận phòng --}}
+                                @if($datPhong->trang_thai_dat_phong == 'DaNhanPhong')
+
+                                <option value="DaNhanPhong" selected>
+                                    Đã nhận phòng
+                                </option>
+
+                                <option value="DaTraPhong">
+                                    Đã trả phòng
+                                </option>
+
+                                @endif
+
+                                {{-- Đã trả phòng --}}
+                                @if($datPhong->trang_thai_dat_phong == 'DaTraPhong')
+
+                                <option value="DaTraPhong" selected>
+                                    Đã trả phòng
+                                </option>
+
+                                @endif
+
+                                {{-- Đã hủy --}}
+                                @if($datPhong->trang_thai_dat_phong == 'DaHuy')
+
+                                <option value="DaHuy" selected>
+                                    Đã hủy
+                                </option>
+
+                                @endif
+
+                                {{-- Không đến nhận phòng --}}
+                                @if($datPhong->trang_thai_dat_phong == 'KhongDenNhanPhong')
+
+                                <option value="KhongDenNhanPhong" selected>
+                                    Không đến nhận phòng
+                                </option>
+
+                                @endif
 
                             </select>
-
                         </form>
 
                     </td>

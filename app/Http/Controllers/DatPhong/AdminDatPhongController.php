@@ -548,28 +548,65 @@ public function capNhatTrangThai(
     $request->validate([
 
         'trang_thai_dat_phong' =>
-
             'required|in:ChoXacNhan,DaXacNhan,HoanThanh,DaHuy,KhongDen'
-
-    ], [
-
-        'trang_thai_dat_phong.required' =>
-
-            'Vui lòng chọn trạng thái.',
-
-        'trang_thai_dat_phong.in' =>
-
-            'Trạng thái không hợp lệ.'
 
     ]);
 
     $datPhong = DatPhong::findOrFail($id);
 
+    $trangThaiCu = $datPhong->trang_thai_dat_phong;
+
+    $trangThaiMoi = $request->trang_thai_dat_phong;
+
+    // Luồng chuyển trạng thái hợp lệ
+    $hopLe = [
+
+    'ChoXacNhan' => [
+        'DaXacNhan',
+        'DaHuy'
+    ],
+
+    'DaXacNhan' => [
+        'DaNhanPhong',
+        'DaHuy',
+        'KhongDenNhanPhong'
+    ],
+
+    'DaNhanPhong' => [
+        'DaTraPhong'
+    ],
+
+    'DaTraPhong' => [],
+
+    'DaHuy' => [],
+
+    'KhongDenNhanPhong' => []
+
+];
+    // Nếu chọn lại chính trạng thái hiện tại
+    if ($trangThaiCu == $trangThaiMoi)
+    {
+        return back();
+    }
+
+    // Không cho chuyển sai nghiệp vụ
+    if (!in_array($trangThaiMoi, $hopLe[$trangThaiCu]))
+    {
+        return back()->with(
+            'error',
+            'Không thể chuyển từ "' .
+            $trangThaiCu .
+            '" sang "' .
+            $trangThaiMoi .
+            '".'
+        );
+    }
+
     $datPhong->update([
 
         'trang_thai_dat_phong' =>
 
-            $request->trang_thai_dat_phong
+            $trangThaiMoi
 
     ]);
 
@@ -581,7 +618,6 @@ public function capNhatTrangThai(
 
     );
 }
-
 public function show($id)
 {
     $datPhong = DatPhong::with([

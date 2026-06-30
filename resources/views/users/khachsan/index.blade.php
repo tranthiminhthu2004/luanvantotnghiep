@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang Khách Sạn</title>
+
+    <title>Khách sạn</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -13,30 +16,27 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 </head>
 
-<body>
+<body class="bg-gray-50">
 
     @include('components.navbar')
 
-    <div class="pt-24">
+    <main class="pt-20 lg:pt-24">
 
         @include('users.khachsan.search')
 
-        <section class="max-w-7xl mx-auto px-4 py-8">
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
             <div class="flex flex-col lg:flex-row gap-6">
 
-                {{-- Sidebar bộ lọc --}}
                 @include('users.khachsan.boloc')
 
-                {{-- Danh sách khách sạn --}}
                 <div class="flex-1 min-w-0">
 
-                    {{-- Header --}}
                     @include('users.khachsan.header')
 
-                    {{-- Danh sách --}}
                     <div class="space-y-5">
 
                         @forelse($khachSans as $khachSan)
@@ -54,8 +54,11 @@
                         @endforelse
 
                     </div>
-                    <div class="mt-6">
+
+                    <div class="mt-8">
+
                         {{ $khachSans->links() }}
+
                     </div>
 
                 </div>
@@ -64,7 +67,7 @@
 
         </section>
 
-    </div>
+    </main>
 
 </body>
 

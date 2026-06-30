@@ -1,122 +1,140 @@
-<div class="bg-white rounded-2xl shadow overflow-hidden">
+{{-- DANH SÁCH PHÒNG ĐÃ CHỌN --}}
 
-    <div class="px-6 py-5 border-b">
+<section>
 
-        <h2 class="text-2xl font-bold">
-            Danh sách phòng đã chọn
-        </h2>
+    <h2 class="text-xl sm:text-2xl font-bold text-slate-800 mb-6">
 
-    </div>
+        Danh sách phòng đã chọn
 
-    <div class="overflow-x-auto">
+    </h2>
 
-        <table class="w-full">
+    <div class="overflow-hidden rounded-xl border border-slate-200">
 
-            <thead class="bg-gray-50">
+        <div class="overflow-x-auto">
 
-                <tr>
+            <table class="w-full min-w-[760px]">
 
-                    <th class="px-6 py-4 text-left font-semibold text-gray-700">
-                        Loại phòng
-                    </th>
+                <thead class="bg-slate-50">
 
-                    <th class="px-4 py-4 text-center font-semibold text-gray-700">
-                        Số lượng
-                    </th>
+                    <tr>
 
-                    <th class="px-4 py-4 text-right font-semibold text-gray-700">
-                        Đơn giá (1 đêm)
-                    </th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-slate-700">
 
-                    <th class="px-4 py-4 text-center font-semibold text-gray-700">
-                        Số đêm
-                    </th>
+                            Loại phòng
 
-                    <th class="px-6 py-4 text-right font-semibold text-gray-700">
-                        Thành tiền
-                    </th>
+                        </th>
 
-                </tr>
+                        <th class="px-4 py-4 text-center text-sm font-semibold text-slate-700">
 
-            </thead>
+                            Số lượng
 
-            <tbody>
+                        </th>
 
-                @foreach($phongsDaChon as $phong)
+                        <th class="px-4 py-4 text-right text-sm font-semibold text-slate-700">
 
-                <tr class="border-t">
+                            Đơn giá (1 đêm)
 
-                    <td class="px-6 py-4">
+                        </th>
 
-                        <div class="flex items-center gap-3">
+                        <th class="px-4 py-4 text-center text-sm font-semibold text-slate-700">
 
-                            <div>
+                            Số đêm
 
-                                <div class="font-semibold">
+                        </th>
 
-                                    {{ $phong['ten'] }}
+                        <th class="px-6 py-4 text-right text-sm font-semibold text-slate-700">
 
-                                </div>
+                            Thành tiền
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach($phongsDaChon as $phong)
+
+                    <tr class="border-t border-slate-200 hover:bg-slate-50 transition">
+
+                        <td class="px-6 py-4">
+
+                            <div class="font-semibold text-slate-800">
+
+                                {{ $phong['ten'] }}
 
                             </div>
 
-                        </div>
+                        </td>
 
-                    </td>
+                        <td class="px-4 py-4 text-center text-slate-700">
 
-                    <td class="px-4 py-4 text-center">
+                            {{ $phong['so_luong'] }} phòng
 
-                        {{ $phong['so_luong'] }} phòng
+                        </td>
 
-                    </td>
+                        <td class="px-4 py-4 text-right text-slate-700">
 
-                    <td class="px-4 py-4 text-right">
+                            {{ number_format($phong['gia'],0,',','.') }}đ
 
-                        {{ number_format($phong['gia'],0,',','.') }}đ
+                        </td>
 
-                    </td>
+                        <td class="px-4 py-4 text-center text-slate-700">
 
-                    <td class="px-4 py-4 text-center">
+                            {{ $soDem }} đêm
 
-                        {{ $soDem }} đêm
+                        </td>
 
-                    </td>
+                        <td class="px-6 py-4 text-right font-bold text-slate-800">
 
-                    <td class="px-6 py-4 text-right font-bold">
+                            {{ number_format($phong['thanh_tien'],0,',','.') }}đ
 
-                        {{ number_format($phong['thanh_tien'],0,',','.') }}đ
+                        </td>
 
-                    </td>
+                    </tr>
 
-                </tr>
+                    @endforeach
 
-                @endforeach
+                </tbody>
 
-            </tbody>
+            </table>
 
-        </table>
+        </div>
 
-    </div>
+        <div class="border-t border-slate-200 bg-slate-50 px-6 py-5">
 
-    <div class="border-t bg-gray-50 px-6 py-4">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
 
-        <div class="flex justify-between items-center">
+                <div class="flex justify-between items-center">
 
-            <span class="text-lg font-semibold">
+                    <span class="text-lg font-semibold text-slate-700">
 
-                Tổng tiền phòng
+                        Tổng tiền phòng
 
-            </span>
+                    </span>
 
-            <span class="text-2xl font-bold text-blue-600">
+                    <span class="text-2xl font-bold text-blue-600 ml-6">
 
-                {{ number_format($tongTien,0,',','.') }}đ
+                        {{ number_format($tongTien,0,',','.') }}đ
 
-            </span>
+                    </span>
+
+                </div>
+
+                <button type="submit" form="datPhongForm"
+                    class="w-full lg:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-xl transition duration-300">
+
+                    <i class="fa-solid fa-calendar-check mr-2"></i>
+
+                    Đặt phòng
+
+                </button>
+
+            </div>
 
         </div>
 
     </div>
 
-
-</div>
+</section>

@@ -10,14 +10,20 @@ return new class extends Migration
     {
         Schema::table('chi_tiet_dat_phong', function (Blueprint $table)
         {
-            $table->integer('so_dem')
-                  ->after('gia_dat_thuc_te');
+            if (!Schema::hasColumn('chi_tiet_dat_phong', 'so_dem'))
+            {
+                $table->integer('so_dem')
+                      ->after('gia_dat_thuc_te');
+            }
 
-            $table->decimal(
-                'thanh_tien',
-                12,
-                2
-            )->after('so_dem');
+            if (!Schema::hasColumn('chi_tiet_dat_phong', 'thanh_tien'))
+            {
+                $table->decimal(
+                    'thanh_tien',
+                    12,
+                    2
+                )->after('so_dem');
+            }
         });
     }
 
@@ -25,10 +31,15 @@ return new class extends Migration
     {
         Schema::table('chi_tiet_dat_phong', function (Blueprint $table)
         {
-            $table->dropColumn([
-                'so_dem',
-                'thanh_tien'
-            ]);
+            if (Schema::hasColumn('chi_tiet_dat_phong', 'so_dem'))
+            {
+                $table->dropColumn('so_dem');
+            }
+
+            if (Schema::hasColumn('chi_tiet_dat_phong', 'thanh_tien'))
+            {
+                $table->dropColumn('thanh_tien');
+            }
         });
     }
 };

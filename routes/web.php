@@ -1,36 +1,47 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 use App\Http\Controllers\KhachSan\UserKhachSanController;
+
 use App\Http\Controllers\NguoiDung\AdminNguoiDungController;
-use App\Http\Controllers\KhachSan\UserChiTietKhachSanController;
+
 use App\Http\Controllers\KhachSan\AdminKhachSanController;
 use App\Http\Controllers\KhachSan\AdminHinhAnhKhachSanController;
+
 use App\Http\Controllers\KhachSan\AdminLoaiPhongController;
 use App\Http\Controllers\KhachSan\AdminHinhAnhLoaiPhongController;
+
 use App\Http\Controllers\KhachSan\AdminPhongController;
+
 use App\Http\Controllers\KhachSan\AdminTienNghiController;
 use App\Http\Controllers\KhachSan\AdminKhachSanTienNghiController;
 use App\Http\Controllers\KhachSan\AdminLoaiPhongTienNghiController;
+
 use App\Http\Controllers\KhachSan\AdminDiaDiemController;
+
 use App\Http\Controllers\DatPhong\AdminDatPhongController;
 use App\Http\Controllers\DatPhong\UserDatPhongController;
+
+use App\Http\Controllers\ThanhToan\UserThanhToanController;
+
 /*
 |--------------------------------------------------------------------------
-| Trang chủ
+| TRANG CHỦ
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', function () {
-
+Route::get('/', function ()
+{
     if (
         auth()->check() &&
         auth()->user()->ma_vai_tro == 1
-    ) {
+    )
+    {
         return redirect()->route('dashboard');
     }
 
@@ -40,28 +51,33 @@ Route::get('/', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Google Login
+| ĐĂNG NHẬP GOOGLE
 |--------------------------------------------------------------------------
 */
 
-Route::get('/google-login', [GoogleController::class, 'redirect'])
-    ->name('google.login');
+Route::get(
+    '/google-login',
+    [GoogleController::class, 'redirect']
+)->name('google.login');
 
-Route::get('/google-callback', [GoogleController::class, 'callback'])
-    ->name('google.callback');
+Route::get(
+    '/google-callback',
+    [GoogleController::class, 'callback']
+)->name('google.callback');
 
 /*
 |--------------------------------------------------------------------------
-| Dashboard Admin
+| DASHBOARD ADMIN
 |--------------------------------------------------------------------------
 */
 
-Route::get('/dashboard', function () {
-
+Route::get('/dashboard', function ()
+{
     if (
-        !auth()->check()
-        || auth()->user()->ma_vai_tro != 1
-    ) {
+        !auth()->check() ||
+        auth()->user()->ma_vai_tro != 1
+    )
+    {
         abort(403);
     }
 
@@ -72,29 +88,38 @@ Route::get('/dashboard', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Profile
+| HỒ SƠ NGƯỜI DÙNG
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth')->group(function ()
+{
+    Route::get(
+        '/profile',
+        [ProfileController::class, 'edit']
+    )->name('profile.edit');
 
-    Route::get('/profile', [ProfileController::class, 'edit'])
-        ->name('profile.edit');
+    Route::patch(
+        '/profile',
+        [ProfileController::class, 'update']
+    )->name('profile.update');
 
-    Route::patch('/profile', [ProfileController::class, 'update'])
-        ->name('profile.update');
-
-    Route::delete('/profile', [ProfileController::class, 'destroy'])
-        ->name('profile.destroy');
+    Route::delete(
+        '/profile',
+        [ProfileController::class, 'destroy']
+    )->name('profile.destroy');
 });
 
-// Logout
+Route::post(
+    '/logout',
+    [AuthenticatedSessionController::class, 'destroy']
+)->name('logout');
 
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-    ->name('logout');
-
-
-//USER - KHÁCH SẠN
+/*
+|--------------------------------------------------------------------------
+| USER - KHÁCH SẠN
+|--------------------------------------------------------------------------
+*/
 
 Route::get(
     '/khachsan',
@@ -106,52 +131,58 @@ Route::get(
     [UserKhachSanController::class, 'timKiem']
 )->name('khachsan.timkiem');
 
-
 Route::get(
     '/khachsan/{id}',
     [UserKhachSanController::class, 'show']
 )->name('khachsan.show');
 
-//ADMIN - KHÁCH SẠN
+/*
+|--------------------------------------------------------------------------
+| ADMIN - KHÁCH SẠN
+|--------------------------------------------------------------------------
+*/
 
-Route::middleware('auth')->group(function () {
-
+Route::middleware('auth')->group(function ()
+{
     Route::get(
         '/admin/khachsan',
         [AdminKhachSanController::class, 'index']
     )->name('admin.khachsan.index');
-
 });
+
+// Quản lý khách sạn
 
 Route::get(
     '/admin/khachsan/create',
-    [AdminKhachSanController::class,'create']
+    [AdminKhachSanController::class, 'create']
 )->name('admin.khachsan.create');
 
 Route::post(
     '/admin/khachsan/store',
-    [AdminKhachSanController::class,'store']
+    [AdminKhachSanController::class, 'store']
 )->name('admin.khachsan.store');
 
 Route::get(
     '/admin/khachsan/{id}/edit',
-    [AdminKhachSanController::class,'edit']
+    [AdminKhachSanController::class, 'edit']
 )->name('admin.khachsan.edit');
 
 Route::put(
     '/admin/khachsan/{id}',
-    [AdminKhachSanController::class,'update']
+    [AdminKhachSanController::class, 'update']
 )->name('admin.khachsan.update');
 
 Route::delete(
     '/admin/khachsan/{id}',
-    [AdminKhachSanController::class,'destroy']
+    [AdminKhachSanController::class, 'destroy']
 )->name('admin.khachsan.destroy');
 
 Route::get(
     '/admin/khachsan/{id}',
-    [AdminKhachSanController::class,'show']
+    [AdminKhachSanController::class, 'show']
 )->name('admin.khachsan.show');
+
+// Quản lý tiện nghi khách sạn
 
 Route::get(
     '/admin/khachsan/{id}/tiennghi',
@@ -163,187 +194,321 @@ Route::put(
     [AdminKhachSanTienNghiController::class, 'update']
 )->name('admin.khachsan.tiennghi.update');
 
-//Quản lý hình ảnh khách san
+// Quản lý hình ảnh khách sạn
+
 Route::get(
     '/admin/khachsan/{id}/hinhanh',
-    [AdminHinhAnhKhachSanController::class,'index']
+    [AdminHinhAnhKhachSanController::class, 'index']
 )->name('admin.hinhanh.index');
 
 Route::post(
     '/admin/khachsan/{id}/hinhanh',
-    [AdminHinhAnhKhachSanController::class,'store']
+    [AdminHinhAnhKhachSanController::class, 'store']
 )->name('admin.hinhanh.store');
 
 Route::delete(
     '/admin/hinhanh/{id}',
-    [AdminHinhAnhKhachSanController::class,'destroy']
+    [AdminHinhAnhKhachSanController::class, 'destroy']
 )->name('admin.hinhanh.destroy');
 
 Route::put(
     '/hinhanh/{id}',
-    [AdminHinhAnhKhachSanController::class,'update']
+    [AdminHinhAnhKhachSanController::class, 'update']
 )->name('admin.hinhanh.update');
-//Loai Phòng 
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN - LOẠI PHÒNG
+|--------------------------------------------------------------------------
+*/
+
+// Quản lý loại phòng
+
 Route::get(
     '/admin/loaiphong',
-    [AdminLoaiPhongController::class,'index']
+    [AdminLoaiPhongController::class, 'index']
 )->name('admin.loaiphong.index');
 
 Route::get(
     '/admin/loaiphong/create',
-    [AdminLoaiPhongController::class,'create']
+    [AdminLoaiPhongController::class, 'create']
 )->name('admin.loaiphong.create');
 
 Route::post(
     '/admin/loaiphong/store',
-    [AdminLoaiPhongController::class,'store']
+    [AdminLoaiPhongController::class, 'store']
 )->name('admin.loaiphong.store');
 
 Route::get(
     '/admin/loaiphong/{id}/edit',
-    [AdminLoaiPhongController::class,'edit']
+    [AdminLoaiPhongController::class, 'edit']
 )->name('admin.loaiphong.edit');
 
 Route::put(
     '/admin/loaiphong/{id}',
-    [AdminLoaiPhongController::class,'update']
+    [AdminLoaiPhongController::class, 'update']
 )->name('admin.loaiphong.update');
 
 Route::delete(
     '/admin/loaiphong/{id}',
-    [AdminLoaiPhongController::class,'destroy']
+    [AdminLoaiPhongController::class, 'destroy']
 )->name('admin.loaiphong.destroy');
 
 Route::get(
     '/admin/loaiphong/{id}',
-    [AdminLoaiPhongController::class,'show']
+    [AdminLoaiPhongController::class, 'show']
 )->name('admin.loaiphong.show');
+
+// Quản lý tiện nghi loại phòng
 
 Route::get(
     '/admin/loaiphong/{id}/tiennghi',
-    [AdminLoaiPhongTienNghiController::class,'edit']
+    [AdminLoaiPhongTienNghiController::class, 'edit']
 )->name('admin.loaiphong.tiennghi');
 
 Route::put(
     '/admin/loaiphong/{id}/tiennghi',
-    [AdminLoaiPhongTienNghiController::class,'update']
+    [AdminLoaiPhongTienNghiController::class, 'update']
 )->name('admin.loaiphong.tiennghi.update');
 
-//QUẢN LÝ HÌNH ẢNH LOẠI PHÒNG 
+// Quản lý hình ảnh loại phòng
+
 Route::get(
     '/admin/loaiphong/{id}/hinhanh',
-    [AdminHinhAnhLoaiPhongController::class,'index']
+    [AdminHinhAnhLoaiPhongController::class, 'index']
 )->name('admin.loaiphong.hinhanh.index');
 
 Route::post(
     '/admin/loaiphong/{id}/hinhanh',
-    [AdminHinhAnhLoaiPhongController::class,'store']
+    [AdminHinhAnhLoaiPhongController::class, 'store']
 )->name('admin.loaiphong.hinhanh.store');
 
 Route::delete(
     '/admin/loaiphong/hinhanh/{id}',
-    [AdminHinhAnhLoaiPhongController::class,'destroy']
+    [AdminHinhAnhLoaiPhongController::class, 'destroy']
 )->name('admin.loaiphong.hinhanh.destroy');
 
 Route::put(
     '/loaiphong/hinhanh/{id}',
-    [AdminLoaiPhongController::class,'updateHinhAnh']
-)->name('admin.loaiphong.hinhanh.update');
+    [AdminLoaiPhongController::class, 'updateHinhAnh']
+)->name('admin.loaiphong.hinhanh.update');/*
+|--------------------------------------------------------------------------
+| ADMIN - PHÒNG
+|--------------------------------------------------------------------------
+*/
 
-//Quản lý phòng
+// Quản lý phòng
 
 Route::get(
     '/admin/phong',
-    [AdminPhongController::class,'index']
+    [AdminPhongController::class, 'index']
 )->name('admin.phong.index');
 
 Route::get(
     '/admin/phong/create',
-    [AdminPhongController::class,'create']
+    [AdminPhongController::class, 'create']
 )->name('admin.phong.create');
 
 Route::post(
     '/admin/phong/store',
-    [AdminPhongController::class,'store']
+    [AdminPhongController::class, 'store']
 )->name('admin.phong.store');
 
 Route::get(
     '/admin/phong/{id}/edit',
-    [AdminPhongController::class,'edit']
+    [AdminPhongController::class, 'edit']
 )->name('admin.phong.edit');
 
 Route::put(
     '/admin/phong/{id}',
-    [AdminPhongController::class,'update']
+    [AdminPhongController::class, 'update']
 )->name('admin.phong.update');
 
 Route::delete(
     '/admin/phong/{id}',
-    [AdminPhongController::class,'destroy']
+    [AdminPhongController::class, 'destroy']
 )->name('admin.phong.destroy');
 
 Route::get(
     '/admin/phong/{id}',
-    [AdminPhongController::class,'show']
+    [AdminPhongController::class, 'show']
 )->name('admin.phong.show');
 
-// tiện nghi
-Route::resource(
-    'admin/tiennghi',
-    AdminTienNghiController::class
-)->names('admin.tiennghi');
+/*
+|--------------------------------------------------------------------------
+| ADMIN - TIỆN NGHI
+|--------------------------------------------------------------------------
+*/
 
-//Địa điểm 
-Route::resource(
-    'admin/diadiem',
-    AdminDiaDiemController::class
-)->names('admin.diadiem');
-//Quản lý người dùng 
+// Quản lý tiện nghi
+
+Route::get(
+    '/admin/tiennghi',
+    [AdminTienNghiController::class, 'index']
+)->name('admin.tiennghi.index');
+
+Route::get(
+    '/admin/tiennghi/create',
+    [AdminTienNghiController::class, 'create']
+)->name('admin.tiennghi.create');
+
+Route::post(
+    '/admin/tiennghi',
+    [AdminTienNghiController::class, 'store']
+)->name('admin.tiennghi.store');
+
+Route::get(
+    '/admin/tiennghi/{tiennghi}',
+    [AdminTienNghiController::class, 'show']
+)->name('admin.tiennghi.show');
+
+Route::get(
+    '/admin/tiennghi/{tiennghi}/edit',
+    [AdminTienNghiController::class, 'edit']
+)->name('admin.tiennghi.edit');
+
+Route::put(
+    '/admin/tiennghi/{tiennghi}',
+    [AdminTienNghiController::class, 'update']
+)->name('admin.tiennghi.update');
+
+Route::delete(
+    '/admin/tiennghi/{tiennghi}',
+    [AdminTienNghiController::class, 'destroy']
+)->name('admin.tiennghi.destroy');
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN - ĐỊA ĐIỂM
+|--------------------------------------------------------------------------
+*/
+
+// Quản lý địa điểm
+
+Route::get(
+    '/admin/diadiem',
+    [AdminDiaDiemController::class, 'index']
+)->name('admin.diadiem.index');
+
+Route::get(
+    '/admin/diadiem/create',
+    [AdminDiaDiemController::class, 'create']
+)->name('admin.diadiem.create');
+
+Route::post(
+    '/admin/diadiem',
+    [AdminDiaDiemController::class, 'store']
+)->name('admin.diadiem.store');
+
+Route::get(
+    '/admin/diadiem/{diadiem}',
+    [AdminDiaDiemController::class, 'show']
+)->name('admin.diadiem.show');
+
+Route::get(
+    '/admin/diadiem/{diadiem}/edit',
+    [AdminDiaDiemController::class, 'edit']
+)->name('admin.diadiem.edit');
+
+Route::put(
+    '/admin/diadiem/{diadiem}',
+    [AdminDiaDiemController::class, 'update']
+)->name('admin.diadiem.update');
+
+Route::delete(
+    '/admin/diadiem/{diadiem}',
+    [AdminDiaDiemController::class, 'destroy']
+)->name('admin.diadiem.destroy');
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN - NGƯỜI DÙNG
+|--------------------------------------------------------------------------
+*/
+
+// Quản lý người dùng
 
 Route::get(
     '/admin/nguoi-dung',
-    [AdminNguoiDungController::class,'index']
+    [AdminNguoiDungController::class, 'index']
 )->name('admin.nguoidung.index');
 
 Route::get(
     '/admin/nguoi-dung/create',
-    [AdminNguoiDungController::class,'create']
+    [AdminNguoiDungController::class, 'create']
 )->name('admin.nguoidung.create');
 
 Route::post(
     '/admin/nguoi-dung/store',
-    [AdminNguoiDungController::class,'store']
+    [AdminNguoiDungController::class, 'store']
 )->name('admin.nguoidung.store');
 
 Route::get(
     '/admin/nguoi-dung/{id}',
-    [AdminNguoiDungController::class,'show']
+    [AdminNguoiDungController::class, 'show']
 )->name('admin.nguoidung.show');
 
 Route::get(
     '/admin/nguoi-dung/{id}/edit',
-    [AdminNguoiDungController::class,'edit']
+    [AdminNguoiDungController::class, 'edit']
 )->name('admin.nguoidung.edit');
 
 Route::put(
     '/admin/nguoi-dung/{id}',
-    [AdminNguoiDungController::class,'update']
+    [AdminNguoiDungController::class, 'update']
 )->name('admin.nguoidung.update');
 
 Route::delete(
     '/admin/nguoi-dung/{id}',
-    [AdminNguoiDungController::class,'destroy']
-)->name('admin.nguoidung.destroy');
-// đặt phòng 
+    [AdminNguoiDungController::class, 'destroy']
+)->name('admin.nguoidung.destroy');/*
+|--------------------------------------------------------------------------
+| USER - ĐẶT PHÒNG
+|--------------------------------------------------------------------------
+*/
+
+// Hiển thị trang xác nhận đặt phòng
+Route::get(
+    '/dat-phong/xac-nhan',
+    [UserDatPhongController::class, 'index']
+)->name('datphong.xacnhan.index');
+
+// Xử lý dữ liệu từ trang chi tiết khách sạn
 Route::post(
     '/dat-phong/xac-nhan',
-    [UserDatPhongController::class,'xacNhan']
+    [UserDatPhongController::class, 'xacNhan']
 )->name('datphong.xacnhan');
 
+/*
+|--------------------------------------------------------------------------
+| USER - THANH TOÁN
+|--------------------------------------------------------------------------
+*/
+
+// Hiển thị trang thanh toán
 Route::post(
-    '/dat-phong/luu',
-    [DatPhongController::class,'store']
-)->name('datphong.store');
+    '/thanh-toan',
+    [UserThanhToanController::class, 'index']
+)->name('thanhtoan.index');
+
+// Lưu thanh toán 
+Route::post(
+    '/thanh-toan/store',
+    [UserThanhToanController::class, 'store']
+)->name('thanhtoan.store');
+//Thông báo thành công 
+Route::get(
+    '/dat-phong/thanh-cong',
+    [UserThanhToanController::class, 'thanhCong']
+)->name('datphong.thanhcong');
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN - ĐẶT PHÒNG
+|--------------------------------------------------------------------------
+*/
+
+// Quản lý đặt phòng
 
 Route::get(
     '/admin/datphong',
@@ -380,41 +545,53 @@ Route::delete(
     [AdminDatPhongController::class, 'destroy']
 )->name('admin.datphong.destroy');
 
+// Kiểm tra phòng trống
+
 Route::post(
-    'admin/datphong/kiem-tra-phong',
+    '/admin/datphong/kiem-tra-phong',
     [AdminDatPhongController::class, 'kiemTraPhong']
 )->name('admin.datphong.kiemTraPhong');
+
+// Cập nhật trạng thái đặt phòng
 
 Route::put(
     '/admin/datphong/{id}/trangthai',
     [AdminDatPhongController::class, 'capNhatTrangThai']
 )->name('admin.datphong.trangthai');
-//USER - ĐỊA ĐIỂM DU LỊCH
 
-Route::get('/diadiemdulich', function () {
-
-    return view('users.diadiemdulich.index');
-
-})->name('diadiemdulich.index');
-
-// USER - CHI TIẾT KHÁCH SẠN
-
-
-Route::get('/chitietkhachsan', function () {
-
-    return view('users.chitietkhachsan.index');
-
-})->name('chitietkhachsan.index');
+/*
+|--------------------------------------------------------------------------
+| USER - ĐỊA ĐIỂM DU LỊCH
+|--------------------------------------------------------------------------
+*/
 
 Route::get(
-    '/khach-san/{id}/album',
-    [KhachSanController::class,'album']
-)->name('khachsan.album');
+    '/diadiemdulich',
+    function ()
+    {
+        return view('users.diadiemdulich.index');
+    }
+)->name('diadiemdulich.index');
 
-//Useser loại phòng
+/*
+|--------------------------------------------------------------------------
+| USER - CHI TIẾT KHÁCH SẠN
+|--------------------------------------------------------------------------
+*/
+
+// Trang demo (nếu còn sử dụng)
+
+// Chi tiết khách sạn
 
 Route::get(
     '/khach-san/{id}',
-    [ChiTietKhachSanController::class, 'show']
+    [UserKhachSanController::class, 'show']
 )->name('users.chitietkhachsan');
-require __DIR__.'/auth.php';
+
+/*
+|--------------------------------------------------------------------------
+| AUTH ROUTES
+|--------------------------------------------------------------------------
+*/
+
+require __DIR__ . '/auth.php';

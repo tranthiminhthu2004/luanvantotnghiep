@@ -101,7 +101,6 @@
     'so_luong_phong' => request('so_luong_phong'),
 ]) }}" class="w-full lg:w-auto justify-center bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-full inline-flex items-center gap-2">
 
-                <i class="fa-solid fa-eye"></i>
 
                 Xem chi tiết
 

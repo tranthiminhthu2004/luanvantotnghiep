@@ -1,41 +1,66 @@
-<div class="bg-white rounded-2xl shadow p-6">
+{{-- THÔNG TIN LƯU TRÚ --}}
 
-    <h2 class="text-2xl font-bold mb-5">
+<section>
+
+    <h2 class="text-xl sm:text-2xl font-bold text-slate-800 mb-6">
+
         Thông tin lưu trú
+
     </h2>
 
-    <div class="grid md:grid-cols-3 gap-5">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
 
-        <div>
-            <div class="text-gray-500">
+        <!-- Ngày nhận phòng -->
+        <div class="rounded-xl border border-slate-200 bg-slate-50 p-5">
+
+            <div class="text-sm text-slate-500 mb-2">
+
                 Ngày nhận phòng
+
             </div>
 
-            <div class="font-semibold text-lg">
+            <div class="text-lg font-semibold text-slate-800">
+
                 {{ $ngayNhanPhong }}
+
             </div>
+
         </div>
 
-        <div>
-            <div class="text-gray-500">
+        <!-- Ngày trả phòng -->
+        <div class="rounded-xl border border-slate-200 bg-slate-50 p-5">
+
+            <div class="text-sm text-slate-500 mb-2">
+
                 Ngày trả phòng
+
             </div>
 
-            <div class="font-semibold text-lg">
+            <div class="text-lg font-semibold text-slate-800">
+
                 {{ $ngayTraPhong }}
+
             </div>
+
         </div>
 
-        <div>
-            <div class="text-gray-500">
+        <!-- Số khách -->
+        <div class="rounded-xl border border-slate-200 bg-slate-50 p-5">
+
+            <div class="text-sm text-slate-500 mb-2">
+
                 Số khách
+
             </div>
 
-            <div class="font-semibold text-lg">
+            <div class="text-lg font-semibold text-slate-800">
+
                 {{ $tongNguoi }} khách
+
             </div>
+
         </div>
 
     </div>
 
-</div>
+</section>

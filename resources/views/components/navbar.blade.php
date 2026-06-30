@@ -2,7 +2,7 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div class="flex items-center justify-between h-20">
+        <div class="flex items-center justify-between h-24">
 
             <!-- Logo -->
             <a href="{{ route('users.index') }}" class="flex-shrink-0">
@@ -133,7 +133,7 @@
 
                     <!-- Dropdown -->
                     <div id="userDropdown"
-                        class="hidden absolute right-0 mt-3 w-72 bg-white rounded-2xl shadow-xl border overflow-hidden">
+                        class="hidden absolute right-0 mt-3 w-80 bg-white rounded-2xl shadow-xl border overflow-hidden">
                         <div class="p-5 border-b bg-slate-50">
 
                             <div class="flex items-center gap-3">
@@ -180,13 +180,6 @@
 
                             </a>
 
-                            <a href="#" class="flex items-center gap-3 px-5 py-3 hover:bg-slate-100 transition">
-
-                                <i class="fa-solid fa-heart w-5 text-red-500"></i>
-
-                                Khách sạn yêu thích
-
-                            </a>
 
                         </div>
 

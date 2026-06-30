@@ -1,38 +1,68 @@
-<div class="bg-white rounded-2xl shadow p-6">
+{{-- THÔNG TIN KHÁCH SẠN --}}
 
-    <h2 class="text-2xl font-bold mb-5">
+<section>
+
+    <h2 class="text-xl sm:text-2xl font-bold text-slate-800 mb-6">
+
         Thông tin khách sạn
+
     </h2>
 
-    <div class="flex gap-5">
+    <div class="flex flex-col sm:flex-row gap-5">
 
         <img src="{{ $khachSan->hinhAnh->count()
                 ? asset($khachSan->hinhAnh->first()->duong_dan_anh)
-                : asset('images/hotel-default.jpg') }}" class="w-40 h-32 rounded-xl object-cover">
+                : asset('images/hotel-default.jpg') }}" alt="{{ $khachSan->ten_khach_san }}"
+            class="w-full sm:w-48 lg:w-52 h-52 sm:h-36 lg:h-40 rounded-xl object-cover flex-shrink-0">
 
-        <div>
+        <div class="flex-1">
 
-            <h3 class="text-xl font-bold">
+            <h3 class="text-xl lg:text-2xl font-bold text-slate-800">
+
                 {{ $khachSan->ten_khach_san }}
+
             </h3>
 
-            <div class="text-yellow-500 mt-2">
+            <div class="flex items-center gap-1 text-yellow-500 mt-2">
+
                 @for($i = 1; $i <= $khachSan->so_sao_khach_san; $i++)
-                    ⭐
+
+                    <i class="fa-solid fa-star text-sm"></i>
+
                     @endfor
+
+                    <span class="ml-2 text-sm text-slate-600">
+
+                        {{ $khachSan->so_sao_khach_san }} sao
+
+                    </span>
+
             </div>
 
-            <div class="text-black mt-2 ">
-                <i class="fa-solid fa-location-dot mr-2 text-red-700"></i>
-                {{ $khachSan->dia_chi }}
-            </div>
+            <div class="flex items-start gap-2 mt-4 text-slate-700">
 
-            <div class="text-gray-500 mt-1">
-                {{ $khachSan->diaDiem->ten_dia_diem ?? '' }}
+                <i class="fa-solid fa-location-dot text-red-600 mt-1"></i>
+
+                <div>
+
+                    <p>
+
+                        {{ $khachSan->dia_chi }}
+
+                    </p>
+
+                    <p class="text-sm text-slate-500 mt-1">
+
+                        {{ $khachSan->diaDiem->ten_dia_diem ?? '' }}
+
+                    </p>
+
+                </div>
+
             </div>
 
         </div>
 
     </div>
 
-</div>
+</section>

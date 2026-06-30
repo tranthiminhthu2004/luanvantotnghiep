@@ -1,15 +1,16 @@
 <footer class="bg-[#061755] text-white mt-16">
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+    <div class="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-6 py-12 lg:py-14">
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">
 
             <!-- Logo -->
             <div class="lg:col-span-3">
 
-                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-36 lg:w-40 mb-5 bg-white rounded-lg p-2">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo"
+                    class="w-32 sm:w-36 lg:w-40 mb-5 bg-white rounded-lg p-2">
 
-                <p class="text-gray-300 leading-7 text-base lg:text-lg">
+                <p class="text-gray-300 leading-7 text-sm sm:text-base">
 
                     Nền tảng gợi ý điểm đến du lịch và đặt phòng khách sạn trực tuyến
                     dựa trên nhu cầu người dùng.
@@ -21,13 +22,13 @@
             <!-- Liên kết -->
             <div class="lg:col-span-2">
 
-                <h3 class="font-bold text-lg lg:text-xl mb-5">
+                <h3 class="font-bold text-lg mb-5">
 
                     Khám phá
 
                 </h3>
 
-                <ul class="space-y-3 text-gray-300 text-base lg:text-lg">
+                <ul class="space-y-3 text-gray-300 text-sm sm:text-base">
 
                     <li>
 
@@ -76,13 +77,13 @@
             <!-- Hỗ trợ -->
             <div class="lg:col-span-2">
 
-                <h3 class="font-bold text-lg lg:text-xl mb-5">
+                <h3 class="font-bold text-lg mb-5">
 
                     Hỗ trợ
 
                 </h3>
 
-                <ul class="space-y-3 text-gray-300 text-base lg:text-lg">
+                <ul class="space-y-3 text-gray-300 text-sm sm:text-base">
 
                     <li>
 
@@ -127,20 +128,21 @@
                 </ul>
 
             </div>
+
             <!-- Liên hệ -->
             <div class="lg:col-span-5">
 
-                <h3 class="font-bold text-lg lg:text-xl mb-5">
+                <h3 class="font-bold text-lg mb-5">
 
                     Liên hệ
 
                 </h3>
 
-                <div class="space-y-4 text-gray-300 text-base lg:text-lg break-words">
+                <div class="space-y-4 text-gray-300 text-sm sm:text-base break-words">
 
                     <p class="flex items-start">
 
-                        <i class="fa-solid fa-location-dot mt-1 mr-3 text-white"></i>
+                        <i class="fa-solid fa-location-dot mt-1 mr-3 text-white flex-shrink-0"></i>
 
                         <span>
 
@@ -153,7 +155,7 @@
 
                     <p class="flex items-center">
 
-                        <i class="fa-solid fa-phone mr-3 text-white"></i>
+                        <i class="fa-solid fa-phone mr-3 text-white flex-shrink-0"></i>
 
                         <span>
 
@@ -165,7 +167,7 @@
 
                     <p class="flex items-center">
 
-                        <i class="fa-solid fa-envelope mr-3 text-white"></i>
+                        <i class="fa-solid fa-envelope mr-3 text-white flex-shrink-0"></i>
 
                         <span>
 
@@ -178,7 +180,7 @@
                 </div>
 
                 <!-- Social -->
-                <div class="flex flex-wrap gap-4 mt-6 text-2xl">
+                <div class="flex flex-wrap gap-4 mt-6 text-xl sm:text-2xl">
 
                     <a href="#" class="hover:text-blue-400 transition">
 
@@ -209,4 +211,7 @@
             </div>
 
         </div>
+
+    </div>
+
 </footer>
