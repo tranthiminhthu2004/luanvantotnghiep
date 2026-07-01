@@ -105,7 +105,9 @@
     </div>
     <div class="px-6 py-4 border-t bg-white">
 
-        {{ $diaDiems->links() }}
+        <div class="flex justify-center mt-8">
+            {{ $diaDiems->onEachSide(1)->links() }}
+        </div>
 
     </div>
 </div>

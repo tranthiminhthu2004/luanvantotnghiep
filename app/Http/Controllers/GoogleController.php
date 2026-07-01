@@ -8,10 +8,10 @@ use Laravel\Socialite\Facades\Socialite;
 
 class GoogleController extends Controller
 {
-    public function redirect()
-    {
-        return Socialite::driver('google')->redirect();
-    }
+   public function redirect()
+{
+    return Socialite::driver('google')->redirect();
+}
 
     public function callback()
     {

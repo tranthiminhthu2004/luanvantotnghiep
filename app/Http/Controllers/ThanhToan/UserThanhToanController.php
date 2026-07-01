@@ -9,6 +9,7 @@ use App\Models\DatPhong;
 use App\Models\ChiTietDatPhong;
 use App\Models\ThanhToan;
 use App\Models\KhachSan;
+use App\Services\VNPayService;
 
 use Illuminate\Support\Facades\DB;
 
@@ -79,24 +80,77 @@ public function store(Request $request)
 {
     $duLieu = session('xac_nhan_dat_phong');
 
-    if (!$duLieu)
-    {
+    if (!$duLieu) {
         return redirect()->route('khachsan.index');
     }
 
+    // Thanh toán VNPay
+    if ($request->phuong_thuc_thanh_toan == 'VNPay') {
+
+        session([
+            'du_lieu_vnpay' => [
+                'duLieu' => $duLieu,
+                'thongTinKhach' => $request->all(),
+            ]
+        ]);
+
+        $url = $this->vnpayService->createPaymentUrl(
+            uniqid('DP'),
+            $duLieu['tongTien'],
+            'Thanh toán đặt phòng'
+        );
+
+        return redirect()->away($url);
+    }
+
+    // Thanh toán tiền mặt
+    try {
+
+        $datPhong = $this->luuDonDatPhong(
+            $duLieu,
+            $request->all(),
+            'TienMat',
+            'ChuaThanhToan'
+        );
+
+        session([
+            'ma_don_dat_phong' => $datPhong->ma_don_dat_phong
+        ]);
+
+        session()->forget('xac_nhan_dat_phong');
+
+        return redirect()->route('datphong.thanhcong');
+
+    } catch (\Exception $e) {
+
+        dd($e->getMessage());
+
+    }
+}
+
+private function luuDonDatPhong(
+    array $duLieu,
+    array $thongTinKhach,
+    string $phuongThucThanhToan,
+    string $trangThaiThanhToan,
+    string $trangThaiDatPhong = 'ChoXacNhan',
+    ?string $maGiaoDich = null,
+    ?string $ngayThanhToan = null
+)
+{
     DB::beginTransaction();
 
-    try
-    {
-        $hoTen = trim($request->ho_ten);
+    try {
 
-        $tachTen = explode(' ', $hoTen);
+      $hoTen = trim($thongTinKhach['ho_ten']);
 
-        $ten = array_pop($tachTen);
+$tachTen = explode(' ', $hoTen);
 
-        $hoVaTenDem = implode(' ', $tachTen);
+$ten = array_pop($tachTen);
 
-       $datPhong = DatPhong::create([
+$hoVaTenDem = implode(' ', $tachTen);
+
+$datPhong = DatPhong::create([
     'ma_dat_phong' => '',
 
     'ma_nguoi_dung' => auth()->id(),
@@ -107,9 +161,9 @@ public function store(Request $request)
 
     'ten_khach' => $ten,
 
-    'email_khach' => $request->email,
+    'email_khach' => $thongTinKhach['email'],
 
-    'so_dien_thoai_khach' => $request->so_dien_thoai,
+    'so_dien_thoai_khach' => $thongTinKhach['so_dien_thoai'],
 
     'ngay_nhan_phong' => Carbon::createFromFormat(
         'd/m/Y',
@@ -129,9 +183,9 @@ public function store(Request $request)
 
     'tong_tien' => $duLieu['tongTien'],
 
-    'trang_thai_dat_phong' => 'ChoXacNhan',
+    'trang_thai_dat_phong' => $trangThaiDatPhong,
 
-    'ghi_chu' => $request->ghi_chu,
+    'ghi_chu' => $thongTinKhach['ghi_chu'] ?? null,
 
     'ngay_dat' => now(),
 ]);
@@ -145,11 +199,9 @@ $datPhong->update([
     )
 ]);
 
-// Lưu chi tiết đặt phòng
-foreach ($duLieu['phongsDaChon'] as $phong)
+        foreach ($duLieu['phongsDaChon'] as $phong)
 {
-    ChiTietDatPhong::create(
-    [
+    ChiTietDatPhong::create([
         'ma_don_dat_phong' => $datPhong->ma_don_dat_phong,
 
         'ma_loai_phong' => $phong['ma_loai_phong'],
@@ -163,48 +215,30 @@ foreach ($duLieu['phongsDaChon'] as $phong)
         'thanh_tien' => $phong['thanh_tien'],
     ]);
 }
-// Lưu thông tin thanh toán
-ThanhToan::create(
-[
+        ThanhToan::create([
     'ma_don_dat_phong' => $datPhong->ma_don_dat_phong,
 
     'so_tien' => $duLieu['tongTien'],
 
-    'phuong_thuc_thanh_toan' => 'TienMat',
+    'phuong_thuc_thanh_toan' => $phuongThucThanhToan,
 
-    'trang_thai_thanh_toan' => 'ChuaThanhToan',
+    'trang_thai_thanh_toan' => $trangThaiThanhToan,
 
-    'ma_giao_dich' => null,
+    'ma_giao_dich' => $maGiaoDich,
 
-    'ngay_thanh_toan' => null,
+    'ngay_thanh_toan' => $ngayThanhToan,
 ]);
 
-// Hoàn tất Transaction
-DB::commit();
+        DB::commit();
 
-// Lưu mã đơn vừa tạo
-session([
-    'ma_don_dat_phong' => $datPhong->ma_don_dat_phong
-]);
+        return $datPhong;
 
-// Xóa dữ liệu xác nhận đặt phòng
-session()->forget('xac_nhan_dat_phong');
+    } catch (\Exception $e) {
 
-return redirect()->route(
-    'datphong.thanhcong'
-);
-}
-catch (\Exception $e)
-{
-    DB::rollBack();
+        DB::rollBack();
 
-    return back()
-        ->withInput()
-        ->with(
-            'error',
-            'Đặt phòng thất bại.'
-        );
-}
+        throw $e;
+    }
 }
 public function thanhCong()
 {
@@ -229,5 +263,62 @@ public function thanhCong()
         'users.thanhtoan.thongbaothanhcong',
         compact('datPhong')
     );
+}
+
+protected $vnpayService;
+
+public function __construct(VNPayService $vnpayService)
+{
+    $this->vnpayService = $vnpayService;
+}
+public function vnpayReturn(Request $request)
+{
+    // Kiểm tra chữ ký
+    if (!$this->vnpayService->verifyResponse($request->all())) {
+        dd('Sai chữ ký', $request->all());
+    }
+
+    // Kiểm tra kết quả thanh toán
+    if ($request->vnp_ResponseCode != '00') {
+        dd('Thanh toán thất bại', $request->all());
+    }
+
+    // Lấy dữ liệu đã lưu trước khi chuyển sang VNPay
+    $duLieuVNPay = session('du_lieu_vnpay');
+
+    if (!$duLieuVNPay) {
+        dd('Mất session du_lieu_vnpay');
+    }
+
+    try {
+
+        $datPhong = $this->luuDonDatPhong(
+        $duLieuVNPay['duLieu'],
+        $duLieuVNPay['thongTinKhach'],
+        'VNPay',
+        'DaThanhToan',
+        'DaXacNhan',
+        $request->vnp_TransactionNo,
+        now()
+);
+
+        session([
+            'ma_don_dat_phong' => $datPhong->ma_don_dat_phong
+        ]);
+
+        session()->forget('du_lieu_vnpay');
+        session()->forget('xac_nhan_dat_phong');
+
+        return redirect()->route('datphong.thanhcong');
+
+    } catch (\Throwable $e) {
+
+       return redirect()
+        ->route('users.index')
+        ->with(
+            'error',
+            'Không thể lưu đơn đặt phòng.'
+        );
+    }
 }
 }

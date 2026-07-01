@@ -179,7 +179,8 @@
                         Giờ nhận phòng
                     </label>
 
-                    <input type="time" name="gio_check_in" value="{{ old('gio_check_in',$khachSan->gio_check_in) }}"
+                    <input type="time" name="gio_check_in"
+                        value="{{ old('gio_check_in', \Carbon\Carbon::parse($khachSan->gio_check_in)->format('H:i')) }}"
                         class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
                     @error('gio_check_in')
                     <p class="text-red-500 text-sm mt-1">
@@ -195,7 +196,8 @@
                         Giờ trả phòng
                     </label>
 
-                    <input type="time" name="gio_check_out" value="{{ old('gio_check_out',$khachSan->gio_check_out) }}"
+                    <input type="time" name="gio_check_out"
+                        value="{{ old('gio_check_out', \Carbon\Carbon::parse($khachSan->gio_check_out)->format('H:i')) }}"
                         class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
                     @error('gio_check_out')
                     <p class="text-red-500 text-sm mt-1">

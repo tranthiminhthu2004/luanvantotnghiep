@@ -33,9 +33,7 @@ use App\Http\Controllers\NguoiDung\UserLichSuDatPhongController;
 
 
 /*
-|--------------------------------------------------------------------------
-| TRANG CHỦ
-|--------------------------------------------------------------------------
+TRANG CHỦ
 */
 
 Route::get('/', function ()
@@ -53,9 +51,7 @@ Route::get('/', function ()
 })->name('users.index');
 
 /*
-|--------------------------------------------------------------------------
-| ĐĂNG NHẬP GOOGLE
-|--------------------------------------------------------------------------
+ĐĂNG NHẬP GOOGLE
 */
 
 Route::get(
@@ -69,9 +65,7 @@ Route::get(
 )->name('google.callback');
 
 /*
-|--------------------------------------------------------------------------
-| DASHBOARD ADMIN
-|--------------------------------------------------------------------------
+DASHBOARD ADMIN
 */
 
 Route::get('/dashboard', function ()
@@ -90,9 +84,7 @@ Route::get('/dashboard', function ()
   ->name('dashboard');
 
 /*
-|--------------------------------------------------------------------------
-| HỒ SƠ NGƯỜI DÙNG
-|--------------------------------------------------------------------------
+HỒ SƠ NGƯỜI DÙNG
 */
 
 Route::middleware('auth')->group(function ()
@@ -119,9 +111,7 @@ Route::post(
 )->name('logout');
 
 /*
-|--------------------------------------------------------------------------
-| USER - KHÁCH SẠN
-|--------------------------------------------------------------------------
+USER - KHÁCH SẠN
 */
 
 Route::get(
@@ -140,9 +130,7 @@ Route::get(
 )->name('khachsan.show');
 
 /*
-|--------------------------------------------------------------------------
-| ADMIN - KHÁCH SẠN
-|--------------------------------------------------------------------------
+ADMIN - KHÁCH SẠN
 */
 
 Route::middleware('auth')->group(function ()
@@ -220,9 +208,7 @@ Route::put(
 )->name('admin.hinhanh.update');
 
 /*
-|--------------------------------------------------------------------------
-| ADMIN - LOẠI PHÒNG
-|--------------------------------------------------------------------------
+ ADMIN - LOẠI PHÒNG
 */
 
 // Quản lý loại phòng
@@ -294,13 +280,11 @@ Route::delete(
 Route::put(
     '/loaiphong/hinhanh/{id}',
     [AdminLoaiPhongController::class, 'updateHinhAnh']
-)->name('admin.loaiphong.hinhanh.update');/*
-|--------------------------------------------------------------------------
-| ADMIN - PHÒNG
-|--------------------------------------------------------------------------
-*/
+)->name('admin.loaiphong.hinhanh.update');
 
-// Quản lý phòng
+/*
+ ADMIN - PHÒNG
+*/
 
 Route::get(
     '/admin/phong',
@@ -338,12 +322,8 @@ Route::get(
 )->name('admin.phong.show');
 
 /*
-|--------------------------------------------------------------------------
-| ADMIN - TIỆN NGHI
-|--------------------------------------------------------------------------
+ADMIN - TIỆN NGHI
 */
-
-// Quản lý tiện nghi
 
 Route::get(
     '/admin/tiennghi',
@@ -381,12 +361,9 @@ Route::delete(
 )->name('admin.tiennghi.destroy');
 
 /*
-|--------------------------------------------------------------------------
-| ADMIN - ĐỊA ĐIỂM
-|--------------------------------------------------------------------------
+ADMIN - ĐỊA ĐIỂM
 */
 
-// Quản lý địa điểm
 
 Route::get(
     '/admin/diadiem',
@@ -424,12 +401,8 @@ Route::delete(
 )->name('admin.diadiem.destroy');
 
 /*
-|--------------------------------------------------------------------------
-| ADMIN - NGƯỜI DÙNG
-|--------------------------------------------------------------------------
+ADMIN - NGƯỜI DÙNG
 */
-
-// Quản lý người dùng
 
 Route::get(
     '/admin/nguoi-dung',
@@ -464,54 +437,49 @@ Route::put(
 Route::delete(
     '/admin/nguoi-dung/{id}',
     [AdminNguoiDungController::class, 'destroy']
-)->name('admin.nguoidung.destroy');/*
-|--------------------------------------------------------------------------
-| USER - ĐẶT PHÒNG
-|--------------------------------------------------------------------------
+)->name('admin.nguoidung.destroy');
+
+/*
+USER - ĐẶT PHÒNG
 */
 
-// Hiển thị trang xác nhận đặt phòng
 Route::get(
     '/dat-phong/xac-nhan',
     [UserDatPhongController::class, 'index']
 )->name('datphong.xacnhan.index');
 
-// Xử lý dữ liệu từ trang chi tiết khách sạn
 Route::post(
     '/dat-phong/xac-nhan',
     [UserDatPhongController::class, 'xacNhan']
 )->name('datphong.xacnhan');
 
 /*
-|--------------------------------------------------------------------------
-| USER - THANH TOÁN
-|--------------------------------------------------------------------------
+USER - THANH TOÁN
 */
 
-// Hiển thị trang thanh toán
 Route::post(
     '/thanh-toan',
     [UserThanhToanController::class, 'index']
 )->name('thanhtoan.index');
 
-// Lưu thanh toán 
 Route::post(
     '/thanh-toan/store',
     [UserThanhToanController::class, 'store']
 )->name('thanhtoan.store');
-//Thông báo thành công 
+
 Route::get(
     '/dat-phong/thanh-cong',
     [UserThanhToanController::class, 'thanhCong']
 )->name('datphong.thanhcong');
 
-/*
-|--------------------------------------------------------------------------
-| ADMIN - ĐẶT PHÒNG
-|--------------------------------------------------------------------------
-*/
+Route::get(
+    '/vnpay-return', 
+    [UserThanhToanController::class, 'vnpayReturn'])
+    ->name('vnpay.return');
 
-// Quản lý đặt phòng
+/*
+ADMIN - ĐẶT PHÒNG
+*/
 
 Route::get(
     '/admin/datphong',
@@ -548,14 +516,10 @@ Route::delete(
     [AdminDatPhongController::class, 'destroy']
 )->name('admin.datphong.destroy');
 
-// Kiểm tra phòng trống
-
 Route::post(
     '/admin/datphong/kiem-tra-phong',
     [AdminDatPhongController::class, 'kiemTraPhong']
 )->name('admin.datphong.kiemTraPhong');
-
-// Cập nhật trạng thái đặt phòng
 
 Route::put(
     '/admin/datphong/{id}/trangthai',
@@ -563,9 +527,7 @@ Route::put(
 )->name('admin.datphong.trangthai');
 
 /*
-|--------------------------------------------------------------------------
-| USER - ĐỊA ĐIỂM DU LỊCH
-|--------------------------------------------------------------------------
+USER - ĐỊA ĐIỂM DU LỊCH
 */
 
 Route::get(
@@ -577,22 +539,15 @@ Route::get(
 )->name('diadiemdulich.index');
 
 /*
-|--------------------------------------------------------------------------
-| USER - CHI TIẾT KHÁCH SẠN
-|--------------------------------------------------------------------------
+USER - CHI TIẾT KHÁCH SẠN
 */
-
-// Chi tiết khách sạn
-
 Route::get(
     '/khach-san/{id}',
     [UserKhachSanController::class, 'show']
 )->name('users.chitietkhachsan');
 
 /*
-|--------------------------------------------------------------------------
-| User người dung 
-|--------------------------------------------------------------------------
+User người dung
 */
 Route::get(
     '/ho-so',
@@ -609,9 +564,7 @@ Route::put(
 )->middleware('auth')->name('hoso.update');
 
 /*
-|--------------------------------------------------------------------------
-| Lịch sử đặt phòng 
-|--------------------------------------------------------------------------
+Lịch sử đặt phòng 
 */
 Route::get(
     '/lich-su-dat-phong',
@@ -622,4 +575,7 @@ Route::get(
     '/lich-su-dat-phong/{maDonDatPhong}',
     [UserLichSuDatPhongController::class, 'show']
 )->middleware('auth')->name('lichsudatphong.show');
+
+
+
 require __DIR__ . '/auth.php';
