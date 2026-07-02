@@ -10,6 +10,8 @@ use App\Models\ChiTietDatPhong;
 use App\Models\ThanhToan;
 use App\Models\KhachSan;
 use App\Services\VNPayService;
+use App\Services\PhongService;
+use App\Models\LichPhong;
 
 use Illuminate\Support\Facades\DB;
 
@@ -142,92 +144,150 @@ private function luuDonDatPhong(
 
     try {
 
-      $hoTen = trim($thongTinKhach['ho_ten']);
+        $ngayNhanPhong = Carbon::createFromFormat(
+            'd/m/Y',
+            $duLieu['ngayNhanPhong']
+        )->format('Y-m-d');
 
-$tachTen = explode(' ', $hoTen);
+        $ngayTraPhong = Carbon::createFromFormat(
+            'd/m/Y',
+            $duLieu['ngayTraPhong']
+        )->format('Y-m-d');
 
-$ten = array_pop($tachTen);
+       
+        $danhSachPhong = [];
 
-$hoVaTenDem = implode(' ', $tachTen);
+        foreach ($duLieu['phongsDaChon'] as $phong) {
 
-$datPhong = DatPhong::create([
-    'ma_dat_phong' => '',
+            $phongTrong = $this->phongService->timPhongTrong(
+                $phong['ma_loai_phong'],
+                $ngayNhanPhong,
+                $ngayTraPhong,
+                $phong['so_luong']
+            );
 
-    'ma_nguoi_dung' => auth()->id(),
+            if ($phongTrong->count() < $phong['so_luong']) {
+                throw new \Exception(
+                    'Loại phòng "' .
+                    $phong['ten_loai_phong'] .
+                    '" không còn đủ số lượng.'
+                );
+            }
 
-    'ma_khach_san' => $duLieu['ma_khach_san'],
+            $danhSachPhong[$phong['ma_loai_phong']] = $phongTrong;
+        }
 
-    'ho_va_ten_dem_khach' => $hoVaTenDem,
+      
+        $hoTen = trim($thongTinKhach['ho_ten']);
 
-    'ten_khach' => $ten,
+        $tachTen = explode(' ', $hoTen);
 
-    'email_khach' => $thongTinKhach['email'],
+        $ten = array_pop($tachTen);
 
-    'so_dien_thoai_khach' => $thongTinKhach['so_dien_thoai'],
+        $hoVaTenDem = implode(' ', $tachTen);
 
-    'ngay_nhan_phong' => Carbon::createFromFormat(
-        'd/m/Y',
-        $duLieu['ngayNhanPhong']
-    )->format('Y-m-d'),
+       
+        $datPhong = DatPhong::create([
 
-    'ngay_tra_phong' => Carbon::createFromFormat(
-        'd/m/Y',
-        $duLieu['ngayTraPhong']
-    )->format('Y-m-d'),
+            'ma_dat_phong' => '',
 
-    'so_nguoi_truong_thanh' => $duLieu['soNguoiTruongThanh'],
+            'ma_nguoi_dung' => auth()->check()? auth()->id(): null,
 
-    'so_tre_em' => $duLieu['soTreEm'],
+            'ma_khach_san' => $duLieu['ma_khach_san'],
 
-    'so_nguoi_cao_tuoi' => $duLieu['soNguoiCaoTuoi'],
+            'ho_va_ten_dem_khach' => $hoVaTenDem,
 
-    'tong_tien' => $duLieu['tongTien'],
+            'ten_khach' => $ten,
 
-    'trang_thai_dat_phong' => $trangThaiDatPhong,
+            'email_khach' => $thongTinKhach['email'],
 
-    'ghi_chu' => $thongTinKhach['ghi_chu'] ?? null,
+            'so_dien_thoai_khach' => $thongTinKhach['so_dien_thoai'],
 
-    'ngay_dat' => now(),
-]);
+            'ngay_nhan_phong' => $ngayNhanPhong,
 
-$datPhong->update([
-    'ma_dat_phong' => 'DP' . str_pad(
-        $datPhong->ma_don_dat_phong,
-        6,
-        '0',
-        STR_PAD_LEFT
-    )
-]);
+            'ngay_tra_phong' => $ngayTraPhong,
 
-        foreach ($duLieu['phongsDaChon'] as $phong)
-{
-    ChiTietDatPhong::create([
-        'ma_don_dat_phong' => $datPhong->ma_don_dat_phong,
+            'so_nguoi_truong_thanh' => $duLieu['soNguoiTruongThanh'],
 
-        'ma_loai_phong' => $phong['ma_loai_phong'],
+            'so_tre_em' => $duLieu['soTreEm'],
 
-        'so_luong_phong' => $phong['so_luong'],
+            'so_nguoi_cao_tuoi' => $duLieu['soNguoiCaoTuoi'],
 
-        'gia_dat_thuc_te' => $phong['gia'],
+            'tong_tien' => $duLieu['tongTien'],
 
-        'so_dem' => $phong['so_dem'],
+            'trang_thai_dat_phong' => $trangThaiDatPhong,
 
-        'thanh_tien' => $phong['thanh_tien'],
-    ]);
-}
+            'ghi_chu' => $thongTinKhach['ghi_chu'] ?? null,
+
+            'ngay_dat' => now(),
+
+        ]);
+
+        $datPhong->update([
+
+            'ma_dat_phong' => 'DP' . str_pad(
+                $datPhong->ma_don_dat_phong,
+                6,
+                '0',
+                STR_PAD_LEFT
+            )
+
+        ]);
+
+        foreach ($duLieu['phongsDaChon'] as $phong) {
+
+            ChiTietDatPhong::create([
+
+                'ma_don_dat_phong' => $datPhong->ma_don_dat_phong,
+
+                'ma_loai_phong' => $phong['ma_loai_phong'],
+
+                'so_luong_phong' => $phong['so_luong'],
+
+                'gia_dat_thuc_te' => $phong['gia'],
+
+                'so_dem' => $phong['so_dem'],
+
+                'thanh_tien' => $phong['thanh_tien'],
+
+            ]);
+
+            foreach ($danhSachPhong[$phong['ma_loai_phong']] as $phongDuocChon) {
+
+                $ngay = Carbon::parse($ngayNhanPhong);
+
+                while ($ngay->lt(Carbon::parse($ngayTraPhong))) {
+
+                    LichPhong::create([
+
+                        'ma_phong' => $phongDuocChon->ma_phong,
+
+                        'ngay' => $ngay->format('Y-m-d'),
+
+                        'trang_thai' => 'DaDat',
+
+                    ]);
+
+                    $ngay->addDay();
+                }
+            }
+        }
+
         ThanhToan::create([
-    'ma_don_dat_phong' => $datPhong->ma_don_dat_phong,
 
-    'so_tien' => $duLieu['tongTien'],
+            'ma_don_dat_phong' => $datPhong->ma_don_dat_phong,
 
-    'phuong_thuc_thanh_toan' => $phuongThucThanhToan,
+            'so_tien' => $duLieu['tongTien'],
 
-    'trang_thai_thanh_toan' => $trangThaiThanhToan,
+            'phuong_thuc_thanh_toan' => $phuongThucThanhToan,
 
-    'ma_giao_dich' => $maGiaoDich,
+            'trang_thai_thanh_toan' => $trangThaiThanhToan,
 
-    'ngay_thanh_toan' => $ngayThanhToan,
-]);
+            'ma_giao_dich' => $maGiaoDich,
+
+            'ngay_thanh_toan' => $ngayThanhToan,
+
+        ]);
 
         DB::commit();
 
@@ -266,10 +326,15 @@ public function thanhCong()
 }
 
 protected $vnpayService;
+protected $phongService;
 
-public function __construct(VNPayService $vnpayService)
+public function __construct(
+    VNPayService $vnpayService,
+    PhongService $phongService
+)
 {
     $this->vnpayService = $vnpayService;
+    $this->phongService = $phongService;
 }
 public function vnpayReturn(Request $request)
 {

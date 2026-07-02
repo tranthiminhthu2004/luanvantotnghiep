@@ -17,66 +17,70 @@ class PhongService
      * @return \Illuminate\Support\Collection
      */
     public function timPhongTrong(
-        $maLoaiPhong,
-        $ngayNhanPhong,
-        $ngayTraPhong,
-        $soLuongCanDat
+    $maLoaiPhong,
+    $ngayNhanPhong,
+    $ngayTraPhong,
+    $soLuongCanDat
+)
+{
+    // Lấy tất cả phòng đang hoạt động của loại phòng
+    $phongs = Phong::where(
+        'ma_loai_phong',
+        $maLoaiPhong
     )
+    ->where(
+        'trang_thai_phong',
+        'DangHoatDong'
+    )
+    ->lockForUpdate()
+    ->get();
+
+    $phongTrong = collect();
+
+    foreach ($phongs as $phong)
     {
-        // Lấy tất cả phòng đang hoạt động của loại phòng
-        $phongs = Phong::where(
-            'ma_loai_phong',
-            $maLoaiPhong
+        // Kiểm tra phòng đã được đặt trong khoảng ngày chưa
+        $daDat = LichPhong::where(
+            'ma_phong',
+            $phong->ma_phong
         )
         ->where(
-            'trang_thai_phong',
-            'DangHoatDong'
+            'ngay',
+            '>=',
+            $ngayNhanPhong
         )
-        ->get();
-
-        $phongTrong = collect();
-
-        foreach ($phongs as $phong)
-        {
-            // Kiểm tra phòng có bị đặt trong khoảng ngày không
-            $daDat = LichPhong::where(
-                'ma_phong',
-                $phong->ma_phong
-            )
-            ->whereBetween(
-                'ngay',
-                [
-                    $ngayNhanPhong,
-                    $ngayTraPhong
-                ]
-            )
-            ->where(
-                'trang_thai',
-                'DaDat'
-            )
-            ->exists();
-
-            if (!$daDat)
-            {
-                $phongTrong->push($phong);
-            }
-        }
-
-        // Không đủ số lượng phòng
-        if (
-            $phongTrong->count()
-            < $soLuongCanDat
+        ->where(
+            'ngay',
+            '<',
+            $ngayTraPhong
         )
-        {
-            return collect();
-        }
+        ->where(
+            'trang_thai',
+            'DaDat'
+        )
+        ->lockForUpdate()
+        ->exists();
 
-        // Trả về đúng số lượng cần đặt
-        return $phongTrong->take(
-            $soLuongCanDat
-        );
+        if (!$daDat)
+        {
+            $phongTrong->push($phong);
+        }
     }
 
+    // Không đủ số lượng phòng
+    if (
+        $phongTrong->count()
+        < $soLuongCanDat
+    )
+    {
+        return collect();
+    }
+
+    // Trả về đúng số lượng cần đặt
+    return $phongTrong->take(
+        $soLuongCanDat
+    );
+}
     /**
      * Đếm số phòng còn trống
      *
@@ -85,49 +89,53 @@ class PhongService
      * @param string $ngayTraPhong
      * @return int
      */
-    public function demSoPhongConLai(
-        $maLoaiPhong,
-        $ngayNhanPhong,
-        $ngayTraPhong
-    )
+ public function demSoPhongConLai(
+    $maLoaiPhong,
+    $ngayNhanPhong,
+    $ngayTraPhong
+)
+{
+    $phongs = Phong::where(
+    'ma_loai_phong',
+    $maLoaiPhong
+)
+->where(
+    'trang_thai_phong',
+    'DangHoatDong'
+)
+->lockForUpdate()
+->get();
+
+    $soPhongTrong = 0;
+
+    foreach ($phongs as $phong)
     {
-        $phongs = Phong::where(
-            'ma_loai_phong',
-            $maLoaiPhong
+        $daDat = LichPhong::where(
+            'ma_phong',
+            $phong->ma_phong
         )
         ->where(
-            'trang_thai_phong',
-            'DangHoatDong'
+            'trang_thai',
+            'DaDat'
         )
-        ->get();
+        ->where(
+            'ngay',
+            '>=',
+            $ngayNhanPhong
+        )
+        ->where(
+            'ngay',
+            '<',
+            $ngayTraPhong
+        )
+        ->exists();
 
-        $soPhongTrong = 0;
-
-        foreach ($phongs as $phong)
+        if (!$daDat)
         {
-            $daDat = LichPhong::where(
-                'ma_phong',
-                $phong->ma_phong
-            )
-            ->whereBetween(
-                'ngay',
-                [
-                    $ngayNhanPhong,
-                    $ngayTraPhong
-                ]
-            )
-            ->where(
-                'trang_thai',
-                'DaDat'
-            )
-            ->exists();
-
-            if (!$daDat)
-            {
-                $soPhongTrong++;
-            }
+            $soPhongTrong++;
         }
-
-        return $soPhongTrong;
     }
+
+    return $soPhongTrong;
+}
 }

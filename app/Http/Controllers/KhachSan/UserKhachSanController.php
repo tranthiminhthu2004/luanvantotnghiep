@@ -7,6 +7,8 @@ use App\Models\KhachSan;
 use App\Models\DiaDiem;
 use App\Models\TienNghi;
 use Illuminate\Http\Request;
+use App\Services\PhongService;
+use Carbon\Carbon;
 
 class UserKhachSanController extends Controller
 {
@@ -149,12 +151,40 @@ if ($request->filled('tien_nghi'))
             )
         );
     }
-        public function show(Request $request, $id)
+    protected $phongService;
+
+public function __construct(
+    PhongService $phongService
+)
+{
+    $this->phongService = $phongService;
+}
+public function show(Request $request, $id)
     {
         $khachSan = KhachSan::with([
-            'loaiPhongs.hinhAnh',
-            'loaiPhongs.phongs'
+        'loaiPhongs.hinhAnh',
+        'loaiPhongs.phongs',
+        'loaiPhongs.tienNghis'
         ])->findOrFail($id);
+        
+        $daKiemTraPhong = $request->filled('ngay_nhan_phong')
+    && $request->filled('ngay_tra_phong');
+    if (!$daKiemTraPhong) {
+
+    return view(
+        'users.chitietkhachsan.index',
+        [
+            'khachSan' => $khachSan,
+            'loaiPhongsDeXuat' => collect(),
+            'loaiPhongsKhac' => collect(),
+            'tongNguoi' => 0,
+            'soPhong' => 0,
+            'sucChuaCanThiet' => 0,
+            'daKiemTraPhong' => false
+        ]
+    );
+
+}
 
         $tongNguoi =
             (int) $request->so_nguoi_truong_thanh +
@@ -192,23 +222,82 @@ if ($request->filled('tien_nghi'))
                 '<',
                 $sucChuaCanThiet
             )
-            ->with([
-                'hinhAnh',
-                'phongs'
-            ])
+           ->with([
+    'hinhAnh',
+    'phongs',
+    'tienNghis'
+])
             ->get();
+            foreach ($loaiPhongsDeXuat as $loaiPhong)
+{
+    $loaiPhong->soPhongConLai =
+        $this->phongService->demSoPhongConLai(
 
-        return view(
-            'users.chitietkhachsan.index',
-            compact(
-                'khachSan',
-                'loaiPhongsDeXuat',
-                'tongNguoi',
-                'soPhong',
-                'sucChuaCanThiet',
-                'loaiPhongsKhac'
-            )
+            $loaiPhong->ma_loai_phong,
+
+            Carbon::createFromFormat(
+                'd/m/Y',
+                request('ngay_nhan_phong')
+            )->format('Y-m-d'),
+
+            Carbon::createFromFormat(
+                'd/m/Y',
+                request('ngay_tra_phong')
+            )->format('Y-m-d')
+
         );
+}
+
+foreach ($loaiPhongsKhac as $loaiPhong)
+{
+    $loaiPhong->soPhongConLai =
+        $this->phongService->demSoPhongConLai(
+
+            $loaiPhong->ma_loai_phong,
+
+            Carbon::createFromFormat(
+                'd/m/Y',
+                request('ngay_nhan_phong')
+            )->format('Y-m-d'),
+
+            Carbon::createFromFormat(
+                'd/m/Y',
+                request('ngay_tra_phong')
+            )->format('Y-m-d')
+
+        );
+}
+foreach ($khachSan->loaiPhongs as $loaiPhong)
+{
+    $loaiPhong->soPhongConLai =
+        $this->phongService->demSoPhongConLai(
+
+            $loaiPhong->ma_loai_phong,
+
+            Carbon::createFromFormat(
+                'd/m/Y',
+                request('ngay_nhan_phong')
+            )->format('Y-m-d'),
+
+            Carbon::createFromFormat(
+                'd/m/Y',
+                request('ngay_tra_phong')
+            )->format('Y-m-d')
+
+        );
+}
+        return view(
+    'users.chitietkhachsan.index',
+    compact(
+        'khachSan',
+        'loaiPhongsDeXuat',
+        'tongNguoi',
+        'soPhong',
+        'sucChuaCanThiet',
+        'loaiPhongsKhac',
+        'daKiemTraPhong'
+    )
+);
     }
         public function timKiem(Request $request)
     {
