@@ -12,6 +12,9 @@ use App\Models\KhachSan;
 use App\Services\VNPayService;
 use App\Services\PhongService;
 use App\Models\LichPhong;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\DatPhongThanhCongMail;
+use App\Models\LoaiPhong;
 
 use Illuminate\Support\Facades\DB;
 
@@ -125,7 +128,11 @@ public function store(Request $request)
 
     } catch (\Exception $e) {
 
-        dd($e->getMessage());
+       dd(
+    $e->getMessage(),
+    $e->getFile(),
+    $e->getLine()
+);
 
     }
 }
@@ -167,11 +174,13 @@ private function luuDonDatPhong(
             );
 
             if ($phongTrong->count() < $phong['so_luong']) {
-                throw new \Exception(
-                    'Loại phòng "' .
-                    $phong['ten_loai_phong'] .
-                    '" không còn đủ số lượng.'
-                );
+                $loaiPhong = \App\Models\LoaiPhong::find($phong['ma_loai_phong']);
+
+throw new \Exception(
+    'Loại phòng "' .
+    ($loaiPhong?->ten_loai_phong ?? 'Không xác định') .
+    '" không còn đủ số lượng.'
+);
             }
 
             $danhSachPhong[$phong['ma_loai_phong']] = $phongTrong;
@@ -289,10 +298,19 @@ private function luuDonDatPhong(
 
         ]);
 
-        DB::commit();
+       DB::commit();
 
-        return $datPhong;
+    $datPhong->load([
+    'khachSan',
+    'chiTietDatPhong.loaiPhong',
+    'thanhToan'
+]);
 
+
+     Mail::to($datPhong->email_khach)
+    ->send(new DatPhongThanhCongMail($datPhong));
+
+return $datPhong;
     } catch (\Exception $e) {
 
         DB::rollBack();

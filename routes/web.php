@@ -31,20 +31,8 @@ use App\Http\Controllers\DatPhong\UserDatPhongController;
 use App\Http\Controllers\ThanhToan\UserThanhToanController;
 use App\Http\Controllers\NguoiDung\UserLichSuDatPhongController;
 
-use App\Models\DatPhong;
 use App\Mail\DatPhongThanhCongMail;
 
-Route::get('/test-email', function () {
-
-    $datPhong = DatPhong::with([
-        'khachSan',
-        'thanhToan',
-        'chiTietDatPhong.loaiPhong'
-    ])->first();
-
-    return new DatPhongThanhCongMail($datPhong);
-
-});
 /*
 TRANG CHỦ
 */

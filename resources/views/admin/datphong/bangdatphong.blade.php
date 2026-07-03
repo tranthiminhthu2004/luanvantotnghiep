@@ -2,7 +2,7 @@
 
     <div class="overflow-x-auto">
 
-        <table class="min-w-[1400px] w-full">
+        <table class="min-w-[1600px] w-full">
 
             <thead class="bg-slate-50 text-black">
 

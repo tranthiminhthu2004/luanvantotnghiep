@@ -62,7 +62,7 @@
 
                             <div class="font-semibold text-slate-800">
 
-                                {{ $phong['ten'] }}
+                                {{ $phong['ten_loai_phong'] }}
 
                             </div>
 

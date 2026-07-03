@@ -21,7 +21,7 @@
 
         <div class="text-slate-900">
 
-            {{ $phong['ten'] }}
+            {{ $phong['ten_loai_phong'] }}
 
         </div>
 

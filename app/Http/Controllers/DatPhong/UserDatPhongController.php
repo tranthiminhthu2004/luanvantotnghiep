@@ -125,7 +125,7 @@ class UserDatPhongController extends Controller
             [
                 'ma_loai_phong' => $loaiPhong->ma_loai_phong,
 
-                'ten' => $loaiPhong->ten_loai_phong,
+                'ten_loai_phong' => $loaiPhong->ten_loai_phong,
 
                 'so_luong' => $soLuong,
 
