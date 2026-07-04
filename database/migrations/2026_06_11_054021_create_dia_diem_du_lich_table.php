@@ -10,24 +10,29 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-{
-    Schema::create('dia_diem_du_lich', function (Blueprint $table) {
+    {
+        Schema::create('dia_diem_du_lich', function (Blueprint $table) {
 
-        $table->id('ma_dia_diem');
+            $table->id('ma_dia_diem_du_lich');
 
-        $table->string('ten_dia_diem', 255);
+            // FK đến bảng dia_diem (Đà Nẵng, Đà Lạt...)
+            $table->foreignId('ma_dia_diem')
+                ->constrained('dia_diem', 'ma_dia_diem')
+                ->cascadeOnDelete();
 
-        $table->string('thanh_pho', 100);
+            $table->string('ten_dia_diem', 255);
 
-        $table->string('dia_chi')->nullable();
+            $table->string('dia_chi')->nullable();
 
-        $table->decimal('vi_do', 10, 7)->nullable();
+            $table->decimal('vi_do', 10, 7)->nullable();
 
-        $table->decimal('kinh_do', 10, 7)->nullable();
+            $table->decimal('kinh_do', 10, 7)->nullable();
 
-        $table->text('mo_ta')->nullable();
-    });
-}
+            $table->text('mo_ta')->nullable();
+
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.

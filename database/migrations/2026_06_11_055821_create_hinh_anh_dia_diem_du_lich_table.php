@@ -10,21 +10,21 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-{
-    Schema::create('hinh_anh_dia_diem_du_lich', function (Blueprint $table) {
+    {
+        Schema::create('hinh_anh_dia_diem_du_lich', function (Blueprint $table) {
 
-        $table->id('ma_hinh_anh_dia_diem');
+            $table->id('ma_hinh_anh_dia_diem');
 
-        $table->unsignedBigInteger('ma_dia_diem');
+            // FK đến bảng dia_diem_du_lich
+            $table->foreignId('ma_dia_diem_du_lich')
+                ->constrained('dia_diem_du_lich', 'ma_dia_diem_du_lich')
+                ->cascadeOnDelete();
 
-        $table->string('duong_dan_anh');
+            $table->string('duong_dan_anh');
 
-        $table->foreign('ma_dia_diem')
-              ->references('ma_dia_diem')
-              ->on('dia_diem_du_lich')
-              ->cascadeOnDelete();
-    });
-}
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.

@@ -11,27 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dia_diem_du_lich_nhu_cau_du_lich', function (Blueprint $table) {
+        Schema::create('dia_diem_nhu_cau_du_lich', function (Blueprint $table) {
 
-    $table->unsignedBigInteger('ma_dia_diem');
+            $table->foreignId('ma_dia_diem')
+                ->constrained('dia_diem', 'ma_dia_diem')
+                ->cascadeOnDelete();
 
-    $table->unsignedBigInteger('ma_nhu_cau');
+            $table->foreignId('ma_nhu_cau')
+                ->constrained('nhu_cau_du_lich', 'ma_nhu_cau')
+                ->cascadeOnDelete();
 
-    $table->primary([
-        'ma_dia_diem',
-        'ma_nhu_cau'
-    ]);
+            // Điểm phù hợp của địa điểm với nhu cầu (1-5)
+            $table->unsignedTinyInteger('muc_do_phu_hop');
 
-    $table->foreign('ma_dia_diem')
-          ->references('ma_dia_diem')
-          ->on('dia_diem_du_lich')
-          ->cascadeOnDelete();
-
-    $table->foreign('ma_nhu_cau')
-          ->references('ma_nhu_cau')
-          ->on('nhu_cau_du_lich')
-          ->cascadeOnDelete();
-});
+            $table->primary([
+                'ma_dia_diem',
+                'ma_nhu_cau'
+            ]);
+        });
     }
 
     /**
@@ -39,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dia_diem_du_lich_nhu_cau_du_lich');
+        Schema::dropIfExists('dia_diem_nhu_cau_du_lich');
     }
 };
