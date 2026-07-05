@@ -24,4 +24,20 @@ class DiaDiem extends Model
             'ma_dia_diem'
         );
     }
+    public function diaDiemDuLichs()
+{
+    return $this->hasMany(
+        DiaDiemDuLich::class,
+        'ma_dia_diem',
+        'ma_dia_diem'
+    );
+}
+public function nhuCaus()
+    {
+        return $this->hasMany(
+            DiaDiemNhuCauDuLich::class,
+            'ma_dia_diem',
+            'ma_dia_diem'
+        );
+    }
 }

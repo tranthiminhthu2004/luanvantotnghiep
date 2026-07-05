@@ -1,10 +1,5 @@
-<div id="sidebar" class="fixed lg:static top-0 left-0 z-50
-    w-60 min-h-screen
-    bg-gradient-to-b from-[#001845] to-[#001233]
-    text-white
-    flex flex-col
-    transform -translate-x-full lg:translate-x-0
-    transition-transform duration-300 ease-in-out">
+<div id="sidebar"
+    class="fixed lg:static top-0 left-0 z-50 w-60 min-h-screen bg-gradient-to-b from-[#001845] to-[#001233] text-white flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
 
     <!-- Header -->
     <div class="border-b border-blue-900 flex items-center justify-between px-3 py-2">
@@ -23,8 +18,8 @@
     <nav class="flex-1 py-4 overflow-y-auto">
 
         <!-- Dashboard -->
-        <a href="{{ route('dashboard') }}" class="mx-3 mb-2 flex items-center gap-3 rounded-full text-sm px-4 py-2 font-medium hover:bg-blue-900 transition
-        {{ request()->routeIs('dashboard') ? 'bg-blue-900' : '' }}">
+        <a href="{{ route('dashboard') }}" class="mx-3 mb-2 flex items-center gap-3 rounded-full text-sm px-4 py-2 font-medium transition
+            {{ request()->routeIs('dashboard') ? 'bg-blue-800' : 'hover:bg-blue-900' }}">
 
             <i class="fa-solid fa-house w-4"></i>
 
@@ -41,7 +36,7 @@
         <div class="mx-2">
 
             <button id="khachSanMenuBtn"
-                class="w-full flex items-center justify-between px-4 py-2 text-sm hover:bg-blue-900 rounded-full transition">
+                class="w-full flex items-center justify-between px-4 py-2 text-sm rounded-full hover:bg-blue-900 transition">
 
                 <div class="flex items-center gap-3">
 
@@ -56,14 +51,17 @@
             </button>
 
             <div id="khachSanSubMenu" class="{{ request()->routeIs('admin.khachsan.*')
-            || request()->routeIs('admin.loaiphong.*')
-            || request()->routeIs('admin.phong.*')
-            ? ''
-            : 'hidden' }}
-            ml-6 mt-1 space-y-1">
+                || request()->routeIs('admin.loaiphong.*')
+                || request()->routeIs('admin.phong.*')
+                ? ''
+                : 'hidden' }}
+                ml-6 mt-1 space-y-1">
 
-                <a href="{{ route('admin.khachsan.index') }}"
-                    class="block px-4 py-2 text-sm rounded-full hover:bg-blue-900 transition">
+                <!-- Danh sách khách sạn -->
+                <a href="{{ route('admin.khachsan.index') }}" class="block px-4 py-2 text-sm rounded-full transition
+                    {{ request()->routeIs('admin.khachsan.*')
+                    ? 'bg-blue-800'
+                    : 'hover:bg-blue-900' }}">
 
                     <i class="fa-solid fa-building text-blue-300"></i>
 
@@ -71,8 +69,11 @@
 
                 </a>
 
-                <a href="{{ route('admin.loaiphong.index') }}"
-                    class="block px-4 py-2 text-sm rounded-full hover:bg-blue-900 transition">
+                <!-- Loại phòng -->
+                <a href="{{ route('admin.loaiphong.index') }}" class="block px-4 py-2 text-sm rounded-full transition
+                    {{ request()->routeIs('admin.loaiphong.*')
+                    ? 'bg-blue-800'
+                    : 'hover:bg-blue-900' }}">
 
                     <i class="fa-solid fa-bed text-yellow-300"></i>
 
@@ -80,8 +81,11 @@
 
                 </a>
 
-                <a href="{{ route('admin.phong.index') }}"
-                    class="block px-4 py-2 text-sm rounded-full hover:bg-blue-900 transition">
+                <!-- Phòng -->
+                <a href="{{ route('admin.phong.index') }}" class="block px-4 py-2 text-sm rounded-full transition
+                    {{ request()->routeIs('admin.phong.*')
+                    ? 'bg-blue-800'
+                    : 'hover:bg-blue-900' }}">
 
                     <i class="fa-solid fa-door-open text-green-300"></i>
 
@@ -92,10 +96,11 @@
             </div>
 
         </div>
-
         <!-- Tiện nghi -->
-        <a href="{{ route('admin.tiennghi.index') }}" class="mx-2 flex items-center gap-3 px-4 py-2 text-sm rounded-full hover:bg-blue-900 transition
-        {{ request()->routeIs('admin.tiennghi.*') ? 'bg-blue-900' : '' }}">
+        <a href="{{ route('admin.tiennghi.index') }}" class="mx-2 flex items-center gap-3 px-4 py-2 text-sm rounded-full transition
+            {{ request()->routeIs('admin.tiennghi.*')
+            ? 'bg-blue-800'
+            : 'hover:bg-blue-900' }}">
 
             <i class="fa-solid fa-gift w-4"></i>
 
@@ -107,7 +112,7 @@
         <div class="mx-2">
 
             <button id="diaDiemMenuBtn"
-                class="w-full flex items-center justify-between px-4 py-2 text-sm hover:bg-blue-900 rounded-full transition">
+                class="w-full flex items-center justify-between px-4 py-2 text-sm rounded-full hover:bg-blue-900 transition">
 
                 <div class="flex items-center gap-3">
 
@@ -122,13 +127,16 @@
             </button>
 
             <div id="diaDiemSubMenu" class="{{ request()->routeIs('admin.diadiem.*')
-            || request()->routeIs('admin.diadiemdulich.*')
-            ? ''
-            : 'hidden' }}
-            ml-6 mt-1 space-y-1">
+                || request()->routeIs('admin.diadiemdulich.*')
+                ? ''
+                : 'hidden' }}
+                ml-6 mt-1 space-y-1">
 
-                <a href="{{ route('admin.diadiem.index') }}"
-                    class="block px-4 py-2 text-sm rounded-full hover:bg-blue-900 transition">
+                <!-- Địa điểm khách sạn -->
+                <a href="{{ route('admin.diadiem.index') }}" class="block px-4 py-2 text-sm rounded-full transition
+                    {{ request()->routeIs('admin.diadiem.*')
+                    ? 'bg-blue-800'
+                    : 'hover:bg-blue-900' }}">
 
                     <i class="fa-solid fa-hotel text-blue-300"></i>
 
@@ -136,7 +144,11 @@
 
                 </a>
 
-                <a href="#" class="block px-4 py-2 text-sm rounded-full hover:bg-blue-900 transition">
+                <!-- Địa điểm du lịch -->
+                <a href="{{ route('admin.diadiemdulich.index') }}" class="block px-4 py-2 text-sm rounded-full transition
+                    {{ request()->routeIs('admin.diadiemdulich.*')
+                    ? 'bg-blue-800'
+                    : 'hover:bg-blue-900' }}">
 
                     <i class="fa-solid fa-map-location-dot text-green-300"></i>
 
@@ -148,9 +160,62 @@
 
         </div>
 
+        <!-- Nhu cầu -->
+        <div class="mx-2">
+
+            <button id="nhuCauMenuBtn"
+                class="w-full flex items-center justify-between px-4 py-2 text-sm rounded-full hover:bg-blue-900 transition">
+
+                <div class="flex items-center gap-3">
+
+                    <i class="fa-solid fa-compass w-4"></i>
+
+                    <span>Nhu cầu</span>
+
+                </div>
+
+                <i id="nhuCauIcon" class="fa-solid fa-chevron-down text-[10px] transition-transform duration-300"></i>
+
+            </button>
+
+            <div id="nhuCauSubMenu" class="{{ request()->routeIs('admin.nhucaudulich.*')
+                || request()->routeIs('admin.diadiemnhucau.*')
+                ? ''
+                : 'hidden' }}
+                ml-6 mt-1 space-y-1">
+
+                <!-- Nhu cầu du lịch -->
+                <a href="{{ route('admin.nhucaudulich.index') }}" class="block px-4 py-2 text-sm rounded-full transition
+                    {{ request()->routeIs('admin.nhucaudulich.*')
+                    ? 'bg-blue-800'
+                    : 'hover:bg-blue-900' }}">
+
+                    <i class="fa-solid fa-heart text-pink-300"></i>
+
+                    Nhu cầu du lịch
+
+                </a>
+
+                <!-- Gán nhu cầu cho điểm đến -->
+                <a href="#" class="block px-4 py-2 text-sm rounded-full transition
+                    {{ request()->routeIs('admin.diadiemnhucau.*')
+                    ? 'bg-blue-800'
+                    : 'hover:bg-blue-900' }}">
+
+                    <i class="fa-solid fa-link text-green-300"></i>
+
+                    Gán nhu cầu cho điểm đến
+
+                </a>
+
+            </div>
+
+        </div>
         <!-- Đặt phòng -->
-        <a href="{{ route('admin.datphong.index') }}"
-            class="mx-2 flex items-center gap-3 px-4 py-2 text-sm rounded-full hover:bg-blue-900 transition">
+        <a href="{{ route('admin.datphong.index') }}" class="mx-2 flex items-center gap-3 px-4 py-2 text-sm rounded-full transition
+            {{ request()->routeIs('admin.datphong.*')
+            ? 'bg-blue-800'
+            : 'hover:bg-blue-900' }}">
 
             <i class="fa-solid fa-calendar-check w-4"></i>
 
@@ -159,8 +224,10 @@
         </a>
 
         <!-- Người dùng -->
-        <a href="{{ route('admin.nguoidung.index') }}"
-            class="mx-2 flex items-center gap-3 px-4 py-2 text-sm rounded-full hover:bg-blue-900 transition">
+        <a href="{{ route('admin.nguoidung.index') }}" class="mx-2 flex items-center gap-3 px-4 py-2 text-sm rounded-full transition
+            {{ request()->routeIs('admin.nguoidung.*')
+            ? 'bg-blue-800'
+            : 'hover:bg-blue-900' }}">
 
             <i class="fa-solid fa-users w-4"></i>
 
@@ -169,7 +236,10 @@
         </a>
 
         <!-- Đánh giá -->
-        <a href="#" class="mx-2 flex items-center gap-3 px-4 py-2 text-sm rounded-full hover:bg-blue-900 transition">
+        <a href="#" class="mx-2 flex items-center gap-3 px-4 py-2 text-sm rounded-full transition
+            {{ request()->routeIs('admin.danhgia.*')
+            ? 'bg-blue-800'
+            : 'hover:bg-blue-900' }}">
 
             <i class="fa-solid fa-star w-4"></i>
 
@@ -182,7 +252,11 @@
             Thống kê
         </p>
 
-        <a href="#" class="mx-2 flex items-center gap-3 px-4 py-2 text-sm rounded-full hover:bg-blue-900 transition">
+        <!-- Báo cáo -->
+        <a href="#" class="mx-2 flex items-center gap-3 px-4 py-2 text-sm rounded-full transition
+            {{ request()->routeIs('admin.baocao.*')
+            ? 'bg-blue-800'
+            : 'hover:bg-blue-900' }}">
 
             <i class="fa-solid fa-chart-column w-4"></i>
 
@@ -190,7 +264,11 @@
 
         </a>
 
-        <a href="#" class="mx-2 flex items-center gap-3 px-4 py-2 text-sm rounded-full hover:bg-blue-900 transition">
+        <!-- Thống kê -->
+        <a href="#" class="mx-2 flex items-center gap-3 px-4 py-2 text-sm rounded-full transition
+            {{ request()->routeIs('admin.thongke.*')
+            ? 'bg-blue-800'
+            : 'hover:bg-blue-900' }}">
 
             <i class="fa-solid fa-chart-line w-4"></i>
 
@@ -203,7 +281,11 @@
             Cài đặt
         </p>
 
-        <a href="#" class="mx-2 flex items-center gap-3 px-4 py-2 text-sm rounded-full hover:bg-blue-900 transition">
+        <!-- Cài đặt hệ thống -->
+        <a href="#" class="mx-2 flex items-center gap-3 px-4 py-2 text-sm rounded-full transition
+            {{ request()->routeIs('admin.caidat.*')
+            ? 'bg-blue-800'
+            : 'hover:bg-blue-900' }}">
 
             <i class="fa-solid fa-gear w-4"></i>
 
@@ -211,7 +293,11 @@
 
         </a>
 
-        <a href="#" class="mx-2 flex items-center gap-3 px-4 py-2 text-sm rounded-full hover:bg-blue-900 transition">
+        <!-- Phân quyền -->
+        <a href="#" class="mx-2 flex items-center gap-3 px-4 py-2 text-sm rounded-full transition
+            {{ request()->routeIs('admin.phanquyen.*')
+            ? 'bg-blue-800'
+            : 'hover:bg-blue-900' }}">
 
             <i class="fa-solid fa-user-shield w-4"></i>
 
@@ -239,7 +325,6 @@
 
 </div>
 
-
 <script>
 const closeSidebar = document.getElementById('closeSidebar');
 const sidebar = document.getElementById('sidebar');
@@ -254,44 +339,39 @@ if (closeSidebar) {
 
 }
 
-const khachSanMenuBtn =
-    document.getElementById('khachSanMenuBtn');
+function toggleMenu(buttonId, menuId, iconId) {
 
-const khachSanSubMenu =
-    document.getElementById('khachSanSubMenu');
+    const button = document.getElementById(buttonId);
+    const menu = document.getElementById(menuId);
+    const icon = document.getElementById(iconId);
 
-const khachSanIcon =
-    document.getElementById('khachSanIcon');
+    if (!button || !menu || !icon) return;
 
-if (khachSanMenuBtn) {
+    button.addEventListener('click', () => {
 
-    khachSanMenuBtn.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
 
-        khachSanSubMenu.classList.toggle('hidden');
-
-        khachSanIcon.classList.toggle('rotate-180');
+        icon.classList.toggle('rotate-180');
 
     });
 
 }
-const diaDiemMenuBtn =
-    document.getElementById('diaDiemMenuBtn');
 
-const diaDiemSubMenu =
-    document.getElementById('diaDiemSubMenu');
+toggleMenu(
+    'khachSanMenuBtn',
+    'khachSanSubMenu',
+    'khachSanIcon'
+);
 
-const diaDiemIcon =
-    document.getElementById('diaDiemIcon');
+toggleMenu(
+    'diaDiemMenuBtn',
+    'diaDiemSubMenu',
+    'diaDiemIcon'
+);
 
-if (diaDiemMenuBtn) {
-
-    diaDiemMenuBtn.addEventListener('click', () => {
-
-        diaDiemSubMenu.classList.toggle('hidden');
-
-        diaDiemIcon.classList.toggle('rotate-180');
-
-    });
-
-}
+toggleMenu(
+    'nhuCauMenuBtn',
+    'nhuCauSubMenu',
+    'nhuCauIcon'
+);
 </script>

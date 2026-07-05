@@ -30,6 +30,8 @@ use App\Http\Controllers\DatPhong\UserDatPhongController;
 
 use App\Http\Controllers\ThanhToan\UserThanhToanController;
 use App\Http\Controllers\NguoiDung\UserLichSuDatPhongController;
+use App\Http\Controllers\DuLich\AdminNhuCauDuLichController;
+use App\Http\Controllers\DuLich\AdminDiaDiemDuLichController;
 
 use App\Mail\DatPhongThanhCongMail;
 
@@ -576,7 +578,82 @@ Route::get(
     '/lich-su-dat-phong/{maDonDatPhong}',
     [UserLichSuDatPhongController::class, 'show']
 )->middleware('auth')->name('lichsudatphong.show');
+/*
+Admin nhu cầu du lịch
+*/
 
+Route::get(
+    '/admin/nhu-cau-du-lich',
+    [AdminNhuCauDuLichController::class, 'index']
+)->name('admin.nhucaudulich.index');
 
+Route::get(
+    '/admin/nhu-cau-du-lich/create',
+    [AdminNhuCauDuLichController::class, 'create']
+)->name('admin.nhucaudulich.create');
+
+Route::post(
+    '/admin/nhu-cau-du-lich/store',
+    [AdminNhuCauDuLichController::class, 'store']
+)->name('admin.nhucaudulich.store');
+
+Route::get(
+    '/admin/nhu-cau-du-lich/edit/{id}',
+    [AdminNhuCauDuLichController::class, 'edit']
+)->name('admin.nhucaudulich.edit');
+
+Route::put(
+    '/admin/nhu-cau-du-lich/update/{id}',
+    [AdminNhuCauDuLichController::class, 'update']
+)->name('admin.nhucaudulich.update');
+
+Route::delete(
+    '/admin/nhu-cau-du-lich/delete/{id}',
+    [AdminNhuCauDuLichController::class, 'destroy']
+)->name('admin.nhucaudulich.destroy');
+
+Route::get(
+    '/admin/nhu-cau-du-lich/show/{id}',
+    [AdminNhuCauDuLichController::class, 'show']
+)->name('admin.nhucaudulich.show');
+
+/*
+ ĐỊA ĐIỂM DU LỊCH
+*/
+
+Route::get(
+    '/admin/dia-diem-du-lich',
+    [AdminDiaDiemDuLichController::class, 'index']
+)->name('admin.diadiemdulich.index');
+
+Route::get(
+    '/admin/dia-diem-du-lich/create',
+    [AdminDiaDiemDuLichController::class, 'create']
+)->name('admin.diadiemdulich.create');
+
+Route::post(
+    '/admin/dia-diem-du-lich',
+    [AdminDiaDiemDuLichController::class, 'store']
+)->name('admin.diadiemdulich.store');
+
+Route::get(
+    '/admin/dia-diem-du-lich/{id}',
+    [AdminDiaDiemDuLichController::class, 'show']
+)->name('admin.diadiemdulich.show');
+
+Route::get(
+    '/admin/dia-diem-du-lich/{id}/edit',
+    [AdminDiaDiemDuLichController::class, 'edit']
+)->name('admin.diadiemdulich.edit');
+
+Route::put(
+    '/admin/dia-diem-du-lich/{id}',
+    [AdminDiaDiemDuLichController::class, 'update']
+)->name('admin.diadiemdulich.update');
+
+Route::delete(
+    '/admin/dia-diem-du-lich/{id}',
+    [AdminDiaDiemDuLichController::class, 'destroy']
+)->name('admin.diadiemdulich.destroy');
 
 require __DIR__ . '/auth.php';
