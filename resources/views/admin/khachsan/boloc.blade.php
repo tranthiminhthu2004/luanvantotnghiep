@@ -5,7 +5,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-6 gap-3">
 
             <!-- Khách sạn -->
-            <select name="ma_khach_san" onchange="this.form.submit()" class="border rounded-xl text-sm px-4 py-2.5">
+            <select name="ma_khach_san" onchange="this.form.submit()" class="border rounded-xl text-base px-4 py-3">
 
                 <option value="">
                     Tất cả khách sạn
@@ -25,7 +25,7 @@
             </select>
 
             <!-- Địa điểm -->
-            <select name="ma_dia_diem" onchange="this.form.submit()" class="border rounded-xl text-sm px-4 py-2.5">
+            <select name="ma_dia_diem" onchange="this.form.submit()" class="border rounded-xl text-base px-4 py-2.5">
 
                 <option value="">
                     Tất cả địa điểm
@@ -45,7 +45,8 @@
             </select>
 
             <!-- Số sao -->
-            <select name="so_sao_khach_san" onchange="this.form.submit()" class="border rounded-xl text-sm px-4 py-2.5">
+            <select name="so_sao_khach_san" onchange="this.form.submit()"
+                class="border rounded-xl text-base px-4 py-2.5">
 
                 <option value="">
                     Tất cả sao
@@ -65,7 +66,7 @@
             </select>
 
             <!-- Trạng thái -->
-            <select name="trang_thai" onchange="this.form.submit()" class="border rounded-xl text-sm px-4 py-2.5">
+            <select name="trang_thai" onchange="this.form.submit()" class="border rounded-xl text-base px-4 py-2.5">
 
                 <option value="" {{ request('trang_thai') === null || request('trang_thai') === '' ? 'selected' : '' }}>
                     Tất cả trạng thái
@@ -82,7 +83,7 @@
             </select>
 
             <!-- Sắp xếp -->
-            <select name="sap_xep" onchange="this.form.submit()" class="border rounded-xl text-sm px-4 py-2.5">
+            <select name="sap_xep" onchange="this.form.submit()" class="border rounded-xl text-base px-4 py-2.5">
 
                 <option value="desc" {{ request('sap_xep','desc') == 'desc' ? 'selected' : '' }}>
                     Mới nhất
@@ -96,7 +97,7 @@
 
             <!-- Xóa bộ lọc -->
             <a href="{{ route('admin.khachsan.index') }}"
-                class="bg-red-50 text-red-600 rounded-xl text-sm font-medium hover:bg-red-100 flex items-center justify-center gap-2 py-2">
+                class="bg-red-50 text-red-600 rounded-xl text-base font-medium hover:bg-red-100 flex items-center justify-center gap-2 py-2">
 
                 <i class="fa-solid fa-rotate-left"></i>
 

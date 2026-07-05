@@ -6,76 +6,150 @@
 
 <div class="max-w-7xl mx-auto">
 
-    <div class="bg-white rounded-2xl shadow-sm p-4 md:p-6">
+    <div class="bg-white rounded-2xl shadow-sm p-5 md:p-8">
 
-        <h2 class="text-2xl md:text-3xl font-bold text-[#061755] mb-6">
+        <!-- Tiêu đề -->
+        <div class="mb-8">
 
-            {{ $khachSan->ten_khach_san }}
+            <h2 class="text-3xl font-bold text-[#061755]">
 
-        </h2>
+                {{ $khachSan->ten_khach_san }}
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            </h2>
 
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+
+            <!-- Ảnh đại diện -->
             <div>
 
                 @if($khachSan->hinhAnh->count())
 
                 <img src="{{ asset($khachSan->hinhAnh->first()->duong_dan_anh) }}"
-                    class="w-full h-64 md:h-80 object-cover rounded-2xl">
+                    class="w-full h-72 lg:h-[430px] rounded-2xl object-cover shadow-sm">
+
+                @else
+
+                <div class="w-full h-72 lg:h-[430px] rounded-2xl bg-slate-100 flex items-center justify-center">
+
+                    <div class="text-center text-gray-400">
+
+                        <i class="fa-regular fa-image text-6xl mb-4"></i>
+
+                        <p class="text-base">
+
+                            Chưa có hình ảnh
+
+                        </p>
+
+                    </div>
+
+                </div>
 
                 @endif
 
             </div>
 
-            <div class="space-y-3 text-sm text-black">
+            <!-- Thông tin -->
+            <div class="space-y-4">
 
-                <p>
+                <div class="flex justify-between items-center border-b pb-3">
 
-                    <strong>Địa điểm:</strong>
+                    <span class="font-semibold text-black text-base">
 
-                    {{ $khachSan->diaDiem->ten_dia_diem ?? 'Chưa cập nhật' }}
+                        Địa điểm
 
-                </p>
+                    </span>
 
-                <p>
+                    <span class="text-base text-black">
 
-                    <strong>Địa chỉ:</strong>
+                        {{ $khachSan->diaDiem->ten_dia_diem ?? 'Chưa cập nhật' }}
 
-                    {{ $khachSan->dia_chi }}
+                    </span>
 
-                </p>
+                </div>
 
-                <p>
+                <div class="flex justify-between items-center border-b pb-3">
 
-                    <strong>Số điện thoại:</strong>
+                    <span class="font-semibold text-black text-base">
 
-                    {{ $khachSan->so_dien_thoai }}
+                        Địa chỉ
 
-                </p>
+                    </span>
 
-                <p>
+                    <span class="text-base text-black text-right">
 
-                    <strong>Email:</strong>
+                        {{ $khachSan->dia_chi }}
 
-                    {{ $khachSan->email }}
+                    </span>
 
-                </p>
+                </div>
 
-                <p>
+                <div class="flex justify-between items-center border-b pb-3">
 
-                    <strong>Số sao:</strong>
+                    <span class="font-semibold text-black text-base">
 
-                    {{ $khachSan->so_sao_khach_san }} ⭐
+                        Số điện thoại
 
-                </p>
+                    </span>
 
-                <p>
+                    <span class="text-base text-black">
 
-                    <strong>Trạng thái:</strong>
+                        {{ $khachSan->so_dien_thoai }}
+
+                    </span>
+
+                </div>
+
+                <div class="flex justify-between items-center border-b pb-3">
+
+                    <span class="font-semibold text-black text-base">
+
+                        Email
+
+                    </span>
+
+                    <span class="text-base text-black">
+
+                        {{ $khachSan->email }}
+
+                    </span>
+
+                </div>
+
+                <div class="flex justify-between items-center border-b pb-3">
+
+                    <span class="font-semibold text-black text-base">
+
+                        Số sao
+
+                    </span>
+
+                    <span class="flex items-center gap-1">
+
+                        @for($i = 1; $i <= $khachSan->so_sao_khach_san; $i++)
+
+                            <i class="fa-solid fa-star text-yellow-400"></i>
+
+                            @endfor
+
+                    </span>
+
+                </div>
+
+                <div class="flex justify-between items-center border-b pb-3">
+
+                    <span class="font-semibold text-black text-base">
+
+                        Trạng thái
+
+                    </span>
 
                     @if($khachSan->trang_thai)
 
-                    <span class="text-green-600 font-semibold">
+                    <span
+                        class="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-semibold">
 
                         Hoạt động
 
@@ -83,7 +157,8 @@
 
                     @else
 
-                    <span class="text-red-600 font-semibold">
+                    <span
+                        class="inline-flex items-center px-3 py-1 rounded-full bg-red-100 text-red-700 text-sm font-semibold">
 
                         Tạm dừng
 
@@ -91,121 +166,190 @@
 
                     @endif
 
-                </p>
+                </div>
 
-                <p>
+                <div class="flex justify-between items-center border-b pb-3">
 
-                    <strong>Nhận phòng:</strong>
+                    <span class="font-semibold text-black text-base">
 
-                    {{ \Carbon\Carbon::parse($khachSan->gio_check_in)->format('H:i') }}
+                        Giờ check-in
 
-                </p>
+                    </span>
 
-                <p>
+                    <span class="text-base text-black">
 
-                    <strong>Trả phòng:</strong>
-
-                    {{ \Carbon\Carbon::parse($khachSan->gio_check_out)->format('H:i') }}
-
-                </p>
-
-                <p>
-
-                    <strong>Hủy miễn phí:</strong>
-
-                    {{ $khachSan->so_gio_huy_mien_phi }}
-
-                    giờ trước giờ nhận phòng
-
-                </p>
-
-            </div>
-
-        </div>
-
-        <!-- Mô tả -->
-        <div class="mt-8">
-
-            <h3 class="text-xl font-bold mb-3 text-black">
-
-                Mô tả
-
-            </h3>
-
-            <p class="text-black leading-7 text-sm">
-
-                {{ $khachSan->mo_ta }}
-
-            </p>
-
-        </div>
-
-        <!-- Tiện nghi -->
-        <div class="mt-8">
-
-            <h3 class="text-xl font-bold mb-4 text-black">
-
-                Tiện nghi khách sạn
-
-            </h3>
-
-            <div class="flex flex-wrap gap-3">
-
-                @forelse($khachSan->tienNghis as $tienNghi)
-
-                <div class="px-3 py-2 bg-blue-50 text-blue-700 rounded-full text-sm flex items-center gap-2">
-
-                    <i class="fa-solid {{ $tienNghi->icon }}"></i>
-
-                    <span>
-
-                        {{ $tienNghi->ten_tien_nghi }}
+                        {{ \Carbon\Carbon::parse($khachSan->gio_check_in)->format('H:i') }}
 
                     </span>
 
                 </div>
 
-                @empty
+                <div class="flex justify-between items-center border-b pb-3">
 
-                <span class="text-gray-500 text-sm">
+                    <span class="font-semibold text-black text-base">
 
-                    Chưa có tiện nghi
+                        Giờ check-out
 
-                </span>
+                    </span>
 
-                @endforelse
+                    <span class="text-base text-black">
+
+                        {{ \Carbon\Carbon::parse($khachSan->gio_check_out)->format('H:i') }}
+
+                    </span>
+
+                </div>
+
+                <div class="flex justify-between items-center">
+
+                    <span class="font-semibold text-black text-base">
+
+                        Hủy miễn phí
+
+                    </span>
+
+                    <span class="text-base text-black">
+
+                        {{ $khachSan->so_gio_huy_mien_phi }} giờ
+
+                    </span>
+
+                </div>
 
             </div>
 
         </div>
+        <div class="mt-10 grid grid-cols-1 xl:grid-cols-2 gap-8">
+
+            <!-- Mô tả -->
+            <div>
+
+                <h3 class="text-2xl font-bold text-[#061755] mb-4">
+
+                    Mô tả khách sạn
+
+                </h3>
+
+                <div class="bg-slate-50 rounded-2xl border p-6 h-full">
+
+                    @if($khachSan->mo_ta)
+
+                    <p class="text-base text-black leading-8 ">
+
+                        {{ $khachSan->mo_ta }}
+
+                    </p>
+
+                    @else
+
+                    <p class="text-gray-500">
+
+                        Chưa có mô tả.
+
+                    </p>
+
+                    @endif
+
+                </div>
+
+            </div>
+
+            <!-- Tiện nghi -->
+            <div>
+
+                <h3 class="text-2xl font-bold text-[#061755] mb-4">
+
+                    Tiện nghi khách sạn
+
+                </h3>
+
+                <div class="bg-slate-50 rounded-2xl border p-6 h-full">
+
+                    @if($khachSan->tienNghis->count())
+
+                    <div class="flex flex-wrap gap-3">
+
+                        @foreach($khachSan->tienNghis as $tienNghi)
+
+                        <div class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-white border shadow-sm">
+
+                            <i class="fa-solid {{ $tienNghi->icon }} text-blue-600"></i>
+
+                            <span class="text-base">
+
+                                {{ $tienNghi->ten_tien_nghi }}
+
+                            </span>
+
+                        </div>
+
+                        @endforeach
+
+                    </div>
+
+                    @else
+
+                    <p class="text-gray-500">
+
+                        Chưa có tiện nghi.
+
+                    </p>
+
+                    @endif
+
+                </div>
+
+            </div>
+
+        </div>
+
         <!-- Album ảnh -->
-        <div class="mt-8">
+        <div class="mt-20">
 
-            <h3 class="text-xl font-bold mb-4 text-black">
+            <h3 class="text-2xl font-bold text-[#061755] mb-4">
 
-                Album ảnh
+                Album hình ảnh
 
             </h3>
 
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            @if($khachSan->hinhAnh->count())
+
+            <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5">
 
                 @foreach($khachSan->hinhAnh as $anh)
 
-                <img src="{{ asset($anh->duong_dan_anh) }}" class="w-full h-32 md:h-40 object-cover rounded-xl">
+                <div class="bg-white rounded-2xl border overflow-hidden shadow-sm hover:shadow-md transition">
+
+                    <img src="{{ asset($anh->duong_dan_anh) }}" class="w-full h-52 object-cover">
+
+                </div>
 
                 @endforeach
 
             </div>
 
-        </div>
+            @else
 
+            <div class="bg-slate-50 border rounded-2xl py-16 text-center">
+
+                <i class="fa-regular fa-image text-6xl text-gray-300 mb-5"></i>
+
+                <p class="text-base text-gray-500">
+
+                    Chưa có hình ảnh khách sạn.
+
+                </p>
+
+            </div>
+
+            @endif
+
+        </div>
         <!-- Nút quay lại -->
-        <div class="mt-6">
+        <div class="mt-10 flex justify-start">
 
             <a href="{{ route('admin.khachsan.index') }}"
-                class="inline-flex items-center bg-slate-200 hover:bg-slate-300 text-black px-5 py-2.5 rounded-full text-sm font-semibold transition">
-
-                <i class="fa-solid fa-arrow-left mr-2"></i>
+                class="inline-flex items-center gap-2 bg-slate-200 hover:bg-slate-300 text-black px-8 py-3 rounded-full font-semibold transition">
 
                 Quay lại
 

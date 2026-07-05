@@ -8,13 +8,7 @@
 
     <div class="bg-white rounded-2xl shadow-sm p-4 md:p-6">
 
-        <h2 class="text-2xl md:text-3xl font-bold text-[#061755] mb-2">
-
-            Tiện nghi khách sạn
-
-        </h2>
-
-        <p class="text-black text-sm mb-6">
+        <p class="text-black text-3xl font-bold mb-6">
 
             {{ $khachSan->ten_khach_san }}
 
@@ -40,7 +34,7 @@
 
                         <i class="fa-solid {{ $tienNghi->icon }} text-blue-600"></i>
 
-                        <span class="text-sm text-black">
+                        <span class="text-base text-black">
 
                             {{ $tienNghi->ten_tien_nghi }}
 
@@ -57,14 +51,14 @@
             <div class="mt-6 flex flex-wrap gap-3">
 
                 <button type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition">
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-full text-base font-semibold transition">
 
                     Lưu tiện nghi
 
                 </button>
 
                 <a href="{{ route('admin.khachsan.index') }}"
-                    class="bg-slate-200 hover:bg-slate-300 text-black px-5 py-2.5 rounded-full text-sm font-semibold transition">
+                    class="bg-slate-200 hover:bg-slate-300 text-black px-5 py-2.5 rounded-full text-base font-semibold transition">
 
                     Quay lại
 

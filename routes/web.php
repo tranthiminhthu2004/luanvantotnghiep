@@ -32,6 +32,7 @@ use App\Http\Controllers\ThanhToan\UserThanhToanController;
 use App\Http\Controllers\NguoiDung\UserLichSuDatPhongController;
 use App\Http\Controllers\DuLich\AdminNhuCauDuLichController;
 use App\Http\Controllers\DuLich\AdminDiaDiemDuLichController;
+use App\Http\Controllers\DuLich\AdminHinhAnhDiaDiemDuLichController;
 
 use App\Mail\DatPhongThanhCongMail;
 
@@ -655,5 +656,23 @@ Route::delete(
     '/admin/dia-diem-du-lich/{id}',
     [AdminDiaDiemDuLichController::class, 'destroy']
 )->name('admin.diadiemdulich.destroy');
+
+/*
+admin hinh anh dia diem du lich
+*/
+Route::get(
+    '/admin/dia-diem-du-lich/{id}/hinh-anh',
+    [AdminHinhAnhDiaDiemDuLichController::class, 'index']
+)->name('admin.hinhanhdiadiem.index');
+
+Route::post(
+    '/admin/dia-diem-du-lich/{id}/hinh-anh',
+    [AdminHinhAnhDiaDiemDuLichController::class, 'store']
+)->name('admin.hinhanhdiadiem.store');
+
+Route::delete(
+    '/admin/hinh-anh-dia-diem/{id}',
+    [AdminHinhAnhDiaDiemDuLichController::class, 'destroy']
+)->name('admin.hinhanhdiadiem.destroy');
 
 require __DIR__ . '/auth.php';

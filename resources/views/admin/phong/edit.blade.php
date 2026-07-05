@@ -8,15 +8,6 @@
 
     <div class="bg-white rounded-2xl shadow-sm p-4 md:p-6">
 
-        <div class="mb-6">
-
-            <h2 class="text-2xl md:text-3xl font-bold text-[#061755]">
-
-                Cập nhật phòng
-
-            </h2>
-
-        </div>
 
         <form action="{{ route('admin.phong.update',$phong->ma_phong) }}" method="POST" novalidate>
 
@@ -28,7 +19,7 @@
                 <!-- Loại phòng -->
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
 
                         Loại phòng
 
@@ -56,7 +47,7 @@
                 <!-- Số phòng -->
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
 
                         Số phòng
 
@@ -80,7 +71,7 @@
                 <!-- Tầng -->
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
 
                         Tầng
 
@@ -104,7 +95,7 @@
                 <!-- Trạng thái -->
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
 
                         Trạng thái
 
@@ -143,14 +134,14 @@
             <div class="flex flex-wrap gap-3 mt-6">
 
                 <button type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition">
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-full text-base font-semibold transition">
 
                     Cập nhật phòng
 
                 </button>
 
                 <a href="{{ route('admin.phong.index') }}"
-                    class="bg-slate-200 hover:bg-slate-300 text-black px-5 py-2.5 rounded-full text-sm font-semibold transition">
+                    class="bg-slate-200 hover:bg-slate-300 text-black px-5 py-2.5 rounded-full text-base font-semibold transition">
 
                     Quay lại
 

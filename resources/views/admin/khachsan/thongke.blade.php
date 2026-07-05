@@ -1,7 +1,7 @@
 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
 
     <!-- Tổng khách sạn -->
-    <div class="bg-white rounded-2xl p-4 shadow-sm">
+    <div class="bg-white rounded-2xl p-4 shadow-sm ">
 
         <div class="flex items-center gap-3">
 
@@ -13,7 +13,7 @@
 
             <div>
 
-                <p class="text-black text-sm">
+                <p class="text-black text-base">
                     Tổng khách sạn
                 </p>
 
@@ -40,7 +40,7 @@
 
             <div>
 
-                <p class="text-black text-sm">
+                <p class="text-black text-base">
                     Đang hoạt động
                 </p>
 
@@ -67,7 +67,7 @@
 
             <div>
 
-                <p class="text-black text-sm">
+                <p class="text-black text-base">
                     Tạm dừng hoạt động
                 </p>
 
@@ -85,7 +85,7 @@
     <div class="flex items-center">
 
         <a href="{{ route('admin.khachsan.create') }}"
-            class="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-semibold text-sm flex items-center justify-center gap-2 transition">
+            class="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-semibold text-base flex items-center justify-center gap-2 transition">
 
             <i class="fa-solid fa-plus"></i>
 

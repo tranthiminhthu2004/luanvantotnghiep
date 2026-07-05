@@ -1,6 +1,6 @@
 @extends('admin.trangchinh.admin')
 
-@section('title','Quản lý hình ảnh loại phòng')
+@section('title','Quản lý hình ảnh địa điểm du lịch')
 
 @section('content')
 
@@ -10,20 +10,19 @@
 
         <!-- Tiêu đề -->
         <div class="mb-8">
+            <p class="text-black text-4xl mt-2 font-bold">
 
-            <p class="text-black mt-2 text-4xl font-bold">
-
-                {{ $loaiPhong->ten_loai_phong }}
+                {{ $diaDiemDuLich->ten_dia_diem }}
 
             </p>
 
-            <p class="text-sm text-gray-400 mt-1">
+            <p class="text-sm text-gray-400 mt-2">
 
                 Đã tải lên
 
                 <span class="font-semibold text-blue-600">
 
-                    {{ $loaiPhong->hinhAnh->count() }}
+                    {{ $diaDiemDuLich->hinhAnhs->count() }}
 
                 </span>
 
@@ -36,7 +35,7 @@
         {{-- Thông báo --}}
         @if(session('success'))
 
-        <div class="mb-6 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-green-700">
+        <div class="mb-6 px-4 py-3 text-green-700">
 
             <i class="fa-solid fa-circle-check mr-2"></i>
 
@@ -58,15 +57,15 @@
 
         @endif
 
-        @if($loaiPhong->hinhAnh->count() < 5) <form
-            action="{{ route('admin.loaiphong.hinhanh.store',$loaiPhong->ma_loai_phong) }}" method="POST"
+        @if($diaDiemDuLich->hinhAnhs->count() < 5) <form
+            action="{{ route('admin.hinhanhdiadiem.store',$diaDiemDuLich->ma_dia_diem_du_lich) }}" method="POST"
             enctype="multipart/form-data">
 
             @csrf
 
             <div class="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
 
-                <input id="chonAnh" type="file" name="anh[]" multiple accept=".jpg,.jpeg,.png,.webp"
+                <input id="chonAnh" type="file" name="hinh_anh[]" multiple accept=".jpg,.jpeg,.png,.webp"
                     class="block w-full rounded-xl border px-4 py-3 text-sm">
 
                 <button type="submit"
@@ -80,7 +79,8 @@
 
             </div>
 
-            @error('anh')
+            {{-- Lỗi --}}
+            @error('hinh_anh')
 
             <p class="text-red-500 text-sm mt-3">
 
@@ -90,7 +90,7 @@
 
             @enderror
 
-            @error('anh.*')
+            @error('hinh_anh.*')
 
             <p class="text-red-500 text-sm mt-2">
 
@@ -100,6 +100,11 @@
 
             @enderror
 
+            {{-- Preview ảnh --}}
+            <div id="preview" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 mt-6">
+
+            </div>
+
             </form>
 
             @else
@@ -108,7 +113,7 @@
 
                 <i class="fa-solid fa-triangle-exclamation mr-2"></i>
 
-                Loại phòng đã đạt giới hạn
+                Địa điểm du lịch đã đạt giới hạn
 
                 <strong>5 hình ảnh.</strong>
 
@@ -118,20 +123,20 @@
 
             @endif
 
-            <div class="border-t my-8"></div>@if($loaiPhong->hinhAnh->count())
+            <div class="border-t my-8"></div>@if($diaDiemDuLich->hinhAnhs->count())
 
             <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
 
-                @foreach($loaiPhong->hinhAnh as $anh)
+                @foreach($diaDiemDuLich->hinhAnhs as $hinhAnh)
 
                 <div class="bg-white border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition">
 
                     <!-- Ảnh -->
                     <div class="relative">
 
-                        <img src="{{ asset($anh->duong_dan_anh) }}" class="w-full h-56 object-cover">
+                        <img src="{{ asset($hinhAnh->duong_dan_anh) }}" class="w-full h-56 object-cover">
 
-                        <!-- STT -->
+                        <!-- Số thứ tự -->
                         <span class="absolute top-3 left-3 bg-black/70 text-white text-xs px-3 py-1 rounded-full">
 
                             Ảnh {{ $loop->iteration }}
@@ -140,10 +145,10 @@
 
                     </div>
 
-                    <!-- Thao tác -->
+                    <!-- Nút xóa -->
                     <div class="p-4">
 
-                        <form action="{{ route('admin.loaiphong.hinhanh.destroy',$anh->ma_hinh_anh_phong) }}"
+                        <form action="{{ route('admin.hinhanhdiadiem.destroy',$hinhAnh->ma_hinh_anh_dia_diem) }}"
                             method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa hình ảnh này?');">
 
                             @csrf
@@ -182,7 +187,7 @@
 
                 <p class="text-gray-500 mt-2">
 
-                    Hãy tải lên những hình ảnh đầu tiên cho loại phòng này.
+                    Hãy tải lên những hình ảnh đầu tiên cho địa điểm du lịch này.
 
                 </p>
 
@@ -190,10 +195,9 @@
 
             @endif
 
-            <!-- Quay lại -->
             <div class="mt-10">
 
-                <a href="{{ route('admin.loaiphong.index') }}"
+                <a href="{{ route('admin.diadiemdulich.index') }}"
                     class="inline-flex items-center gap-2 bg-slate-200 hover:bg-slate-300 text-black px-6 py-3 rounded-full font-semibold transition">
 
                     Quay lại
@@ -219,13 +223,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const files = Array.from(this.files);
 
-        if (files.length === 0) {
+        if (files.length === 0) return;
 
-            return;
-
-        }
-
-        // Giới hạn tối đa 5 ảnh
         if (files.length > 5) {
 
             alert('Chỉ được chọn tối đa 5 hình ảnh.');
@@ -233,16 +232,11 @@ document.addEventListener('DOMContentLoaded', function() {
             this.value = '';
 
             return;
-
         }
 
         files.forEach(function(file, index) {
 
-            if (!file.type.startsWith('image/')) {
-
-                return;
-
-            }
+            if (!file.type.startsWith('image/')) return;
 
             const reader = new FileReader();
 
@@ -254,9 +248,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     'border rounded-2xl overflow-hidden shadow-sm bg-white';
 
                 card.innerHTML = `
-                    <img
-                        src="${e.target.result}"
-                        class="w-full h-40 object-cover">
+                    <img src="${e.target.result}"
+                         class="w-full h-40 object-cover">
 
                     <div class="p-3">
 

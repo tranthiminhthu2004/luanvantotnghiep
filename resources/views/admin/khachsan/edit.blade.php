@@ -8,16 +8,6 @@
 
 
     <div class="bg-white rounded-2xl shadow-sm p-4 md:p-6">
-
-        <div class="mb-6">
-
-            <h2 class="text-2xl md:text-3xl font-bold text-[#061755]">
-                Cập nhật thông tin khách sạn
-            </h2>
-
-
-        </div>
-
         <form action="{{ route('admin.khachsan.update',$khachSan->ma_khach_san) }}" method="POST">
 
             @csrf
@@ -28,7 +18,7 @@
                 <!-- Tên khách sạn -->
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
                         Tên khách sạn
                     </label>
 
@@ -45,7 +35,7 @@
                 <!-- Địa điểm -->
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
                         Địa điểm
                     </label>
 
@@ -69,7 +59,7 @@
                 <!-- Địa chỉ -->
                 <div class="md:col-span-2">
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
                         Địa chỉ
                     </label>
 
@@ -86,7 +76,7 @@
                 <!-- Vĩ độ -->
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
                         Vĩ độ
                     </label>
 
@@ -103,7 +93,7 @@
                 <!-- Kinh độ -->
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
                         Kinh độ
                     </label>
 
@@ -120,7 +110,7 @@
                 <!-- Số sao -->
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
                         Số sao khách sạn
                     </label>
 
@@ -143,7 +133,7 @@
                 <!-- Số điện thoại -->
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
                         Số điện thoại
                     </label>
 
@@ -159,7 +149,7 @@
                 <!-- Email -->
                 <div class="md:col-span-2">
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
                         Email
                     </label>
 
@@ -175,7 +165,7 @@
                 <!-- Giờ nhận phòng -->
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
                         Giờ nhận phòng
                     </label>
 
@@ -192,7 +182,7 @@
                 <!-- Giờ trả phòng -->
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
                         Giờ trả phòng
                     </label>
 
@@ -208,7 +198,7 @@
                 <!-- Hủy miễn phí -->
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
                         Hủy miễn phí trước (giờ)
                     </label>
 
@@ -221,11 +211,11 @@
                 <!-- Trạng thái -->
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
                         Trạng thái
                     </label>
 
-                    <select name="trang_thai" class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
+                    <select name="trang_thai" class="w-full mt-2 border rounded-xl px-4 py-2.5 text-base text-black">
 
                         <option value="1" {{ $khachSan->trang_thai == 1 ? 'selected' : '' }}>
 
@@ -246,7 +236,7 @@
                 <!-- Mô tả -->
                 <div class="md:col-span-2">
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
                         Mô tả
                     </label>
 
@@ -261,14 +251,14 @@
             <div class="flex flex-wrap gap-3 mt-6">
 
                 <button type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition">
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-full text-base font-semibold transition">
 
-                    Cập nhật khách sạn
+                    Cập nhật
 
                 </button>
 
                 <a href="{{ route('admin.khachsan.index') }}"
-                    class="bg-slate-200 hover:bg-slate-300 text-black px-5 py-2.5 rounded-full text-sm font-semibold transition">
+                    class="bg-slate-200 hover:bg-slate-300 text-black px-5 py-2.5 rounded-full text-base font-semibold transition">
 
                     Quay lại
 

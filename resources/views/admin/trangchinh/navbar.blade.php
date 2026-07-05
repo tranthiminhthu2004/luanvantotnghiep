@@ -1,4 +1,4 @@
-<div class="h-16 bg-white border-b flex items-center justify-between px-4 md:px-6">
+<div class="h-20 bg-white border-b flex items-center justify-between px-4 md:px-6">
 
     <!-- Bên trái -->
     <div class="flex items-center gap-3">
@@ -10,7 +10,7 @@
 
         </button>
 
-        <h2 class="text-xl md:text-2xl font-bold text-slate-800">
+        <h2 class="text-2xl md:text-4xl font-bold text-[#061755]">
             @yield('title')
         </h2>
 

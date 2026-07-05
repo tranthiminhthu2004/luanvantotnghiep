@@ -13,7 +13,7 @@
 
             <div>
 
-                <p class="text-sm text-black">
+                <p class="text-base text-black">
 
                     Tổng phòng
 
@@ -44,7 +44,7 @@
 
             <div>
 
-                <p class="text-sm text-black">
+                <p class="text-base text-black">
 
                     Đang hoạt động
 
@@ -75,7 +75,7 @@
 
             <div>
 
-                <p class="text-sm text-black">
+                <p class="text-base text-black">
 
                     Bảo trì
 
@@ -106,7 +106,7 @@
 
             <div>
 
-                <p class="text-sm text-black">
+                <p class="text-base text-black">
 
                     Ngưng hoạt động
 

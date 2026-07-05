@@ -6,12 +6,12 @@
 
 <div class="max-w-7xl mx-auto">
 
-    <div class="bg-white rounded-2xl shadow-sm p-4 md:p-6">
+    <div class="bg-white rounded-2xl shadow-sm p-5 md:p-8">
 
         <!-- Tiêu đề -->
-        <div class="mb-6">
+        <div class="mb-8">
 
-            <h2 class="text-2xl md:text-3xl font-bold text-[#061755]">
+            <h2 class="text-3xl font-bold text-[#061755]">
 
                 {{ $loaiPhong->ten_loai_phong }}
 
@@ -19,7 +19,8 @@
 
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Ảnh + Thông tin -->
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
 
             <!-- Ảnh -->
             <div>
@@ -27,90 +28,141 @@
                 @if($loaiPhong->hinhAnh->count())
 
                 <img src="{{ asset($loaiPhong->hinhAnh->first()->duong_dan_anh) }}"
-                    class="w-full h-80 object-cover rounded-2xl border">
+                    class="w-full h-72 lg:h-[430px] rounded-2xl object-cover shadow-sm">
 
                 @else
 
-                <img src="{{ asset('images/no-room.jpg') }}" class="w-full h-80 object-cover rounded-2xl border">
+                <div class="w-full h-72 lg:h-[430px] rounded-2xl bg-slate-100 flex items-center justify-center">
+
+                    <div class="text-center text-gray-400">
+
+                        <i class="fa-regular fa-image text-6xl mb-4"></i>
+
+                        <p class="text-base">
+
+                            Chưa có hình ảnh
+
+                        </p>
+
+                    </div>
+
+                </div>
 
                 @endif
 
             </div>
 
             <!-- Thông tin -->
-            <div class="space-y-4 text-base text-black">
+            <div class="space-y-4">
 
-                <p>
+                <div class="flex justify-between items-center border-b pb-3">
 
-                    <strong>
+                    <span class="font-semibold text-black text-base">
 
-                        Khách sạn:
+                        Khách sạn
 
-                    </strong>
+                    </span>
 
-                    {{ $loaiPhong->khachSan->ten_khach_san ?? 'Chưa cập nhật' }}
+                    <span class="text-base text-black text-right max-w-[60%]">
 
-                </p>
+                        {{ $loaiPhong->khachSan->ten_khach_san ?? 'Chưa cập nhật' }}
 
-                <p>
+                    </span>
 
-                    <strong>
+                </div>
 
-                        Số người tối đa:
+                <div class="flex justify-between items-center border-b pb-3">
 
-                    </strong>
+                    <span class="font-semibold text-black text-base">
 
-                    {{ $loaiPhong->so_nguoi_toi_da ?? 'Chưa cập nhật' }}
+                        Loại phòng
 
-                </p>
+                    </span>
 
-                <p>
+                    <span class="text-base text-black">
 
-                    <strong>
+                        {{ $loaiPhong->ten_loai_phong }}
 
-                        Diện tích:
+                    </span>
 
-                    </strong>
+                </div>
 
-                    {{ $loaiPhong->dien_tich ? $loaiPhong->dien_tich.' m²' : 'Chưa cập nhật' }}
+                <div class="flex justify-between items-center border-b pb-3">
 
-                </p>
+                    <span class="font-semibold text-black text-base">
 
-                <p>
+                        Số người tối đa
 
-                    <strong>
+                    </span>
 
-                        Số giường:
+                    <span class="text-base text-black">
 
-                    </strong>
+                        {{ $loaiPhong->so_nguoi_toi_da }}
 
-                    {{ $loaiPhong->so_giuong ?? 'Chưa cập nhật' }}
+                    </span>
 
-                </p>
+                </div>
 
-                <p>
+                <div class="flex justify-between items-center border-b pb-3">
 
-                    <strong>
+                    <span class="font-semibold text-black text-base">
 
-                        Giá cơ bản:
+                        Diện tích
 
-                    </strong>
+                    </span>
 
-                    {{ number_format($loaiPhong->gia_co_ban,0,',','.') }} đ
+                    <span class="text-base text-black">
 
-                </p>
+                        {{ $loaiPhong->dien_tich }} m²
 
-                <p>
+                    </span>
 
-                    <strong>
+                </div>
 
-                        Trạng thái:
+                <div class="flex justify-between items-center border-b pb-3">
 
-                    </strong>
+                    <span class="font-semibold text-black text-base">
+
+                        Số giường
+
+                    </span>
+
+                    <span class="text-base text-black">
+
+                        {{ $loaiPhong->so_giuong }}
+
+                    </span>
+
+                </div>
+
+                <div class="flex justify-between items-center border-b pb-3">
+
+                    <span class="font-semibold text-black text-base">
+
+                        Giá cơ bản
+
+                    </span>
+
+                    <span class="text-base text-blue-600 font-bold">
+
+                        {{ number_format($loaiPhong->gia_co_ban,0,',','.') }} đ
+
+                    </span>
+
+                </div>
+
+                <div class="flex justify-between items-center">
+
+                    <span class="font-semibold text-black text-base">
+
+                        Trạng thái
+
+                    </span>
 
                     @if($loaiPhong->trang_thai)
 
-                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+                    <span
+                        class="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-semibold">
 
                         Hoạt động
 
@@ -118,7 +170,8 @@
 
                     @else
 
-                    <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-medium">
+                    <span
+                        class="inline-flex items-center px-3 py-1 rounded-full bg-red-100 text-red-700 text-sm font-semibold">
 
                         Tạm dừng
 
@@ -126,104 +179,103 @@
 
                     @endif
 
-                </p>
-
-            </div>
-
-        </div> <!-- Mô tả -->
-        <div class="mt-8">
-
-            <h3 class="text-xl md:text-2xl font-bold text-black mb-4">
-
-                Mô tả
-
-            </h3>
-
-            <div class="bg-slate-50 rounded-xl p-4">
-
-                <p class="text-black leading-8">
-
-                    {{ $loaiPhong->mo_ta ?? 'Chưa có mô tả.' }}
-
-                </p>
+                </div>
 
             </div>
 
         </div>
 
-        <!-- Tiện nghi -->
-        <div class="mt-10">
+        <!-- Mô tả + Tiện nghi -->
+        <div class="mt-10 grid grid-cols-1 xl:grid-cols-2 gap-8">
 
-            <h3 class="text-xl md:text-2xl font-bold text-black mb-5">
+            <!-- Mô tả -->
+            <div>
 
-                Tiện nghi loại phòng
+                <h3 class="text-2xl font-bold text-[#061755] mb-4">
 
-            </h3>
+                    Mô tả loại phòng
 
-            <div class="flex flex-wrap gap-3">
+                </h3>
 
-                @forelse($loaiPhong->tienNghis as $tienNghi)
+                <div class="bg-slate-50 rounded-2xl border p-6 h-full">
 
-                <div class="px-4 py-2 bg-blue-50 text-blue-700 rounded-full flex items-center gap-2">
+                    @if($loaiPhong->mo_ta)
 
-                    <i class="fa-solid {{ $tienNghi->icon }}"></i>
+                    <p class="text-base text-black leading-8">
 
-                    <span>
+                        {{ $loaiPhong->mo_ta }}
 
-                        {{ $tienNghi->ten_tien_nghi }}
+                    </p>
 
-                    </span>
+                    @else
+
+                    <p class="text-gray-500">
+
+                        Chưa có mô tả.
+
+                    </p>
+
+                    @endif
 
                 </div>
 
-                @empty
-
-                <span class="text-gray-500">
-
-                    Chưa có tiện nghi.
-
-                </span>
-
-                @endforelse
-
             </div>
 
-        </div>
+            <!-- Tiện nghi -->
+            <div>
 
-        <!-- Album ảnh -->
-        <div class="mt-10">
+                <h3 class="text-2xl font-bold text-[#061755] mb-4">
 
-            <h3 class="text-xl md:text-2xl font-bold text-black mb-5">
+                    Tiện nghi loại phòng
 
-                Album ảnh
+                </h3>
 
-            </h3>
+                <div class="bg-slate-50 rounded-2xl border p-6 h-full">
 
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    @if($loaiPhong->tienNghis->count())
 
-                @forelse($loaiPhong->hinhAnh as $anh)
+                    <div class="flex flex-wrap gap-3">
 
-                <img src="{{ asset($anh->duong_dan_anh) }}" class="w-full h-40 object-cover rounded-2xl border">
+                        @foreach($loaiPhong->tienNghis as $tienNghi)
 
-                @empty
+                        <div
+                            class="inline-flex items-center gap-2 px-4 py-3 rounded-xl bg-white border shadow-sm hover:bg-blue-50 transition">
 
-                <div class="col-span-full text-center text-gray-500 py-8">
+                            <i class="fa-solid {{ $tienNghi->icon }} text-blue-600"></i>
 
-                    Chưa có ảnh.
+                            <span class="text-base">
+
+                                {{ $tienNghi->ten_tien_nghi }}
+
+                            </span>
+
+                        </div>
+
+                        @endforeach
+
+                    </div>
+
+                    @else
+
+                    <p class="text-gray-500">
+
+                        Chưa có tiện nghi.
+
+                    </p>
+
+                    @endif
 
                 </div>
 
-                @endforelse
-
             </div>
 
         </div>
 
-        <!-- Nút quay lại -->
-        <div class="mt-8">
+        <!-- Quay lại -->
+        <div class="mt-20 flex justify-start">
 
             <a href="{{ route('admin.loaiphong.index') }}"
-                class="inline-flex items-center bg-slate-200 hover:bg-slate-300 text-black px-5 py-2.5 rounded-full font-semibold transition">
+                class="inline-flex items-center gap-2 bg-slate-200 hover:bg-slate-300 text-black px-8 py-3 rounded-full font-semibold transition">
 
                 Quay lại
 
