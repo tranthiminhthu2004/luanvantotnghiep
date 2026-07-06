@@ -33,6 +33,7 @@ use App\Http\Controllers\NguoiDung\UserLichSuDatPhongController;
 use App\Http\Controllers\DuLich\AdminNhuCauDuLichController;
 use App\Http\Controllers\DuLich\AdminDiaDiemDuLichController;
 use App\Http\Controllers\DuLich\AdminHinhAnhDiaDiemDuLichController;
+use App\Http\Controllers\DuLich\AdminDiaDiemNhuCauDuLichController;
 
 use App\Mail\DatPhongThanhCongMail;
 
@@ -663,16 +664,50 @@ admin hinh anh dia diem du lich
 Route::get(
     '/admin/dia-diem-du-lich/{id}/hinh-anh',
     [AdminHinhAnhDiaDiemDuLichController::class, 'index']
-)->name('admin.hinhanhdiadiem.index');
+)->name('admin.hinhanhdiadiemdulich.index');
 
 Route::post(
     '/admin/dia-diem-du-lich/{id}/hinh-anh',
     [AdminHinhAnhDiaDiemDuLichController::class, 'store']
-)->name('admin.hinhanhdiadiem.store');
+)->name('admin.hinhanhdiadiemdulich.store');
 
 Route::delete(
     '/admin/hinh-anh-dia-diem/{id}',
     [AdminHinhAnhDiaDiemDuLichController::class, 'destroy']
-)->name('admin.hinhanhdiadiem.destroy');
+)->name('admin.hinhanhdiadiemdulich.destroy');
+
+/*
+ADMIN - GẮN NHU CẦU DU LỊCH CHO ĐIỂM ĐẾN
+*/
+
+Route::get(
+    '/admin/dia-diem-nhu-cau-du-lich',
+    [AdminDiaDiemNhuCauDuLichController::class, 'index']
+)->name('admin.diadiemnhucau.index');
+
+Route::get(
+    '/admin/dia-diem-nhu-cau-du-lich/create',
+    [AdminDiaDiemNhuCauDuLichController::class, 'create']
+)->name('admin.diadiemnhucau.create');
+
+Route::post(
+    '/admin/dia-diem-nhu-cau-du-lich',
+    [AdminDiaDiemNhuCauDuLichController::class, 'store']
+)->name('admin.diadiemnhucau.store');
+
+Route::get(
+    '/admin/dia-diem-nhu-cau-du-lich/{maDiaDiem}/{maNhuCau}/edit',
+    [AdminDiaDiemNhuCauDuLichController::class, 'edit']
+)->name('admin.diadiemnhucau.edit');
+
+Route::put(
+    '/admin/dia-diem-nhu-cau-du-lich/{maDiaDiem}/{maNhuCau}',
+    [AdminDiaDiemNhuCauDuLichController::class, 'update']
+)->name('admin.diadiemnhucau.update');
+
+Route::delete(
+    '/admin/dia-diem-nhu-cau-du-lich/{maDiaDiem}/{maNhuCau}',
+    [AdminDiaDiemNhuCauDuLichController::class, 'destroy']
+)->name('admin.diadiemnhucau.destroy');
 
 require __DIR__ . '/auth.php';

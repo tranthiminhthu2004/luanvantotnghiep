@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\DiaDiemDuLich;
 use App\Models\HinhAnhDiaDiemDuLich;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
 
 class AdminHinhAnhDiaDiemDuLichController extends Controller
 {
@@ -76,7 +75,7 @@ public function store(Request $request, string $id)
     }
 
     return redirect()
-        ->route('admin.hinhanhdiadiem.index', $id)
+        ->route('admin.hinhanhdiadiemdulich.index', $id)
         ->with(
             'success',
             'Thêm hình ảnh thành công.'
@@ -98,7 +97,7 @@ public function destroy(string $id)
     $hinhAnh->delete();
 
     return redirect()
-        ->route('admin.hinhanhdiadiem.index', $maDiaDiem)
+        ->route('admin.hinhanhdiadiemdulich.index', $maDiaDiem)
         ->with(
             'success',
             'Xóa hình ảnh thành công.'

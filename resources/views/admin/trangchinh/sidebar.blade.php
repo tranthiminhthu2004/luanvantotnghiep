@@ -197,7 +197,7 @@
                 </a>
 
                 <!-- Gán nhu cầu cho điểm đến -->
-                <a href="#" class="block px-4 py-2 text-sm rounded-full transition
+                <a href="{{ route('admin.diadiemnhucau.index') }}" class="block px-4 py-2 text-sm rounded-full transition
                     {{ request()->routeIs('admin.diadiemnhucau.*')
                     ? 'bg-blue-800'
                     : 'hover:bg-blue-900' }}">

@@ -6,12 +6,12 @@
 
 <div class="max-w-7xl mx-auto">
 
-    <div class="bg-white rounded-2xl shadow-sm p-5 md:p-6">
+    <div class="bg-white rounded-2xl shadow-sm p-5 md:p-8">
 
         <!-- Tiêu đề -->
-        <div class="mb-6">
+        <div class="mb-8">
 
-            <h2 class="text-2xl md:text-3xl font-bold text-[#061755]">
+            <h2 class="text-3xl font-bold text-[#061755]">
 
                 {{ $tienNghi->ten_tien_nghi }}
 
@@ -19,82 +19,83 @@
 
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Icon + Thông tin -->
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
 
             <!-- Icon -->
             <div class="flex items-center justify-center">
 
-                <div class="w-44 h-44 rounded-3xl bg-slate-100 flex items-center justify-center shadow-inner">
+                <div class="w-72 h-72 rounded-2xl bg-slate-100 flex items-center justify-center shadow-sm">
 
-                    <i class="fa-solid {{ $tienNghi->icon }} text-7xl text-blue-600"></i>
+                    <i class="fa-solid {{ $tienNghi->icon }} text-8xl text-blue-600"></i>
 
                 </div>
 
             </div>
 
             <!-- Thông tin -->
-            <div class="space-y-5">
+            <div class="space-y-4">
 
-                <div>
+                <div class="flex justify-between items-center border-b pb-3">
 
-                    <p class="text-sm text-gray-500">
+                    <span class="font-semibold text-black text-base">
 
                         Mã tiện nghi
 
-                    </p>
+                    </span>
 
-                    <p class="text-base font-semibold text-black">
+                    <span class="text-base text-black">
 
                         {{ $tienNghi->ma_tien_nghi }}
 
-                    </p>
+                    </span>
 
                 </div>
 
-                <div>
+                <div class="flex justify-between items-center border-b pb-3">
 
-                    <p class="text-sm text-gray-500">
+                    <span class="font-semibold text-black text-base">
 
                         Tên tiện nghi
 
-                    </p>
+                    </span>
 
-                    <p class="text-base font-semibold text-black">
+                    <span class="text-base text-black">
 
                         {{ $tienNghi->ten_tien_nghi }}
 
-                    </p>
+                    </span>
 
                 </div>
 
-                <div>
+                <div class="flex justify-between items-center border-b pb-3">
 
-                    <p class="text-sm text-gray-500">
+                    <span class="font-semibold text-black text-base">
 
-                        Tên icon
+                        Icon
 
-                    </p>
+                    </span>
 
-                    <p class="text-base font-medium text-black">
+                    <span class="text-base text-black">
 
                         {{ $tienNghi->icon }}
 
-                    </p>
+                    </span>
 
                 </div>
 
-                <div>
+                <div class="flex justify-between items-center">
 
-                    <p class="text-sm text-gray-500 mb-2">
+                    <span class="font-semibold text-black text-base">
 
                         Trạng thái
 
-                    </p>
+                    </span>
 
                     @if($tienNghi->trang_thai)
 
                     <span
-                        class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                        class="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-semibold">
 
                         Hoạt động
 
@@ -103,7 +104,7 @@
                     @else
 
                     <span
-                        class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">
+                        class="inline-flex items-center px-3 py-1 rounded-full bg-red-100 text-red-700 text-sm font-semibold">
 
                         Tạm dừng
 
@@ -117,32 +118,49 @@
 
         </div>
 
-        <!-- Mô tả -->
-        <div class="mt-8">
+        <!-- Mô tả + Xem trước icon -->
+        <div class="mt-10 grid grid-cols-1 xl:grid-cols-2 gap-8">
 
-            <h3 class="text-xl font-bold text-black mb-3">
+            <!-- Mô tả -->
+            <div>
 
-                Mô tả
+                <h3 class="text-2xl font-bold text-[#061755] mb-4">
 
-            </h3>
+                    Mô tả
 
-            <div class="bg-slate-50 rounded-2xl p-5">
+                </h3>
 
-                <p class="text-gray-600 leading-7">
+                <div class="bg-slate-50 border rounded-2xl p-6 h-full">
 
-                    {{ $tienNghi->mo_ta ?: 'Chưa có mô tả.' }}
+                    @if($tienNghi->mo_ta)
 
-                </p>
+                    <p class="text-base text-black leading-8">
+
+                        {{ $tienNghi->mo_ta }}
+
+                    </p>
+
+                    @else
+
+                    <p class="text-gray-500 text-base">
+
+                        Chưa có mô tả.
+
+                    </p>
+
+                    @endif
+
+                </div>
 
             </div>
 
         </div>
 
-        <!-- Button -->
-        <div class="mt-8">
+        <!-- Quay lại -->
+        <div class="mt-20">
 
             <a href="{{ route('admin.tiennghi.index') }}"
-                class="inline-flex items-center bg-slate-200 hover:bg-slate-300 text-black px-5 py-2.5 rounded-full text-sm font-semibold transition">
+                class="inline-flex items-center gap-2 bg-slate-200 hover:bg-slate-300 text-black px-8 py-3 rounded-full font-semibold transition">
 
                 Quay lại
 

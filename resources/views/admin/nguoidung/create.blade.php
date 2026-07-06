@@ -266,14 +266,14 @@
 
             <div class="flex flex-col md:flex-row gap-4 mt-8">
 
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full">
 
                     Lưu người dùng
 
                 </button>
 
                 <a href="{{ route('admin.nguoidung.index') }}"
-                    class="bg-slate-200 hover:bg-slate-300 px-6 py-3 rounded-xl text-center">
+                    class="bg-slate-200 hover:bg-slate-300 px-6 py-3 rounded-full text-center">
 
                     Quay lại
 

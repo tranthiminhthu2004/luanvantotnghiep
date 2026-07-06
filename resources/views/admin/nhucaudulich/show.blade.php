@@ -1,81 +1,56 @@
 @extends('admin.trangchinh.admin')
 
-@section('title', 'Chi tiết nhu cầu du lịch')
+@section('title','Chi tiết nhu cầu du lịch')
 
 @section('content')
 
-<div class="max-w-5xl mx-auto">
+<div class="max-w-7xl mx-auto">
 
-    <!-- Tiêu đề -->
-    <div class="flex items-center justify-between mb-6">
+    <div class="bg-white rounded-2xl shadow-sm p-5 md:p-8">
 
-        <div>
+        <!-- Tiêu đề -->
+        <div class="mb-8">
 
-            <h1 class="text-3xl font-bold text-[#061755]">
+            <h2 class="text-3xl font-bold text-[#061755]">
 
-                Chi tiết nhu cầu du lịch
+                {{ $nhuCau->ten_nhu_cau }}
 
-            </h1>
-
-            <p class="text-gray-500 mt-1">
-
-                Thông tin chi tiết về nhu cầu du lịch.
-
-            </p>
+            </h2>
 
         </div>
 
-        <div class="flex gap-3">
+        <!-- Thông tin -->
+        <div class="bg-slate-50 border rounded-2xl p-6 mb-10">
 
-            <a href="{{ route('admin.nhucaudulich.index') }}"
-                class="px-6 py-3 rounded-full border hover:bg-gray-100 transition">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-                Quay lại
+                <div>
 
-            </a>
+                    <p class="text-sm text-gray-500 mb-1">
 
-            <a href="{{ route('admin.nhucaudulich.edit',$nhuCau->ma_nhu_cau) }}"
-                class="px-6 py-3 rounded-full bg-yellow-500 hover:bg-yellow-600 text-white transition">
+                        Mã nhu cầu
 
-                <i class="fa-solid fa-pen mr-2"></i>
+                    </p>
 
-                Chỉnh sửa
+                    <p class="text-base font-semibold text-black">
 
-            </a>
+                        {{ $nhuCau->ma_nhu_cau }}
 
-        </div>
-
-    </div>
-
-    <div class="bg-white rounded-3xl shadow overflow-hidden">
-
-        <!-- Header -->
-        <div class="bg-blue-50 px-8 py-6 border-b">
-
-            <div class="flex items-center gap-5">
-
-                <div class="w-16 h-16 rounded-2xl bg-pink-100 text-pink-600 flex items-center justify-center">
-
-                    <i class="fa-solid fa-heart text-3xl"></i>
+                    </p>
 
                 </div>
 
                 <div>
 
-                    <h2 class="text-2xl font-bold text-[#061755]">
+                    <p class="text-sm text-gray-500 mb-1">
 
-                        {{ $nhuCau->ten_nhu_cau }}
+                        Địa điểm đang sử dụng
 
-                    </h2>
+                    </p>
 
-                    <p class="text-gray-500 mt-1">
+                    <p class="text-base font-bold text-[#061755]">
 
-                        Mã nhu cầu:
-                        <span class="font-semibold">
-
-                            {{ $nhuCau->ma_nhu_cau }}
-
-                        </span>
+                        {{ $nhuCau->dia_diems_count }}
 
                     </p>
 
@@ -86,53 +61,36 @@
         </div>
 
         <!-- Nội dung -->
-        <div class="p-8 space-y-8">
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
 
             <!-- Mô tả -->
             <div>
 
-                <h3 class="font-semibold text-lg mb-3">
+                <h3 class="text-2xl font-bold text-[#061755] mb-4">
 
                     Mô tả
 
                 </h3>
 
-                <div class="border rounded-2xl p-5 bg-slate-50 leading-8 text-gray-700">
+                <div class="bg-slate-50 border rounded-2xl p-6 min-h-[180px]">
 
-                    {{ $nhuCau->mo_ta ?: 'Chưa có mô tả.' }}
+                    @if($nhuCau->mo_ta)
 
-                </div>
+                    <p class="text-base text-black leading-8">
 
-            </div>
+                        {{ $nhuCau->mo_ta }}
 
-            <!-- Thống kê -->
-            <div>
+                    </p>
 
-                <h3 class="font-semibold text-lg mb-3">
+                    @else
 
-                    Thống kê
+                    <div class="h-full flex items-center justify-center text-gray-500 text-base">
 
-                </h3>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-
-                    <div class="bg-blue-50 rounded-2xl p-6 text-center">
-
-                        <i class="fa-solid fa-location-dot text-blue-600 text-3xl mb-3"></i>
-
-                        <p class="text-gray-500">
-
-                            Địa điểm đang sử dụng
-
-                        </p>
-
-                        <h2 class="text-3xl font-bold text-[#061755] mt-2">
-
-                            {{ $nhuCau->dia_diems_count }}
-
-                        </h2>
+                        Chưa có mô tả.
 
                     </div>
+
+                    @endif
 
                 </div>
 
@@ -141,60 +99,74 @@
             <!-- Danh sách địa điểm -->
             <div>
 
-                <h3 class="font-semibold text-lg mb-3">
+                <h3 class="text-2xl font-bold text-[#061755] mb-4">
 
-                    Danh sách địa điểm sử dụng nhu cầu này
+                    Địa điểm sử dụng
 
                 </h3>
 
-                @if($nhuCau->diaDiems->count())
+                <div class="bg-slate-50 border rounded-2xl p-6 min-h-[180px]">
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    @if($nhuCau->diaDiems->count())
 
-                    @foreach($nhuCau->diaDiems as $diaDiem)
+                    <div class="space-y-3">
 
-                    <div class="border rounded-2xl p-4 flex items-center gap-3">
+                        @foreach($nhuCau->diaDiems as $diaDiem)
 
-                        <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center">
+                        <div class="bg-white border rounded-xl px-4 py-3">
 
-                            <i class="fa-solid fa-map-location-dot"></i>
+                            <div class="flex items-center justify-between">
+
+                                <div>
+
+                                    <p class="font-semibold text-black">
+
+                                        {{ $diaDiem->ten_dia_diem }}
+
+                                    </p>
+
+                                    <p class="text-sm text-gray-500 mt-1">
+
+                                        Mã địa điểm:
+                                        {{ $diaDiem->ma_dia_diem }}
+
+                                    </p>
+
+                                </div>
+
+                            </div>
 
                         </div>
 
-                        <div>
-
-                            <h4 class="font-semibold">
-
-                                {{ $diaDiem->ten_dia_diem }}
-
-                            </h4>
-
-                            <p class="text-sm text-gray-500">
-
-                                Mã địa điểm:
-                                {{ $diaDiem->ma_dia_diem }}
-
-                            </p>
-
-                        </div>
+                        @endforeach
 
                     </div>
 
-                    @endforeach
+                    @else
+
+                    <div class="h-full flex items-center justify-center text-gray-500 text-base">
+
+                        Chưa có địa điểm nào sử dụng nhu cầu này.
+
+                    </div>
+
+                    @endif
 
                 </div>
-
-                @else
-
-                <div class="border rounded-2xl p-6 text-center text-gray-500">
-
-                    Chưa có địa điểm nào được gán nhu cầu này.
-
-                </div>
-
-                @endif
 
             </div>
+
+        </div>
+
+        <!-- Quay lại -->
+        <div class="mt-20">
+
+            <a href="{{ route('admin.nhucaudulich.index') }}"
+                class="inline-flex items-center gap-2 bg-slate-200 hover:bg-slate-300 text-black px-8 py-3 rounded-full font-semibold transition">
+
+                Quay lại
+
+            </a>
 
         </div>
 

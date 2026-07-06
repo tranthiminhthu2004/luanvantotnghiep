@@ -34,13 +34,14 @@ class NhuCauDuLich extends Model
             'ma_nhu_cau'
         );
     }
+
     public function diaDiems()
-{
-    return $this->belongsToMany(
-        DiaDiemDuLich::class,
-        'dia_diem_nhu_cau_du_lich',
-        'ma_nhu_cau',
-        'ma_dia_diem'
-    );
-}
+    {
+        return $this->belongsToMany(
+            DiaDiem::class,
+            'dia_diem_nhu_cau_du_lich',
+            'ma_nhu_cau',
+            'ma_dia_diem'
+        )->withPivot('muc_do_phu_hop');
+    }
 }

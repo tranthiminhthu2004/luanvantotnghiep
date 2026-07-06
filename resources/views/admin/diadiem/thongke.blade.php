@@ -1,7 +1,7 @@
 <div class="grid grid-cols-1 lg:grid-cols-4 gap-5 mb-6">
 
     <!-- Tổng địa điểm -->
-    <div class="lg:col-span-2 bg-white rounded-3xl shadow p-5 flex items-center">
+    <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm p-5 flex items-center">
 
         <div class="flex items-center gap-4">
 
@@ -13,7 +13,7 @@
 
             <div>
 
-                <p class="text-black text-sm">
+                <p class="text-black text-base">
 
                     Tổng địa điểm
 
@@ -37,7 +37,7 @@
         <form method="GET" action="{{ route('admin.diadiem.index') }}" class="w-full">
 
             <select name="sap_xep" onchange="this.form.submit()"
-                class="w-full border rounded-full px-5 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                class="w-full border border-gray-300 rounded-full px-5 py-3 text-base text-black focus:outline-none focus:ring-2 focus:ring-[#061755]">
 
                 <option value="desc" {{ request('sap_xep','desc') == 'desc' ? 'selected' : '' }}>
 
@@ -61,7 +61,7 @@
     <div class="flex items-center">
 
         <a href="{{ route('admin.diadiem.create') }}"
-            class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-full py-4 font-semibold flex items-center justify-center gap-3 transition">
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-full py-3 text-base font-semibold flex items-center justify-center gap-3 transition">
 
             <i class="fa-solid fa-plus"></i>
 

@@ -78,8 +78,6 @@
                 <button type="submit"
                     class="px-6 py-3 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-semibold transition">
 
-                    <i class="fa-solid fa-floppy-disk mr-2"></i>
-
                     Cập nhật
 
                 </button>

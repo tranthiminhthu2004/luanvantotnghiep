@@ -1,7 +1,7 @@
 <div class="grid grid-cols-1 lg:grid-cols-4 gap-5 mb-6">
 
     <!-- Tổng địa điểm du lịch -->
-    <div class="lg:col-span-2 bg-white rounded-3xl shadow p-5 flex items-center">
+    <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm p-5 flex items-center">
 
         <div class="flex items-center gap-4">
 
@@ -13,8 +13,10 @@
 
             <div>
 
-                <p class="text-black text-sm">
+                <p class="text-base text-black">
+
                     Tổng địa điểm du lịch
+
                 </p>
 
                 <h3 class="text-3xl font-bold text-[#061755] mt-1">
@@ -33,7 +35,7 @@
     <div class="lg:col-span-2 flex items-center">
 
         <a href="{{ route('admin.diadiemdulich.create') }}"
-            class="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-full py-4 font-semibold flex items-center justify-center gap-3 transition">
+            class="w-full bg-[#061755] hover:bg-[#0b277a] text-white rounded-xl py-3 text-base font-semibold flex items-center justify-center gap-3 transition">
 
             <i class="fa-solid fa-plus"></i>
 

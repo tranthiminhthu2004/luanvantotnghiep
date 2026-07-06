@@ -10,13 +10,14 @@
 
         <!-- Tiêu đề -->
         <div class="mb-8">
-            <p class="text-black text-4xl mt-2 font-bold">
+
+            <p class="text-black mt-2 text-4xl font-bold">
 
                 {{ $diaDiemDuLich->ten_dia_diem }}
 
             </p>
 
-            <p class="text-sm text-gray-400 mt-2">
+            <p class="text-sm text-gray-400 mt-1">
 
                 Đã tải lên
 
@@ -35,7 +36,7 @@
         {{-- Thông báo --}}
         @if(session('success'))
 
-        <div class="mb-6 px-4 py-3 text-green-700">
+        <div class="mb-6 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-green-700">
 
             <i class="fa-solid fa-circle-check mr-2"></i>
 
@@ -57,8 +58,28 @@
 
         @endif
 
+        @if($errors->any())
+
+        <div class="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-700">
+
+            <i class="fa-solid fa-circle-exclamation mr-2"></i>
+
+            <ul class="list-disc ml-6 mt-2">
+
+                @foreach($errors->all() as $error)
+
+                <li>{{ $error }}</li>
+
+                @endforeach
+
+            </ul>
+
+        </div>
+
+        @endif
+
         @if($diaDiemDuLich->hinhAnhs->count() < 5) <form
-            action="{{ route('admin.hinhanhdiadiem.store',$diaDiemDuLich->ma_dia_diem_du_lich) }}" method="POST"
+            action="{{ route('admin.hinhanhdiadiemdulich.store', $diaDiemDuLich->ma_dia_diem_du_lich) }}" method="POST"
             enctype="multipart/form-data">
 
             @csrf
@@ -79,7 +100,6 @@
 
             </div>
 
-            {{-- Lỗi --}}
             @error('hinh_anh')
 
             <p class="text-red-500 text-sm mt-3">
@@ -100,12 +120,10 @@
 
             @enderror
 
-            {{-- Preview ảnh --}}
-            <div id="preview" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 mt-6">
-
-            </div>
-
             </form>
+
+            <!-- Preview ảnh mới chọn -->
+            <div id="preview" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 mt-6"></div>
 
             @else
 
@@ -123,20 +141,22 @@
 
             @endif
 
-            <div class="border-t my-8"></div>@if($diaDiemDuLich->hinhAnhs->count())
+            <div class="border-t my-8"></div>
+
+            @if($diaDiemDuLich->hinhAnhs->count())
 
             <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
 
-                @foreach($diaDiemDuLich->hinhAnhs as $hinhAnh)
+                @foreach($diaDiemDuLich->hinhAnhs as $anh)
 
                 <div class="bg-white border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition">
 
                     <!-- Ảnh -->
                     <div class="relative">
 
-                        <img src="{{ asset($hinhAnh->duong_dan_anh) }}" class="w-full h-56 object-cover">
+                        <img src="{{ asset($anh->duong_dan_anh) }}" class="w-full h-56 object-cover">
 
-                        <!-- Số thứ tự -->
+                        <!-- STT -->
                         <span class="absolute top-3 left-3 bg-black/70 text-white text-xs px-3 py-1 rounded-full">
 
                             Ảnh {{ $loop->iteration }}
@@ -145,10 +165,10 @@
 
                     </div>
 
-                    <!-- Nút xóa -->
+                    <!-- Thao tác -->
                     <div class="p-4">
 
-                        <form action="{{ route('admin.hinhanhdiadiem.destroy',$hinhAnh->ma_hinh_anh_dia_diem) }}"
+                        <form action="{{ route('admin.hinhanhdiadiemdulich.destroy', $anh->ma_hinh_anh_dia_diem) }}"
                             method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa hình ảnh này?');">
 
                             @csrf
@@ -195,6 +215,7 @@
 
             @endif
 
+            <!-- Quay lại -->
             <div class="mt-10">
 
                 <a href="{{ route('admin.diadiemdulich.index') }}"
@@ -209,6 +230,7 @@
     </div>
 
 </div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -223,20 +245,36 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const files = Array.from(this.files);
 
-        if (files.length === 0) return;
+        if (files.length === 0) {
 
-        if (files.length > 5) {
+            return;
 
-            alert('Chỉ được chọn tối đa 5 hình ảnh.');
+        }
+
+        const soAnhHienTai = {
+            {
+                $diaDiemDuLich - > hinhAnhs - > count()
+            }
+        };
+        const soAnhConLai = 5 - soAnhHienTai;
+
+        if (files.length > soAnhConLai) {
+
+            alert('Bạn chỉ được chọn thêm tối đa ' + soAnhConLai + ' hình ảnh.');
 
             this.value = '';
 
             return;
+
         }
 
         files.forEach(function(file, index) {
 
-            if (!file.type.startsWith('image/')) return;
+            if (!file.type.startsWith('image/')) {
+
+                return;
+
+            }
 
             const reader = new FileReader();
 
@@ -248,14 +286,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     'border rounded-2xl overflow-hidden shadow-sm bg-white';
 
                 card.innerHTML = `
-                    <img src="${e.target.result}"
-                         class="w-full h-40 object-cover">
+                    <img
+                        src="${e.target.result}"
+                        class="w-full h-40 object-cover">
 
                     <div class="p-3">
 
                         <p class="text-center text-sm font-semibold">
 
-                            Ảnh ${index + 1}
+                            Ảnh mới ${index + 1}
 
                         </p>
 

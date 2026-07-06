@@ -1,42 +1,38 @@
-<div class="bg-white rounded-2xl shadow overflow-hidden">
+<div class="bg-white rounded-2xl shadow-sm overflow-hidden">
 
     <div class="overflow-x-auto">
 
-        <table class="min-w-full">
+        <table class="w-full min-w-[1050px] border-collapse">
 
             <thead class="bg-slate-50">
 
-                <tr class="text-left">
+                <tr class="text-left whitespace-nowrap">
 
-                    <th class="px-5 py-4 text-sm font-semibold text-black whitespace-nowrap">
+                    <th class="px-4 py-4 text-base font-semibold text-black">
                         ID
                     </th>
 
-                    <th class="px-5 py-4 text-sm font-semibold text-black whitespace-nowrap">
-                        Ảnh đại diện
-                    </th>
-
-                    <th class="px-5 py-4 text-sm font-semibold text-black whitespace-nowrap">
+                    <th class="px-4 py-4 text-base font-semibold text-black">
                         Họ tên
                     </th>
 
-                    <th class="px-5 py-4 text-sm font-semibold text-black whitespace-nowrap">
+                    <th class="px-4 py-4 text-base font-semibold text-black">
                         Email
                     </th>
 
-                    <th class="px-5 py-4 text-sm font-semibold text-black whitespace-nowrap">
+                    <th class="px-4 py-4 text-base font-semibold text-black">
                         Số điện thoại
                     </th>
 
-                    <th class="px-5 py-4 text-sm font-semibold text-black whitespace-nowrap">
+                    <th class="px-4 py-4 text-base font-semibold text-black">
                         Vai trò
                     </th>
 
-                    <th class="px-5 py-4 text-sm font-semibold text-black whitespace-nowrap">
+                    <th class="px-4 py-4 text-base font-semibold text-black">
                         Trạng thái
                     </th>
 
-                    <th class="px-5 py-4 text-sm font-semibold text-black whitespace-nowrap">
+                    <th class="px-4 py-4 text-base font-semibold text-center text-black">
                         Thao tác
                     </th>
 
@@ -51,48 +47,47 @@
                 <tr class="border-t hover:bg-slate-50 transition">
 
                     <!-- ID -->
-                    <td class="px-5 py-4 text-sm">
+                    <td class="px-4 py-4 text-base font-semibold text-black">
 
                         {{ $nguoiDung->ma_nguoi_dung }}
 
                     </td>
 
-                    <!-- Avatar -->
-                    <td class="px-5 py-4">
-
-                        <img src="{{ $nguoiDung->anh_dai_dien
-                                ? asset($nguoiDung->anh_dai_dien)
-                                : asset('images/avatar-default.png') }}"
-                            class="w-12 h-12 rounded-full object-cover border">
-
-                    </td>
-
                     <!-- Họ tên -->
-                    <td class="px-5 py-4 font-medium text-sm whitespace-nowrap">
+                    <td class="px-4 py-4">
 
-                        {{ $nguoiDung->ho_va_ten_dem }}
-                        {{ $nguoiDung->ten }}
+                        <div class="max-w-[220px] truncate text-base font-medium text-black">
+
+                            {{ $nguoiDung->ho_va_ten_dem }}
+                            {{ $nguoiDung->ten }}
+
+                        </div>
 
                     </td>
 
                     <!-- Email -->
-                    <td class="px-5 py-4 text-sm">
+                    <td class="px-4 py-4">
 
-                        {{ $nguoiDung->email }}
+                        <div class="max-w-[260px] truncate text-base text-black">
+
+                            {{ $nguoiDung->email }}
+
+                        </div>
 
                     </td>
 
                     <!-- SĐT -->
-                    <td class="px-5 py-4 text-sm whitespace-nowrap">
+                    <td class="px-4 py-4 text-base text-black whitespace-nowrap">
 
                         {{ $nguoiDung->so_dien_thoai ?? '-' }}
 
                     </td>
 
                     <!-- Vai trò -->
-                    <td class="px-5 py-4">
+                    <td class="px-4 py-4">
 
-                        <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-xs font-medium">
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-600 text-sm font-semibold">
 
                             {{ $nguoiDung->vaiTro->ten_vai_tro ?? '-' }}
 
@@ -101,11 +96,12 @@
                     </td>
 
                     <!-- Trạng thái -->
-                    <td class="px-5 py-4">
+                    <td class="px-4 py-4">
 
                         @if($nguoiDung->trang_thai)
 
-                        <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-xs font-medium">
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-semibold">
 
                             Hoạt động
 
@@ -113,7 +109,8 @@
 
                         @else
 
-                        <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-medium">
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-full bg-red-100 text-red-700 text-sm font-semibold">
 
                             Đã khóa
 
@@ -124,27 +121,26 @@
                     </td>
 
                     <!-- Thao tác -->
-                    <td class="px-5 py-4">
+                    <td class="px-4 py-4">
 
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-center justify-center gap-4 whitespace-nowrap">
 
-                            <!-- Xem -->
                             <a href="{{ route('admin.nguoidung.show',$nguoiDung->ma_nguoi_dung) }}"
-                                class="w-9 h-9 rounded-full bg-blue-100 hover:bg-blue-200 text-blue-600 flex items-center justify-center transition">
+                                class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 flex items-center justify-center transition"
+                                title="Chi tiết">
 
-                                <i class="fa-solid fa-eye text-sm"></i>
+                                <i class="fa-solid fa-eye text-xs"></i>
 
                             </a>
 
-                            <!-- Sửa -->
                             <a href="{{ route('admin.nguoidung.edit',$nguoiDung->ma_nguoi_dung) }}"
-                                class="w-9 h-9 rounded-full bg-yellow-100 hover:bg-yellow-200 text-yellow-600 flex items-center justify-center transition">
+                                class="w-8 h-8 rounded-full bg-yellow-100 text-yellow-600 hover:bg-yellow-200 flex items-center justify-center transition"
+                                title="Chỉnh sửa">
 
-                                <i class="fa-solid fa-pen text-sm"></i>
+                                <i class="fa-solid fa-pen text-xs"></i>
 
                             </a>
 
-                            <!-- Xóa -->
                             <form action="{{ route('admin.nguoidung.destroy',$nguoiDung->ma_nguoi_dung) }}"
                                 method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa người dùng này?');">
 
@@ -152,9 +148,10 @@
                                 @method('DELETE')
 
                                 <button type="submit"
-                                    class="w-9 h-9 rounded-full bg-red-100 hover:bg-red-200 text-red-600 transition">
+                                    class="w-8 h-8 rounded-full bg-red-100 text-red-600 hover:bg-red-200 flex items-center justify-center transition"
+                                    title="Xóa">
 
-                                    <i class="fa-solid fa-trash text-sm"></i>
+                                    <i class="fa-solid fa-trash text-xs"></i>
 
                                 </button>
 
@@ -170,9 +167,9 @@
 
                 <tr>
 
-                    <td colspan="8" class="text-center py-10 text-gray-500 text-sm">
+                    <td colspan="7" class="py-12 text-center text-base text-gray-500">
 
-                        Chưa có người dùng nào
+                        Chưa có người dùng nào.
 
                     </td>
 
@@ -186,10 +183,18 @@
 
     </div>
 
-    <div class="px-5 py-4 border-t">
+    @if($nguoiDungs->hasPages())
 
-        {{ $nguoiDungs->links() }}
+    <div class="border-t px-4 py-4">
+
+        <div class="flex justify-center">
+
+            {{ $nguoiDungs->links() }}
+
+        </div>
 
     </div>
+
+    @endif
 
 </div>

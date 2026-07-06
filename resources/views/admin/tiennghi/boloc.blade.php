@@ -6,7 +6,7 @@
 
             <!-- Tên tiện nghi -->
             <select name="ten_tien_nghi" onchange="this.form.submit()"
-                class="border rounded-xl px-4 py-2.5 text-sm text-black">
+                class="border border-gray-300 rounded-xl px-4 py-3 text-base text-black">
 
                 <option value="">
                     Tất cả tiện nghi
@@ -27,7 +27,7 @@
 
             <!-- Trạng thái -->
             <select name="trang_thai" onchange="this.form.submit()"
-                class="border rounded-xl px-4 py-2.5 text-sm text-black">
+                class="border border-gray-300 rounded-xl px-4 py-3 text-base text-black">
 
                 <option value="" {{ request('trang_thai') === null || request('trang_thai') === '' ? 'selected' : '' }}>
 
@@ -51,9 +51,9 @@
 
             <!-- Sắp xếp -->
             <select name="sap_xep" onchange="this.form.submit()"
-                class="border rounded-xl px-4 py-2.5 text-sm text-black">
+                class="border border-gray-300 rounded-xl px-4 py-3 text-base text-black">
 
-                <option value="desc" {{ request('sap_xep','desc') == 'desc' ? 'selected' : '' }}>
+                <option value="desc" {{ request('sap_xep', 'desc') == 'desc' ? 'selected' : '' }}>
 
                     Mới nhất
 
@@ -69,7 +69,7 @@
 
             <!-- Xóa lọc -->
             <a href="{{ route('admin.tiennghi.index') }}"
-                class="bg-red-50 text-red-600 rounded-xl text-sm font-medium hover:bg-red-100 flex items-center justify-center gap-2 py-2">
+                class="bg-red-50 text-red-600 rounded-xl text-base font-medium hover:bg-red-100 transition flex items-center justify-center gap-2 py-3">
 
                 <i class="fa-solid fa-rotate-left"></i>
 

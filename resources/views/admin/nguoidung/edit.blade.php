@@ -8,16 +8,6 @@
 
     <div class="bg-white rounded-2xl shadow-sm p-4 md:p-6">
 
-        <div class="mb-6">
-
-            <h2 class="text-2xl md:text-3xl font-bold text-[#061755]">
-
-                Cập nhật người dùng
-
-            </h2>
-
-        </div>
-
         <form action="{{ route('admin.nguoidung.update',$nguoiDung->ma_nguoi_dung) }}" method="POST"
             enctype="multipart/form-data">
 
@@ -270,14 +260,14 @@
             <div class="flex flex-col md:flex-row gap-3 mt-8">
 
                 <button type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition">
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-full text-base font-semibold transition">
 
                     Cập nhật
 
                 </button>
 
                 <a href="{{ route('admin.nguoidung.index') }}"
-                    class="bg-slate-200 hover:bg-slate-300 text-black px-5 py-2.5 rounded-full text-sm font-semibold text-center transition">
+                    class="bg-slate-200 hover:bg-slate-300 text-black px-5 py-2.5 rounded-full text-base font-semibold text-center transition">
 
                     Quay lại
 

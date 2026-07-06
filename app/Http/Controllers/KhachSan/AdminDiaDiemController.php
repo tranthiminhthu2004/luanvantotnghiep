@@ -114,15 +114,27 @@ public function update(Request $request, $id)
 }
 
     public function destroy($id)
-    {
-        DiaDiem::findOrFail($id)
-            ->delete();
+{
+    $diaDiem = DiaDiem::withCount([
+        'diaDiemDuLichs',
+        'khachSans',
+        'nhuCaus'
+    ])->findOrFail($id);
 
+    if (
+        $diaDiem->dia_diem_du_lichs_count > 0 ||
+        $diaDiem->khach_sans_count > 0 ||
+        $diaDiem->nhu_caus_count > 0
+    ) {
         return redirect()
             ->route('admin.diadiem.index')
-            ->with(
-                'success',
-                'Xóa địa điểm thành công'
-            );
+            ->with('error', 'Không thể xóa vì địa điểm này đang được sử dụng.');
     }
+
+    $diaDiem->delete();
+
+    return redirect()
+        ->route('admin.diadiem.index')
+        ->with('success', 'Xóa địa điểm thành công');
+}
 }
