@@ -34,26 +34,17 @@ use App\Http\Controllers\DuLich\AdminNhuCauDuLichController;
 use App\Http\Controllers\DuLich\AdminDiaDiemDuLichController;
 use App\Http\Controllers\DuLich\AdminHinhAnhDiaDiemDuLichController;
 use App\Http\Controllers\DuLich\AdminDiaDiemNhuCauDuLichController;
-
-use App\Mail\DatPhongThanhCongMail;
+use App\Http\Controllers\DuLich\UserGoiYController;
+use App\Http\Controllers\TrangChu\UserTrangChu;
+use App\Http\Controllers\TimKiem\UserTimKiemTrangChuController;
 
 /*
 TRANG CHỦ
 */
-
-Route::get('/', function ()
-{
-    if (
-        auth()->check() &&
-        auth()->user()->ma_vai_tro == 1
-    )
-    {
-        return redirect()->route('dashboard');
-    }
-
-    return view('users.index');
-
-})->name('users.index');
+Route::get(
+    '/',
+    [UserTrangChu::class, 'index']
+)->name('users.index');
 
 /*
 ĐĂNG NHẬP GOOGLE
@@ -709,5 +700,27 @@ Route::delete(
     '/admin/dia-diem-nhu-cau-du-lich/{maDiaDiem}/{maNhuCau}',
     [AdminDiaDiemNhuCauDuLichController::class, 'destroy']
 )->name('admin.diadiemnhucau.destroy');
+
+/*
+USER - GỢI Ý ĐIỂM ĐẾN
+*/
+
+Route::get(
+    '/goi-y-diem-den',
+    [UserGoiYController::class, 'index']
+)->name('goiy.index');
+
+Route::post(
+    '/goi-y-diem-den',
+    [UserGoiYController::class, 'goiY']
+)->name('goiy.xuly');
+
+/*
+TÌM KIẾM TỪ TRANG CHỦ
+*/
+Route::get(
+    '/tim-kiem-trang-chu',
+    [UserTimKiemTrangChuController::class, 'index']
+)->name('timkiem.trangchu');
 
 require __DIR__ . '/auth.php';

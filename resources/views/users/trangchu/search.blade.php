@@ -1,120 +1,430 @@
-<section class="relative h-[560px] lg:h-[580px]">
+<section class="relative min-h-[700px] lg:h-[760px]">
 
     <!-- Ảnh nền -->
     <img src="{{ asset('images/timkiem.png') }}" alt="Banner" class="absolute inset-0 w-full h-full object-cover">
 
     <!-- Overlay -->
-    <div class="absolute inset-0 bg-black/20"></div>
+    <div class="absolute inset-0 bg-black/30"></div>
 
     <!-- Nội dung -->
-    <div class="relative z-10 max-w-[1320px] mx-auto px-4 lg:px-6 pt-10">
+    <div class="relative z-10 max-w-7xl mx-auto px-4 lg:px-8 pt-10 lg:pt-20">
 
-        <!-- Text -->
-        <div class="max-w-[650px] text-white">
+        <!-- Tiêu đề -->
+        <div class="max-w-2xl text-white">
 
-            <h1 class="text-4xl lg:text-5xl font-bold leading-tight">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
 
                 KHÁM PHÁ NHỮNG ĐIỂM ĐẾN PHÙ HỢP VỚI BẠN
 
             </h1>
 
-            <p class="mt-5 text-lg text-white/90 leading-7">
+            <p class="mt-4 lg:mt-6 text-lg lg:text-xl text-white/90 leading-8">
 
-                Tìm kiếm khách sạn và địa điểm du lịch
-                cho chuyến đi hoàn hảo của bạn
+                Tìm kiếm khách sạn và địa điểm du lịch cho chuyến đi hoàn hảo của bạn
 
             </p>
 
         </div>
 
         <!-- Search Box -->
-        <div class="mt-40 translate-y-10">
+        <div class="mt-10 lg:mt-56">
 
-            <div class="bg-white rounded-2xl shadow-xl p-4 lg:p-5">
+            <form method="GET" action="{{ route('timkiem.trangchu') }}">
 
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4">
+                <div class="bg-white rounded-2xl shadow-2xl p-5">
 
-                    <!-- Điểm đến -->
-                    <div>
+                    <div class="grid grid-cols-12 gap-3 items-end">
 
-                        <label class="block text-base font-semibold text-black">
+                        <!-- Địa điểm -->
+                        <div class="col-span-12 lg:col-span-2">
 
-                            Bạn muốn đến đâu?
+                            <label class="font-semibold text-black">
+                                Bạn muốn đến đâu?
+                            </label>
 
-                        </label>
+                            <select name="ma_dia_diem"
+                                class="mt-2 w-full border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
 
-                        <input type="text" placeholder="Nhập nơi bạn muốn đến"
-                            class="mt-2 w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="">
+                                    Chọn địa điểm
+                                </option>
 
-                    </div>
+                                @foreach($diaDiems as $diaDiem)
 
-                    <!-- Nhận phòng -->
-                    <div>
+                                <option value="{{ $diaDiem->ma_dia_diem }}"
+                                    {{ request('ma_dia_diem') == $diaDiem->ma_dia_diem ? 'selected' : '' }}>
 
-                        <label class="block text-base font-semibold text-black">
+                                    {{ $diaDiem->ten_dia_diem }}
 
-                            Ngày nhận phòng
+                                </option>
 
-                        </label>
+                                @endforeach
 
-                        <input type="date"
-                            class="mt-2 w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </select>
 
-                    </div>
+                        </div>
 
-                    <!-- Trả phòng -->
-                    <div>
+                        <!-- Ngày nhận phòng -->
+                        <div class="col-span-12 lg:col-span-2">
 
-                        <label class="block text-base font-semibold text-black">
+                            <label class="font-semibold text-black">
+                                Ngày nhận phòng
+                            </label>
 
-                            Ngày trả phòng
+                            <input type="text" name="ngay_nhan_phong" id="trang_chu_ngay_nhan_phong"
+                                value="{{ request('ngay_nhan_phong') }}" placeholder="Chọn ngày" autocomplete="off"
+                                readonly
+                                class="mt-2 w-full border rounded-xl px-4 py-3 text-sm cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
 
-                        </label>
+                        </div>
 
-                        <input type="date"
-                            class="mt-2 w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <!-- Ngày trả phòng -->
+                        <div class="col-span-12 lg:col-span-2">
 
-                    </div>
+                            <label class="font-semibold text-black">
+                                Ngày trả phòng
+                            </label>
 
-                    <!-- Số người -->
-                    <div>
+                            <input type="text" name="ngay_tra_phong" id="trang_chu_ngay_tra_phong"
+                                value="{{ request('ngay_tra_phong') }}" placeholder="Chọn ngày" autocomplete="off"
+                                readonly
+                                class="mt-2 w-full border rounded-xl px-4 py-3 text-sm cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
 
-                        <label class="block text-base font-semibold text-black">
+                        </div>
 
-                            Số người và số phòng
+                        <!-- Khách -->
+                        <div class="col-span-12 lg:col-span-5 relative">
 
-                        </label>
+                            <label class="font-semibold text-black">
+                                Khách
+                            </label>
 
-                        <select
-                            class="mt-2 w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <button type="button" id="trangChuGuestButton"
+                                class="mt-2 w-full border rounded-xl px-4 py-3 text-sm text-left bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
 
-                            <option>1 người</option>
-                            <option>2 người</option>
-                            <option>3 người</option>
-                            <option>4 người</option>
+                                <span id="trangChuGuestSummary">
+                                    1 người lớn · 0 trẻ em · 0 người cao tuổi · 1 phòng
+                                </span>
 
-                        </select>
+                            </button>
 
-                    </div>
+                            <div id="trangChuGuestDropdown"
+                                class="hidden absolute z-50 bg-white border rounded-xl shadow-xl p-4 w-80 mt-2">
 
-                    <!-- Button -->
-                    <div class="flex items-end">
+                                <!-- Người lớn -->
+                                <div class="flex justify-between items-center mb-4">
 
-                        <button
-                            class="w-full bg-[#1040C5] hover:bg-blue-700 text-white text-base font-semibold py-2.5 rounded-full transition">
+                                    <span>Người lớn</span>
 
-                            Tìm kiếm
+                                    <div class="flex items-center gap-3">
 
-                        </button>
+                                        <button type="button" onclick="trangChuChangeValue('adult', -1)"
+                                            class="w-8 h-8 border rounded">
+                                            -
+                                        </button>
+
+                                        <span id="trangChuAdultText">
+                                            {{ request('so_nguoi_truong_thanh', 1) }}
+                                        </span>
+
+                                        <button type="button" onclick="trangChuChangeValue('adult', 1)"
+                                            class="w-8 h-8 border rounded">
+                                            +
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- Trẻ em -->
+                                <div class="flex justify-between items-center mb-4">
+
+                                    <span>Trẻ em</span>
+
+                                    <div class="flex items-center gap-3">
+
+                                        <button type="button" onclick="trangChuChangeValue('child', -1)"
+                                            class="w-8 h-8 border rounded">
+                                            -
+                                        </button>
+
+                                        <span id="trangChuChildText">
+                                            {{ request('so_tre_em', 0) }}
+                                        </span>
+
+                                        <button type="button" onclick="trangChuChangeValue('child', 1)"
+                                            class="w-8 h-8 border rounded">
+                                            +
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- Người cao tuổi -->
+                                <div class="flex justify-between items-center mb-4">
+
+                                    <span>Người cao tuổi</span>
+
+                                    <div class="flex items-center gap-3">
+
+                                        <button type="button" onclick="trangChuChangeValue('elder', -1)"
+                                            class="w-8 h-8 border rounded">
+                                            -
+                                        </button>
+
+                                        <span id="trangChuElderText">
+                                            {{ request('so_nguoi_cao_tuoi', 0) }}
+                                        </span>
+
+                                        <button type="button" onclick="trangChuChangeValue('elder', 1)"
+                                            class="w-8 h-8 border rounded">
+                                            +
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- Số phòng -->
+                                <div class="flex justify-between items-center">
+
+                                    <span>Số phòng</span>
+
+                                    <div class="flex items-center gap-3">
+
+                                        <button type="button" onclick="trangChuChangeValue('room', -1)"
+                                            class="w-8 h-8 border rounded">
+                                            -
+                                        </button>
+
+                                        <span id="trangChuRoomText">
+                                            {{ request('so_luong_phong', 1) }}
+                                        </span>
+
+                                        <button type="button" onclick="trangChuChangeValue('room', 1)"
+                                            class="w-8 h-8 border rounded">
+                                            +
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                                <input type="hidden" name="so_nguoi_truong_thanh" id="trangChuAdultInput"
+                                    value="{{ request('so_nguoi_truong_thanh', 1) }}">
+
+                                <input type="hidden" name="so_tre_em" id="trangChuChildInput"
+                                    value="{{ request('so_tre_em', 0) }}">
+
+                                <input type="hidden" name="so_nguoi_cao_tuoi" id="trangChuElderInput"
+                                    value="{{ request('so_nguoi_cao_tuoi', 0) }}">
+
+                                <input type="hidden" name="so_luong_phong" id="trangChuRoomInput"
+                                    value="{{ request('so_luong_phong', 1) }}">
+
+                            </div>
+
+                        </div>
+
+                        <!-- Nút tìm kiếm -->
+                        <div class="col-span-12 lg:col-span-1">
+
+                            <button type="submit"
+                                class="w-full bg-[#1040C5] hover:bg-blue-700 text-white rounded-xl py-3 h-[52px] mt-2 transition">
+
+                                <i class="fa-solid fa-magnifying-glass"></i>
+
+                            </button>
+
+                        </div>
 
                     </div>
 
                 </div>
 
-            </div>
+            </form>
 
         </div>
 
     </div>
 
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    let trangChuAdult =
+        parseInt(
+            document.getElementById('trangChuAdultInput').value
+        );
+
+    let trangChuChild =
+        parseInt(
+            document.getElementById('trangChuChildInput').value
+        );
+
+    let trangChuElder =
+        parseInt(
+            document.getElementById('trangChuElderInput').value
+        );
+
+    let trangChuRoom =
+        parseInt(
+            document.getElementById('trangChuRoomInput').value
+        );
+
+    const trangChuGuestButton =
+        document.getElementById('trangChuGuestButton');
+
+    const trangChuGuestDropdown =
+        document.getElementById('trangChuGuestDropdown');
+
+    trangChuGuestButton.addEventListener('click', function() {
+
+        trangChuGuestDropdown.classList.toggle('hidden');
+
+    });
+
+    window.trangChuChangeValue = function(type, amount) {
+
+        if (type === 'adult') {
+
+            trangChuAdult = Math.max(
+                1,
+                trangChuAdult + amount
+            );
+
+            document.getElementById('trangChuAdultText').innerText =
+                trangChuAdult;
+
+            document.getElementById('trangChuAdultInput').value =
+                trangChuAdult;
+
+        }
+
+        if (type === 'child') {
+
+            trangChuChild = Math.max(
+                0,
+                trangChuChild + amount
+            );
+
+            document.getElementById('trangChuChildText').innerText =
+                trangChuChild;
+
+            document.getElementById('trangChuChildInput').value =
+                trangChuChild;
+
+        }
+
+        if (type === 'elder') {
+
+            trangChuElder = Math.max(
+                0,
+                trangChuElder + amount
+            );
+
+            document.getElementById('trangChuElderText').innerText =
+                trangChuElder;
+
+            document.getElementById('trangChuElderInput').value =
+                trangChuElder;
+
+        }
+
+        if (type === 'room') {
+
+            trangChuRoom = Math.max(
+                1,
+                trangChuRoom + amount
+            );
+
+            document.getElementById('trangChuRoomText').innerText =
+                trangChuRoom;
+
+            document.getElementById('trangChuRoomInput').value =
+                trangChuRoom;
+
+        }
+
+        trangChuUpdateSummary();
+
+    }
+
+    function trangChuUpdateSummary() {
+
+        document
+            .getElementById('trangChuGuestSummary')
+            .innerText =
+            trangChuAdult + ' người lớn · ' +
+            trangChuChild + ' trẻ em · ' +
+            trangChuElder + ' người cao tuổi · ' +
+            trangChuRoom + ' phòng';
+
+    }
+
+    trangChuUpdateSummary();
+
+    const trangChuNgayNhan =
+        flatpickr(
+            "#trang_chu_ngay_nhan_phong", {
+                dateFormat: "d/m/Y",
+                minDate: "today",
+                allowInput: false,
+                disableMobile: true
+            }
+        );
+
+    const trangChuNgayTra =
+        flatpickr(
+            "#trang_chu_ngay_tra_phong", {
+                dateFormat: "d/m/Y",
+                minDate: new Date().fp_incr(1),
+                allowInput: false,
+                disableMobile: true
+            }
+        );
+
+    document
+        .getElementById('trang_chu_ngay_nhan_phong')
+        .addEventListener('change', function() {
+
+            if (!this.value) {
+                return;
+            }
+
+            let parts = this.value.split('/');
+
+            let date = new Date(
+                parts[2],
+                parts[1] - 1,
+                parts[0]
+            );
+
+            date.setDate(
+                date.getDate() + 1
+            );
+
+            trangChuNgayTra.set(
+                'minDate',
+                date
+            );
+
+            trangChuNgayTra.clear();
+
+        });
+
+    document.addEventListener('click', function(event) {
+
+        if (
+            !trangChuGuestButton.contains(event.target) &&
+            !trangChuGuestDropdown.contains(event.target)
+        ) {
+            trangChuGuestDropdown.classList.add('hidden');
+        }
+
+    });
+
+});
+</script>

@@ -8,6 +8,7 @@ use App\Models\DiaDiem;
 use App\Models\TienNghi;
 use Illuminate\Http\Request;
 use App\Services\PhongService;
+use App\Models\DiaDiemDuLich;
 use Carbon\Carbon;
 
 class UserKhachSanController extends Controller
@@ -118,40 +119,55 @@ if ($request->filled('tien_nghi'))
         return $query;
     }
 
-    public function index(Request $request)
-    {
-        $query = $this->locKhachSan($request);
+   public function index(Request $request)
+{
+    $query = $this->locKhachSan($request);
 
-        $khachSans = $query
+    $khachSans = $query
+        ->with([
+            'hinhAnh',
+            'diaDiem',
+            'loaiPhongs'
+        ])
+        ->paginate(5)
+        ->withQueryString();
+
+    $diaDiems = DiaDiem::orderBy(
+        'ten_dia_diem'
+    )->get();
+
+    $tienNghis = TienNghi::where(
+        'trang_thai',
+        1
+    )->orderBy(
+        'ten_tien_nghi'
+    )->get();
+
+    $diaDiemDuLichs = collect();
+
+    if ($request->filled('ma_dia_diem')) {
+        $diaDiemDuLichs = DiaDiemDuLich::where(
+            'ma_dia_diem',
+            $request->ma_dia_diem
+        )
             ->with([
-                'hinhAnh',
-                'diaDiem',
-                'loaiPhongs'
+                'hinhAnhs',
+                'diaDiem'
             ])
-            ->paginate(5)
-            ->withQueryString();
-
-        $diaDiems = DiaDiem::orderBy(
-            'ten_dia_diem'
-        )->get();
-
-        $tienNghis = TienNghi::where(
-            'trang_thai',
-            1
-        )->orderBy(
-            'ten_tien_nghi'
-        )->get();
-
-        return view(
-            'users.khachsan.index',
-            compact(
-                'khachSans',
-                'diaDiems',
-                'tienNghis'
-            )
-        );
+            ->get();
     }
-    protected $phongService;
+
+    return view(
+        'users.khachsan.index',
+        compact(
+            'khachSans',
+            'diaDiems',
+            'tienNghis',
+            'diaDiemDuLichs'
+        )
+    );
+}
+protected $phongService;
 
 public function __construct(
     PhongService $phongService
@@ -300,36 +316,51 @@ foreach ($khachSan->loaiPhongs as $loaiPhong)
 );
     }
         public function timKiem(Request $request)
-    {
-        $query = $this->locKhachSan($request);
+{
+    $query = $this->locKhachSan($request);
 
-        $khachSans = $query
+    $khachSans = $query
+        ->with([
+            'hinhAnh',
+            'diaDiem',
+            'loaiPhongs'
+        ])
+        ->paginate(10)
+        ->withQueryString();
+
+    $diaDiems = DiaDiem::orderBy(
+        'ten_dia_diem'
+    )->get();
+
+    $tienNghis = TienNghi::where(
+        'trang_thai',
+        1
+    )->orderBy(
+        'ten_tien_nghi'
+    )->get();
+
+    $diaDiemDuLichs = collect();
+
+    if ($request->filled('ma_dia_diem')) {
+        $diaDiemDuLichs = DiaDiemDuLich::where(
+            'ma_dia_diem',
+            $request->ma_dia_diem
+        )
             ->with([
-                'hinhAnh',
-                'diaDiem',
-                'loaiPhongs'
+                'hinhAnhs',
+                'diaDiem'
             ])
-            ->paginate(10)
-            ->withQueryString();
-
-        $diaDiems = DiaDiem::orderBy(
-            'ten_dia_diem'
-        )->get();
-
-        $tienNghis = TienNghi::where(
-            'trang_thai',
-            1
-        )->orderBy(
-            'ten_tien_nghi'
-        )->get();
-
-        return view(
-            'users.khachsan.ketqua',
-            compact(
-                'khachSans',
-                'diaDiems',
-                'tienNghis'
-            )
-        );
+            ->get();
     }
+
+    return view(
+        'users.khachsan.ketqua',
+        compact(
+            'khachSans',
+            'diaDiems',
+            'tienNghis',
+            'diaDiemDuLichs'
+        )
+    );
+}
 }

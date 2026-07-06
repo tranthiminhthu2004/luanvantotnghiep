@@ -1,81 +1,111 @@
-<section class="max-w-7xl mx-auto pt-14">
+<section class="max-w-7xl mx-auto px-4 lg:px-8 pt-10 lg:pt-10">
 
-    <h2 class="text-6xl font-bold text-[#061755] mb-3">
-        Gợi ý theo nhu cầu du lịch
-    </h2>
+    <div class="mb-8">
 
-    <p class="text-gray-500 mb-10 text-xl">
-        Chọn nhu cầu phù hợp để khám phá điểm đến dành riêng cho bạn
-    </p>
+        <h2 class="text-2xl md:text-4xl lg:text-5xl font-bold text-[#061755] leading-tight">
 
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            Chọn điểm đến theo sở thích của bạn
 
-        <!-- Nghỉ dưỡng -->
-        <div class="bg-orange-50 rounded-3xl p-6 text-center hover:shadow-xl cursor-pointer transition">
-
-            <i class="fa-solid fa-umbrella-beach text-5xl text-orange-500 mb-4"></i>
-
-            <h3 class="font-semibold text-[#061755]">
-                Nghỉ dưỡng
-            </h3>
-
-        </div>
-
-        <!-- Gia đình -->
-        <div class="bg-purple-50 rounded-3xl p-6 text-center hover:shadow-xl cursor-pointer transition">
-
-            <i class="fa-solid fa-people-roof text-5xl text-purple-500 mb-4"></i>
-
-            <h3 class="font-semibold text-[#061755]">
-                Gia đình
-            </h3>
-
-        </div>
-
-        <!-- Cặp đôi -->
-        <div class="bg-pink-50 rounded-3xl p-6 text-center hover:shadow-xl cursor-pointer transition">
-
-            <i class="fa-solid fa-heart text-5xl text-pink-500 mb-4"></i>
-
-            <h3 class="font-semibold text-[#061755]">
-                Cặp đôi
-            </h3>
-
-        </div>
-
-        <!-- Phượt -->
-        <div class="bg-green-50 rounded-3xl p-6 text-center hover:shadow-xl cursor-pointer transition">
-
-            <i class="fa-solid fa-compass text-5xl text-green-500 mb-4"></i>
-
-            <h3 class="font-semibold text-[#061755]">
-                Phượt
-            </h3>
-
-        </div>
-
-        <!-- Ẩm thực -->
-        <div class="bg-yellow-50 rounded-3xl p-6 text-center hover:shadow-xl cursor-pointer transition">
-
-            <i class="fa-solid fa-utensils text-5xl text-yellow-500 mb-4"></i>
-
-            <h3 class="font-semibold text-[#061755]">
-                Ẩm thực
-            </h3>
-
-        </div>
-
-        <!-- Check-in -->
-        <div class="bg-blue-50 rounded-3xl p-6 text-center hover:shadow-xl cursor-pointer transition">
-
-            <i class="fa-solid fa-camera-retro text-5xl text-blue-500 mb-4"></i>
-
-            <h3 class="font-semibold text-[#061755]">
-                Check-in
-            </h3>
-
-        </div>
+        </h2>
 
     </div>
 
+    <form method="POST" action="{{ route('goiy.xuly') }}">
+
+        @csrf
+
+        <div id="danhSachNhuCau" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
+
+            @foreach($nhuCaus as $index => $nhuCau)
+
+            <label class="block cursor-pointer {{ $index >= 10 ? 'nhu-cau-an hidden' : '' }}">
+
+                <input type="checkbox" name="nhu_cau[]" value="{{ $nhuCau->ma_nhu_cau }}" class="peer hidden">
+
+                <div class="h-[72px] rounded-2xl border border-slate-200 bg-white px-4 flex items-center justify-center text-center shadow-sm transition
+                    hover:shadow-md
+                    peer-checked:border-[#1040C5]
+                    peer-checked:bg-blue-50
+                    peer-checked:ring-2
+                    peer-checked:ring-[#1040C5]">
+
+                    <h3 class="font-semibold text-[#061755] text-sm md:text-base leading-5">
+
+                        {{ $nhuCau->ten_nhu_cau }}
+
+                    </h3>
+
+                </div>
+
+            </label>
+
+            @endforeach
+
+        </div>
+
+        @if($nhuCaus->count() > 10)
+
+        <div class="mt-5 flex justify-center">
+
+            <button type="button" id="btnXemTatCaNhuCau" class="text-[#1040C5] font-semibold hover:underline">
+
+                Xem tất cả
+
+            </button>
+
+        </div>
+
+        @endif
+
+        @error('nhu_cau')
+
+        <p class="text-red-500 mt-4 text-sm text-center">
+
+            {{ $message }}
+
+        </p>
+
+        @enderror
+
+        <div class="mt-8 flex justify-center">
+
+            <button type="submit"
+                class="bg-[#1040C5] hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold transition">
+
+                Gợi ý điểm đến phù hợp
+
+            </button>
+
+        </div>
+
+    </form>
+
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    const btnXemTatCa =
+        document.getElementById('btnXemTatCaNhuCau');
+
+    if (!btnXemTatCa) {
+        return;
+    }
+
+    btnXemTatCa.addEventListener('click', function() {
+
+        const danhSachAn =
+            document.querySelectorAll('.nhu-cau-an');
+
+        danhSachAn.forEach(function(item) {
+
+            item.classList.remove('hidden');
+
+        });
+
+        btnXemTatCa.remove();
+
+    });
+
+});
+</script>

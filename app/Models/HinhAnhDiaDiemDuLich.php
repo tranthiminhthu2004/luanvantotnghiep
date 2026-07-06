@@ -10,6 +10,8 @@ class HinhAnhDiaDiemDuLich extends Model
 
     protected $primaryKey = 'ma_hinh_anh_dia_diem';
 
+    public $timestamps = false;
+    
     protected $fillable = [
         'ma_dia_diem_du_lich',
         'duong_dan_anh'

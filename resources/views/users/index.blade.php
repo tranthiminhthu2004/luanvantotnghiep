@@ -12,6 +12,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 </head>
 
@@ -25,13 +28,11 @@
 
         @include('users.trangchu.nhucaudulich')
 
-        @include('users.trangchu.diemdennoibat')
-
         @include('users.trangchu.khachsannoibat')
 
-    </main>
+        @include('users.trangchu.visaochon')
 
-    @include('components.footer')
+        @include('components.footer')
 
 </body>
 

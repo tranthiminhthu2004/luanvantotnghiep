@@ -79,6 +79,49 @@
                             @endforelse
 
                         </div>
+                        @if(isset($diaDiemDuLichs) && $diaDiemDuLichs->count() > 0)
+
+                        <div class="mb-8">
+
+                            <h2 class="text-2xl font-bold text-slate-800 mb-4">
+
+                                Địa điểm du lịch tại khu vực này
+
+                            </h2>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+
+                                @foreach($diaDiemDuLichs as $diaDiemDuLich)
+
+                                <div class="bg-white rounded-3xl border shadow-sm p-5 hover:shadow-md transition">
+
+                                    <h3 class="text-lg font-bold text-[#061755]">
+
+                                        {{ $diaDiemDuLich->ten_dia_diem_du_lich }}
+
+                                    </h3>
+
+                                    <p class="text-gray-500 mt-2 line-clamp-2">
+
+                                        {{ $diaDiemDuLich->mo_ta ?? 'Địa điểm du lịch phù hợp để tham quan trong chuyến đi của bạn.' }}
+
+                                    </p>
+
+                                    <p class="text-sm text-gray-400 mt-3">
+
+                                        {{ $diaDiemDuLich->diaDiem->ten_dia_diem ?? '' }}
+
+                                    </p>
+
+                                </div>
+
+                                @endforeach
+
+                            </div>
+
+                        </div>
+
+                        @endif
 
                         {{-- Phân trang --}}
                         <div class="mt-8">

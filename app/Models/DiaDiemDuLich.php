@@ -10,6 +10,8 @@ class DiaDiemDuLich extends Model
 
     protected $primaryKey = 'ma_dia_diem_du_lich';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'ma_dia_diem',
         'ten_dia_diem',
