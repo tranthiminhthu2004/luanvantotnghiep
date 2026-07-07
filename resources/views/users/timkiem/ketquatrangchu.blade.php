@@ -26,7 +26,7 @@
     {{-- NỘI DUNG KẾT QUẢ --}}
     <main>
 
-        <section class="max-w-7xl mx-auto px-4 lg:px-8 py-12">
+        <section class="max-w-7xl mx-auto px-4 lg:px-8 py-4">
 
             {{-- ĐỊA ĐIỂM DU LỊCH --}}
             <div class="mb-14">
@@ -194,7 +194,7 @@
 
                         <h2 class="text-3xl lg:text-4xl font-bold text-[#061755] mt-2">
 
-                            Khách sạn tại khu vực này
+                            Khách sạn ở khu vực này
 
                         </h2>
 
@@ -255,13 +255,6 @@
 
                             @endif
 
-                            <div
-                                class="absolute top-3 right-3 bg-white/90 rounded-full px-3 py-1 text-sm font-bold text-[#1040C5]">
-
-                                {{ $khachSan->so_sao_khach_san }} sao
-
-                            </div>
-
                         </div>
 
                         <div class="p-4">
@@ -274,7 +267,7 @@
 
                             <p class="text-sm text-gray-500 mt-2 line-clamp-1">
 
-                                <i class="fa-solid fa-location-dot text-[#1040C5] mr-1"></i>
+                                <i class="fa-solid fa-location-dot text-red-500 mr-1"></i>
 
                                 {{ $khachSan->dia_chi }}
 
@@ -318,7 +311,7 @@
 
                                 <span class="bg-[#1040C5] text-white px-4 py-2 rounded-full text-sm font-semibold">
 
-                                    Chi tiết
+                                    Xem chi tiết
 
                                 </span>
 
@@ -364,6 +357,7 @@
         </section>
 
     </main>
+    @include('components.footer')
 
 </body>
 

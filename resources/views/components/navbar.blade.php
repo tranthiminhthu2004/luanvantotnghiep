@@ -40,7 +40,7 @@
 
                         <a href="{{ route('diadiemdulich.index') }}" class="hover:text-blue-600 transition">
 
-                            Địa điểm du lịch
+                            Gợi ý địa điểm du lịch
 
                         </a>
 
@@ -61,16 +61,6 @@
                         <a href="#" class="hover:text-blue-600 transition">
 
                             Tin tức
-
-                        </a>
-
-                    </li>
-
-                    <li>
-
-                        <a href="#" class="hover:text-blue-600 transition">
-
-                            Liên hệ
 
                         </a>
 
@@ -243,7 +233,7 @@
 
             <a href="{{ route('diadiemdulich.index') }}" class="block font-semibold text-[#061755] hover:text-blue-600">
 
-                Địa điểm du lịch
+                Gợi ý địa điểm du lịch
 
             </a>
 
@@ -256,12 +246,6 @@
             <a href="#" class="block font-semibold text-[#061755] hover:text-blue-600">
 
                 Tin tức
-
-            </a>
-
-            <a href="#" class="block font-semibold text-[#061755] hover:text-blue-600">
-
-                Liên hệ
 
             </a>
 

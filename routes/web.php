@@ -37,6 +37,7 @@ use App\Http\Controllers\DuLich\AdminDiaDiemNhuCauDuLichController;
 use App\Http\Controllers\DuLich\UserGoiYController;
 use App\Http\Controllers\TrangChu\UserTrangChu;
 use App\Http\Controllers\TimKiem\UserTimKiemTrangChuController;
+use App\Http\Controllers\DuLich\UserDiaDiemDuLichController;
 
 /*
 TRANG CHỦ
@@ -523,16 +524,18 @@ Route::put(
 )->name('admin.datphong.trangthai');
 
 /*
-USER - ĐỊA ĐIỂM DU LỊCH
+USER - GỢI Ý ĐIỂM ĐẾN DU LỊCH
 */
 
 Route::get(
     '/diadiemdulich',
-    function ()
-    {
-        return view('users.diadiemdulich.index');
-    }
+    [UserGoiYController::class, 'index']
 )->name('diadiemdulich.index');
+
+Route::post(
+    '/diadiemdulich',
+    [UserGoiYController::class, 'goiY']
+)->name('diadiemdulich.goiy');
 
 /*
 USER - CHI TIẾT KHÁCH SẠN
