@@ -34,7 +34,6 @@
 
                 <div class="flex items-center gap-4">
 
-
                     {{-- Nội dung --}}
                     <div class="flex-1">
 
@@ -46,7 +45,7 @@
 
                         <div class="mt-3 grid grid-cols-5 gap-3">
 
-                            @for($i = 1; $i <= 5; $i++) <label class="cursor-pointer text-center">
+                            @for($i = 1; $i <= 5; $i++) <label class="cursor-pointer text-center labelMucDoUuTien">
 
                                 <span class="block text-xs font-semibold text-slate-600 mb-1">
 
@@ -55,7 +54,7 @@
                                 </span>
 
                                 <input type="radio" name="muc_do_uu_tien[{{ $nhuCau->ma_nhu_cau }}]" value="{{ $i }}"
-                                    class="peer hidden" {{ $mucDoDaChon == $i ? 'checked' : '' }}>
+                                    class="peer hidden radioMucDoUuTien" {{ $mucDoDaChon == $i ? 'checked' : '' }}>
 
                                 <span class="w-4 h-4 rounded-full border border-slate-300 inline-flex items-center justify-center transition
                                             peer-checked:border-[#1040C5]
