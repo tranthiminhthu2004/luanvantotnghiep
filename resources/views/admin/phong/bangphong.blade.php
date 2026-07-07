@@ -195,7 +195,7 @@
 
     @if($phongs->hasPages())
 
-    <div class="border-t px-4 py-4">
+    <div class="border-t px-4 py-5 flex justify-center items-center">
 
         {{ $phongs->links() }}
 

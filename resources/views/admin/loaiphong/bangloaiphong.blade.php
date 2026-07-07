@@ -1,10 +1,10 @@
 <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
 
-    <div class="overflow-x-auto">
+    <div class="w-full overflow-x-auto lg:overflow-visible">
 
-        <table class="w-full min-w-[1050px] border-collapse">
+        <table class="w-full lg:min-w-0 min-w-[980px] border-collapse">
 
-            <thead class="bg-slate-50">
+            <thead class="bg-slate-50 border-b">
 
                 <tr class="text-left whitespace-nowrap">
 
@@ -49,7 +49,6 @@
             </thead>
 
             <tbody>
-
                 @forelse($loaiPhongs as $loaiPhong)
 
                 <tr class="border-t hover:bg-slate-50 transition">
@@ -121,7 +120,7 @@
                         @if($loaiPhong->trang_thai)
 
                         <span
-                            class="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-semibold">
+                            class="inline-flex items-center whitespace-nowrap px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-semibold">
 
                             Hoạt động
 
@@ -130,7 +129,7 @@
                         @else
 
                         <span
-                            class="inline-flex items-center px-3 py-1 rounded-full bg-red-100 text-red-700 text-sm font-semibold">
+                            class="inline-flex items-center whitespace-nowrap px-3 py-1 rounded-full bg-red-100 text-red-700 text-sm font-semibold">
 
                             Tạm dừng
 
@@ -221,7 +220,7 @@
 
     @if($loaiPhongs->hasPages())
 
-    <div class="border-t px-4 py-4">
+    <div class="border-t px-4 py-5 flex justify-center items-center">
 
         {{ $loaiPhongs->links() }}
 

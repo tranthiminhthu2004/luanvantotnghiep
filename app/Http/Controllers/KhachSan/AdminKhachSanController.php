@@ -131,7 +131,10 @@ if ($request->filled('trang_thai'))
 
     'dia_chi' => 'required|string|max:191',
 
-    'so_dien_thoai' => 'required|regex:/^(0)[0-9]{9,10}$/',
+    'so_dien_thoai' => [
+    'required',
+    'regex:/^0[0-9]{9}$/'
+],
 
     'email' => 'required|email|max:191',
 
@@ -153,7 +156,7 @@ if ($request->filled('trang_thai'))
 
     'so_dien_thoai.required' => 'Vui lòng nhập số điện thoại.',
     
-    'so_dien_thoai.regex' => 'Số điện thoại không hợp lệ.',
+    'so_dien_thoai.regex' => 'Số điện thoại phải có 10 số và bắt đầu bằng 0.',
 
     'email.required' => 'Vui lòng nhập email.',
     
@@ -233,7 +236,10 @@ if ($request->filled('trang_thai'))
 
     'dia_chi' => 'required|string|max:191',
 
-    'so_dien_thoai' => 'required|regex:/^(0)[0-9]{9,10}$/',
+    'so_dien_thoai' => [
+        'required',
+        'regex:/^0[0-9]{9}$/'
+    ],
 
     'email' => 'required|email|max:191',
 
@@ -254,7 +260,7 @@ if ($request->filled('trang_thai'))
     'dia_chi.required' => 'Vui lòng nhập địa chỉ.',
 
     'so_dien_thoai.required' => 'Vui lòng nhập số điện thoại.',
-    'so_dien_thoai.regex' => 'Số điện thoại không hợp lệ.',
+    'so_dien_thoai.regex' => 'Số điện thoại phải có 10 số và bắt đầu bằng 0.',
 
     'email.required' => 'Vui lòng nhập email.',
     'email.email' => 'Email không đúng định dạng.',

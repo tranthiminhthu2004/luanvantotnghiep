@@ -160,7 +160,8 @@
                         Số điện thoại
                     </label>
 
-                    <input type="text" name="so_dien_thoai" value="{{ old('so_dien_thoai') }}"
+                    <input type="text" maxlength="10" inputmode="numeric" name="so_dien_thoai"
+                        value="{{ old('so_dien_thoai') }}"
                         class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
 
                     @error('so_dien_thoai')

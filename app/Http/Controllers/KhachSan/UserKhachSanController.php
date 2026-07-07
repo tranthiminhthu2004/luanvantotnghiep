@@ -216,7 +216,7 @@ public function show(Request $request, $id)
                 max($soPhong, 1)
             );
 
-        // Danh sách phòng đề xuất
+        
         $loaiPhongsDeXuat = $khachSan
             ->loaiPhongs()
             ->where(
@@ -230,7 +230,6 @@ public function show(Request $request, $id)
             ])
             ->get();
 
-        // Danh sách phòng khác
         $loaiPhongsKhac = $khachSan
             ->loaiPhongs()
             ->where(
@@ -302,7 +301,34 @@ foreach ($khachSan->loaiPhongs as $loaiPhong)
 
         );
 }
-        return view(
+
+
+$khachSan->setRelation(
+    'loaiPhongs',
+    $khachSan->loaiPhongs
+        ->sortBy(function ($loaiPhong) use ($sucChuaCanThiet) {
+
+            $uuTienConPhong =
+                $loaiPhong->soPhongConLai > 0 ? 0 : 1;
+
+            $uuTienSucChua =
+                $loaiPhong->so_nguoi_toi_da >= $sucChuaCanThiet ? 0 : 1;
+
+            $doLechSucChua = abs(
+                $loaiPhong->so_nguoi_toi_da - $sucChuaCanThiet
+            );
+
+            return [
+                $uuTienConPhong,
+                $uuTienSucChua,
+                $doLechSucChua,
+                $loaiPhong->gia_co_ban,
+            ];
+        })
+        ->values()
+);
+
+return view(
     'users.chitietkhachsan.index',
     compact(
         'khachSan',

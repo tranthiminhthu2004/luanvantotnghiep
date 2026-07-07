@@ -186,9 +186,14 @@
 
     </div>
 
+
     <div class="border-t px-4 py-4">
 
-        {{ $khachSans->links() }}
+        <div class="flex justify-center">
+
+            {{ $khachSans->links() }}
+
+        </div>
 
     </div>
 

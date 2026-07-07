@@ -219,7 +219,7 @@
             </div>
 
         </div>
-        <div class="mt-10 grid grid-cols-1 xl:grid-cols-2 gap-8">
+        <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
 
             <!-- Mô tả -->
             <div>
@@ -230,11 +230,11 @@
 
                 </h3>
 
-                <div class="bg-slate-50 rounded-2xl border p-6 h-full">
+                <div class="bg-slate-50 rounded-2xl border p-6 min-h-[180px]">
 
                     @if($khachSan->mo_ta)
 
-                    <p class="text-base text-black leading-8 ">
+                    <p class="text-base text-black leading-8">
 
                         {{ $khachSan->mo_ta }}
 
@@ -263,7 +263,7 @@
 
                 </h3>
 
-                <div class="bg-slate-50 rounded-2xl border p-6 h-full">
+                <div class="bg-slate-50 rounded-2xl border p-6 min-h-[180px]">
 
                     @if($khachSan->tienNghis->count())
 

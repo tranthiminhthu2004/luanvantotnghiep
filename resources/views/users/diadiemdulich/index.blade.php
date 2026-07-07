@@ -21,17 +21,11 @@
 
         @include('users.diadiemdulich.search')
 
-        {{-- THÔNG BÁO LỖI --}}
-
         {{-- NỘI DUNG CHÍNH --}}
         <main class="max-w-7xl mx-auto px-4 lg:px-8 py-8">
 
-            {{-- Form chọn nhu cầu + mức độ ưu tiên --}}
             @include('users.diadiemdulich.formuutien')
 
-            {{-- THÔNG BÁO LỖI --}}
-
-            {{-- Kết quả gợi ý --}}
             @if(isset($ketQuaGoiY))
 
             @include('users.diadiemdulich.ketqua')

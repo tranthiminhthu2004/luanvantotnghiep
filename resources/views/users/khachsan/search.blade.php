@@ -1,4 +1,4 @@
-<section class="relative min-h-[700px] lg:h-[700px]">
+<section class="relative min-h-[560px] lg:h-[620px]">
 
     <!-- Ảnh nền -->
     <img src="{{ asset('images/tc.png') }}" alt="Banner" class="absolute inset-0 w-full h-full object-cover">
@@ -7,12 +7,12 @@
     <div class="absolute inset-0 bg-black/30"></div>
 
     <!-- Nội dung -->
-    <div class="relative z-10 max-w-7xl mx-auto px-4 lg:px-8 pt-10 lg:pt-20">
+    <div class="relative z-10 max-w-7xl mx-auto px-4 lg:px-8 pt-8 lg:pt-20">
 
         <!-- Tiêu đề -->
         <div class="max-w-2xl text-white">
 
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+            <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight">
 
                 KHÁCH SẠN
 
@@ -27,7 +27,7 @@
         </div>
 
         <!-- Search Box -->
-        <div class="mt-10 lg:mt-72">
+        <div class="mt-16 lg:mt-56">
             <form method="GET" action="{{ route('khachsan.timkiem') }}">
 
                 <div class="bg-white rounded-2xl shadow-2xl p-5">
@@ -227,147 +227,157 @@
             </form>
 
         </div>
-
-    </div>
-
     </div>
 </section>
 
 <script>
-document
-    .getElementById('ngay_nhan_phong')
-    .addEventListener('change', function() {
-        const ngayTra =
-            document.getElementById(
-                'ngay_tra_phong'
-            );
+document.addEventListener('DOMContentLoaded', function() {
 
-        let ngaySau =
-            new Date(this.value);
-
-        ngaySau.setDate(
-            ngaySau.getDate() + 1
+    let adult =
+        parseInt(
+            document.getElementById('adultInput').value
         );
 
-        ngayTra.min =
-            ngaySau
-            .toISOString()
-            .split('T')[0];
+    let child =
+        parseInt(
+            document.getElementById('childInput').value
+        );
 
-        if (
-            ngayTra.value &&
-            ngayTra.value <= this.value
-        ) {
-            ngayTra.value = '';
+    let elder =
+        parseInt(
+            document.getElementById('elderInput').value
+        );
+
+    let room =
+        parseInt(
+            document.getElementById('roomInput').value
+        );
+
+    const guestButton =
+        document.getElementById('guestButton');
+
+    const guestDropdown =
+        document.getElementById('guestDropdown');
+
+    guestButton.addEventListener('click', function() {
+
+        guestDropdown.classList.toggle('hidden');
+
+    });
+
+    window.changeValue = function(type, amount) {
+
+        if (type === 'adult') {
+
+            adult = Math.max(1, adult + amount);
+
+            document.getElementById('adultText').innerText = adult;
+
+            document.getElementById('adultInput').value = adult;
         }
-    });
 
-let adult =
-    parseInt(
-        document.getElementById('adultInput').value
-    );
+        if (type === 'child') {
 
-let child =
-    parseInt(
-        document.getElementById('childInput').value
-    );
+            child = Math.max(0, child + amount);
 
-let elder =
-    parseInt(
-        document.getElementById('elderInput').value
-    );
-let room =
-    parseInt(
-        document.getElementById('roomInput').value
-    );
-document
-    .getElementById('guestButton')
-    .addEventListener('click', function() {
+            document.getElementById('childText').innerText = child;
+
+            document.getElementById('childInput').value = child;
+        }
+
+        if (type === 'elder') {
+
+            elder = Math.max(0, elder + amount);
+
+            document.getElementById('elderText').innerText = elder;
+
+            document.getElementById('elderInput').value = elder;
+        }
+
+        if (type === 'room') {
+
+            room = Math.max(1, room + amount);
+
+            document.getElementById('roomText').innerText = room;
+
+            document.getElementById('roomInput').value = room;
+        }
+
+        updateSummary();
+
+    }
+
+    function updateSummary() {
+
         document
-            .getElementById('guestDropdown')
-            .classList.toggle('hidden');
-    });
+            .getElementById('guestSummary')
+            .innerText =
+            adult + ' người lớn · ' +
+            child + ' trẻ em · ' +
+            elder + ' người cao tuổi · ' +
+            room + ' phòng';
 
-function updateSummary() {
-    document
-        .getElementById('guestSummary')
-        .innerText =
-        adult + ' người lớn · ' +
-        child + ' trẻ em · ' +
-        elder + ' người cao tuổi · ' +
-        room + ' phòng';
-}
-
-function changeValue(type, amount) {
-    if (type === 'adult') {
-        adult = Math.max(1, adult + amount);
-
-        document.getElementById('adultText').innerText = adult;
-        document.getElementById('adultInput').value = adult;
-    }
-
-    if (type === 'child') {
-        child = Math.max(0, child + amount);
-
-        document.getElementById('childText').innerText = child;
-        document.getElementById('childInput').value = child;
-    }
-
-    if (type === 'elder') {
-        elder = Math.max(0, elder + amount);
-
-        document.getElementById('elderText').innerText = elder;
-        document.getElementById('elderInput').value = elder;
-    }
-    if (type === 'room') {
-        room = Math.max(1, room + amount);
-
-        document.getElementById('roomText').innerText = room;
-
-        document.getElementById('roomInput').value = room;
     }
 
     updateSummary();
-}
 
-updateSummary();
+    const ngayNhan = flatpickr(
+        "#ngay_nhan_phong", {
+            dateFormat: "d/m/Y",
+            minDate: "today",
+            allowInput: false,
+            disableMobile: true
+        }
+    );
 
-const ngayNhan = flatpickr(
-    "#ngay_nhan_phong", {
-        dateFormat: "d/m/Y",
-        minDate: "today"
-    }
-);
+    const ngayTra = flatpickr(
+        "#ngay_tra_phong", {
+            dateFormat: "d/m/Y",
+            minDate: new Date().fp_incr(1),
+            allowInput: false,
+            disableMobile: true
+        }
+    );
 
-const ngayTra = flatpickr(
-    "#ngay_tra_phong", {
-        dateFormat: "d/m/Y",
-        minDate: new Date().fp_incr(1)
-    }
-);
+    document
+        .getElementById('ngay_nhan_phong')
+        .addEventListener('change', function() {
 
-document
-    .getElementById('ngay_nhan_phong')
-    .addEventListener('change', function() {
-        let parts = this.value.split('/');
+            if (!this.value) {
+                return;
+            }
 
-        let date = new Date(
-            parts[2],
-            parts[1] - 1,
-            parts[0]
-        );
+            let parts = this.value.split('/');
 
-        date.setDate(
-            date.getDate() + 1
-        );
+            let date = new Date(
+                parts[2],
+                parts[1] - 1,
+                parts[0]
+            );
 
-        ngayTra.set(
-            'minDate',
-            date
-        );
+            date.setDate(
+                date.getDate() + 1
+            );
 
-        document
-            .getElementById('ngay_tra_phong')
-            .value = '';
+            ngayTra.set(
+                'minDate',
+                date
+            );
+
+            ngayTra.clear();
+
+        });
+
+    document.addEventListener('click', function(event) {
+
+        if (
+            !guestButton.contains(event.target) &&
+            !guestDropdown.contains(event.target)
+        ) {
+            guestDropdown.classList.add('hidden');
+        }
+
     });
+
+});
 </script>

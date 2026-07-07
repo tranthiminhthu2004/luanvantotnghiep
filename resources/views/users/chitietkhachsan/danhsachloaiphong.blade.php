@@ -45,8 +45,7 @@
 
                 <div class="room-item border rounded-3xl p-5 mb-6 hover:shadow-lg transition"
                     data-id="{{ $loaiPhong->ma_loai_phong }}" data-name="{{ $loaiPhong->ten_loai_phong }}"
-                    data-price="{{ $loaiPhong->gia_co_ban }}" data-stock="{{ $loaiPhong->soPhongConLai }}">
-
+                    data-price="{{ $loaiPhong->gia_co_ban }}" data-stock="{{ $loaiPhong->soPhongConLai ?? 0 }}">
                     <div class="flex gap-6">
 
                         {{-- ẢNH --}}
@@ -235,33 +234,15 @@
                                 </div>
 
                                 @else
+                                <div class="w-full rounded-2xl p-5 flex items-center justify-end gap-4 text-right">
 
-                                <div class="bg-red-50 border border-red-200 rounded-2xl p-5 flex items-center gap-4">
+                                    <div class="font-bold text-red-700 text-lg">
 
-                                    <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
-
-                                        <i class="fa-solid fa-circle-xmark text-red-600 text-2xl"></i>
-
-                                    </div>
-
-                                    <div>
-
-                                        <div class="font-bold text-red-700 text-lg">
-
-                                            Hết phòng
-
-                                        </div>
-
-                                        <div class="text-red-500">
-
-                                            Loại phòng này đã hết trong khoảng thời gian bạn chọn.
-
-                                        </div>
+                                        Hết phòng
 
                                     </div>
 
                                 </div>
-
                                 @endif
 
                             </div>
@@ -469,6 +450,7 @@
     </div>
 
 </form>
+
 <script>
 function changeRoom(id, amount) {
     const input =
@@ -486,14 +468,18 @@ function changeRoom(id, amount) {
             '.room-item[data-id="' + id + '"]'
         );
 
+    if (!input || !hidden || !room) {
+        return;
+    }
+
     const stock =
         parseInt(
-            room.dataset.stock
+            room.dataset.stock || 0
         );
 
     let current =
         parseInt(
-            input.value
+            input.value || 0
         );
 
     current += amount;
@@ -528,29 +514,36 @@ function updateCart() {
 
     document
         .querySelectorAll('.room-item')
-        .forEach(room => {
+        .forEach(function(room) {
 
             const id =
                 room.dataset.id;
+
+            const input =
+                document.getElementById(
+                    'room_' + id
+                );
+
+            if (!input) {
+                return;
+            }
 
             const name =
                 room.dataset.name;
 
             const price =
                 parseInt(
-                    room.dataset.price
+                    room.dataset.price || 0
                 );
 
             const stock =
                 parseInt(
-                    room.dataset.stock
+                    room.dataset.stock || 0
                 );
 
             const quantity =
                 parseInt(
-                    document.getElementById(
-                        'room_' + id
-                    ).value
+                    input.value || 0
                 );
 
             if (quantity > 0) {
@@ -577,12 +570,6 @@ function updateCart() {
                                 <div class="text-sm text-gray-500">
 
                                     ${quantity} phòng
-
-                                </div>
-
-                                <div class="text-xs text-green-600">
-
-                                    Còn ${stock} phòng
 
                                 </div>
 
@@ -667,5 +654,7 @@ function updateCart() {
     }
 }
 
-updateCart();
+document.addEventListener('DOMContentLoaded', function() {
+    updateCart();
+});
 </script>

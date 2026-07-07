@@ -1,4 +1,4 @@
-<section class="relative min-h-[700px] lg:h-[760px]">
+<section class="relative min-h-[560px] lg:h-[620px]">
 
     <!-- Ảnh nền -->
     <img src="{{ asset('images/timkiem.png') }}" alt="Banner" class="absolute inset-0 w-full h-full object-cover">
@@ -7,12 +7,12 @@
     <div class="absolute inset-0 bg-black/30"></div>
 
     <!-- Nội dung -->
-    <div class="relative z-10 max-w-7xl mx-auto px-4 lg:px-8 pt-10 lg:pt-20">
+    <div class="relative z-10 max-w-7xl mx-auto px-4 lg:px-8 pt-8 lg:pt-20">
 
         <!-- Tiêu đề -->
         <div class="max-w-2xl text-white">
 
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+            <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold leading-tight">
 
                 KHÁM PHÁ NHỮNG ĐIỂM ĐẾN PHÙ HỢP VỚI BẠN
 
@@ -27,7 +27,7 @@
         </div>
 
         <!-- Search Box -->
-        <div class="mt-10 lg:mt-56">
+        <div class="mt-8 lg:mt-32">
 
             <form method="GET" action="{{ route('timkiem.trangchu') }}">
 
@@ -231,7 +231,7 @@
                         <div class="col-span-12 lg:col-span-1">
 
                             <button type="submit"
-                                class="w-full bg-[#1040C5] hover:bg-blue-700 text-white rounded-xl py-3 h-[52px] mt-2 transition">
+                                class="w-full bg-[#1040C5] hover:bg-blue-700 text-white rounded-xl py-3 h-[46px] mt-2 transition">
 
                                 <i class="fa-solid fa-magnifying-glass"></i>
 

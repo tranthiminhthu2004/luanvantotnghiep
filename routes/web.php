@@ -710,12 +710,12 @@ USER - GỢI Ý ĐIỂM ĐẾN
 
 Route::get(
     '/goi-y-diem-den',
-    [UserGoiYController::class, 'index']
+    [UserGoiYController::class, 'indexCoBan']
 )->name('goiy.index');
 
 Route::post(
     '/goi-y-diem-den',
-    [UserGoiYController::class, 'goiY']
+    [UserGoiYController::class, 'goiYCoBan']
 )->name('goiy.xuly');
 
 /*
