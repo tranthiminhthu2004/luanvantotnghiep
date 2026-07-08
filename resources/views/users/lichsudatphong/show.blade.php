@@ -363,7 +363,7 @@
 
                     <div class="flex justify-center">
 
-                        <a href="{{ route('lichsudatphong.index') }}" class="inline-flex items-center gap-2
+                        <a href="{{ route('lichsudatphong.index')}}" class="inline-flex items-center gap-2
                                    bg-blue-600 hover:bg-blue-700
                                    text-white font-semibold
                                    px-8 py-3 rounded-xl

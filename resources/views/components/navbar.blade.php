@@ -302,7 +302,8 @@
 
                 <div class="space-y-3">
 
-                    <a href="#" class="flex items-center gap-3 text-[#061755] hover:text-blue-600">
+                    <a href="{{ route('hoso.index')}}"
+                        class="flex items-center gap-3 text-[#061755] hover:text-blue-600">
 
                         <i class="fa-solid fa-user w-5"></i>
 
@@ -310,7 +311,8 @@
 
                     </a>
 
-                    <a href="#" class="flex items-center gap-3 text-[#061755] hover:text-blue-600">
+                    <a href="{{ route('lichsudatphong.index')}}"
+                        class="flex items-center gap-3 text-[#061755] hover:text-blue-600">
 
                         <i class="fa-solid fa-calendar-check w-5"></i>
 
