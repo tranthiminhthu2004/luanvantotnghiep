@@ -98,7 +98,7 @@
                     <button id="userMenuBtn"
                         class="flex items-center gap-3 rounded-full px-3 py-2 hover:bg-slate-100 transition">
 
-                        <img src="{{ Auth::user()->anh_dai_dien ?: asset('images/default-avatar.png') }}"
+                        <img src="{{ Auth::user()->anh_dai_dien ? asset(Auth::user()->anh_dai_dien) : asset('images/default-avatar.png') }}"
                             class="w-11 h-11 rounded-full object-cover border">
 
                         <div class="text-left leading-tight">
@@ -128,9 +128,8 @@
 
                             <div class="flex items-center gap-3">
 
-                                <img src="{{ Auth::user()->anh_dai_dien ?: asset('images/default-avatar.png') }}"
-                                    class="w-14 h-14 rounded-full object-cover border">
-
+                                <img src="{{ Auth::user()->anh_dai_dien ? asset(Auth::user()->anh_dai_dien) : asset('images/default-avatar.png') }}"
+                                    class="w-11 h-11 rounded-full object-cover border">
                                 <div>
 
                                     <p class="font-semibold text-[#061755]">
@@ -278,8 +277,8 @@
 
                 <div class="flex items-center gap-3 mb-5">
 
-                    <img src="{{ Auth::user()->anh_dai_dien ?: asset('images/default-avatar.png') }}"
-                        class="w-14 h-14 rounded-full object-cover border">
+                    <img src="{{ Auth::user()->anh_dai_dien ? asset(Auth::user()->anh_dai_dien) : asset('images/default-avatar.png') }}"
+                        class="w-11 h-11 rounded-full object-cover border">
 
                     <div>
 

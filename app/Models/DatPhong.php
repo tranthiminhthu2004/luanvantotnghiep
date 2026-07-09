@@ -75,9 +75,9 @@ class DatPhong extends Model
         );
     }
 
-    public function thanhToan()
+    public function thanhToans()
     {
-        return $this->hasOne(
+        return $this->hasMany(
             ThanhToan::class,
             'ma_don_dat_phong',
             'ma_don_dat_phong'

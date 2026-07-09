@@ -16,7 +16,7 @@
 
             <div class="flex items-center gap-4">
 
-                <input type="radio" name="phuong_thuc_thanh_toan" value="TienMat" checked class="w-5 h-5 text-blue-600">
+                <input type="radio" name="phuong_thuc_thanh_toan" value="DatCoc" checked class="w-5 h-5 text-blue-600">
 
                 <div>
 
@@ -28,7 +28,7 @@
 
                     <p class="text-sm text-slate-500 mt-1">
 
-                        Thanh toán khi nhận phòng.
+                        Đặt cọc trước 30%
 
                     </p>
 
@@ -40,13 +40,13 @@
 
         </label>
 
-        {{-- VNPay --}}
+        {{-- Thanh toán VNPay --}}
         <label
             class="flex items-center justify-between border border-slate-300 rounded-xl p-5 cursor-pointer hover:border-blue-500 transition">
 
             <div class="flex items-center gap-4">
 
-                <input type="radio" name="phuong_thuc_thanh_toan" value="VNPay" class="w-5 h-5 text-blue-600">
+                <input type="radio" name="phuong_thuc_thanh_toan" value="ThanhToanToanBo" class="w-5 h-5 text-blue-600">
 
                 <div>
 
@@ -70,26 +70,30 @@
 
         </label>
 
-
     </div>
 
-
-    {{-- Tổng tiền --}}
+    {{-- Thanh toán --}}
     <div class="mt-8 border-t border-slate-300 pt-6 flex flex-col md:flex-row md:justify-between md:items-center gap-6">
 
         <div>
 
             <div class="text-lg font-semibold text-slate-700">
 
-                Tổng thanh toán
+                Số tiền cần thanh toán
 
             </div>
 
-            <div class="text-3xl font-bold text-blue-600 mt-2">
+            <div id="soTienThanhToan" class="text-3xl font-bold text-blue-600 mt-2">
 
-                {{ number_format($tongTien,0,',','.') }}đ
+                {{ number_format(round($tongTien * 0.3),0,',','.') }}đ
 
             </div>
+
+            <p id="ghiChuThanhToan" class="text-sm text-slate-500 mt-2">
+
+                Bạn sẽ thanh toán 70% còn lại tại khách sạn khi nhận phòng.
+
+            </p>
 
         </div>
 
@@ -103,5 +107,61 @@
         </button>
 
     </div>
+
+    <script>
+    const tongTien = {
+        {
+            $tongTien
+        }
+    };
+
+    const tienCoc = Math.round(tongTien * 0.3);
+
+    const radioDatCoc = document.querySelector(
+        'input[value="DatCoc"]'
+    );
+
+    const radioToanBo = document.querySelector(
+        'input[value="ThanhToanToanBo"]'
+    );
+
+    const soTien = document.getElementById(
+        'soTienThanhToan'
+    );
+
+    const ghiChu = document.getElementById(
+        'ghiChuThanhToan'
+    );
+
+    function formatTien(tien) {
+        return tien.toLocaleString('vi-VN') + 'đ';
+    }
+
+    function capNhat() {
+        if (radioDatCoc.checked) {
+            soTien.innerText = formatTien(tienCoc);
+
+            ghiChu.innerText =
+                'Bạn sẽ thanh toán 70% còn lại tại khách sạn khi nhận phòng.';
+        } else {
+            soTien.innerText = formatTien(tongTien);
+
+            ghiChu.innerText =
+                'Thanh toán toàn bộ giá trị đơn đặt phòng.';
+        }
+    }
+
+    radioDatCoc.addEventListener(
+        'change',
+        capNhat
+    );
+
+    radioToanBo.addEventListener(
+        'change',
+        capNhat
+    );
+
+    capNhat();
+    </script>
 
 </section>

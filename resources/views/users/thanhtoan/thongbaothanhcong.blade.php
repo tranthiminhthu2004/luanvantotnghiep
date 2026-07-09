@@ -19,87 +19,95 @@
 
     @include('components.navbar')
 
-    <main class="pt-32 pb-16 ">
+    @php
+
+    $thanhToan = $datPhong->thanhToans->first();
+
+    $soTienDaThanhToan = $thanhToan?->so_tien ?? 0;
+
+    $soTienConLai = max(
+    0,
+    $datPhong->tong_tien - $soTienDaThanhToan
+    );
+
+    @endphp
+
+    <main class="pt-28 pb-12">
 
         <div class="max-w-5xl mx-auto px-4">
 
-            <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
+            <div class="bg-white rounded-2xl shadow border border-slate-200 overflow-hidden">
 
                 {{-- HEADER --}}
-                <div class="bg-blue-600 px-8 py-8 text-white ">
+                <div class="bg-gradient-to-r from-blue-700 to-blue-500 px-8 py-6">
 
-                    <div class="flex items-center gap-5">
+                    <div class="flex items-center justify-between flex-wrap gap-6">
 
-                        <div class="w-20 h-20 rounded-full bg-white flex items-center justify-center flex-shrink-0">
+                        <div class="flex items-center gap-4">
 
-                            <i class="fa-solid fa-circle-check text-5xl text-blue-600">
+                            <div class="w-14 h-14 rounded-full bg-white flex items-center justify-center">
 
-                            </i>
+                                <i class="fa-solid fa-circle-check text-3xl text-blue-600"></i>
 
-                        </div>
+                            </div>
 
-                        <div>
+                            <div>
 
-                            <h1 class="text-3xl font-bold">
+                                <h1 class="text-3xl font-bold text-white">
 
-                                Đặt phòng thành công
+                                    Đặt phòng thành công
 
-                            </h1>
+                                </h1>
 
-                            <p class="mt-2 text-green-100">
+                                <p class="text-blue-100 mt-1">
 
-                                Đơn đặt phòng của bạn đã được tạo thành công.
+                                    Cảm ơn bạn đã sử dụng dịch vụ của Hotel Booking.
 
-                            </p>
+                                </p>
 
-                        </div>
-
-                    </div>
-
-                </div>
-
-                {{-- MÃ ĐẶT PHÒNG --}}
-                <div class="px-8 py-6 border-b border-slate-200">
-
-                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
-
-                        <div class="flex items-center gap-3">
-
-                            <i class="fa-solid fa-ticket text-blue-600 text-xl">
-
-                            </i>
-
-                            <span class="text-black font-semibold">
-
-                                Mã đặt phòng:
-
-                            </span>
-
-                            <span class="text-xl font-bold text-blue-600">
-
-                                {{ $datPhong->ma_dat_phong }}
-
-                            </span>
+                            </div>
 
                         </div>
 
-                        <div class="flex items-center gap-3">
+                        <div class="bg-white/10 rounded-xl border border-white/20 px-6 py-4 text-white">
 
-                            <i class="fa-solid fa-calendar-days text-blue-600">
+                            <div class="flex items-center gap-8">
 
-                            </i>
+                                <div>
 
-                            <span class="text-black font-semibold">
+                                    <div class="text-sm text-blue-100">
 
-                                Ngày đặt:
+                                        Mã đặt phòng
 
-                            </span>
+                                    </div>
 
-                            <span class="font-semibold text-slate-800">
+                                    <div class="text-xl font-bold mt-1">
 
-                                {{ \Carbon\Carbon::parse($datPhong->ngay_dat)->format('d/m/Y H:i') }}
+                                        {{ $datPhong->ma_dat_phong }}
 
-                            </span>
+                                    </div>
+
+                                </div>
+
+                                <div class="w-px h-10 bg-white/30"></div>
+
+                                <div>
+
+                                    <div class="text-sm text-blue-100">
+
+                                        Ngày đặt
+
+                                    </div>
+
+                                    <div class="font-semibold mt-1">
+
+                                        {{ \Carbon\Carbon::parse($datPhong->ngay_dat)->format('d/m/Y H:i') }}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
 
                         </div>
 
@@ -107,7 +115,7 @@
 
                 </div>
                 {{-- THÔNG TIN KHÁCH SẠN --}}
-                <div class="px-8 py-8 border-b border-slate-200">
+                <div class="px-8 py-6 border-b border-slate-200">
 
                     <h2 class="text-2xl font-bold text-slate-800 mb-6">
 
@@ -115,7 +123,7 @@
 
                     </h2>
 
-                    <div class="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-6">
 
                         {{-- Ảnh khách sạn --}}
                         <div>
@@ -123,36 +131,40 @@
                             <img src="{{ $datPhong->khachSan->hinhAnh->count()
                     ? asset($datPhong->khachSan->hinhAnh->first()->duong_dan_anh)
                     : asset('images/hotel-default.jpg') }}" alt="{{ $datPhong->khachSan->ten_khach_san }}"
-                                class="w-full h-56 object-cover rounded-xl">
+                                class="w-full h-48 rounded-xl object-cover shadow">
 
                         </div>
 
                         {{-- Thông tin --}}
                         <div>
 
-                            <h3 class="text-3xl font-bold text-slate-800">
+                            <h3 class="text-2xl font-bold text-slate-800">
 
                                 {{ $datPhong->khachSan->ten_khach_san }}
 
                             </h3>
 
-                            <div class="flex items-center gap-1 text-yellow-400 mt-3">
+                            <div class="flex items-center gap-1 mt-2 mb-5">
 
                                 @for($i = 1; $i <= $datPhong->khachSan->so_sao_khach_san; $i++)
 
-                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star text-yellow-400"></i>
 
                                     @endfor
 
                             </div>
 
-                            <div class="mt-6 space-y-4">
+                            <div class="space-y-3 text-[15px]">
 
-                                <div class="flex gap-3">
+                                <div class="flex">
 
-                                    <i class="fa-solid fa-location-dot text-red-500 mt-1"></i>
+                                    <span class="w-40 font-semibold text-slate-600">
 
-                                    <span>
+                                        Địa chỉ:
+
+                                    </span>
+
+                                    <span class="text-slate-800">
 
                                         {{ $datPhong->khachSan->dia_chi }}
 
@@ -160,9 +172,13 @@
 
                                 </div>
 
-                                <div class="flex gap-3">
+                                <div class="flex">
 
-                                    <i class="fa-solid fa-phone text-black mt-1"></i>
+                                    <span class="w-40 font-semibold text-slate-600">
+
+                                        Số điện thoại:
+
+                                    </span>
 
                                     <span>
 
@@ -172,13 +188,49 @@
 
                                 </div>
 
-                                <div class="flex gap-3">
+                                <div class="flex">
 
-                                    <i class="fa-solid fa-envelope text-slate-500 mt-1"></i>
+                                    <span class="w-40 font-semibold text-slate-600">
+
+                                        Email:
+
+                                    </span>
 
                                     <span>
 
                                         {{ $datPhong->khachSan->email }}
+
+                                    </span>
+
+                                </div>
+
+                                <div class="flex">
+
+                                    <span class="w-40 font-semibold text-slate-600">
+
+                                        🛏️ Check-in:
+
+                                    </span>
+
+                                    <span>
+
+                                        14:00
+
+                                    </span>
+
+                                </div>
+
+                                <div class="flex">
+
+                                    <span class="w-40 font-semibold text-slate-600">
+
+                                        🧳 Check-out:
+
+                                    </span>
+
+                                    <span>
+
+                                        12:00
 
                                     </span>
 
@@ -191,279 +243,475 @@
                     </div>
 
                 </div>
+                {{-- THÔNG TIN KHÁCH HÀNG & ĐẶT PHÒNG --}}
+                <div class="px-8 py-6 border-b border-slate-200">
 
-                {{-- THÔNG TIN KHÁCH HÀNG --}}
-                <div class="px-8 py-8 border-b border-slate-200">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
 
-                    <h2 class="text-2xl font-bold text-black mb-6">
-
-                        Thông tin khách hàng
-
-                    </h2>
-
-                    <div class="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-y-5">
-
-                        <div class="font-semibold text-black">
-
-                            Họ và tên
-
-                        </div>
-
+                        {{-- KHÁCH HÀNG --}}
                         <div>
 
-                            {{ $datPhong->ho_va_ten_dem_khach }}
-                            {{ $datPhong->ten_khach }}
+                            <h2 class="text-2xl font-bold text-slate-800 mb-5">
+
+                                Thông tin khách hàng
+
+                            </h2>
+
+                            <div class="space-y-3 text-[15px]">
+
+                                <div class="flex">
+
+                                    <span class="w-40 font-semibold text-slate-600">
+
+                                        Họ và tên:
+
+                                    </span>
+
+                                    <span>
+
+                                        {{ $datPhong->ho_va_ten_dem_khach }}
+                                        {{ $datPhong->ten_khach }}
+
+                                    </span>
+
+                                </div>
+
+                                <div class="flex">
+
+                                    <span class="w-40 font-semibold text-slate-600">
+
+                                        Số điện thoại:
+
+                                    </span>
+
+                                    <span>
+
+                                        {{ $datPhong->so_dien_thoai_khach }}
+
+                                    </span>
+
+                                </div>
+
+                                <div class="flex">
+
+                                    <span class="w-40 font-semibold text-slate-600">
+
+                                        Email:
+
+                                    </span>
+
+                                    <span class="break-all">
+
+                                        {{ $datPhong->email_khach }}
+
+                                    </span>
+
+                                </div>
+
+                                <div class="flex items-start">
+
+                                    <span class="w-40 font-semibold text-slate-600">
+
+                                        Ghi chú:
+
+                                    </span>
+
+                                    <span>
+
+                                        {{ $datPhong->ghi_chu ?: 'Không có ghi chú' }}
+
+                                    </span>
+
+                                </div>
+
+                            </div>
 
                         </div>
 
-                        <div class="font-semibold text-black">
-
-                            Số điện thoại
-
-                        </div>
-
+                        {{-- ĐẶT PHÒNG --}}
                         <div>
 
-                            {{ $datPhong->so_dien_thoai_khach }}
+                            <h2 class="text-2xl font-bold text-slate-800 mb-5">
 
-                        </div>
+                                Thông tin đặt phòng
 
-                        <div class="font-semibold text-black">
+                            </h2>
 
-                            Email
+                            <div class="space-y-3 text-[15px]">
 
-                        </div>
+                                <div class="flex">
 
-                        <div>
+                                    <span class="w-44 font-semibold text-slate-600">
 
-                            {{ $datPhong->email_khach }}
+                                        Ngày nhận phòng:
 
-                        </div>
+                                    </span>
 
-                        <div class="font-semibold  text-black">
+                                    <span>
 
-                            Ghi chú
+                                        {{ \Carbon\Carbon::parse($datPhong->ngay_nhan_phong)->format('d/m/Y') }}
 
-                        </div>
+                                    </span>
 
-                        <div>
+                                </div>
 
-                            {{ $datPhong->ghi_chu ?: 'Không có ghi chú' }}
+                                <div class="flex">
+
+                                    <span class="w-44 font-semibold text-slate-600">
+
+                                        Ngày trả phòng:
+
+                                    </span>
+
+                                    <span>
+
+                                        {{ \Carbon\Carbon::parse($datPhong->ngay_tra_phong)->format('d/m/Y') }}
+
+                                    </span>
+
+                                </div>
+
+                                <div class="flex">
+
+                                    <span class="w-44 font-semibold text-slate-600">
+
+                                        Người lớn:
+
+                                    </span>
+
+                                    <span>
+
+                                        {{ $datPhong->so_nguoi_truong_thanh }}
+
+                                    </span>
+
+                                </div>
+
+                                <div class="flex">
+
+                                    <span class="w-44 font-semibold text-slate-600">
+
+                                        Trẻ em:
+
+                                    </span>
+
+                                    <span>
+
+                                        {{ $datPhong->so_tre_em }}
+
+                                    </span>
+
+                                </div>
+
+                                <div class="flex">
+
+                                    <span class="w-44 font-semibold text-slate-600">
+
+                                        Người cao tuổi:
+
+                                    </span>
+
+                                    <span>
+
+                                        {{ $datPhong->so_nguoi_cao_tuoi }}
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            {{-- LOẠI PHÒNG ĐÃ ĐẶT --}}
+                            <div class="mt-6">
+
+                                <h3 class="text-lg font-semibold text-slate-800 mb-3">
+
+                                    Loại phòng đã đặt
+
+                                </h3>
+
+                                <div class="space-y-3">
+
+                                    @foreach($datPhong->chiTietDatPhong as $chiTiet)
+
+                                    <div class="rounded-lg border border-slate-200 p-4">
+
+                                        <div class="font-semibold text-blue-600 mb-2">
+
+                                            {{ $chiTiet->loaiPhong->ten_loai_phong }}
+
+                                        </div>
+
+                                        <div class="space-y-2 text-[15px]">
+
+                                            <div class="flex">
+
+                                                <span class="w-36 text-slate-600">
+
+                                                    Số lượng:
+
+                                                </span>
+
+                                                <span>
+
+                                                    {{ $chiTiet->so_luong_phong }} phòng
+
+                                                </span>
+
+                                            </div>
+
+                                            <div class="flex">
+
+                                                <span class="w-36 text-slate-600">
+
+                                                    Số đêm:
+
+                                                </span>
+
+                                                <span>
+
+                                                    {{ $chiTiet->so_dem }} đêm
+
+                                                </span>
+
+                                            </div>
+
+                                            <div class="flex">
+
+                                                <span class="w-36 text-slate-600">
+
+                                                    Thành tiền:
+
+                                                </span>
+
+                                                <span class="font-semibold text-blue-600">
+
+                                                    {{ number_format($chiTiet->thanh_tien,0,',','.') }}đ
+
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    @endforeach
+
+                                </div>
+
+                            </div>
 
                         </div>
 
                     </div>
 
                 </div>
-                {{-- THÔNG TIN ĐẶT PHÒNG --}}
-                <div class="px-8 py-8 border-b border-slate-200">
-
-                    <h2 class="text-2xl font-bold text-slate-800 mb-6">
-
-                        Thông tin đặt phòng
-
-                    </h2>
-
-                    <div class="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-y-5">
-
-                        <div class="font-semibold text-black">
-
-                            Ngày nhận phòng
-
-                        </div>
-
-                        <div>
-
-                            {{ \Carbon\Carbon::parse($datPhong->ngay_nhan_phong)->format('d/m/Y') }}
-
-                        </div>
-
-                        <div class="font-semibold text-black">
-
-                            Ngày trả phòng
-
-                        </div>
-
-                        <div>
-
-                            {{ \Carbon\Carbon::parse($datPhong->ngay_tra_phong)->format('d/m/Y') }}
-
-                        </div>
-
-                        <div class="font-semibold text-black">
-
-                            Người lớn
-
-                        </div>
-
-                        <div>
-
-                            {{ $datPhong->so_nguoi_truong_thanh }}
-
-                        </div>
-
-                        <div class="font-semibold  text-black">
-
-                            Trẻ em
-
-                        </div>
-
-                        <div>
-
-                            {{ $datPhong->so_tre_em }}
-
-                        </div>
-
-                        <div class="font-semibold  text-black">
-
-                            Người cao tuổi
-
-                        </div>
-
-                        <div>
-
-                            {{ $datPhong->so_nguoi_cao_tuoi }}
-
-                        </div>
-
-                    </div>
-
-                </div>
-
                 {{-- THANH TOÁN --}}
-                <div class="px-8 py-8 border-b border-slate-200">
+                <div class="px-8 py-6 border-b border-slate-200">
 
-                    <h2 class="text-2xl font-bold text-slate-800 mb-6">
+                    <h2 class="text-2xl font-bold text-slate-800 mb-5">
 
                         Thanh toán
 
                     </h2>
 
-                    <div class="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-y-5">
+                    <div class="space-y-3 text-[15px]">
 
-                        {{-- Phương thức --}}
-                        <div class="font-semibold text-black">
+                        <div class="flex">
 
-                            Phương thức
+                            <span class="w-56 font-semibold text-slate-600">
 
-                        </div>
-
-                        <div>
-
-                            @if($datPhong->thanhToan->phuong_thuc_thanh_toan == 'TienMat')
-
-                            Thanh toán tại khách sạn
-
-                            @elseif($datPhong->thanhToan->phuong_thuc_thanh_toan == 'VNPay')
-
-                            Thanh toán qua VNPay
-
-                            @else
-
-                            {{ $datPhong->thanhToan->phuong_thuc_thanh_toan }}
-
-                            @endif
-
-                        </div>
-
-                        {{-- Trạng thái thanh toán --}}
-                        <div class="font-semibold text-slate-600">
-
-                            Trạng thái thanh toán
-
-                        </div>
-
-                        <div>
-
-                            @if($datPhong->thanhToan->trang_thai_thanh_toan == 'ChuaThanhToan')
-
-                            <span class="px-3 py-1 rounded-full text-black text-sm font-semibold">
-
-                                Chưa thanh toán
+                                Phương thức thanh toán:
 
                             </span>
 
-                            @elseif($datPhong->thanhToan->trang_thai_thanh_toan == 'DaThanhToan')
+                            <span>
 
-                            <span class="px-3 py-1 rounded-full text-black text-sm font-semibold">
-
-                                Đã thanh toán
+                                {{ $thanhToan->phuong_thuc_thanh_toan }}
 
                             </span>
 
-                            @endif
-
                         </div>
 
-                        {{-- Trạng thái đơn --}}
-                        <div class="font-semibold text-black">
+                        <div class="flex">
 
-                            Trạng thái đơn
+                            <span class="w-56 font-semibold text-slate-600">
 
-                        </div>
-
-                        <div>
-
-                            @if($datPhong->trang_thai_dat_phong == 'ChoXacNhan')
-
-                            <span class="px-3 py-1 rounded-full text-black text-sm font-semibold">
-
-                                Chờ xác nhận
+                                Loại thanh toán:
 
                             </span>
 
-                            @elseif($datPhong->trang_thai_dat_phong == 'DaXacNhan')
+                            <span>
 
-                            <span class="px-3 py-1 rounded-full text-black text-sm font-semibold">
+                                @switch($thanhToan->loai_thanh_toan)
+
+                                @case('DatCoc')
+
+                                Đặt cọc 30%
+
+                                @break
+
+                                @case('ThanhToanToanBo')
+
+                                Thanh toán toàn bộ
+
+                                @break
+
+                                @case('ThanhToanConLai')
+
+                                Thanh toán phần còn lại
+
+                                @break
+
+                                @endswitch
+
+                            </span>
+
+                        </div>
+
+                        <div class="flex">
+
+                            <span class="w-56 font-semibold text-slate-600">
+
+                                Mã giao dịch:
+
+                            </span>
+
+                            <span>
+
+                                {{ $thanhToan->ma_giao_dich ?? '--' }}
+
+                            </span>
+
+                        </div>
+
+                        <div class="flex">
+
+                            <span class="w-56 font-semibold text-slate-600">
+
+                                Ngày thanh toán:
+
+                            </span>
+
+                            <span>
+
+                                {{ $thanhToan->ngay_thanh_toan
+                    ? \Carbon\Carbon::parse($thanhToan->ngay_thanh_toan)->format('d/m/Y H:i')
+                    : '--' }}
+
+                            </span>
+
+                        </div>
+
+                        <div class="flex">
+
+                            <span class="w-56 font-semibold text-slate-600">
+
+                                Đã thanh toán:
+
+                            </span>
+
+                            <span class="font-bold text-green-600">
+
+                                {{ number_format($soTienDaThanhToan,0,',','.') }}đ
+
+                            </span>
+
+                        </div>
+
+                        <div class="flex">
+
+                            <span class="w-56 font-semibold text-slate-600">
+
+                                Còn phải thanh toán:
+
+                            </span>
+
+                            <span class="font-bold text-red-500">
+
+                                {{ number_format($soTienConLai,0,',','.') }}đ
+
+                            </span>
+
+                        </div>
+
+                        <div class="flex items-center">
+
+                            <span class="w-56 font-semibold text-slate-600">
+
+                                Trạng thái thanh toán:
+
+                            </span>
+
+                            <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-semibold">
+
+                                Thành công
+
+                            </span>
+
+                        </div>
+
+                        <div class="flex items-center">
+
+                            <span class="w-56 font-semibold text-slate-600">
+
+                                Trạng thái đặt phòng:
+
+                            </span>
+
+                            <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-sm font-semibold">
+
+                                @switch($datPhong->trang_thai_dat_phong)
+
+                                @case('DaXacNhan')
 
                                 Đã xác nhận
 
-                            </span>
+                                @break
 
-                            @elseif($datPhong->trang_thai_dat_phong == 'DaNhanPhong')
+                                @case('ChoXacNhan')
 
-                            <span class="px-3 py-1 rounded-full text-black text-sm font-semibold">
+                                Chờ xác nhận
+
+                                @break
+
+                                @case('DaNhanPhong')
 
                                 Đã nhận phòng
 
-                            </span>
+                                @break
 
-                            @elseif($datPhong->trang_thai_dat_phong == 'DaTraPhong')
-
-                            <span class="px-3 py-1 rounded-full text-black text-sm font-semibold">
+                                @case('DaTraPhong')
 
                                 Đã trả phòng
 
-                            </span>
+                                @break
 
-                            @elseif($datPhong->trang_thai_dat_phong == 'DaHuy')
-
-                            <span class="px-3 py-1 rounded-full text-black text-sm font-semibold">
+                                @case('DaHuy')
 
                                 Đã hủy
 
-                            </span>
+                                @break
 
-                            @endif
+                                @endswitch
+
+                            </span>
 
                         </div>
 
                     </div>
 
-                </div>
+                    {{-- TỔNG TIỀN --}}
+                    <div class="mt-8 pt-5 border-t border-slate-200 flex justify-between items-center">
 
-                {{-- TỔNG THANH TOÁN --}}
-                <div class="px-8 py-8 border-b border-slate-200">
+                        <span class="text-xl font-bold text-slate-800">
 
-                    <div class="flex items-center justify-between">
-
-                        <span class="text-2xl font-bold text-slate-800">
-
-                            Tổng thanh toán
+                            Tổng tiền phòng
 
                         </span>
 
-                        <span class="text-2xl font-bold text-blue-600">
+                        <span class="text-3xl font-bold text-blue-600">
 
                             {{ number_format($datPhong->tong_tien,0,',','.') }}đ
 
@@ -474,19 +722,21 @@
                 </div>
 
                 {{-- NÚT CHỨC NĂNG --}}
-                <div class="px-8 py-8">
+                <div class="px-8 py-6">
 
-                    <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
 
                         <a href="{{ route('users.index') }}"
-                            class="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-semibold transition">
+                            class="px-8 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold transition">
+
+                            <i class="fa-solid fa-house mr-2"></i>
 
                             Về trang chủ
 
                         </a>
 
-                        <a href="#"
-                            class="flex-1 text-center border border-blue-600 text-blue-600 hover:bg-blue-50 py-4 rounded-xl font-semibold transition">
+                        <a href="{{ route('lichsudatphong.index') }}"
+                            class="px-8 py-3 rounded-xl border border-blue-600 text-blue-600 hover:bg-blue-50 font-semibold transition">
 
                             <i class="fa-solid fa-clock-rotate-left mr-2"></i>
 
@@ -503,8 +753,6 @@
         </div>
 
     </main>
-
-    @include('components.footer')
 
 </body>
 

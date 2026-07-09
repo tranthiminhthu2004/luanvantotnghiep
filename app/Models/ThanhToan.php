@@ -14,18 +14,20 @@ class ThanhToan extends Model
 
     protected $fillable = [
 
-        'ma_don_dat_phong',
+    'ma_don_dat_phong',
 
-        'so_tien',
+    'loai_thanh_toan',
 
-        'phuong_thuc_thanh_toan',
+    'so_tien',
 
-        'trang_thai_thanh_toan',
+    'phuong_thuc_thanh_toan',
 
-        'ma_giao_dich',
+    'trang_thai_thanh_toan',
 
-        'ngay_thanh_toan'
-    ];
+    'ma_giao_dich',
+
+    'ngay_thanh_toan'
+];
 
     public function datPhong()
     {
