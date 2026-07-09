@@ -90,31 +90,30 @@ class AdminDatPhongController extends Controller
     // Thống kê
     $tongDon = DatPhong::count();
 
-    $choXacNhan = DatPhong::where(
-        'trang_thai_dat_phong',
-        'ChoXacNhan'
-    )->count();
+   $daXacNhan = DatPhong::where(
+    'trang_thai_dat_phong',
+    'DaXacNhan'
+)->count();
 
-    $daXacNhan = DatPhong::where(
-        'trang_thai_dat_phong',
-        'DaXacNhan'
-    )->count();
+$daNhanPhong = DatPhong::where(
+    'trang_thai_dat_phong',
+    'DaNhanPhong'
+)->count();
 
-    $hoanThanh = DatPhong::where(
-        'trang_thai_dat_phong',
-        'HoanThanh'
-    )->count();
+$daTraPhong = DatPhong::where(
+    'trang_thai_dat_phong',
+    'DaTraPhong'
+)->count();
 
-    $daHuy = DatPhong::where(
-        'trang_thai_dat_phong',
-        'DaHuy'
-    )->count();
+$daHuy = DatPhong::where(
+    'trang_thai_dat_phong',
+    'DaHuy'
+)->count();
 
-    $khongDen = DatPhong::where(
-        'trang_thai_dat_phong',
-        'KhongDen'
-    )->count();
-
+$khongDen = DatPhong::where(
+    'trang_thai_dat_phong',
+    'KhongDen'
+)->count();
     $khachSans = KhachSan::all();
 
     return view(
@@ -122,9 +121,9 @@ class AdminDatPhongController extends Controller
         compact(
             'datPhongs',
             'tongDon',
-            'choXacNhan',
             'daXacNhan',
-            'hoanThanh',
+            'daNhanPhong',
+            'daTraPhong',
             'daHuy',
             'khongDen',
             'khachSans'
@@ -382,7 +381,7 @@ public function store(Request $request)
             'tong_tien' => 0,
 
             'trang_thai_dat_phong' =>
-                'ChoXacNhan',
+                'DaXacNhan',
 
             'ngay_dat' =>
                 now()
@@ -548,7 +547,7 @@ public function capNhatTrangThai(
     $request->validate([
 
         'trang_thai_dat_phong' =>
-            'required|in:ChoXacNhan,DaXacNhan,HoanThanh,DaHuy,KhongDen'
+            'required|in:DaXacNhan,DaNhanPhong,DaTraPhong,DaHuy,KhongDen'
 
     ]);
 
@@ -559,17 +558,12 @@ public function capNhatTrangThai(
     $trangThaiMoi = $request->trang_thai_dat_phong;
 
     // Luồng chuyển trạng thái hợp lệ
-    $hopLe = [
-
-    'ChoXacNhan' => [
-        'DaXacNhan',
-        'DaHuy'
-    ],
+   $hopLe = [
 
     'DaXacNhan' => [
         'DaNhanPhong',
         'DaHuy',
-        'KhongDenNhanPhong'
+        'KhongDen'
     ],
 
     'DaNhanPhong' => [
@@ -580,7 +574,7 @@ public function capNhatTrangThai(
 
     'DaHuy' => [],
 
-    'KhongDenNhanPhong' => []
+    'KhongDen' => []
 
 ];
     // Nếu chọn lại chính trạng thái hiện tại
@@ -620,11 +614,12 @@ public function capNhatTrangThai(
 }
 public function show($id)
 {
-    $datPhong = DatPhong::with([
-        'khachSan',
-        'nguoiDung',
-        'chiTietDatPhong.loaiPhong'
-    ])->findOrFail($id);
+   $datPhong = DatPhong::with([
+    'khachSan',
+    'nguoiDung',
+    'chiTietDatPhong.loaiPhong',
+    'thanhToans'
+])->findOrFail($id);
 
     return view(
         'admin.datphong.show',

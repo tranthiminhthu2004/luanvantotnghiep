@@ -32,7 +32,7 @@ class UserLichSuDatPhongController extends Controller
         $datPhong = DatPhong::with([
     'khachSan.hinhAnh',
     'chiTietDatPhong.loaiPhong',
-            'thanhToan'
+            'thanhToans'
         ])
         ->where(
             'ma_nguoi_dung',

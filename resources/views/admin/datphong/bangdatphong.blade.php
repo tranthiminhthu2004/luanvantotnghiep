@@ -122,40 +122,31 @@
 
                             <select name="trang_thai_dat_phong" onchange="this.form.submit()" class="px-3 py-2 rounded-full text-sm font-medium border-0 cursor-pointer
 
-                                @if($datPhong->trang_thai_dat_phong == 'ChoXacNhan')
-                                    bg-yellow-100 text-yellow-700
-                                @elseif($datPhong->trang_thai_dat_phong == 'DaXacNhan')
-                                    bg-green-100 text-green-700
-                                @elseif($datPhong->trang_thai_dat_phong == 'DaNhanPhong')
-                                    bg-blue-100 text-blue-700
-                                @elseif($datPhong->trang_thai_dat_phong == 'DaTraPhong')
-                                    bg-indigo-100 text-indigo-700
-                                @elseif($datPhong->trang_thai_dat_phong == 'DaHuy')
-                                    bg-red-100 text-red-700
-                                @elseif($datPhong->trang_thai_dat_phong == 'KhongDenNhanPhong')
-                                    bg-orange-100 text-orange-700
-                                @endif" @if(in_array($datPhong->trang_thai_dat_phong,[
+    @if($datPhong->trang_thai_dat_phong == 'DaXacNhan')
+        bg-green-100 text-green-700
+    @elseif($datPhong->trang_thai_dat_phong == 'DaNhanPhong')
+        bg-blue-100 text-blue-700
+    @elseif($datPhong->trang_thai_dat_phong == 'DaTraPhong')
+        bg-indigo-100 text-indigo-700
+    @elseif($datPhong->trang_thai_dat_phong == 'DaHuy')
+        bg-red-100 text-red-700
+    @elseif($datPhong->trang_thai_dat_phong == 'KhongDen')
+        bg-orange-100 text-orange-700
+    @endif" @if(in_array($datPhong->trang_thai_dat_phong,[
+
                                 'DaTraPhong',
+
                                 'DaHuy',
-                                'KhongDenNhanPhong'
-                                ]))
-                                disabled
-                                @endif>
 
-                                {{-- Giữ nguyên toàn bộ option của bạn ở đây --}}
-                                {{-- KHÔNG sửa logic --}}
+                                'KhongDen'
 
-                                @if($datPhong->trang_thai_dat_phong == 'ChoXacNhan')
-                                <option value="ChoXacNhan" selected>Chờ xác nhận</option>
-                                <option value="DaXacNhan">Đã xác nhận</option>
-                                <option value="DaHuy">Đã hủy</option>
-                                @endif
+                                ])) disabled @endif>
 
                                 @if($datPhong->trang_thai_dat_phong == 'DaXacNhan')
                                 <option value="DaXacNhan" selected>Đã xác nhận</option>
                                 <option value="DaNhanPhong">Đã nhận phòng</option>
                                 <option value="DaHuy">Đã hủy</option>
-                                <option value="KhongDenNhanPhong">Không đến</option>
+                                <option value="KhongDen">Không đến</option>
                                 @endif
 
                                 @if($datPhong->trang_thai_dat_phong == 'DaNhanPhong')
@@ -171,8 +162,8 @@
                                 <option value="DaHuy" selected>Đã hủy</option>
                                 @endif
 
-                                @if($datPhong->trang_thai_dat_phong == 'KhongDenNhanPhong')
-                                <option value="KhongDenNhanPhong" selected>Không đến nhận phòng</option>
+                                @if($datPhong->trang_thai_dat_phong == 'KhongDen')
+                                <option value="KhongDen" selected>Không đến</option>
                                 @endif
 
                             </select>

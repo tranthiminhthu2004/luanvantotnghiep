@@ -128,7 +128,7 @@ private function luuDonDatPhong(
     string $loaiThanhToan,
     float $soTienThanhToan,
     string $trangThaiThanhToan,
-    string $trangThaiDatPhong = 'ChoXacNhan',
+    string $trangThaiDatPhong = 'DaXacNhan',
     ?string $maGiaoDich = null,
     ?string $ngayThanhToan = null
 )

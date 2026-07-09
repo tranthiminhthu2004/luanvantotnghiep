@@ -5,12 +5,6 @@
 
 <div class="max-w-6xl mx-auto">
 
-    <h2 class="text-3xl font-bold text-[#061755] mb-6">
-
-        Chi tiết đơn đặt phòng
-
-    </h2>
-
     <div class="bg-white rounded-2xl shadow-sm p-6">
 
         <!-- Thông tin đơn -->
@@ -48,15 +42,7 @@
 
                     </p>
 
-                    @if($datPhong->trang_thai_dat_phong == 'ChoXacNhan')
-
-                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-medium">
-
-                        Chờ xác nhận
-
-                    </span>
-
-                    @elseif($datPhong->trang_thai_dat_phong == 'DaXacNhan')
+                    @if($datPhong->trang_thai_dat_phong == 'DaXacNhan')
 
                     <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
 
@@ -64,11 +50,19 @@
 
                     </span>
 
-                    @elseif($datPhong->trang_thai_dat_phong == 'HoanThanh')
+                    @elseif($datPhong->trang_thai_dat_phong == 'DaNhanPhong')
 
                     <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
 
-                        Hoàn thành
+                        Đã nhận phòng
+
+                    </span>
+
+                    @elseif($datPhong->trang_thai_dat_phong == 'DaTraPhong')
+
+                    <span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm font-medium">
+
+                        Đã trả phòng
 
                     </span>
 
@@ -302,6 +296,198 @@
         </div>
 
         <!-- Danh sách loại phòng -->
+        @php
+
+        $thanhToan = $datPhong->thanhToans->first();
+
+        $soTienDaThanhToan = $thanhToan?->so_tien ?? 0;
+
+        $soTienConLai = max(
+        0,
+        $datPhong->tong_tien - $soTienDaThanhToan
+        );
+
+        @endphp
+
+        <div class="mt-8">
+
+            <h3 class="text-xl font-bold text-[#061755] mb-4">
+
+                Thông tin thanh toán
+
+            </h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+
+                <!-- Loại thanh toán -->
+                <div class="bg-slate-50 border rounded-xl p-4">
+
+                    <p class="text-black font-medium mb-1">
+
+                        Loại thanh toán
+
+                    </p>
+
+                    <p class="font-semibold text-blue-600">
+
+                        @if($thanhToan)
+
+                        @switch($thanhToan->loai_thanh_toan)
+
+                        @case('DatCoc')
+
+                        Đặt cọc 30%
+
+                        @break
+
+                        @case('ThanhToanToanBo')
+
+                        Thanh toán toàn bộ
+
+                        @break
+
+                        @case('ThanhToanConLai')
+
+                        Thanh toán phần còn lại
+
+                        @break
+
+                        @default
+
+                        {{ $thanhToan->loai_thanh_toan }}
+
+                        @endswitch
+
+                        @else
+
+                        -
+
+                        @endif
+
+                    </p>
+
+                </div>
+
+                <!-- Phương thức -->
+                <div class="bg-slate-50 border rounded-xl p-4">
+
+                    <p class="text-black font-medium mb-1">
+
+                        Phương thức thanh toán
+
+                    </p>
+
+                    <p class="font-semibold">
+
+                        @if($thanhToan)
+
+                        @switch($thanhToan->phuong_thuc_thanh_toan)
+
+                        @case('VNPay')
+
+                        VNPay
+
+                        @break
+
+                        @case('TienMat')
+
+                        Tiền mặt
+
+                        @break
+
+                        @case('Momo')
+
+                        MoMo
+
+                        @break
+
+                        @default
+
+                        {{ $thanhToan->phuong_thuc_thanh_toan }}
+
+                        @endswitch
+
+                        @else
+
+                        -
+
+                        @endif
+
+                    </p>
+
+                </div>
+
+                <!-- Trạng thái -->
+                <div class="bg-slate-50 border rounded-xl p-4">
+
+                    <p class="text-black font-medium mb-1">
+
+                        Trạng thái thanh toán
+
+                    </p>
+
+                    <p class="font-semibold text-green-600">
+
+                        {{ $thanhToan->trang_thai_thanh_toan ?? '-' }}
+
+                    </p>
+
+                </div>
+
+                <!-- Đã thanh toán -->
+                <div class="bg-slate-50 border rounded-xl p-4">
+
+                    <p class="text-black font-medium mb-1">
+
+                        Đã thanh toán
+
+                    </p>
+
+                    <p class="text-lg font-bold text-green-600">
+
+                        {{ number_format($soTienDaThanhToan,0,',','.') }} đ
+
+                    </p>
+
+                </div>
+
+                <!-- Còn lại -->
+                <div class="bg-slate-50 border rounded-xl p-4">
+
+                    <p class="text-black font-medium mb-1">
+
+                        Còn phải thanh toán
+
+                    </p>
+
+                    <p class="text-lg font-bold text-red-600">
+
+                        {{ number_format($soTienConLai,0,',','.') }} đ
+
+                    </p>
+
+                </div>
+
+                <!-- Mã giao dịch -->
+                <div class="bg-slate-50 border rounded-xl p-4">
+
+                    <p class="text-black font-medium mb-1">
+
+                        Mã giao dịch
+
+                    </p>
+
+                    <p class="font-semibold break-all">
+
+                        {{ $thanhToan->ma_giao_dich ?? '-' }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
 
         <div class="mt-8">
 

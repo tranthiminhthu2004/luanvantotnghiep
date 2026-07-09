@@ -43,21 +43,21 @@
                     Tất cả trạng thái
                 </option>
 
-                <option value="ChoXacNhan" {{ request('trang_thai_dat_phong') == 'ChoXacNhan' ? 'selected' : '' }}>
-
-                    Chờ xác nhận
-
-                </option>
-
                 <option value="DaXacNhan" {{ request('trang_thai_dat_phong') == 'DaXacNhan' ? 'selected' : '' }}>
 
                     Đã xác nhận
 
                 </option>
 
-                <option value="HoanThanh" {{ request('trang_thai_dat_phong') == 'HoanThanh' ? 'selected' : '' }}>
+                <option value="DaNhanPhong" {{ request('trang_thai_dat_phong') == 'DaNhanPhong' ? 'selected' : '' }}>
 
-                    Hoàn thành
+                    Đã nhận phòng
+
+                </option>
+
+                <option value="DaTraPhong" {{ request('trang_thai_dat_phong') == 'DaTraPhong' ? 'selected' : '' }}>
+
+                    Đã trả phòng
 
                 </option>
 

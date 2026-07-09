@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-4 mb-6">
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-2 mb-6">
 
     <!-- Tổng đơn -->
     <div class="bg-white rounded-2xl shadow-sm p-4 min-h-[110px]">
@@ -13,7 +13,7 @@
 
             <div class="min-w-0">
 
-                <p class="text-xs text-black leading-4">
+                <p class="text-sm text-black leading-4">
 
                     Tổng đơn đặt phòng
 
@@ -22,37 +22,6 @@
                 <h3 class="text-2xl font-bold mt-1">
 
                     {{ $tongDon }}
-
-                </h3>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- Chờ xác nhận -->
-    <div class="bg-white rounded-2xl shadow-sm p-4 min-h-[110px]">
-
-        <div class="flex items-center gap-3 h-full">
-
-            <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center shrink-0">
-
-                <i class="fa-solid fa-clock text-yellow-500 text-xl"></i>
-
-            </div>
-
-            <div class="min-w-0">
-
-                <p class="text-xs text-black leading-4">
-
-                    Chờ xác nhận
-
-                </p>
-
-                <h3 class="text-2xl font-bold text-yellow-500 mt-1">
-
-                    {{ $choXacNhan }}
 
                 </h3>
 
@@ -75,7 +44,7 @@
 
             <div class="min-w-0">
 
-                <p class="text-xs text-blackleading-4">
+                <p class="text-sm text-black leading-4">
 
                     Đã xác nhận
 
@@ -92,28 +61,60 @@
         </div>
 
     </div>
-    <!-- Hoàn thành -->
+
+    <!-- Đã nhận phòng -->
     <div class="bg-white rounded-2xl shadow-sm p-4 min-h-[110px]">
 
         <div class="flex items-center gap-3 h-full">
 
-            <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center shrink-0">
+            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
 
-                <i class="fa-solid fa-check-double text-purple-600 text-xl"></i>
+                <i class="fa-solid fa-bed text-blue-600 text-xl"></i>
 
             </div>
 
             <div class="min-w-0">
 
-                <p class="text-xs text-black leading-4">
+                <p class="text-sm text-black leading-4">
 
-                    Hoàn thành
+                    Đã nhận phòng
 
                 </p>
 
-                <h3 class="text-2xl font-bold text-purple-600 mt-1">
+                <h3 class="text-2xl font-bold text-blue-600 mt-1">
 
-                    {{ $hoanThanh }}
+                    {{ $daNhanPhong }}
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Đã trả phòng -->
+    <div class="bg-white rounded-2xl shadow-sm p-4 min-h-[110px]">
+
+        <div class="flex items-center gap-3 h-full">
+
+            <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center shrink-0">
+
+                <i class="fa-solid fa-person-walking-luggage text-indigo-600 text-xl"></i>
+
+            </div>
+
+            <div class="min-w-0">
+
+                <p class="text-sm text-black leading-4">
+
+                    Đã trả phòng
+
+                </p>
+
+                <h3 class="text-2xl font-bold text-indigo-600 mt-1">
+
+                    {{ $daTraPhong }}
 
                 </h3>
 
@@ -136,7 +137,7 @@
 
             <div class="min-w-0">
 
-                <p class="text-xs text-black leading-4">
+                <p class="text-sm text-black leading-4">
 
                     Đã hủy
 
@@ -167,7 +168,7 @@
 
             <div class="min-w-0">
 
-                <p class="text-xs text-black leading-4">
+                <p class="text-sm text-black leading-4">
 
                     Không đến
 

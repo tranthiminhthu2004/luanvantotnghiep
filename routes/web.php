@@ -39,20 +39,7 @@ use App\Http\Controllers\TrangChu\UserTrangChu;
 use App\Http\Controllers\TimKiem\UserTimKiemTrangChuController;
 use App\Http\Controllers\DuLich\UserDiaDiemDuLichController;
 
-Route::get('/test-thanh-cong', function () {
 
-    $datPhong = App\Models\DatPhong::with([
-        'khachSan',
-        'chiTietDatPhong.loaiPhong',
-        'thanhToans'
-    ])->findOrFail(15);
-
-    return view(
-        'users.thanhtoan.thongbaothanhcong',
-        compact('datPhong')
-    );
-
-});
 /*
 TRANG CHỦ
 */

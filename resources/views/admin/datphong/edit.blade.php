@@ -92,13 +92,29 @@
                     </label>
 
                     <input type="text" value="@switch($datPhong->trang_thai_dat_phong)
-                                @case('ChoXacNhan') Chờ xác nhận @break
-                                @case('DaXacNhan') Đã xác nhận @break
-                                @case('HoanThanh') Hoàn thành @break
-                                @case('DaHuy') Đã hủy @break
-                                @case('KhongDen') Không đến @break
-                                @endswitch" readonly
-                        class="w-full mt-2 border rounded-xl px-4 py-3 bg-slate-100 text-black">
+    @case('DaXacNhan')
+        Đã xác nhận
+        @break
+
+    @case('DaNhanPhong')
+        Đã nhận phòng
+        @break
+
+    @case('DaTraPhong')
+        Đã trả phòng
+        @break
+
+    @case('DaHuy')
+        Đã hủy
+        @break
+
+    @case('KhongDen')
+        Không đến
+        @break
+
+    @default
+        Không xác định
+@endswitch" readonly class="w-full mt-2 border rounded-xl px-4 py-3 bg-slate-100 text-black">
 
                 </div>
 
