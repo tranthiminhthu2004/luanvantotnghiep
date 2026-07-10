@@ -36,9 +36,7 @@ class UserDatPhongController extends Controller
         $duLieu
     );
 }
-    /**
-     * Xử lý dữ liệu từ trang chi tiết khách sạn
-     */
+
     public function xacNhan(Request $request)
     {
         $request->validate(
@@ -157,13 +155,35 @@ class UserDatPhongController extends Controller
         ])->findOrFail(
             $request->ma_khach_san
         );
-
-      session([
+session([
     'xac_nhan_dat_phong' => [
 
         'ma_khach_san' => $khachSan->ma_khach_san,
 
+        // Giữ lại để hiển thị giao diện
         'phongsDaChon' => $phongsDaChon,
+
+        // DatPhongService sử dụng
+        'chi_tiet_phong' => collect($phongsDaChon)
+            ->map(function ($phong) {
+
+                return [
+
+                    'ma_loai_phong' => $phong['ma_loai_phong'],
+
+                    'so_luong_phong' => $phong['so_luong'],
+
+                    'gia_dat_thuc_te' => $phong['gia'],
+
+                    'so_dem' => $phong['so_dem'],
+
+                    'thanh_tien' => $phong['thanh_tien'],
+
+                ];
+
+            })
+            ->values()
+            ->toArray(),
 
         'tongTien' => $tongTien,
 
@@ -171,9 +191,21 @@ class UserDatPhongController extends Controller
 
         'soDem' => $soDem,
 
+        // Hiển thị
         'ngayNhanPhong' => $request->ngay_nhan_phong,
 
         'ngayTraPhong' => $request->ngay_tra_phong,
+
+        // DatPhongService sử dụng
+        'ngay_nhan_phong' => Carbon::createFromFormat(
+            'd/m/Y',
+            $request->ngay_nhan_phong
+        )->format('Y-m-d'),
+
+        'ngay_tra_phong' => Carbon::createFromFormat(
+            'd/m/Y',
+            $request->ngay_tra_phong
+        )->format('Y-m-d'),
 
         'soNguoiTruongThanh' => (int) $request->so_nguoi_truong_thanh,
 

@@ -12,17 +12,22 @@ use App\Models\ChiTietDatPhong;
 use App\Models\LichPhong;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\Services\DatPhongService;
 
 class AdminDatPhongController extends Controller
 {
-     protected $phongService;
+    protected $phongService;
+    protected $datPhongService;
 
-    public function __construct(
-        PhongService $phongService
-    )
-    {
-        $this->phongService = $phongService;
-    }
+   public function __construct(
+    PhongService $phongService,
+    DatPhongService $datPhongService
+)
+{
+    $this->phongService = $phongService;
+    $this->datPhongService = $datPhongService;
+}
+
     public function index()
 {
     $query = DatPhong::with([
@@ -30,7 +35,6 @@ class AdminDatPhongController extends Controller
         'khachSan'
     ]);
 
-    // Mã đặt phòng
     if(request('ma_dat_phong'))
     {
         $query->where(
@@ -40,7 +44,6 @@ class AdminDatPhongController extends Controller
         );
     }
 
-    // Khách hàng
     if(request('khach_hang'))
     {
         $query->where(function($q){
@@ -59,7 +62,6 @@ class AdminDatPhongController extends Controller
         });
     }
 
-    // Khách sạn
     if(request('ma_khach_san'))
     {
         $query->where(
@@ -68,7 +70,6 @@ class AdminDatPhongController extends Controller
         );
     }
 
-    // Trạng thái
     if(request('trang_thai_dat_phong'))
     {
         $query->where(
@@ -76,8 +77,7 @@ class AdminDatPhongController extends Controller
             request('trang_thai_dat_phong')
         );
     }
-
-    // Sắp xếp
+    
     $query->orderBy(
         'ma_don_dat_phong',
         request('sap_xep','desc')
@@ -87,7 +87,6 @@ class AdminDatPhongController extends Controller
         ->paginate(10)
         ->withQueryString();
 
-    // Thống kê
     $tongDon = DatPhong::count();
 
    $daXacNhan = DatPhong::where(
@@ -336,188 +335,102 @@ public function store(Request $request)
 
     ]);
 
-    DB::beginTransaction();
+try {
 
-    try {
+    $soDem = Carbon::parse(
+        $request->ngay_nhan_phong
+    )->diffInDays(
+        Carbon::parse(
+            $request->ngay_tra_phong
+        )
+    );
 
-        $datPhong = DatPhong::create([
+    $chiTietPhong = [];
 
-            'ma_nguoi_dung' =>
-                auth()->user()->ma_nguoi_dung,
+    foreach ($request->loai_phong as $maLoaiPhong)
+    {
+        $soLuong =
+            (int) $request->so_luong[$maLoaiPhong];
 
-            'ma_khach_san' =>
-                $request->ma_khach_san,
-
-            'ho_va_ten_dem_khach' =>
-                $request->ho_va_ten_dem_khach,
-
-            'ten_khach' =>
-                $request->ten_khach,
-
-            'email_khach' =>
-                $request->email_khach,
-
-            'so_dien_thoai_khach' =>
-                $request->so_dien_thoai_khach,
-
-            'ngay_nhan_phong' =>
-                $request->ngay_nhan_phong,
-
-            'ngay_tra_phong' =>
-                $request->ngay_tra_phong,
-
-            'so_nguoi_truong_thanh' =>
-                $request->so_nguoi_truong_thanh,
-
-            'so_tre_em' =>
-                $request->so_tre_em,
-
-            'so_nguoi_cao_tuoi' =>
-                $request->so_nguoi_cao_tuoi,
-
-            'ghi_chu' =>
-                $request->ghi_chu,
-
-            'tong_tien' => 0,
-
-            'trang_thai_dat_phong' =>
-                'DaXacNhan',
-
-            'ngay_dat' =>
-                now()
-
-        ]);
-
-        $datPhong->update([
-
-            'ma_dat_phong' =>
-                'DP' .
-                str_pad(
-                    $datPhong->ma_don_dat_phong,
-                    6,
-                    '0',
-                    STR_PAD_LEFT
-                )
-
-        ]);
-
-        $tongTien = 0;
-
-        $soDem =
-            Carbon::parse(
-                $request->ngay_nhan_phong
-            )->diffInDays(
-                Carbon::parse(
-                    $request->ngay_tra_phong
-                )
-            );
-
-        foreach ($request->loai_phong as $maLoaiPhong)
+        if ($soLuong <= 0)
         {
-            $soLuong =
-                (int) $request->so_luong[$maLoaiPhong];
-
-            if ($soLuong <= 0)
-            {
-                throw new \Exception(
-                    'Số lượng phòng phải lớn hơn 0.'
-                );
-            }
-
-            $loaiPhong =
-                LoaiPhong::findOrFail(
-                    $maLoaiPhong
-                );
-
-            $thanhTien =
-                $loaiPhong->gia_co_ban
-                * $soLuong
-                * $soDem;
-            ChiTietDatPhong::create([
-
-                'ma_don_dat_phong'
-                    => $datPhong->ma_don_dat_phong,
-
-                'ma_loai_phong'
-                    => $maLoaiPhong,
-
-                'so_luong_phong'
-                    => $soLuong,
-
-                'gia_dat_thuc_te'
-                    => $loaiPhong->gia_co_ban,
-
-                'so_dem'
-                    => $soDem,
-
-                'thanh_tien'
-                    => $thanhTien
-
-            ]);
-
-            $tongTien += $thanhTien;
-
-            $phongTrong =
-                $this->phongService
-                ->timPhongTrong(
-
-                    $maLoaiPhong,
-
-                    $request->ngay_nhan_phong,
-
-                    $request->ngay_tra_phong,
-
-                    $soLuong
-
-                );
-
-            if ($phongTrong->count() < $soLuong)
-            {
-                throw new \Exception(
-                    'Không đủ phòng trống cho loại phòng đã chọn.'
-                );
-            }
-
-            foreach ($phongTrong as $phong)
-            {
-                $ngay =
-                    Carbon::parse(
-                        $request->ngay_nhan_phong
-                    );
-
-                while (
-                    $ngay <
-                    Carbon::parse(
-                        $request->ngay_tra_phong
-                    )
-                )
-                {
-                    LichPhong::create([
-
-                        'ma_phong'
-                            => $phong->ma_phong,
-
-                        'ngay'
-                            => $ngay->format('Y-m-d'),
-
-                        'trang_thai'
-                            => 'DaDat'
-
-                    ]);
-
-                    $ngay->addDay();
-                }
-            }
+            continue;
         }
 
-        $datPhong->update([
+        $loaiPhong = LoaiPhong::findOrFail(
+            $maLoaiPhong
+        );
 
-            'tong_tien' => $tongTien
+        $chiTietPhong[] = [
 
-        ]);
+            'ma_loai_phong' =>
+                $maLoaiPhong,
 
-        DB::commit();
- session()->forget('duLieuDatPhong');
+            'so_luong_phong' =>
+                $soLuong,
+
+            'gia_dat_thuc_te' =>
+                $loaiPhong->gia_co_ban,
+
+            'so_dem' =>
+                $soDem,
+
+            'thanh_tien' =>
+                $loaiPhong->gia_co_ban
+                * $soLuong
+                * $soDem
+
+        ];
+    }
+
+    $this->datPhongService->taoDonDatPhong([
+
+        'ma_nguoi_dung' =>
+            auth()->user()->ma_nguoi_dung,
+
+        'ma_khach_san' =>
+            $request->ma_khach_san,
+
+        'ho_va_ten_dem_khach' =>
+            $request->ho_va_ten_dem_khach,
+
+        'ten_khach' =>
+            $request->ten_khach,
+
+        'email_khach' =>
+            $request->email_khach,
+
+        'so_dien_thoai_khach' =>
+            $request->so_dien_thoai_khach,
+
+        'ngay_nhan_phong' =>
+            $request->ngay_nhan_phong,
+
+        'ngay_tra_phong' =>
+            $request->ngay_tra_phong,
+
+        'so_nguoi_truong_thanh' =>
+            $request->so_nguoi_truong_thanh,
+
+        'so_tre_em' =>
+            $request->so_tre_em ?? 0,
+
+        'so_nguoi_cao_tuoi' =>
+            $request->so_nguoi_cao_tuoi ?? 0,
+
+        'ghi_chu' =>
+            $request->ghi_chu,
+
+        'chi_tiet_phong' =>
+            $chiTietPhong
+
+    ]);
+
+    session()->forget(
+        'duLieuDatPhong'
+    );
+
+    
         return redirect()
             ->route('admin.datphong.index')
             ->with(

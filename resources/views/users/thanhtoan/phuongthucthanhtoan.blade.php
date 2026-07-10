@@ -109,11 +109,7 @@
     </div>
 
     <script>
-    const tongTien = {
-        {
-            $tongTien
-        }
-    };
+    const tongTien = Number(@json($tongTien));
 
     const tienCoc = Math.round(tongTien * 0.3);
 
