@@ -10,13 +10,15 @@ class UserLichSuDatPhongController extends Controller
 {
     public function index()
     {
-        $datPhongs =DatPhong::with([
-    'khachSan.hinhAnh',
-    'chiTietDatPhong.loaiPhong'
-])
+        $maNguoiDung = Auth::user()->ma_nguoi_dung;
+
+        $datPhongs = DatPhong::with([
+            'khachSan.hinhAnh',
+            'chiTietDatPhong.loaiPhong'
+        ])
         ->where(
             'ma_nguoi_dung',
-            Auth::id()
+            $maNguoiDung
         )
         ->orderByDesc('ngay_dat')
         ->paginate(6);
@@ -29,16 +31,22 @@ class UserLichSuDatPhongController extends Controller
 
     public function show($maDonDatPhong)
     {
+        $maNguoiDung = Auth::user()->ma_nguoi_dung;
+
         $datPhong = DatPhong::with([
-    'khachSan.hinhAnh',
-    'chiTietDatPhong.loaiPhong',
+            'khachSan.hinhAnh',
+            'chiTietDatPhong.loaiPhong',
             'thanhToans'
         ])
         ->where(
             'ma_nguoi_dung',
-            Auth::id()
+            $maNguoiDung
         )
-        ->findOrFail($maDonDatPhong);
+        ->where(
+            'ma_don_dat_phong',
+            $maDonDatPhong
+        )
+        ->firstOrFail();
 
         return view(
             'users.lichsudatphong.show',

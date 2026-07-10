@@ -789,44 +789,6 @@
                         </div>
 
                     </div>
-                    {{-- GHI CHÚ --}}
-                    <div class="px-8 py-5 bg-slate-50 border-b border-slate-200">
-
-                        @if($thanhToan && $thanhToan->loai_thanh_toan == 'DatCoc')
-
-                        <div class="rounded-xl bg-yellow-50 border border-yellow-200 px-5 py-4">
-
-                            <p class="text-yellow-800 leading-7">
-
-                                <i class="fa-solid fa-circle-exclamation mr-2"></i>
-
-                                Bạn đã thanh toán <strong>30% tiền đặt cọc</strong>.
-
-                                Vui lòng thanh toán số tiền còn lại khi nhận phòng hoặc
-                                sử dụng chức năng <strong>"Thanh toán phần còn lại"</strong>
-                                nếu hệ thống hỗ trợ.
-
-                            </p>
-
-                        </div>
-
-                        @elseif($thanhToan && $thanhToan->loai_thanh_toan == 'ThanhToanToanBo')
-
-                        <div class="rounded-xl bg-green-50 border border-green-200 px-5 py-4">
-
-                            <p class="text-green-700 leading-7">
-
-                                <i class="fa-solid fa-circle-check mr-2"></i>
-
-                                Đơn đặt phòng này đã được thanh toán đầy đủ.
-
-                            </p>
-
-                        </div>
-
-                        @endif
-
-                    </div>
 
                     {{-- NÚT CHỨC NĂNG --}}
                     <div class="px-8 py-6">
