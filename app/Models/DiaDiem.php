@@ -13,7 +13,8 @@ class DiaDiem extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'ten_dia_diem'
+        'ten_dia_diem',
+        'mo_ta'
     ];
 
     public function khachSans()

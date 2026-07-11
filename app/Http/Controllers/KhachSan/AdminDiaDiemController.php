@@ -8,31 +8,30 @@ use Illuminate\Http\Request;
 
 class AdminDiaDiemController extends Controller
 {
-   public function index()
-{
-    $sapXep = request(
-        'sap_xep',
-        'desc'
-    );
+    public function index()
+    {
+        $sapXep = request(
+            'sap_xep',
+            'desc'
+        );
 
-    $diaDiems = DiaDiem::orderBy(
-    'ma_dia_diem',
-    $sapXep
-)
-->paginate(10)
-->withQueryString();
-
-    $tongDiaDiem = DiaDiem::count();
-
-    return view(
-        'admin.diadiem.index',
-        compact(
-            'diaDiems',
-            'tongDiaDiem'
+        $diaDiems = DiaDiem::orderBy(
+            'ma_dia_diem',
+            $sapXep
         )
-    );
-}
-    
+            ->paginate(10)
+            ->withQueryString();
+
+        $tongDiaDiem = DiaDiem::count();
+
+        return view(
+            'admin.diadiem.index',
+            compact(
+                'diaDiems',
+                'tongDiaDiem'
+            )
+        );
+    }
 
     public function create()
     {
@@ -44,19 +43,28 @@ class AdminDiaDiemController extends Controller
     public function store(Request $request)
     {
         $request->validate(
-    [
-        'ten_dia_diem' => 'required|max:150|unique:dia_diem,ten_dia_diem',
-    ],
-    [
-        'ten_dia_diem.required' => 'Vui lòng nhập tên địa điểm.',
+            [
+                'ten_dia_diem' => 'required|max:150|unique:dia_diem,ten_dia_diem',
 
-        'ten_dia_diem.max' => 'Tên địa điểm không được vượt quá 150 ký tự.',
+                'mo_ta' => 'nullable|string',
+            ],
+            [
+                'ten_dia_diem.required' => 'Vui lòng nhập tên địa điểm.',
 
-        'ten_dia_diem.unique' => 'Địa điểm này đã tồn tại.',
-    ]
-);
+                'ten_dia_diem.max' => 'Tên địa điểm không được vượt quá 150 ký tự.',
+
+                'ten_dia_diem.unique' => 'Địa điểm này đã tồn tại.',
+
+                'mo_ta.string' => 'Mô tả không hợp lệ.',
+            ]
+        );
+
         DiaDiem::create([
-            'ten_dia_diem' => $request->ten_dia_diem
+
+            'ten_dia_diem' => trim($request->ten_dia_diem),
+
+            'mo_ta' => $request->mo_ta,
+
         ]);
 
         return redirect()
@@ -86,55 +94,72 @@ class AdminDiaDiemController extends Controller
             compact('diaDiem')
         );
     }
-public function update(Request $request, $id)
-{
-    $request->validate(
-        [
-            'ten_dia_diem' => 'required|max:150|unique:dia_diem,ten_dia_diem,' . $id . ',ma_dia_diem',
-        ],
-        [
-            'ten_dia_diem.required' => 'Vui lòng nhập tên địa điểm.',
-            'ten_dia_diem.max' => 'Tên địa điểm không được vượt quá 150 ký tự.',
-            'ten_dia_diem.unique' => 'Địa điểm này đã tồn tại.',
-        ]
-    );
 
-    $diaDiem = DiaDiem::findOrFail($id);
+    public function update(Request $request, $id)
+    {
+        $request->validate(
+            [
+                'ten_dia_diem' => 'required|max:150|unique:dia_diem,ten_dia_diem,' . $id . ',ma_dia_diem',
 
-    $diaDiem->update([
-        'ten_dia_diem' => trim($request->ten_dia_diem),
-    ]);
+                'mo_ta' => 'nullable|string',
+            ],
+            [
+                'ten_dia_diem.required' => 'Vui lòng nhập tên địa điểm.',
 
-    return redirect()
-        ->route('admin.diadiem.index')
-        ->with(
-            'success',
-            'Cập nhật địa điểm thành công'
+                'ten_dia_diem.max' => 'Tên địa điểm không được vượt quá 150 ký tự.',
+
+                'ten_dia_diem.unique' => 'Địa điểm này đã tồn tại.',
+
+                'mo_ta.string' => 'Mô tả không hợp lệ.',
+            ]
         );
-}
 
-    public function destroy($id)
-{
-    $diaDiem = DiaDiem::withCount([
-        'diaDiemDuLichs',
-        'khachSans',
-        'nhuCaus'
-    ])->findOrFail($id);
+        $diaDiem = DiaDiem::findOrFail($id);
 
-    if (
-        $diaDiem->dia_diem_du_lichs_count > 0 ||
-        $diaDiem->khach_sans_count > 0 ||
-        $diaDiem->nhu_caus_count > 0
-    ) {
+        $diaDiem->update([
+
+            'ten_dia_diem' => trim($request->ten_dia_diem),
+
+            'mo_ta' => $request->mo_ta,
+
+        ]);
+
         return redirect()
             ->route('admin.diadiem.index')
-            ->with('error', 'Không thể xóa vì địa điểm này đang được sử dụng.');
+            ->with(
+                'success',
+                'Cập nhật địa điểm thành công'
+            );
     }
 
-    $diaDiem->delete();
+    public function destroy($id)
+    {
+        $diaDiem = DiaDiem::withCount([
+            'diaDiemDuLichs',
+            'khachSans',
+            'nhuCaus'
+        ])->findOrFail($id);
 
-    return redirect()
-        ->route('admin.diadiem.index')
-        ->with('success', 'Xóa địa điểm thành công');
-}
+        if (
+            $diaDiem->dia_diem_du_lichs_count > 0 ||
+            $diaDiem->khach_sans_count > 0 ||
+            $diaDiem->nhu_caus_count > 0
+        ) {
+            return redirect()
+                ->route('admin.diadiem.index')
+                ->with(
+                    'error',
+                    'Không thể xóa vì địa điểm này đang được sử dụng.'
+                );
+        }
+
+        $diaDiem->delete();
+
+        return redirect()
+            ->route('admin.diadiem.index')
+            ->with(
+                'success',
+                'Xóa địa điểm thành công'
+            );
+    }
 }

@@ -39,6 +39,9 @@ use App\Http\Controllers\TrangChu\UserTrangChu;
 use App\Http\Controllers\TimKiem\UserTimKiemTrangChuController;
 use App\Http\Controllers\DuLich\UserDiaDiemDuLichController;
 use App\Http\Controllers\NguoiDung\UserSoThichController;
+use App\Http\Controllers\DuLich\UserDiaDiemController;
+use App\Http\Controllers\DuLich\UserDiemDenController;
+
 
 
 /*
@@ -707,20 +710,6 @@ Route::delete(
 )->name('admin.diadiemnhucau.destroy');
 
 /*
-USER - GỢI Ý ĐIỂM ĐẾN
-*/
-
-Route::get(
-    '/goi-y-diem-den',
-    [UserGoiYController::class, 'indexCoBan']
-)->name('goiy.index');
-
-Route::post(
-    '/goi-y-diem-den',
-    [UserGoiYController::class, 'goiYCoBan']
-)->name('goiy.xuly');
-
-/*
 TÌM KIẾM TỪ TRANG CHỦ
 */
 Route::get(
@@ -743,4 +732,14 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
+Route::get(
+    '/diadiem/{maDiaDiem}',
+    [UserDiaDiemController::class, 'show']
+)->name('diadiem.show');
+
+
+Route::get(
+    '/diemden/{maDiaDiemDuLich}',
+    [UserDiemDenController::class, 'show']
+)->name('diemden.show');
 require __DIR__ . '/auth.php';

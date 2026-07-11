@@ -20,39 +20,54 @@
         </div>
 
         <!-- Nội dung -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 gap-8">
 
-            <div class="space-y-5">
+            <!-- Mã địa điểm -->
+            <div>
 
-                <div>
+                <p class="text-sm text-gray-500">
 
-                    <p class="text-sm text-gray-500">
+                    Mã địa điểm
 
-                        Mã địa điểm
+                </p>
 
-                    </p>
+                <p class="text-lg font-semibold text-black mt-1">
 
-                    <p class="text-lg font-semibold text-black mt-1">
+                    {{ $diaDiem->ma_dia_diem }}
 
-                        {{ $diaDiem->ma_dia_diem }}
+                </p>
 
-                    </p>
+            </div>
 
-                </div>
+            <!-- Tên địa điểm -->
+            <div>
 
-                <div>
+                <p class="text-sm text-gray-500">
 
-                    <p class="text-sm text-gray-500">
+                    Tên địa điểm
 
-                        Tên địa điểm
+                </p>
 
-                    </p>
+                <p class="text-lg font-semibold text-black mt-1">
 
-                    <p class="text-lg font-semibold text-black mt-1">
+                    {{ $diaDiem->ten_dia_diem }}
 
-                        {{ $diaDiem->ten_dia_diem }}
+                </p>
 
-                    </p>
+            </div>
+
+            <!-- Mô tả -->
+            <div>
+
+                <p class="text-sm text-gray-500">
+
+                    Mô tả
+
+                </p>
+
+                <div class="mt-2 border rounded-2xl p-5 bg-slate-50 leading-8 text-slate-700 whitespace-pre-line">
+
+                    {{ $diaDiem->mo_ta }}
 
                 </div>
 

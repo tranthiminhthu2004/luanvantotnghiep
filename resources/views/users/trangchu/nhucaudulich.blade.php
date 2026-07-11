@@ -71,7 +71,7 @@
 
                         @endauth
 
-                        <a href="{{ route('goiy.index') }}"
+                        <a href="{{ route('diadiemdulich.index') }}"
                             class="w-full sm:w-auto inline-flex justify-center items-center gap-2 px-6 py-3 rounded-xl bg-[#1040C5] hover:bg-blue-700 text-white font-semibold transition">
 
                             <i class="fa-solid fa-wand-magic-sparkles"></i>

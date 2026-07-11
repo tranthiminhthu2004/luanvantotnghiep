@@ -55,7 +55,7 @@
 
                     </div>
 
-                    <div class="mt-8">
+                    <div class="mt-10 flex items-center justify-center">
 
                         {{ $khachSans->links() }}
 
@@ -68,7 +68,7 @@
         </section>
 
     </main>
-    @include(com)
+    @include('components.footer')
 </body>
 
 </html>

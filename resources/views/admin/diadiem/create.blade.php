@@ -8,7 +8,6 @@
 
     <div class="bg-white rounded-2xl shadow-sm p-4 md:p-6">
 
-
         <form action="{{ route('admin.diadiem.store') }}" method="POST">
 
             @csrf
@@ -26,6 +25,30 @@
                     class="w-full mt-2 border rounded-xl px-4 py-2.5 text-sm text-black">
 
                 @error('ten_dia_diem')
+
+                <p class="text-red-500 text-sm mt-1">
+
+                    {{ $message }}
+
+                </p>
+
+                @enderror
+
+            </div>
+
+            <!-- Mô tả -->
+            <div class="mt-6">
+
+                <label class="block text-base font-semibold text-black">
+
+                    Mô tả
+
+                </label>
+
+                <textarea name="mo_ta" rows="10" placeholder="Nhập mô tả về địa điểm..."
+                    class="w-full mt-2 border rounded-xl px-4 py-3 text-sm text-black resize-none">{{ old('mo_ta') }}</textarea>
+
+                @error('mo_ta')
 
                 <p class="text-red-500 text-sm mt-1">
 
