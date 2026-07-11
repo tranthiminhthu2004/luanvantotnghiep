@@ -68,7 +68,7 @@
         </section>
 
     </main>
-
+    @include(com)
 </body>
 
 </html>

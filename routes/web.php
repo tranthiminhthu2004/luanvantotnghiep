@@ -38,6 +38,7 @@ use App\Http\Controllers\DuLich\UserGoiYController;
 use App\Http\Controllers\TrangChu\UserTrangChu;
 use App\Http\Controllers\TimKiem\UserTimKiemTrangChuController;
 use App\Http\Controllers\DuLich\UserDiaDiemDuLichController;
+use App\Http\Controllers\NguoiDung\UserSoThichController;
 
 
 /*
@@ -726,5 +727,20 @@ Route::get(
     '/tim-kiem-trang-chu',
     [UserTimKiemTrangChuController::class, 'index']
 )->name('timkiem.trangchu');
+
+/*Gợi ý sở thích*/ 
+Route::middleware(['auth'])->group(function () {
+
+    Route::get(
+        '/so-thich',
+        [UserSoThichController::class, 'index']
+    )->name('sothich.index');
+
+    Route::post(
+        '/so-thich',
+        [UserSoThichController::class, 'store']
+    )->name('sothich.store');
+
+});
 
 require __DIR__ . '/auth.php';

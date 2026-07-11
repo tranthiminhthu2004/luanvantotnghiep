@@ -2,7 +2,7 @@
 
     <div class="mb-10">
 
-        <h2 class="text-2xl md:text-4xl lg:text-5xl font-bold text-[#061755] mb-3">
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-[#061755] mb-3">
 
             Vì sao nên chọn chúng tôi?
 

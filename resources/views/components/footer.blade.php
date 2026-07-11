@@ -1,4 +1,4 @@
-<footer class="bg-[#061755] text-white mt-16">
+<footer class="bg-[#061755] text-white mt-12">
 
     <div class="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-6 py-12 lg:py-14">
 

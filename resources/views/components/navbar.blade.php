@@ -171,6 +171,15 @@
 
                             </a>
 
+                            <a href="{{ route('sothich.index') }}"
+                                class="flex items-center gap-3 px-5 py-3 hover:bg-slate-100 transition">
+
+                                <i class="fa-solid fa-sliders w-5 text-orange-500"></i>
+
+                                Sở thích du lịch
+
+                            </a>
+
 
                         </div>
 
@@ -319,11 +328,12 @@
 
                     </a>
 
-                    <a href="#" class="flex items-center gap-3 text-[#061755] hover:text-blue-600">
+                    <a href="{{ route('sothich.index') }}"
+                        class="flex items-center gap-3 text-[#061755] hover:text-blue-600">
 
-                        <i class="fa-solid fa-heart w-5"></i>
+                        <i class="fa-solid fa-sliders w-5"></i>
 
-                        Khách sạn yêu thích
+                        Sở thích du lịch
 
                     </a>
 

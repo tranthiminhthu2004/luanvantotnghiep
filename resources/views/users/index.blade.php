@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 </head>
 
@@ -31,9 +32,9 @@
         @include('users.trangchu.khachsannoibat')
 
         @include('users.trangchu.visaochon')
+    </main>
 
-        @include('components.footer')
-
+    @include('components.footer')
 </body>
 
 </html>
