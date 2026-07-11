@@ -74,7 +74,8 @@
 
                 <div class="mt-5">
 
-                    <a href="#" class="inline-flex items-center gap-2 text-[#1040C5] font-semibold hover:underline">
+                    <a href="{{ route('diemden.show', $diem->ma_dia_diem_du_lich) }}" class="inline-flex items-center
+                        gap-2 text-[#1040C5] font-semibold hover:underline">
 
                         Xem chi tiết
 
