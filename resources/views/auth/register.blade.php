@@ -142,13 +142,20 @@
             <div class="p-6 lg:p-8 flex items-center">
                 <div class="w-full">
 
-                    <h1 class="text-3xl font-bold text-slate-900 pb-4">
-                        Đăng Ký Tài Khoản
+                    <h1 class="text-4xl font-bold text-slate-900 pb-2">
+
+                        {{ ($role ?? 'nguoidung') === 'doitac'
+        ? 'Đăng ký tài khoản Đối tác'
+        : 'Đăng ký tài khoản' }}
+
                     </h1>
+
 
                     <form method="POST" action="{{ route('register') }}">
 
                         @csrf
+
+                        <input type="hidden" name="role" value="{{ $role ?? 'nguoidung' }}">
 
                         <!-- Name -->
                         <div class="mb-3">
@@ -239,9 +246,12 @@
 
                         <button type="submit"
                             class="w-full bg-[#0c1d4d] hover:bg-[#18357f] text-white py-2 rounded-full font-bold transition duration-300 text-base">
-                            Đăng ký
-                        </button>
 
+                            {{ ($role ?? 'nguoidung') === 'doitac'
+        ? 'Đăng ký đối tác'
+        : 'Đăng ký' }}
+
+                        </button>
                     </form>
 
                     <!-- Divider -->

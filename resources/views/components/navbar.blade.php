@@ -65,6 +65,15 @@
                         </a>
 
                     </li>
+                    <li>
+
+                        <a href="{{ route('doitac.index') }}" class="hover:text-blue-600 transition">
+
+                            Hợp tác
+
+                        </a>
+
+                    </li>
 
                 </ul>
 
@@ -256,7 +265,11 @@
                 Tin tức
 
             </a>
+            <a href="{{ route('doitac.index') }}" class="block font-semibold text-[#061755] hover:text-blue-600">
 
+                Hợp tác
+
+            </a>
             <hr>
             @guest
 

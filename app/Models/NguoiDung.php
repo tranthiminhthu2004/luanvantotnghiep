@@ -48,6 +48,15 @@ class NguoiDung extends Authenticatable
         );
     }
 
+    public function khachSans()
+    {
+        return $this->hasMany(
+            KhachSan::class,
+            'ma_nguoi_dung',
+            'ma_nguoi_dung'
+        );
+    }
+
     public function getHoTenAttribute()
     {
         return trim(

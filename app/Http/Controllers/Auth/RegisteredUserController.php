@@ -15,11 +15,15 @@ use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    public function create(): View
-    {
-        return view('auth.register'); //view => load resources/views + đường dẫn bên trong
-        //load resources/views/auth/register.blade.php
-    }
+   public function create(Request $request): View
+{
+    $role = $request->get('role', 'nguoidung');
+
+    return view(
+        'auth.register',
+        compact('role')
+    );
+}
 
     public function store(Request $request): RedirectResponse
     {
@@ -60,14 +64,15 @@ class RegisteredUserController extends Controller
 
         $hoVaTenDem = implode(' ', $nameParts);
 
-        $user = NguoiDung::create([
-            'ho_va_ten_dem' => $hoVaTenDem,
-            'ten' => $ten,
-            'email' => $request->email,
-            'mat_khau' => Hash::make($request->password),
-            'ma_vai_tro' => 2,
-            'trang_thai' => 1,
-        ]);
+       $maVaiTro = $request->role === 'doitac' ? 3 : 2;
+    $user = NguoiDung::create([
+    'ho_va_ten_dem' => $hoVaTenDem,
+    'ten' => $ten,
+    'email' => $request->email,
+    'mat_khau' => Hash::make($request->password),
+    'ma_vai_tro' => $maVaiTro,
+    'trang_thai' => 1,
+]);
 
         event(new Registered($user));
 

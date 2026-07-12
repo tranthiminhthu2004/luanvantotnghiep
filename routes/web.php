@@ -41,8 +41,7 @@ use App\Http\Controllers\DuLich\UserDiaDiemDuLichController;
 use App\Http\Controllers\NguoiDung\UserSoThichController;
 use App\Http\Controllers\DuLich\UserDiaDiemController;
 use App\Http\Controllers\DuLich\UserDiemDenController;
-
-
+use App\Http\Controllers\DoiTac\UserDoiTacController;
 
 /*
 TRANG CHỦ
@@ -742,4 +741,30 @@ Route::get(
     '/diem-den/{maDiaDiemDuLich}',
     [UserDiemDenController::class, 'show']
 )->name('diemden.show');
+
+/*
+ĐỐI TÁC
+*/
+
+Route::get(
+    '/doi-tac',
+    [UserDoiTacController::class, 'index']
+)->name('doitac.index');
+
+/* ĐỐI TÁC */
+Route::prefix('doitac')
+    ->middleware('auth')
+    ->group(function () {
+
+        Route::resource(
+            'khachsan',
+            KhachSanController::class
+        );
+
+        Route::get(
+            'datphong',
+            [DatPhongController::class, 'index']
+        )->name('doitac.datphong.index');
+
+    });
 require __DIR__ . '/auth.php';
