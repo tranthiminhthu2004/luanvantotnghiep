@@ -27,8 +27,8 @@ class UserSoThichController extends Controller
             'ma_nhu_cau'
         );
 
-        return view(
-            'users.sothich.index',
+       return view(
+    'users.sothich.index',
             compact(
                 'nhuCaus',
                 'soThichs'

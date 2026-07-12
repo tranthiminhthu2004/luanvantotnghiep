@@ -18,9 +18,7 @@
 
         <p class="mt-4 text-slate-500 leading-8">
 
-            Hệ thống sẽ lưu hồ sơ sở thích của bạn và sử dụng thuật toán
-            <strong>Content-Based Filtering (CBF)</strong>
-            để gợi ý những điểm đến phù hợp nhất.
+            Hệ thống sẽ lưu hồ sơ sở thích của bạn và sẽ gợi ý những điểm đến phù hợp nhất với bạn .
 
         </p>
 

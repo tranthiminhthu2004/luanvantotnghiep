@@ -733,13 +733,13 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get(
-    '/diadiem/{maDiaDiem}',
+    '/dia-diem/{maDiaDiem}',
     [UserDiaDiemController::class, 'show']
 )->name('diadiem.show');
 
 
 Route::get(
-    '/diemden/{maDiaDiemDuLich}',
+    '/diem-den/{maDiaDiemDuLich}',
     [UserDiemDenController::class, 'show']
 )->name('diemden.show');
 require __DIR__ . '/auth.php';
