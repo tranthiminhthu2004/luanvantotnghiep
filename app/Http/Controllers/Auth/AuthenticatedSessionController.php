@@ -28,7 +28,19 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $user = Auth::user();
+
+        if ($user->ma_vai_tro == 1)
+        {
+            return redirect()->route('dashboard');
+        }
+
+        if ($user->ma_vai_tro == 3)
+        {
+            return redirect()->route('doitac.dashboard');
+        }
+
+        return redirect()->route('users.index');
     }
 
     /**

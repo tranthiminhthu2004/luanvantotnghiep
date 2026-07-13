@@ -1,96 +1,91 @@
-@extends('doitac.index')
+@extends('doitac.trangchinh.partner')
 
-@section('title', 'Đăng khách sạn')
+@section('title','Đăng ký khách sạn')
 
 @section('content')
 
-<div class="max-w-5xl mx-auto">
+<div class="max-w-6xl mx-auto">
 
-    {{-- Tiêu đề --}}
-    <div class="mb-8">
+    {{-- Progress --}}
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm px-10 py-6 mb-6">
 
-        <h2 class="text-3xl font-bold text-[#061755]">
-            Đăng ký khách sạn
-        </h2>
-
-        <p class="mt-2 text-slate-500">
-            Hoàn thành 4 bước để gửi khách sạn lên hệ thống.
-        </p>
-
-    </div>
-
-    {{-- Thanh tiến trình --}}
-    <div class="bg-white rounded-2xl shadow-sm p-8 mb-8">
-
-        <div class="flex items-center justify-between">
+        <div class="flex items-center">
 
             {{-- Bước 1 --}}
-            <div class="flex flex-col items-center flex-1">
+            <div class="flex flex-col items-center">
 
                 <div
-                    class="w-12 h-12 rounded-full bg-[#1040C5] text-white flex items-center justify-center font-bold text-lg">
+                    class="w-10 h-10 rounded-full bg-[#1040C5] text-white font-semibold flex items-center justify-center">
 
                     1
 
                 </div>
 
-                <p class="mt-3 font-semibold text-[#1040C5]">
+                <span class="mt-2 text-sm font-semibold text-[#1040C5]">
+
                     Thông tin
-                </p>
+
+                </span>
 
             </div>
 
-            <div class="flex-1 h-1 bg-slate-200"></div>
+            <div class="flex-1 h-[2px] bg-slate-200 mx-5"></div>
 
             {{-- Bước 2 --}}
-            <div class="flex flex-col items-center flex-1">
+            <div class="flex flex-col items-center">
 
                 <div
-                    class="w-12 h-12 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center font-bold text-lg">
+                    class="w-10 h-10 rounded-full bg-slate-200 text-slate-500 font-semibold flex items-center justify-center">
 
                     2
 
                 </div>
 
-                <p class="mt-3 text-slate-500">
+                <span class="mt-2 text-sm text-slate-500">
+
                     Hình ảnh
-                </p>
+
+                </span>
 
             </div>
 
-            <div class="flex-1 h-1 bg-slate-200"></div>
+            <div class="flex-1 h-[2px] bg-slate-200 mx-5"></div>
 
             {{-- Bước 3 --}}
-            <div class="flex flex-col items-center flex-1">
+            <div class="flex flex-col items-center">
 
                 <div
-                    class="w-12 h-12 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center font-bold text-lg">
+                    class="w-10 h-10 rounded-full bg-slate-200 text-slate-500 font-semibold flex items-center justify-center">
 
                     3
 
                 </div>
 
-                <p class="mt-3 text-slate-500">
+                <span class="mt-2 text-sm text-slate-500">
+
                     Loại phòng
-                </p>
+
+                </span>
 
             </div>
 
-            <div class="flex-1 h-1 bg-slate-200"></div>
+            <div class="flex-1 h-[2px] bg-slate-200 mx-5"></div>
 
             {{-- Bước 4 --}}
-            <div class="flex flex-col items-center flex-1">
+            <div class="flex flex-col items-center">
 
                 <div
-                    class="w-12 h-12 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center font-bold text-lg">
+                    class="w-10 h-10 rounded-full bg-slate-200 text-slate-500 font-semibold flex items-center justify-center">
 
                     4
 
                 </div>
 
-                <p class="mt-3 text-slate-500">
+                <span class="mt-2 text-sm text-slate-500">
+
                     Tiện nghi
-                </p>
+
+                </span>
 
             </div>
 
@@ -98,232 +93,228 @@
 
     </div>
 
-    {{-- Form --}}
     <form action="{{ route('doitac.khachsan.create.form1.store') }}" method="POST"
-        class="bg-white rounded-2xl shadow-sm p-8">
+        class="bg-white border border-slate-200 rounded-2xl shadow-sm">
 
         @csrf
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-8">
 
-            <div class="md:col-span-2">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
-                <label class="font-semibold text-[#061755]">
-                    Tên khách sạn <span class="text-red-500">*</span>
-                </label>
+                {{-- Tên khách sạn --}}
+                <div class="lg:col-span-2">
 
-                <input type="text" name="ten_khach_san" value="{{ old('ten_khach_san') }}" class="mt-2 w-full rounded-xl border px-4 py-3
-        @error('ten_khach_san') border-red-500 @enderror">
+                    <label class="block mb-2 font-semibold text-[#061755]">
+                        Tên khách sạn <span class="text-red-500">*</span>
+                    </label>
 
-                @error('ten_khach_san')
-                <p class="mt-1 text-sm text-red-500">
-                    {{ $message }}
-                </p>
-                @enderror
+                    <input type="text" name="ten_khach_san" value="{{ old('ten_khach_san') }}"
+                        class="w-full rounded-xl border px-4 py-3 @error('ten_khach_san') border-red-500 @enderror">
 
-            </div>
-            {{-- Địa điểm --}}
-            <div>
+                    @error('ten_khach_san')
+                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
 
-                <label class="font-semibold text-[#061755]">
-                    Địa điểm <span class="text-red-500">*</span>
-                </label>
+                </div>
 
-                <select name="ma_dia_diem" class="mt-2 w-full rounded-xl border px-4 py-3
-        @error('ma_dia_diem') border-red-500 @enderror">
+                {{-- Địa điểm --}}
+                <div>
 
-                    <option value="">
-                        Chọn địa điểm
-                    </option>
+                    <label class="block mb-2 font-semibold text-[#061755]">
+                        Địa điểm <span class="text-red-500">*</span>
+                    </label>
 
-                    @foreach($diaDiems as $diaDiem)
+                    <select name="ma_dia_diem"
+                        class="w-full rounded-xl border px-4 py-3 @error('ma_dia_diem') border-red-500 @enderror">
 
-                    <option value="{{ $diaDiem->ma_dia_diem }}" @selected(old('ma_dia_diem')==$diaDiem->ma_dia_diem)>
+                        <option value="">Chọn địa điểm</option>
 
-                        {{ $diaDiem->ten_dia_diem }}
+                        @foreach($diaDiems as $diaDiem)
 
-                    </option>
+                        <option value="{{ $diaDiem->ma_dia_diem }}" @selected(old('ma_dia_diem')==$diaDiem->
+                            ma_dia_diem)>
 
-                    @endforeach
+                            {{ $diaDiem->ten_dia_diem }}
 
-                </select>
+                        </option>
 
-                @error('ma_dia_diem')
-                <p class="mt-1 text-sm text-red-500">
-                    {{ $message }}
-                </p>
-                @enderror
+                        @endforeach
 
-            </div>
+                    </select>
 
-            {{-- Số sao --}}
-            <div>
+                    @error('ma_dia_diem')
+                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
 
-                <label class="font-semibold text-[#061755]">
+                </div>
 
-                    Số sao
+                {{-- Số sao --}}
+                <div>
 
-                </label>
+                    <label class="block mb-2 font-semibold text-[#061755]">
+                        Số sao <span class="text-red-500">*</span>
+                    </label>
 
-                <select name="so_sao_khach_san" class="mt-2 w-full rounded-xl border px-4 py-3">
+                    <select name="so_sao_khach_san" class="w-full rounded-xl border px-4 py-3">
 
-                    @foreach($soSaos as $soSao)
+                        @foreach($soSaos as $soSao)
 
-                    <option value="{{ $soSao->so_sao_khach_san }}">
+                        <option value="{{ $soSao }}" @selected(old('so_sao_khach_san')==$soSao)>
 
-                        {{ $soSao->so_sao_khach_san }} Sao
+                            {{ $soSao }} Sao
 
-                    </option>
+                        </option>
 
-                    @endforeach
+                        @endforeach
 
-                </select>
+                    </select>
 
-            </div>
+                </div>
 
-            {{-- Địa chỉ --}}
-            <div class="md:col-span-2">
+                {{-- Địa chỉ --}}
+                <div class="lg:col-span-2">
 
-                <label class="font-semibold text-[#061755]">
+                    <label class="block mb-2 font-semibold text-[#061755]">
+                        Địa chỉ <span class="text-red-500">*</span>
+                    </label>
 
-                    Địa chỉ <span class="text-red-500">*</span>
+                    <input type="text" name="dia_chi" value="{{ old('dia_chi') }}"
+                        class="w-full rounded-xl border px-4 py-3">
 
-                </label>
+                </div>
 
-                <input type="text" name="dia_chi" value="{{ old('dia_chi') }}"
-                    class="mt-2 w-full rounded-xl border px-4 py-3">
+                {{-- Vĩ độ --}}
+                <div>
 
-            </div>
+                    <label class="block mb-2 font-semibold text-[#061755]">
 
-            {{-- Vĩ độ --}}
-            <div>
+                        Vĩ độ
 
-                <label class="font-semibold text-[#061755]">
+                    </label>
 
-                    Vĩ độ
+                    <input type="text" name="vi_do" value="{{ old('vi_do') }}"
+                        class="w-full rounded-xl border px-4 py-3">
 
-                </label>
+                </div>
 
-                <input type="text" name="vi_do" value="{{ old('vi_do') }}"
-                    class="mt-2 w-full rounded-xl border px-4 py-3">
+                {{-- Kinh độ --}}
+                <div>
 
-            </div>
+                    <label class="block mb-2 font-semibold text-[#061755]">
 
-            {{-- Kinh độ --}}
-            <div>
+                        Kinh độ
 
-                <label class="font-semibold text-[#061755]">
+                    </label>
 
-                    Kinh độ
+                    <input type="text" name="kinh_do" value="{{ old('kinh_do') }}"
+                        class="w-full rounded-xl border px-4 py-3">
 
-                </label>
+                </div>
 
-                <input type="text" name="kinh_do" value="{{ old('kinh_do') }}"
-                    class="mt-2 w-full rounded-xl border px-4 py-3">
+                {{-- Điện thoại --}}
+                <div>
 
-            </div>
+                    <label class="block mb-2 font-semibold text-[#061755]">
+                        Số điện thoại <span class="text-red-500">*</span>
+                    </label>
 
-            {{-- SĐT --}}
-            <div>
+                    <input type="text" name="so_dien_thoai" value="{{ old('so_dien_thoai') }}"
+                        class="w-full rounded-xl border px-4 py-3">
 
-                <label class="font-semibold text-[#061755]">
+                </div>
 
-                    Số điện thoại <span class="text-red-500">*</span>
+                {{-- Email --}}
+                <div>
 
-                </label>
+                    <label class="block mb-2 font-semibold text-[#061755]">
+                        Email <span class="text-red-500">*</span>
+                    </label>
 
-                <input type="text" name="so_dien_thoai" value="{{ old('so_dien_thoai') }}"
-                    class="mt-2 w-full rounded-xl border px-4 py-3">
+                    <input type="email" name="email" value="{{ old('email') }}"
+                        class="w-full rounded-xl border px-4 py-3">
 
-            </div>
+                </div>
 
-            {{-- Email --}}
-            <div>
+                {{-- Check in --}}
+                <div>
 
-                <label class="font-semibold text-[#061755]">
-                    Email <span class="text-red-500">*</span>
-                </label>
+                    <label class="block mb-2 font-semibold text-[#061755]">
 
-                <input type="email" name="email" value="{{ old('email') }}" class="mt-2 w-full rounded-xl border px-4 py-3
-        @error('email') border-red-500 @enderror">
+                        Giờ Check-in
 
-                @error('email')
-                <p class="mt-1 text-sm text-red-500">
-                    {{ $message }}
-                </p>
-                @enderror
+                    </label>
 
-            </div>
+                    <input type="time" name="gio_check_in" value="{{ old('gio_check_in') }}"
+                        class="w-full rounded-xl border px-4 py-3">
 
-            {{-- Check in --}}
-            <div>
+                </div>
 
-                <label class="font-semibold text-[#061755]">
+                {{-- Check out --}}
+                <div>
 
-                    Giờ Check-in
+                    <label class="block mb-2 font-semibold text-[#061755]">
 
-                </label>
+                        Giờ Check-out
 
-                <input type="time" name="gio_check_in" value="{{ old('gio_check_in') }}"
-                    class="mt-2 w-full rounded-xl border px-4 py-3">
+                    </label>
 
-            </div>
+                    <input type="time" name="gio_check_out" value="{{ old('gio_check_out') }}"
+                        class="w-full rounded-xl border px-4 py-3">
 
-            {{-- Check out --}}
-            <div>
+                </div>
 
-                <label class="font-semibold text-[#061755]">
+                {{-- Hủy miễn phí --}}
+                <div class="lg:col-span-2">
 
-                    Giờ Check-out
+                    <label class="block mb-2 font-semibold text-[#061755]">
 
-                </label>
+                        Số giờ hủy miễn phí
 
-                <input type="time" name="gio_check_out" value="{{ old('gio_check_out') }}"
-                    class="mt-2 w-full rounded-xl border px-4 py-3">
+                    </label>
 
-            </div>
+                    <input type="number" min="0" name="so_gio_huy_mien_phi" value="{{ old('so_gio_huy_mien_phi') }}"
+                        class="w-full rounded-xl border px-4 py-3">
 
-            {{-- Số giờ hủy --}}
-            <div class="md:col-span-2">
+                </div>
 
-                <label class="font-semibold text-[#061755]">
+                {{-- Mô tả --}}
+                <div class="lg:col-span-2">
 
-                    Số giờ hủy miễn phí
+                    <label class="block mb-2 font-semibold text-[#061755]">
 
-                </label>
+                        Mô tả
 
-                <input type="number" min="0" name="so_gio_huy_mien_phi" value="{{ old('so_gio_huy_mien_phi') }}"
-                    class="mt-2 w-full rounded-xl border px-4 py-3">
+                    </label>
 
-            </div>
+                    <textarea rows="6" name="mo_ta"
+                        class="w-full rounded-xl border px-4 py-3">{{ old('mo_ta') }}</textarea>
 
-            {{-- Mô tả --}}
-            <div class="md:col-span-2">
-
-                <label class="font-semibold text-[#061755]">
-
-                    Mô tả
-
-                </label>
-
-                <textarea rows="5" name="mo_ta"
-                    class="mt-2 w-full rounded-xl border px-4 py-3">{{ old('mo_ta') }}</textarea>
+                </div>
 
             </div>
 
-        </div>
+            {{-- Footer --}}
+            <div class="border-t border-slate-200 px-8 pt-5">
 
-        <div class="mt-10 flex justify-end">
+                <div class="flex justify-center gap-10">
 
-            <button class="bg-[#1040C5] hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold">
+                    <a href="{{ route('doitac.khachsan.index') }}"
+                        class="rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:bg-slate-100">
 
-                Tiếp tục
+                        Quay lại
 
-                <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </a>
 
-            </button>
+                    <button type="submit"
+                        class="rounded-xl bg-[#1040C5] px-8 py-3 font-semibold text-white transition hover:bg-blue-700">
 
-        </div>
+                        Tiếp tục
+
+                    </button>
+
+                </div>
+            </div>
 
     </form>
 

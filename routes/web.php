@@ -745,7 +745,9 @@ Route::get(
 )->name('diemden.show');
 
 /*
-ĐỐI TÁC
+|--------------------------------------------------------------------------
+| ĐỐI TÁC
+|--------------------------------------------------------------------------
 */
 
 Route::get(
@@ -753,10 +755,33 @@ Route::get(
     [UserDoiTacController::class, 'index']
 )->name('doitac.index');
 
-/* ĐỐI TÁC */
 Route::prefix('doitac')
-    ->middleware('auth')
+    ->middleware([
+        'auth',
+        'partner'
+    ])
     ->group(function () {
+
+        /*
+        |--------------------------------------------------------------------------
+        | DASHBOARD
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get(
+            '/dashboard',
+            function () {
+
+                return view('doitac.dashboard');
+
+            }
+        )->name('doitac.dashboard');
+
+        /*
+        |--------------------------------------------------------------------------
+        | KHÁCH SẠN
+        |--------------------------------------------------------------------------
+        */
 
         Route::get(
             '/khachsan',
@@ -764,48 +789,60 @@ Route::prefix('doitac')
         )->name('doitac.khachsan.index');
 
         Route::get(
-    '/khachsan/create/form1',
-    [KhachSanController::class, 'form1']
-)->name('doitac.khachsan.create.form1');
+            '/khachsan/create/form1',
+            [KhachSanController::class, 'form1']
+        )->name('doitac.khachsan.create.form1');
 
-Route::post(
-    '/khachsan/create/form1',
-    [KhachSanController::class, 'luuForm1']
-)->name('doitac.khachsan.create.form1.store');
+        Route::post(
+            '/khachsan/create/form1',
+            [KhachSanController::class, 'luuForm1']
+        )->name('doitac.khachsan.create.form1.store');
 
-Route::get(
-    '/khachsan/create/form2',
-    [KhachSanController::class, 'form2']
-)->name('doitac.khachsan.create.form2');
+        Route::get(
+            '/khachsan/create/form2',
+            [KhachSanController::class, 'form2']
+        )->name('doitac.khachsan.create.form2');
 
-Route::post(
-    '/khachsan/create/form2',
-    [KhachSanController::class, 'luuForm2']
-)->name('doitac.khachsan.create.form2.store');
+        Route::post(
+            '/khachsan/create/form2',
+            [KhachSanController::class, 'luuForm2']
+        )->name('doitac.khachsan.create.form2.store');
 
-Route::get(
-    '/khachsan/create/form3',
-    [KhachSanController::class, 'form3']
-)->name('doitac.khachsan.create.form3');
+        Route::get(
+            '/khachsan/create/form3',
+            [KhachSanController::class, 'form3']
+        )->name('doitac.khachsan.create.form3');
 
-Route::post(
-    '/khachsan/create/form3',
-    [KhachSanController::class, 'luuForm3']
-)->name('doitac.khachsan.create.form3.store');
+        Route::post(
+            '/khachsan/create/form3',
+            [KhachSanController::class, 'luuForm3']
+        )->name('doitac.khachsan.create.form3.store');
 
-Route::get(
-    '/khachsan/create/form4',
-    [KhachSanController::class, 'form4']
-)->name('doitac.khachsan.create.form4');
+        Route::get(
+            '/khachsan/create/form4',
+            [KhachSanController::class, 'form4']
+        )->name('doitac.khachsan.create.form4');
 
-Route::post(
-    '/khachsan/create/form4',
-    [KhachSanController::class, 'luuForm4']
-)->name('doitac.khachsan.create.form4.store');
+        Route::post(
+            '/khachsan/create/form4',
+            [KhachSanController::class, 'luuForm4']
+        )->name('doitac.khachsan.create.form4.store');
+        
+        Route::delete(
+    '/khachsan/{ma_khach_san}',
+    [KhachSanController::class, 'destroy']
+)->name('doitac.khachsan.destroy');
+        /*
+        |--------------------------------------------------------------------------
+        | ĐẶT PHÒNG
+        |--------------------------------------------------------------------------
+        */
+
         Route::get(
             '/datphong',
             [DatPhongController::class, 'index']
         )->name('doitac.datphong.index');
 
     });
+    
 require __DIR__ . '/auth.php';

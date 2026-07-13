@@ -92,9 +92,9 @@ class GoogleController extends Controller
 
         if ($user->ma_vai_tro == 3)
         {
-            return redirect()->route(
-                'doitac.khachsan.create.form1'
-            );
+           return redirect()->route(
+    'doitac.dashboard'
+);
         }
 
         return redirect()->route(

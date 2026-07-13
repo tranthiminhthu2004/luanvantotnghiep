@@ -1,106 +1,90 @@
-@extends('doitac.index')
+@extends('doitac.trangchinh.partner')
 
-@section('title', 'Đăng khách sạn')
+@section('title','Đăng ký khách sạn')
 
 @section('content')
 
 <div class="max-w-6xl mx-auto">
 
-    {{-- Tiêu đề --}}
-    <div class="mb-8">
-
-        <h2 class="text-3xl font-bold text-[#061755]">
-
-            Đăng ký khách sạn
-
-        </h2>
-
-        <p class="mt-2 text-slate-500">
-
-            Hoàn thành 4 bước để gửi khách sạn lên hệ thống.
-
-        </p>
-
-    </div>
-
     {{-- Thanh tiến trình --}}
-    <div class="bg-white rounded-2xl shadow-sm p-8 mb-8">
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm px-8 py-5 mb-6">
 
-        <div class="flex items-center justify-between">
+        <div class="flex items-center">
 
             {{-- Bước 1 --}}
-            <div class="flex flex-col items-center flex-1">
+            <div class="flex flex-col items-center">
 
-                <div class="w-12 h-12 rounded-full bg-green-500 text-white flex items-center justify-center">
+                <div class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center">
 
                     <i class="fa-solid fa-check"></i>
 
                 </div>
 
-                <p class="mt-3 font-semibold text-green-600">
+                <span class="mt-2 text-sm font-medium text-green-600">
 
                     Thông tin
 
-                </p>
+                </span>
 
             </div>
 
-            <div class="flex-1 h-1 bg-green-500"></div>
+            <div class="flex-1 h-0.5 bg-green-500 mx-4"></div>
 
             {{-- Bước 2 --}}
-            <div class="flex flex-col items-center flex-1">
+            <div class="flex flex-col items-center">
 
-                <div class="w-12 h-12 rounded-full bg-[#1040C5] text-white flex items-center justify-center font-bold">
+                <div
+                    class="w-10 h-10 rounded-full bg-[#1040C5] text-white flex items-center justify-center font-semibold">
 
                     2
 
                 </div>
 
-                <p class="mt-3 font-semibold text-[#1040C5]">
+                <span class="mt-2 text-sm font-semibold text-[#1040C5]">
 
                     Hình ảnh
 
-                </p>
+                </span>
 
             </div>
 
-            <div class="flex-1 h-1 bg-slate-200"></div>
+            <div class="flex-1 h-0.5 bg-slate-200 mx-4"></div>
 
             {{-- Bước 3 --}}
-            <div class="flex flex-col items-center flex-1">
+            <div class="flex flex-col items-center">
 
                 <div
-                    class="w-12 h-12 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center font-bold">
+                    class="w-10 h-10 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center font-semibold">
 
                     3
 
                 </div>
 
-                <p class="mt-3 text-slate-500">
+                <span class="mt-2 text-sm text-slate-500">
 
                     Loại phòng
 
-                </p>
+                </span>
 
             </div>
 
-            <div class="flex-1 h-1 bg-slate-200"></div>
+            <div class="flex-1 h-0.5 bg-slate-200 mx-4"></div>
 
             {{-- Bước 4 --}}
-            <div class="flex flex-col items-center flex-1">
+            <div class="flex flex-col items-center">
 
                 <div
-                    class="w-12 h-12 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center font-bold">
+                    class="w-10 h-10 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center font-semibold">
 
                     4
 
                 </div>
 
-                <p class="mt-3 text-slate-500">
+                <span class="mt-2 text-sm text-slate-500">
 
                     Tiện nghi
 
-                </p>
+                </span>
 
             </div>
 
@@ -108,104 +92,112 @@
 
     </div>
 
+    {{-- Form --}}
     <form action="{{ route('doitac.khachsan.create.form2.store') }}" method="POST" enctype="multipart/form-data"
-        class="bg-white rounded-2xl shadow-sm p-8">
+        class="bg-white border border-slate-200 rounded-2xl shadow-sm">
 
         @csrf
 
-        <div>
+        <div class="p-8">
 
-            <label class="font-semibold text-[#061755]">
+            <div>
 
-                Hình ảnh khách sạn
-                <span class="text-red-500">*</span>
+                <label class="block mb-3 text-base font-semibold text-[#061755]">
 
-            </label>
+                    Hình ảnh khách sạn
+                    <span class="text-red-500">*</span>
 
-            <label for="hinh_anh" class="mt-3 border-2 border-dashed rounded-2xl h-72 flex flex-col items-center justify-center cursor-pointer transition
-                @if($errors->has('hinh_anh') || $errors->has('hinh_anh.*'))
-                    border-red-500 bg-red-50
-                @else
-                    border-blue-300 hover:bg-blue-50
-                @endif">
+                </label>
+                <label for="hinh_anh" class="flex h-72 w-full cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed transition
+                    @if($errors->has('hinh_anh') || $errors->has('hinh_anh.*'))
+                        border-red-500 bg-red-50
+                    @else
+                        border-blue-300 hover:border-[#1040C5] hover:bg-blue-50
+                    @endif">
 
-                <i class="fa-solid fa-cloud-arrow-up text-6xl text-[#1040C5]"></i>
+                    <i class="fa-solid fa-cloud-arrow-up text-5xl text-[#1040C5]"></i>
 
-                <h3 class="mt-5 text-2xl font-bold text-[#061755]">
+                    <h3 class="mt-5 text-xl font-bold text-[#061755]">
 
-                    Chọn hình ảnh khách sạn
+                        Tải hình ảnh khách sạn
 
-                </h3>
+                    </h3>
 
-                <p class="mt-3 text-slate-500">
+                    <p class="mt-2 text-sm text-slate-500">
 
-                    Chọn từ <strong>5</strong> đến <strong>15</strong> hình ảnh
+                        Chọn tối thiểu <strong>5</strong> hình ảnh và tối đa
+                        <strong>15</strong> hình ảnh
+
+                    </p>
+
+                    <span class="mt-6 rounded-xl bg-[#1040C5] px-6 py-3 font-semibold text-white">
+
+                        Chọn hình ảnh
+
+                    </span>
+
+                </label>
+
+                <input id="hinh_anh" type="file" name="hinh_anh[]" class="hidden" accept=".jpg,.jpeg,.png,.webp"
+                    multiple>
+
+                @error('hinh_anh')
+
+                <p class="mt-2 text-sm text-red-500">
+
+                    {{ $message }}
 
                 </p>
 
-                <span class="mt-6 bg-[#1040C5] text-white px-6 py-3 rounded-xl font-semibold">
+                @enderror
 
-                    Chọn hình ảnh
+                @error('hinh_anh.*')
 
-                </span>
+                <p class="mt-2 text-sm text-red-500">
 
-            </label>
+                    {{ $message }}
 
-            <input id="hinh_anh" type="file" name="hinh_anh[]" multiple accept=".jpg,.jpeg,.png,.webp" class="hidden">
+                </p>
 
-            @error('hinh_anh')
+                @enderror
 
-            <p class="mt-2 text-red-500 text-sm">
+            </div>
 
-                {{ $message }}
+            {{-- Số lượng ảnh --}}
+            <div id="soLuongAnh"
+                class="mt-6 rounded-xl border border-blue-100 bg-blue-50 px-5 py-4 font-semibold text-[#061755]">
 
-            </p>
+                Đã chọn: 0 / 15 hình ảnh
 
-            @enderror
+            </div>
 
-            @error('hinh_anh.*')
+            {{-- Preview --}}
+            <div id="preview" class="mt-6 grid grid-cols-2 gap-5 md:grid-cols-3 xl:grid-cols-4">
 
-            <p class="mt-2 text-red-500 text-sm">
-
-                {{ $message }}
-
-            </p>
-
-            @enderror
+            </div>
 
         </div>
 
-        {{-- Đếm số ảnh --}}
-        <div id="soLuongAnh" class="mt-6 text-lg font-semibold text-[#061755]">
+        {{-- Footer --}}
+        <div class="border-t border-slate-200 px-8 py-5">
 
-            Đã chọn: 0 / 15 hình ảnh
+            <div class="flex justify-end gap-3">
 
-        </div>
+                <a href="{{ route('doitac.khachsan.create.form1') }}"
+                    class="rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:bg-slate-100">
 
-        {{-- Preview --}}
-        <div id="preview" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 mt-6">
+                    Quay lại
 
-        </div>
+                </a>
 
-        <div class="flex justify-between mt-10">
+                <button id="btnSubmit" type="submit"
+                    class="rounded-xl bg-[#1040C5] px-8 py-3 font-semibold text-white transition hover:bg-blue-700">
 
-            <a href="{{ route('doitac.khachsan.create.form1') }}"
-                class="px-8 py-3 rounded-xl border border-slate-300 hover:bg-slate-100 font-semibold">
+                    Tiếp tục
 
-                <i class="fa-solid fa-arrow-left mr-2"></i>
+                </button>
 
-                Quay lại
-
-            </a>
-
-            <button id="btnSubmit" type="submit"
-                class="bg-[#1040C5] hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold">
-
-                Tiếp tục
-
-                <i class="fa-solid fa-arrow-right ml-2"></i>
-
-            </button>
+            </div>
 
         </div>
 
@@ -221,11 +213,14 @@ const btnSubmit = document.getElementById('btnSubmit');
 let dataTransfer = new DataTransfer();
 
 function capNhatSoLuong() {
+
     soLuongAnh.innerHTML =
-        `Đã chọn: <span class="text-[#1040C5]">${dataTransfer.files.length}</span> / 15 hình ảnh`;
+        `Đã chọn: <span class="text-[#1040C5] font-bold">${dataTransfer.files.length}</span> / 15 hình ảnh`;
+
 }
 
 function renderPreview() {
+
     preview.innerHTML = '';
 
     [...dataTransfer.files].forEach((file, index) => {
@@ -233,45 +228,66 @@ function renderPreview() {
         const reader = new FileReader();
 
         reader.onload = function(e) {
-            preview.innerHTML += `
 
-                <div class="relative rounded-2xl overflow-hidden border border-slate-200 shadow-sm group">
+            const item = document.createElement('div');
 
-                    <img
-                        src="${e.target.result}"
-                        class="w-full h-56 object-cover">
+            item.className =
+                'relative overflow-hidden rounded-2xl border border-slate-200 shadow-sm group';
 
-                    <button
-                        type="button"
-                        onclick="xoaAnh(${index})"
-                        class="absolute top-2 right-2 w-9 h-9 rounded-full bg-red-600 text-white opacity-0 group-hover:opacity-100 transition hover:bg-red-700">
+            item.innerHTML = `
 
-                        <i class="fa-solid fa-xmark"></i>
+                <img
+                    src="${e.target.result}"
+                    class="w-full h-52 object-cover transition group-hover:scale-105">
 
-                    </button>
+                ${index === 0 ? `
+                    <div class="absolute left-3 top-3 rounded-full bg-[#1040C5] px-3 py-1 text-xs font-semibold text-white shadow">
+                        Ảnh đại diện
+                    </div>
+                ` : ''}
 
-                </div>
+                <button
+                    type="button"
+                    class="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-red-600 text-white opacity-0 transition group-hover:opacity-100 hover:bg-red-700">
+
+                    <i class="fa-solid fa-trash"></i>
+
+                </button>
 
             `;
-        }
+
+            item.querySelector('button').addEventListener('click', function() {
+
+                xoaAnh(index);
+
+            });
+
+            preview.appendChild(item);
+
+        };
 
         reader.readAsDataURL(file);
 
     });
 
     capNhatSoLuong();
+
 }
 
 input.addEventListener('change', function() {
 
-    for (const file of this.files) {
+    [...this.files].forEach(file => {
+
         if (dataTransfer.files.length >= 15) {
             alert('Chỉ được chọn tối đa 15 hình ảnh.');
-            break;
+
+            return;
+
         }
 
         dataTransfer.items.add(file);
-    }
+
+    });
 
     input.files = dataTransfer.files;
 
@@ -279,7 +295,8 @@ input.addEventListener('change', function() {
 
 });
 
-window.xoaAnh = function(index) {
+function xoaAnh(index) {
+
     const files = [...dataTransfer.files];
 
     files.splice(index, 1);
@@ -295,24 +312,29 @@ window.xoaAnh = function(index) {
     input.files = dataTransfer.files;
 
     renderPreview();
+
 }
 
 btnSubmit.addEventListener('click', function(e) {
 
     if (dataTransfer.files.length < 5) {
+
         e.preventDefault();
 
-        alert('Khách sạn phải có tối thiểu 5 hình ảnh.');
+        alert('Vui lòng chọn tối thiểu 5 hình ảnh.');
 
         return;
+
     }
 
     if (dataTransfer.files.length > 15) {
+
         e.preventDefault();
 
-        alert('Khách sạn chỉ được tải tối đa 15 hình ảnh.');
+        alert('Chỉ được chọn tối đa 15 hình ảnh.');
 
         return;
+
     }
 
 });

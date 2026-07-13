@@ -35,6 +35,16 @@ class KhachSan extends Model
         'gio_check_out',
         'so_gio_huy_mien_phi',
     ];
+    protected function casts(): array
+{
+    return [
+
+        'ngay_gui_duyet' => 'datetime',
+
+        'ngay_duyet' => 'datetime',
+
+    ];
+}
 
     public function nguoiDung()
     {

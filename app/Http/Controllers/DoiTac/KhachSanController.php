@@ -18,12 +18,12 @@ class KhachSanController extends Controller
 {
     public function index()
     {
-        $khachSans = KhachSan::where(
-            'ma_nguoi_dung',
-            auth()->user()->ma_nguoi_dung
-        )
-        ->latest('ma_khach_san')
-        ->get();
+       $khachSans = KhachSan::where(
+    'ma_nguoi_dung',
+    auth()->user()->ma_nguoi_dung
+)
+->orderBy('ma_khach_san', 'desc')
+->paginate(10);
 
         return view(
             'doitac.khachsan.index',
@@ -37,15 +37,7 @@ class KhachSanController extends Controller
             'ten_dia_diem'
         )->get();
 
-        $soSaos = KhachSan::select(
-            'so_sao_khach_san'
-        )
-        ->distinct()
-        ->orderBy(
-            'so_sao_khach_san',
-            'asc'
-        )
-        ->get();
+       $soSaos = [1,2,3,4,5];
 
         return view(
             'doitac.khachsan.create.form1',
@@ -155,7 +147,7 @@ class KhachSanController extends Controller
         }
 
         return view(
-            'doitac.khachsan.form2'
+            'doitac.khachsan.create.form2'
         );
     }
 
@@ -232,7 +224,7 @@ class KhachSanController extends Controller
         }
 
         return view(
-            'doitac.khachsan.form3'
+            'doitac.khachsan.create.form3'
         );
     }
 
@@ -362,7 +354,7 @@ class KhachSanController extends Controller
         );
 
         return view(
-            'doitac.khachsan.form4',
+            'doitac.khachsan.create.form4',
             compact(
                 'tienNghis',
                 'loaiPhongs'
