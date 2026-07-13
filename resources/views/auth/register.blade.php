@@ -270,8 +270,8 @@
                     </div>
 
                     <!-- Google Login -->
-                    <a href="{{ route('google.login') }}"
-                        class="border border-gray-300 rounded-full py-2 flex justify-center items-center gap-3 hover:bg-gray-50 transition">
+                    <a href="{{ route('google.login', [ 'role' => $role ?? 'nguoidung' ]) }}" class="border border-gray-300 rounded-full py-2 flex justify-center items-center gap-3
+                        hover:bg-gray-50 transition">
 
                         <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="24" alt="Google">
 

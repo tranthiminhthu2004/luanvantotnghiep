@@ -27,6 +27,7 @@ class RegisteredUserController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+
        $request->validate([
     'name' => [
         'required',

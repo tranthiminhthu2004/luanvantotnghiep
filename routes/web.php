@@ -42,6 +42,8 @@ use App\Http\Controllers\NguoiDung\UserSoThichController;
 use App\Http\Controllers\DuLich\UserDiaDiemController;
 use App\Http\Controllers\DuLich\UserDiemDenController;
 use App\Http\Controllers\DoiTac\UserDoiTacController;
+use App\Http\Controllers\DoiTac\KhachSanController;
+use App\Http\Controllers\DoiTac\DatPhongController;
 
 /*
 TRANG CHỦ
@@ -756,13 +758,52 @@ Route::prefix('doitac')
     ->middleware('auth')
     ->group(function () {
 
-        Route::resource(
-            'khachsan',
-            KhachSanController::class
-        );
+        Route::get(
+            '/khachsan',
+            [KhachSanController::class, 'index']
+        )->name('doitac.khachsan.index');
 
         Route::get(
-            'datphong',
+    '/khachsan/create/form1',
+    [KhachSanController::class, 'form1']
+)->name('doitac.khachsan.create.form1');
+
+Route::post(
+    '/khachsan/create/form1',
+    [KhachSanController::class, 'luuForm1']
+)->name('doitac.khachsan.create.form1.store');
+
+Route::get(
+    '/khachsan/create/form2',
+    [KhachSanController::class, 'form2']
+)->name('doitac.khachsan.create.form2');
+
+Route::post(
+    '/khachsan/create/form2',
+    [KhachSanController::class, 'luuForm2']
+)->name('doitac.khachsan.create.form2.store');
+
+Route::get(
+    '/khachsan/create/form3',
+    [KhachSanController::class, 'form3']
+)->name('doitac.khachsan.create.form3');
+
+Route::post(
+    '/khachsan/create/form3',
+    [KhachSanController::class, 'luuForm3']
+)->name('doitac.khachsan.create.form3.store');
+
+Route::get(
+    '/khachsan/create/form4',
+    [KhachSanController::class, 'form4']
+)->name('doitac.khachsan.create.form4');
+
+Route::post(
+    '/khachsan/create/form4',
+    [KhachSanController::class, 'luuForm4']
+)->name('doitac.khachsan.create.form4.store');
+        Route::get(
+            '/datphong',
             [DatPhongController::class, 'index']
         )->name('doitac.datphong.index');
 
