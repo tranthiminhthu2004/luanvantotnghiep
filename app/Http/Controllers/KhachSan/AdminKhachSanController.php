@@ -13,6 +13,11 @@ class AdminKhachSanController extends Controller
    
     $query = KhachSan::query();
 
+$query->where(
+    'trang_thai_duyet',
+    'DaDuyet'
+);
+
     // Tìm kiếm theo tên khách sạn
    if ($request->filled('ma_khach_san'))
 {
@@ -74,18 +79,31 @@ if ($request->filled('trang_thai'))
     ->paginate(10)
     ->withQueryString();;
 
-    $tongKhachSan = KhachSan::count();
+    $tongKhachSan = KhachSan::where(
+    'trang_thai_duyet',
+    'DaDuyet'
+)->count();
 
-    $dangHoatDong = KhachSan::where(
+  $dangHoatDong = KhachSan::where(
         'trang_thai',
         1
-    )->count();
+    )
+    ->where(
+        'trang_thai_duyet',
+        'DaDuyet'
+    )
+    ->count();
 
-    $tamDung = KhachSan::where(
+ $tamDung = KhachSan::where(
         'trang_thai',
         0
-    )->count();
-
+    )
+    ->where(
+        'trang_thai_duyet',
+        'DaDuyet'
+    )
+    ->count();
+    
    $diaDiems = DiaDiem::orderBy(
     'ten_dia_diem'
 )->get();
@@ -94,9 +112,14 @@ if ($request->filled('trang_thai'))
         ->distinct()
         ->orderBy('so_sao_khach_san', 'desc')
         ->get();
-    $danhSachKhachSan = KhachSan::orderBy(
-    'ten_khach_san'
-)->get();
+        
+    $danhSachKhachSan = KhachSan::where(
+        'trang_thai_duyet',
+        'DaDuyet'
+    )
+    ->orderBy('ten_khach_san')
+    ->get();
+
     return view(
         'admin.khachsan.index',
         compact(
@@ -216,9 +239,13 @@ if ($request->filled('trang_thai'))
         )
     );
 }
-    public function show($id)
+   public function show($id)
 {
-    $khachSan = KhachSan::findOrFail($id);
+    $khachSan = KhachSan::with([
+        'hinhAnh',
+        'tienNghis',
+        'diaDiem'
+    ])->findOrFail($id);
 
     return view(
         'admin.khachsan.show',

@@ -15,10 +15,9 @@ class UserKhachSanController extends Controller
 {
     private function locKhachSan(Request $request)
     {
-        $query = KhachSan::where(
-            'trang_thai',
-            1
-        );
+        $query = KhachSan::query()
+    ->where('trang_thai', 1)
+    ->where('trang_thai_duyet', 'DaDuyet');
 
         // Địa điểm
         if ($request->filled('ma_dia_diem'))
@@ -177,11 +176,17 @@ public function __construct(
 }
 public function show(Request $request, $id)
     {
-        $khachSan = KhachSan::with([
+       $khachSan = KhachSan::query()
+    ->where('trang_thai', 1)
+    ->where('trang_thai_duyet', 'DaDuyet')
+    ->with([
+        'hinhAnh',
+        'diaDiem',
         'loaiPhongs.hinhAnh',
         'loaiPhongs.phongs',
-        'loaiPhongs.tienNghis'
-        ])->findOrFail($id);
+        'loaiPhongs.tienNghis',
+    ])
+    ->findOrFail($id);
         
         $daKiemTraPhong = $request->filled('ngay_nhan_phong')
     && $request->filled('ngay_tra_phong');

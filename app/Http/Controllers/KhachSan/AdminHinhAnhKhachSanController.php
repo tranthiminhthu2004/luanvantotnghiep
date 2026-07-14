@@ -36,16 +36,14 @@ class AdminHinhAnhKhachSanController extends Controller
             {
                 $tenAnh = time().'_'.$file->getClientOriginalName();
 
-                $file->move(
-                    public_path('images/khachsan'),
-                    $tenAnh
-                );
+$file->move(
+    public_path('images/khachsan'),
+    $tenAnh
+);
 
-                HinhAnhKhachSan::create([
-                    'ma_khach_san' => $id,
-                    'duong_dan_anh' =>
-                        'images/khachsan/'.$tenAnh
-                ]);
+HinhAnhKhachSan::create([
+    'duong_dan_anh' => 'images/khachsan/'.$tenAnh,
+]);
             }
         }
 

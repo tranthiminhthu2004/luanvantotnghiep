@@ -181,7 +181,7 @@
         {{-- Footer --}}
         <div class="border-t border-slate-200 px-8 py-5">
 
-            <div class="flex justify-end gap-3">
+            <div class="flex justify-center gap-3">
 
                 <a href="{{ route('doitac.khachsan.create.form1') }}"
                     class="rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:bg-slate-100">

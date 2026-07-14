@@ -106,14 +106,22 @@
                 <div class="lg:col-span-2">
 
                     <label class="block mb-2 font-semibold text-[#061755]">
-                        Tên khách sạn <span class="text-red-500">*</span>
+                        Tên khách sạn
+                        <span class="text-red-500">*</span>
                     </label>
 
-                    <input type="text" name="ten_khach_san" value="{{ old('ten_khach_san') }}"
-                        class="w-full rounded-xl border px-4 py-3 @error('ten_khach_san') border-red-500 @enderror">
+                    <input type="text" name="ten_khach_san"
+                        value="{{ old('ten_khach_san', $duLieu['ten_khach_san'] ?? '') }}" class="w-full rounded-xl border px-4 py-3
+                        @error('ten_khach_san')
+                            border-red-500
+                        @else
+                            border-slate-300
+                        @enderror">
 
                     @error('ten_khach_san')
-                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    <p class="mt-1 text-sm text-red-500">
+                        {{ $message }}
+                    </p>
                     @enderror
 
                 </div>
@@ -122,18 +130,25 @@
                 <div>
 
                     <label class="block mb-2 font-semibold text-[#061755]">
-                        Địa điểm <span class="text-red-500">*</span>
+                        Địa điểm
+                        <span class="text-red-500">*</span>
                     </label>
 
-                    <select name="ma_dia_diem"
-                        class="w-full rounded-xl border px-4 py-3 @error('ma_dia_diem') border-red-500 @enderror">
+                    <select name="ma_dia_diem" class="w-full rounded-xl border px-4 py-3
+                        @error('ma_dia_diem')
+                            border-red-500
+                        @else
+                            border-slate-300
+                        @enderror">
 
-                        <option value="">Chọn địa điểm</option>
+                        <option value="">
+                            Chọn địa điểm
+                        </option>
 
                         @foreach($diaDiems as $diaDiem)
 
-                        <option value="{{ $diaDiem->ma_dia_diem }}" @selected(old('ma_dia_diem')==$diaDiem->
-                            ma_dia_diem)>
+                        <option value="{{ $diaDiem->ma_dia_diem }}" @selected(old('ma_dia_diem', $duLieu['ma_dia_diem']
+                            ?? '' )==$diaDiem->ma_dia_diem)>
 
                             {{ $diaDiem->ten_dia_diem }}
 
@@ -144,7 +159,9 @@
                     </select>
 
                     @error('ma_dia_diem')
-                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    <p class="mt-1 text-sm text-red-500">
+                        {{ $message }}
+                    </p>
                     @enderror
 
                 </div>
@@ -153,14 +170,21 @@
                 <div>
 
                     <label class="block mb-2 font-semibold text-[#061755]">
-                        Số sao <span class="text-red-500">*</span>
+                        Số sao
+                        <span class="text-red-500">*</span>
                     </label>
 
-                    <select name="so_sao_khach_san" class="w-full rounded-xl border px-4 py-3">
+                    <select name="so_sao_khach_san" class="w-full rounded-xl border px-4 py-3
+                        @error('so_sao_khach_san')
+                            border-red-500
+                        @else
+                            border-slate-300
+                        @enderror">
 
                         @foreach($soSaos as $soSao)
 
-                        <option value="{{ $soSao }}" @selected(old('so_sao_khach_san')==$soSao)>
+                        <option value="{{ $soSao }}" @selected(old('so_sao_khach_san', $duLieu['so_sao_khach_san'] ?? ''
+                            )==$soSao)>
 
                             {{ $soSao }} Sao
 
@@ -170,20 +194,36 @@
 
                     </select>
 
+                    @error('so_sao_khach_san')
+                    <p class="mt-1 text-sm text-red-500">
+                        {{ $message }}
+                    </p>
+                    @enderror
+
                 </div>
 
                 {{-- Địa chỉ --}}
                 <div class="lg:col-span-2">
 
                     <label class="block mb-2 font-semibold text-[#061755]">
-                        Địa chỉ <span class="text-red-500">*</span>
+                        Địa chỉ
+                        <span class="text-red-500">*</span>
                     </label>
 
-                    <input type="text" name="dia_chi" value="{{ old('dia_chi') }}"
-                        class="w-full rounded-xl border px-4 py-3">
+                    <input type="text" name="dia_chi" value="{{ old('dia_chi', $duLieu['dia_chi'] ?? '') }}" class="w-full rounded-xl border px-4 py-3
+                        @error('dia_chi')
+                            border-red-500
+                        @else
+                            border-slate-300
+                        @enderror">
+
+                    @error('dia_chi')
+                    <p class="mt-1 text-sm text-red-500">
+                        {{ $message }}
+                    </p>
+                    @enderror
 
                 </div>
-
                 {{-- Vĩ độ --}}
                 <div>
 
@@ -193,8 +233,22 @@
 
                     </label>
 
-                    <input type="text" name="vi_do" value="{{ old('vi_do') }}"
-                        class="w-full rounded-xl border px-4 py-3">
+                    <input type="text" name="vi_do" value="{{ old('vi_do', $duLieu['vi_do'] ?? '') }}" class="w-full rounded-xl border px-4 py-3
+        @error('vi_do')
+            border-red-500
+        @else
+            border-slate-300
+        @enderror">
+
+                    @error('vi_do')
+
+                    <p class="mt-1 text-sm text-red-500">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
 
                 </div>
 
@@ -207,8 +261,22 @@
 
                     </label>
 
-                    <input type="text" name="kinh_do" value="{{ old('kinh_do') }}"
-                        class="w-full rounded-xl border px-4 py-3">
+                    <input type="text" name="kinh_do" value="{{ old('kinh_do', $duLieu['kinh_do'] ?? '') }}" class="w-full rounded-xl border px-4 py-3
+        @error('kinh_do')
+            border-red-500
+        @else
+            border-slate-300
+        @enderror">
+
+                    @error('kinh_do')
+
+                    <p class="mt-1 text-sm text-red-500">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
 
                 </div>
 
@@ -216,11 +284,29 @@
                 <div>
 
                     <label class="block mb-2 font-semibold text-[#061755]">
-                        Số điện thoại <span class="text-red-500">*</span>
+
+                        Số điện thoại
+                        <span class="text-red-500">*</span>
+
                     </label>
 
-                    <input type="text" name="so_dien_thoai" value="{{ old('so_dien_thoai') }}"
-                        class="w-full rounded-xl border px-4 py-3">
+                    <input type="text" name="so_dien_thoai"
+                        value="{{ old('so_dien_thoai', $duLieu['so_dien_thoai'] ?? '') }}" class="w-full rounded-xl border px-4 py-3
+        @error('so_dien_thoai')
+            border-red-500
+        @else
+            border-slate-300
+        @enderror">
+
+                    @error('so_dien_thoai')
+
+                    <p class="mt-1 text-sm text-red-500">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
 
                 </div>
 
@@ -228,25 +314,56 @@
                 <div>
 
                     <label class="block mb-2 font-semibold text-[#061755]">
-                        Email <span class="text-red-500">*</span>
+
+                        Email
+                        <span class="text-red-500">*</span>
+
                     </label>
 
-                    <input type="email" name="email" value="{{ old('email') }}"
-                        class="w-full rounded-xl border px-4 py-3">
+                    <input type="email" name="email" value="{{ old('email', $duLieu['email'] ?? '') }}" class="w-full rounded-xl border px-4 py-3
+        @error('email')
+            border-red-500
+        @else
+            border-slate-300
+        @enderror">
 
-                </div>
+                    @error('email')
 
-                {{-- Check in --}}
+                    <p class="mt-1 text-sm text-red-500">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
+
+                </div>{{-- Check in --}}
                 <div>
 
                     <label class="block mb-2 font-semibold text-[#061755]">
 
                         Giờ Check-in
+                        <span class="text-red-500">*</span>
 
                     </label>
 
-                    <input type="time" name="gio_check_in" value="{{ old('gio_check_in') }}"
-                        class="w-full rounded-xl border px-4 py-3">
+                    <input type="time" name="gio_check_in"
+                        value="{{ old('gio_check_in', $duLieu['gio_check_in'] ?? '') }}" class="w-full rounded-xl border px-4 py-3
+        @error('gio_check_in')
+            border-red-500
+        @else
+            border-slate-300
+        @enderror">
+
+                    @error('gio_check_in')
+
+                    <p class="mt-1 text-sm text-red-500">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
 
                 </div>
 
@@ -256,11 +373,27 @@
                     <label class="block mb-2 font-semibold text-[#061755]">
 
                         Giờ Check-out
+                        <span class="text-red-500">*</span>
 
                     </label>
 
-                    <input type="time" name="gio_check_out" value="{{ old('gio_check_out') }}"
-                        class="w-full rounded-xl border px-4 py-3">
+                    <input type="time" name="gio_check_out"
+                        value="{{ old('gio_check_out', $duLieu['gio_check_out'] ?? '') }}" class="w-full rounded-xl border px-4 py-3
+        @error('gio_check_out')
+            border-red-500
+        @else
+            border-slate-300
+        @enderror">
+
+                    @error('gio_check_out')
+
+                    <p class="mt-1 text-sm text-red-500">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
 
                 </div>
 
@@ -273,8 +406,23 @@
 
                     </label>
 
-                    <input type="number" min="0" name="so_gio_huy_mien_phi" value="{{ old('so_gio_huy_mien_phi') }}"
-                        class="w-full rounded-xl border px-4 py-3">
+                    <input type="number" min="0" name="so_gio_huy_mien_phi"
+                        value="{{ old('so_gio_huy_mien_phi', $duLieu['so_gio_huy_mien_phi'] ?? '') }}" class="w-full rounded-xl border px-4 py-3
+        @error('so_gio_huy_mien_phi')
+            border-red-500
+        @else
+            border-slate-300
+        @enderror">
+
+                    @error('so_gio_huy_mien_phi')
+
+                    <p class="mt-1 text-sm text-red-500">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
 
                 </div>
 
@@ -287,11 +435,24 @@
 
                     </label>
 
-                    <textarea rows="6" name="mo_ta"
-                        class="w-full rounded-xl border px-4 py-3">{{ old('mo_ta') }}</textarea>
+                    <textarea rows="6" name="mo_ta" class="w-full rounded-xl border px-4 py-3
+        @error('mo_ta')
+            border-red-500
+        @else
+            border-slate-300
+        @enderror">{{ old('mo_ta', $duLieu['mo_ta'] ?? '') }}</textarea>
+
+                    @error('mo_ta')
+
+                    <p class="mt-1 text-sm text-red-500">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
 
                 </div>
-
             </div>
 
             {{-- Footer --}}
@@ -314,7 +475,10 @@
                     </button>
 
                 </div>
+
             </div>
+
+        </div>
 
     </form>
 

@@ -22,10 +22,19 @@ class UserDatPhongController extends Controller
         return redirect()->route('khachsan.index');
     }
 
-    $khachSan = KhachSan::with([
+   $khachSan = KhachSan::with([
         'hinhAnh',
         'diaDiem'
-    ])->findOrFail(
+    ])
+    ->where(
+        'trang_thai',
+        1
+    )
+    ->where(
+        'trang_thai_duyet',
+        'DaDuyet'
+    )
+    ->findOrFail(
         $duLieu['ma_khach_san']
     );
 

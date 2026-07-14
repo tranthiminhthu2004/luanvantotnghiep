@@ -91,6 +91,18 @@
 
     </div>
 
+    {{-- Hiển thị lỗi validate từ controller --}}
+    @if ($errors->any())
+    <div class="mb-6 rounded-xl border border-red-200 bg-red-50 px-5 py-4 text-red-700">
+        <p class="mb-2 font-semibold">Vui lòng kiểm tra lại dữ liệu:</p>
+        <ul class="list-disc space-y-1 pl-5">
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
     {{-- Form --}}
     <form action="{{ route('doitac.khachsan.create.form3.store') }}" method="POST" enctype="multipart/form-data"
         id="formLoaiPhong">
@@ -130,7 +142,7 @@
 
                         </label>
 
-                        <input type="text" name="loai_phong[0][ten_loai_phong]"
+                        <input type="text" name="loai_phong[0][ten_loai_phong]" data-name="ten_loai_phong" required
                             class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:border-[#1040C5] focus:ring-2 focus:ring-blue-100 outline-none">
 
                     </div>
@@ -145,7 +157,8 @@
 
                         </label>
 
-                        <input type="number" min="1" name="loai_phong[0][so_nguoi_toi_da]"
+                        <input type="number" min="1" name="loai_phong[0][so_nguoi_toi_da]" data-name="so_nguoi_toi_da"
+                            required
                             class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:border-[#1040C5] focus:ring-2 focus:ring-blue-100 outline-none">
 
                     </div>
@@ -160,7 +173,7 @@
 
                         </label>
 
-                        <input type="number" min="1" name="loai_phong[0][dien_tich]"
+                        <input type="number" min="1" name="loai_phong[0][dien_tich]" data-name="dien_tich" required
                             class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:border-[#1040C5] focus:ring-2 focus:ring-blue-100 outline-none">
 
                     </div>
@@ -175,7 +188,7 @@
 
                         </label>
 
-                        <input type="number" min="1" name="loai_phong[0][so_giuong]"
+                        <input type="number" min="1" name="loai_phong[0][so_giuong]" data-name="so_giuong" required
                             class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:border-[#1040C5] focus:ring-2 focus:ring-blue-100 outline-none">
 
                     </div>
@@ -190,7 +203,7 @@
 
                         </label>
 
-                        <input type="number" min="1000" name="loai_phong[0][gia_co_ban]"
+                        <input type="number" min="1000" name="loai_phong[0][gia_co_ban]" data-name="gia_co_ban" required
                             class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:border-[#1040C5] focus:ring-2 focus:ring-blue-100 outline-none">
 
                     </div>
@@ -206,7 +219,7 @@
                         </label>
 
                         <input type="file" accept=".jpg,.jpeg,.png,.webp" name="loai_phong[0][hinh_anh]"
-                            class="w-full rounded-xl border border-slate-300 px-4 py-3">
+                            data-name="hinh_anh" required class="w-full rounded-xl border border-slate-300 px-4 py-3">
 
                     </div>
 
@@ -219,47 +232,134 @@
 
                         </label>
 
-                        <textarea rows="5" name="loai_phong[0][mo_ta]"
+                        <textarea rows="5" name="loai_phong[0][mo_ta]" data-name="mo_ta"
                             class="w-full rounded-xl border border-slate-300 px-4 py-3 resize-none focus:border-[#1040C5] focus:ring-2 focus:ring-blue-100 outline-none"></textarea>
+
+                    </div>
+
+                    {{-- Danh sách phòng --}}
+                    <div class="md:col-span-2 mt-8">
+
+                        <div class="flex items-center justify-between mb-5">
+
+                            <h4 class="text-xl font-bold text-[#061755]">
+
+                                Danh sách phòng
+
+                            </h4>
+
+                            <button type="button"
+                                class="themPhong rounded-xl bg-green-600 px-5 py-2 text-white font-semibold hover:bg-green-700 transition">
+
+                                <i class="fa-solid fa-plus mr-2"></i>
+
+                                Thêm phòng
+
+                            </button>
+
+                        </div>
+
+                        <div class="danhSachPhong">
+
+                            <div class="phong-item border border-slate-200 rounded-2xl p-5 mb-4 bg-slate-50">
+
+                                <div class="flex items-center justify-between mb-5">
+
+                                    <h5 class="tieuDePhong font-bold text-[#061755]">
+
+                                        Phòng 1
+
+                                    </h5>
+
+                                    <button type="button"
+                                        class="xoaPhong hidden rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-600">
+
+                                        Xóa
+
+                                    </button>
+
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                                    <div>
+
+                                        <label class="block font-semibold text-[#061755] mb-2">
+
+                                            Số phòng
+                                            <span class="text-red-500">*</span>
+
+                                        </label>
+
+                                        <input type="text" name="loai_phong[0][phong][0][so_phong]"
+                                            data-phong="so_phong" required
+                                            class="w-full rounded-xl border border-slate-300 px-4 py-3">
+
+                                    </div>
+
+                                    <div>
+
+                                        <label class="block font-semibold text-[#061755] mb-2">
+
+                                            Tầng
+                                            <span class="text-red-500">*</span>
+
+                                        </label>
+
+                                        <input type="number" min="1" name="loai_phong[0][phong][0][tang]"
+                                            data-phong="tang" required
+                                            class="w-full rounded-xl border border-slate-300 px-4 py-3">
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
 
                     </div>
 
                 </div>
 
-            </div> {{-- Thêm loại phòng --}}
-            <div class="mb-6 flex justify-center">
+            </div>
 
-                <button type="button" id="themLoaiPhong"
-                    class="rounded-xl bg-green-600 px-8 py-3 font-semibold text-white transition hover:bg-green-700">
+        </div> {{-- /#danhSachLoaiPhong --}}
 
-                    Thêm loại phòng
+        {{-- Thêm loại phòng --}}
+        <div class="mb-6 flex justify-center">
+
+            <button type="button" id="themLoaiPhong"
+                class="rounded-xl bg-green-600 px-8 py-3 font-semibold text-white transition hover:bg-green-700">
+
+                Thêm loại phòng
+
+            </button>
+
+        </div>
+
+        {{-- Footer --}}
+        <div class="border-t border-slate-200 bg-white px-8 py-5 rounded-b-2xl">
+
+            <div class="flex justify-center gap-10">
+
+                <a href="{{ route('doitac.khachsan.create.form2') }}"
+                    class="rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:bg-slate-100">
+
+                    Quay lại
+
+                </a>
+
+                <button type="submit"
+                    class="rounded-xl bg-[#1040C5] px-8 py-3 font-semibold text-white transition hover:bg-blue-700">
+
+                    Tiếp tục
 
                 </button>
 
             </div>
 
-            {{-- Footer --}}
-            <div class="border-t border-slate-200 bg-white px-8 py-5 rounded-b-2xl">
-
-                <div class="flex justify-center gap-10">
-
-                    <a href="{{ route('doitac.khachsan.create.form2') }}"
-                        class="rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:bg-slate-100">
-
-                        Quay lại
-
-                    </a>
-
-                    <button type="submit"
-                        class="rounded-xl bg-[#1040C5] px-8 py-3 font-semibold text-white transition hover:bg-blue-700">
-
-                        Tiếp tục
-
-                    </button>
-
-                </div>
-
-            </div>
+        </div>
 
     </form>
 
@@ -298,7 +398,7 @@
 
                 </label>
 
-                <input type="text" data-name="ten_loai_phong"
+                <input type="text" data-name="ten_loai_phong" required
                     class="w-full rounded-xl border border-slate-300 px-4 py-3">
 
             </div>
@@ -312,7 +412,7 @@
 
                 </label>
 
-                <input type="number" min="1" data-name="so_nguoi_toi_da"
+                <input type="number" min="1" data-name="so_nguoi_toi_da" required
                     class="w-full rounded-xl border border-slate-300 px-4 py-3">
 
             </div>
@@ -326,7 +426,7 @@
 
                 </label>
 
-                <input type="number" min="1" data-name="dien_tich"
+                <input type="number" min="1" data-name="dien_tich" required
                     class="w-full rounded-xl border border-slate-300 px-4 py-3">
 
             </div>
@@ -340,7 +440,7 @@
 
                 </label>
 
-                <input type="number" min="1" data-name="so_giuong"
+                <input type="number" min="1" data-name="so_giuong" required
                     class="w-full rounded-xl border border-slate-300 px-4 py-3">
 
             </div>
@@ -354,7 +454,7 @@
 
                 </label>
 
-                <input type="number" min="1000" data-name="gia_co_ban"
+                <input type="number" min="1000" data-name="gia_co_ban" required
                     class="w-full rounded-xl border border-slate-300 px-4 py-3">
 
             </div>
@@ -368,7 +468,7 @@
 
                 </label>
 
-                <input type="file" accept=".jpg,.jpeg,.png,.webp" data-name="hinh_anh"
+                <input type="file" accept=".jpg,.jpeg,.png,.webp" data-name="hinh_anh" required
                     class="w-full rounded-xl border border-slate-300 px-4 py-3">
 
             </div>
@@ -388,129 +488,358 @@
 
         </div>
 
+        <div class="md:col-span-2 mt-8">
+
+            <div class="flex items-center justify-between mb-5">
+
+                <h4 class="text-xl font-bold text-[#061755]">
+                    Danh sách phòng
+                </h4>
+
+                <button type="button"
+                    class="themPhong rounded-xl bg-green-600 px-5 py-2 text-white font-semibold hover:bg-green-700 transition">
+                    <i class="fa-solid fa-plus mr-2"></i>
+                    Thêm phòng
+                </button>
+
+            </div>
+
+            <div class="danhSachPhong">
+
+                <div class="phong-item border border-slate-200 rounded-2xl p-5 mb-4 bg-slate-50">
+
+                    <div class="flex items-center justify-between mb-5">
+
+                        <h5 class="tieuDePhong font-bold text-[#061755]">
+                            Phòng 1
+                        </h5>
+
+                        <button type="button"
+                            class="xoaPhong hidden rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-600">
+                            Xóa
+                        </button>
+
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                        <div>
+                            <label class="block font-semibold text-[#061755] mb-2">
+                                Số phòng <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" data-phong="so_phong" required
+                                class="w-full rounded-xl border border-slate-300 px-4 py-3">
+                        </div>
+
+                        <div>
+                            <label class="block font-semibold text-[#061755] mb-2">
+                                Tầng <span class="text-red-500">*</span>
+                            </label>
+                            <input type="number" min="1" data-phong="tang" required
+                                class="w-full rounded-xl border border-slate-300 px-4 py-3">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</template>
+<template id="templatePhong">
+
+    <div class="phong-item border border-slate-200 rounded-2xl p-5 mb-4 bg-slate-50">
+
+        <div class="flex items-center justify-between mb-5">
+
+            <h5 class="tieuDePhong font-bold text-[#061755]">
+
+                Phòng
+
+            </h5>
+
+            <button type="button"
+                class="xoaPhong rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-600 transition">
+
+                Xóa
+
+            </button>
+
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+            {{-- Số phòng --}}
+            <div>
+
+                <label class="block font-semibold text-[#061755] mb-2">
+
+                    Số phòng
+                    <span class="text-red-500">*</span>
+
+                </label>
+
+                <input type="text" data-phong="so_phong" required
+                    class="w-full rounded-xl border border-slate-300 px-4 py-3">
+
+            </div>
+
+            {{-- Tầng --}}
+            <div>
+
+                <label class="block font-semibold text-[#061755] mb-2">
+
+                    Tầng
+                    <span class="text-red-500">*</span>
+
+                </label>
+
+                <input type="number" min="1" data-phong="tang" required
+                    class="w-full rounded-xl border border-slate-300 px-4 py-3">
+
+            </div>
+
+        </div>
+
     </div>
 
 </template>
 <script>
 const danhSachLoaiPhong = document.getElementById('danhSachLoaiPhong');
 const templateLoaiPhong = document.getElementById('templateLoaiPhong');
+const templatePhong = document.getElementById('templatePhong');
 const btnThemLoaiPhong = document.getElementById('themLoaiPhong');
 
+/* =========================
+    PHÒNG
+========================= */
+
+function capNhatTenPhong(danhSachPhong) {
+    danhSachPhong.querySelectorAll('.phong-item').forEach(function(phong, index) {
+        const tieuDePhong = phong.querySelector('.tieuDePhong');
+
+        if (tieuDePhong) {
+            tieuDePhong.textContent = 'Phòng ' + (index + 1);
+        }
+    });
+}
+
+function capNhatNamePhong(loaiPhongItem) {
+    const chiSoLoaiPhong = [...document.querySelectorAll('.loai-phong')]
+        .indexOf(loaiPhongItem);
+
+    loaiPhongItem.querySelectorAll('.phong-item').forEach(function(phong, index) {
+        const oSoPhong = phong.querySelector('[data-phong="so_phong"]');
+        const oTang = phong.querySelector('[data-phong="tang"]');
+
+        if (oSoPhong) {
+            oSoPhong.name =
+                `loai_phong[${chiSoLoaiPhong}][phong][${index}][so_phong]`;
+        }
+
+        if (oTang) {
+            oTang.name =
+                `loai_phong[${chiSoLoaiPhong}][phong][${index}][tang]`;
+        }
+    });
+}
+
+function khoiTaoDanhSachPhong(loaiPhongItem) {
+    const danhSachPhong =
+        loaiPhongItem.querySelector('.danhSachPhong');
+
+    const btnThemPhong =
+        loaiPhongItem.querySelector('.themPhong');
+
+    btnThemPhong.addEventListener('click', function() {
+        const clone =
+            templatePhong.content.cloneNode(true);
+
+        danhSachPhong.appendChild(clone);
+
+        capNhatTenPhong(danhSachPhong);
+
+        capNhatNamePhong(loaiPhongItem);
+    });
+
+    danhSachPhong.addEventListener('click', function(e) {
+        const btn = e.target.closest('.xoaPhong');
+
+        if (!btn) return;
+
+        btn.closest('.phong-item').remove();
+
+        capNhatTenPhong(danhSachPhong);
+
+        capNhatNamePhong(loaiPhongItem);
+    });
+
+    capNhatTenPhong(danhSachPhong);
+
+    capNhatNamePhong(loaiPhongItem);
+}
+
+/* =========================
+    LOẠI PHÒNG
+========================= */
+
 btnThemLoaiPhong.addEventListener('click', function() {
+    const index =
+        danhSachLoaiPhong.querySelectorAll('.loai-phong').length;
 
-    const index = danhSachLoaiPhong.querySelectorAll('.loai-phong').length;
-
-    const clone = templateLoaiPhong.content.cloneNode(true);
+    const clone =
+        templateLoaiPhong.content.cloneNode(true);
 
     clone.querySelector('.tieuDeLoaiPhong').textContent =
         'Loại phòng ' + (index + 1);
 
     clone.querySelectorAll('[data-name]').forEach(function(input) {
-
         const ten = input.dataset.name;
 
-        input.name = `loai_phong[${index}][${ten}]`;
-
+        input.name =
+            `loai_phong[${index}][${ten}]`;
     });
 
     danhSachLoaiPhong.appendChild(clone);
 
-    capNhatLoaiPhong();
+    const loaiPhongMoi =
+        danhSachLoaiPhong.lastElementChild;
 
+    khoiTaoDanhSachPhong(loaiPhongMoi);
+
+    capNhatLoaiPhong();
 });
 
 function capNhatLoaiPhong() {
-
-    const danhSach = document.querySelectorAll('.loai-phong');
+    const danhSach =
+        document.querySelectorAll('.loai-phong');
 
     danhSach.forEach(function(item, index) {
-
         item.querySelector('.tieuDeLoaiPhong').textContent =
             'Loại phòng ' + (index + 1);
 
-        item.querySelectorAll('input, textarea').forEach(function(input) {
+        item.querySelectorAll('[data-name]').forEach(function(input) {
+            const ten =
+                input.dataset.name;
 
-            if (!input.name) return;
-
-            input.name = input.name.replace(
-                /loai_phong\[\d+\]/,
-                `loai_phong[${index}]`
-            );
-
+            input.name =
+                `loai_phong[${index}][${ten}]`;
         });
 
-        const btnXoa = item.querySelector('.xoaLoaiPhong');
+        capNhatNamePhong(item);
+
+        const btnXoa =
+            item.querySelector('.xoaLoaiPhong');
 
         if (index === 0) {
-
             btnXoa.classList.add('hidden');
-
         } else {
-
             btnXoa.classList.remove('hidden');
-
         }
-
     });
-
 }
 
-document.addEventListener('click', function(e) {
+/* =========================
+    XÓA LOẠI PHÒNG
+========================= */
 
-    const btn = e.target.closest('.xoaLoaiPhong');
+document.addEventListener('click', function(e) {
+    const btn =
+        e.target.closest('.xoaLoaiPhong');
 
     if (!btn) return;
 
     btn.closest('.loai-phong').remove();
 
     capNhatLoaiPhong();
-
 });
 
-document.addEventListener('change', function(e) {
+/* =========================
+    PREVIEW ẢNH
+========================= */
 
+document.addEventListener('change', function(e) {
     if (e.target.type !== 'file') return;
 
-    const file = e.target.files[0];
+    const file =
+        e.target.files[0];
 
     if (!file) return;
 
-    const wrapper = e.target.parentElement;
+    const wrapper =
+        e.target.parentElement;
 
-    let preview = wrapper.querySelector('.previewLoaiPhong');
+    let preview =
+        wrapper.querySelector('.previewLoaiPhong');
 
     if (!preview) {
-
-        preview = document.createElement('img');
+        preview =
+            document.createElement('img');
 
         preview.className =
             'previewLoaiPhong mt-4 w-full h-56 rounded-xl object-cover border border-slate-200';
 
         wrapper.appendChild(preview);
-
     }
 
-    preview.src = URL.createObjectURL(file);
-
+    preview.src =
+        URL.createObjectURL(file);
 });
 
-document.getElementById('formLoaiPhong').addEventListener('submit', function(e) {
+/* =========================
+    SUBMIT
+========================= */
 
-    const danhSach = document.querySelectorAll('.loai-phong');
+document.getElementById('formLoaiPhong')
+    .addEventListener('submit', function(e) {
+        const danhSach =
+            document.querySelectorAll('.loai-phong');
 
-    if (danhSach.length === 0) {
+        if (danhSach.length === 0) {
+            e.preventDefault();
 
-        e.preventDefault();
+            alert('Vui lòng thêm ít nhất một loại phòng.');
 
-        alert('Vui lòng thêm ít nhất một loại phòng.');
+            return;
+        }
 
-        return;
+        // Kiểm tra trùng số phòng trước khi gửi lên server
+        // (tránh bị back()->withInput() làm mất ảnh loại phòng đã chọn)
+        const danhSachSoPhong = [];
 
-    }
+        const tatCaOSoPhong =
+            document.querySelectorAll('[name*="[so_phong]"]');
 
-});
+        for (const o of tatCaOSoPhong) {
+
+            const soPhong = o.value.trim();
+
+            if (soPhong === '') continue;
+
+            if (danhSachSoPhong.includes(soPhong)) {
+
+                e.preventDefault();
+
+                alert('Số phòng "' + soPhong + '" bị trùng. Vui lòng kiểm tra lại.');
+
+                o.focus();
+
+                return;
+            }
+
+            danhSachSoPhong.push(soPhong);
+        }
+    });
+
+document.querySelectorAll('.loai-phong')
+    .forEach(function(item) {
+        khoiTaoDanhSachPhong(item);
+    });
 
 capNhatLoaiPhong();
 </script>
-
 @endsection

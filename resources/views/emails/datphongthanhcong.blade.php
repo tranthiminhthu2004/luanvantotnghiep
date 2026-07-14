@@ -10,7 +10,21 @@
 
     @php
     $khachSan = $datPhong->khachSan;
-    $thanhToan = $datPhong->thanhToan;
+
+    $thanhToan = $datPhong->thanhToans
+    ->sortByDesc('ngay_thanh_toan')
+    ->first();
+
+    $tongTien = (float) $datPhong->tong_tien;
+
+    $soTienDaThanhToan = $datPhong->thanhToans
+    ->where('trang_thai_thanh_toan', 'ThanhCong')
+    ->sum('so_tien');
+
+    $soTienConLai = max(
+    $tongTien - $soTienDaThanhToan,
+    0
+    );
     @endphp
 
     <table width="700" align="center" cellpadding="0" cellspacing="0"
@@ -53,11 +67,9 @@
                     <tr>
                         <td><b>Trạng thái</b></td>
                         <td>
-                            @if($datPhong->trang_thai_dat_phong=='DaXacNhan')
+                            @if($datPhong->trang_thai_dat_phong == 'DaXacNhan')
                             Đã xác nhận
-                            @elseif($datPhong->trang_thai_dat_phong=='ChoXacNhan')
-                            Chờ xác nhận
-                            @elseif($datPhong->trang_thai_dat_phong=='DaHuy')
+                            @elseif($datPhong->trang_thai_dat_phong == 'DaHuy')
                             Đã hủy
                             @else
                             {{ $datPhong->trang_thai_dat_phong }}
@@ -214,6 +226,41 @@
                     <tr>
                         <td><b>Phương thức</b></td>
                         <td>{{ optional($thanhToan)->phuong_thuc_thanh_toan ?? 'Thanh toán tại khách sạn' }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Hình thức thanh toán</b></td>
+                        <td>
+                            @if(optional($thanhToan)->loai_thanh_toan == 'Coc30')
+                            Đặt cọc 30%
+                            @elseif(optional($thanhToan)->loai_thanh_toan == 'ThanhToanToanBo')
+                            Thanh toán toàn bộ
+                            @else
+                            {{ optional($thanhToan)->loai_thanh_toan }}
+                            @endif
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><b>Tổng tiền đặt phòng</b></td>
+                        <td>{{ number_format($tongTien, 0, ',', '.') }}đ</td>
+                    </tr>
+
+                    <tr>
+                        <td><b>Số tiền đã thanh toán</b></td>
+                        <td>
+                            <b style="color:#16a34a;">
+                                {{ number_format($soTienDaThanhToan, 0, ',', '.') }}đ
+                            </b>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><b>Số tiền còn lại phải thanh toán</b></td>
+                        <td>
+                            <b style="color:#dc2626;">
+                                {{ number_format($soTienConLai, 0, ',', '.') }}đ
+                            </b>
+                        </td>
                     </tr>
 
                     @if($thanhToan)

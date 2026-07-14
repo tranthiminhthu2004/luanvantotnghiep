@@ -165,7 +165,10 @@ class GoiYService
         $diaDiems = DiaDiem::with([
     'nhuCaus',
     'diaDiemDuLichs.hinhAnhs',
-    'khachSans'
+    'khachSans' => function ($query) {
+        $query->where('trang_thai', 1)
+              ->where('trang_thai_duyet', 'DaDuyet');
+    }
 ])->get();
 
         $ketQua = [];
@@ -261,6 +264,10 @@ $ketQua[] = [
         ->where(
             'trang_thai',
             1
+        )
+        ->where(
+        'trang_thai_duyet',
+        'DaDuyet'
         )
         ->orderBy(
             'so_sao_khach_san',
