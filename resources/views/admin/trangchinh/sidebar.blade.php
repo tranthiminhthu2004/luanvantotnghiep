@@ -96,6 +96,38 @@
             </div>
 
         </div>
+        <!-- Đối tác -->
+        <div class="mx-2">
+
+            <button id="doiTacMenuBtn"
+                class="w-full flex items-center justify-between px-4 py-2 text-sm rounded-full hover:bg-blue-900 transition">
+
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-handshake w-4"></i>
+                    <span>Đối tác</span>
+                </div>
+
+                <i id="doiTacIcon" class="fa-solid fa-chevron-down text-[10px] transition-transform duration-300"></i>
+
+            </button>
+
+            <div id="doiTacSubMenu" class="{{ request()->routeIs('admin.doitac.*') ? '' : 'hidden' }}
+        ml-6 mt-1 space-y-1">
+
+                <a href="{{ route('admin.doitac.index') }}" class="block px-4 py-2 text-sm rounded-full transition
+            {{ request()->routeIs('admin.doitac.*')
+                ? 'bg-blue-800'
+                : 'hover:bg-blue-900' }}">
+
+                    <i class="fa-solid fa-file-signature text-cyan-300"></i>
+
+                    Hồ sơ gửi duyệt
+
+                </a>
+
+            </div>
+
+        </div>
         <!-- Tiện nghi -->
         <a href="{{ route('admin.tiennghi.index') }}" class="mx-2 flex items-center gap-3 px-4 py-2 text-sm rounded-full transition
             {{ request()->routeIs('admin.tiennghi.*')
@@ -373,5 +405,11 @@ toggleMenu(
     'nhuCauMenuBtn',
     'nhuCauSubMenu',
     'nhuCauIcon'
+);
+
+toggleMenu(
+    'doiTacMenuBtn',
+    'doiTacSubMenu',
+    'doiTacIcon'
 );
 </script>

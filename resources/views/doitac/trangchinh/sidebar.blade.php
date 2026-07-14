@@ -81,10 +81,12 @@
         </a>
 
         <!-- Đăng xuất -->
-        <form class="mx-3 mt-2">
+        <form method="POST" action="{{ route('logout') }}" class="mx-2 mt-2">
 
-            <button type="button"
-                class="flex w-full items-center gap-3 rounded-full px-4 py-2 text-left text-sm hover:bg-red-600 transition">
+            @csrf
+
+            <button type="submit" onclick="return confirm('Bạn có muốn đăng xuất không?')"
+                class="w-full flex items-center gap-3 px-4 py-2 text-sm rounded-full hover:bg-red-600 transition text-left">
 
                 <i class="fa-solid fa-right-from-bracket w-4"></i>
 
@@ -93,6 +95,7 @@
             </button>
 
         </form>
+
 
     </nav>
 

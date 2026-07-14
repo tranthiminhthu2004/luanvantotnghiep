@@ -9,7 +9,7 @@
                 <tr>
 
                     <th class="px-4 py-4 text-left text-base font-semibold text-black">
-                        Mã KS
+                        Mã khách sạn
                     </th>
 
                     <th class="px-4 py-4 text-left text-base font-semibold text-black">
@@ -49,7 +49,7 @@
                     {{-- Mã --}}
                     <td class="px-4 py-4 font-semibold">
 
-                        KS{{ str_pad($khachSan->ma_khach_san,5,'0',STR_PAD_LEFT) }}
+                        {{$khachSan->ma_khach_san}}
 
                     </td>
 
@@ -148,7 +148,7 @@
                             {{-- Chỉ sửa khi bị từ chối --}}
                             @if($khachSan->trang_thai_duyet == 'TuChoi')
 
-                            <a href="#"
+                            <a href="{{ route('doitac.khachsan.edit', $khachSan->ma_khach_san) }}"
                                 class="w-8 h-8 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center hover:bg-yellow-200 transition"
                                 title="Chỉnh sửa">
 
@@ -161,8 +161,8 @@
                             {{-- Chỉ xóa khi đang chờ duyệt --}}
                             @if($khachSan->trang_thai_duyet == 'ChoDuyet')
 
-                            <form action="{{ route('doitac.khachsan.destroy', $khachSan->ma_khach_san) }}" method="POST"
-                                onsubmit="return confirm('Bạn có chắc muốn xóa khách sạn này?');">
+                            <form action=" {{ route('doitac.khachsan.destroy', $khachSan->ma_khach_san) }}"
+                                method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa khách sạn này?');">
 
                                 @csrf
                                 @method('DELETE')

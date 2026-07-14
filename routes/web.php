@@ -44,6 +44,7 @@ use App\Http\Controllers\DuLich\UserDiemDenController;
 use App\Http\Controllers\DoiTac\UserDoiTacController;
 use App\Http\Controllers\DoiTac\KhachSanController;
 use App\Http\Controllers\DoiTac\DatPhongController;
+use App\Http\Controllers\DoiTac\AdminDoiTacController;
 
 /*
 TRANG CHỦ
@@ -709,7 +710,41 @@ Route::delete(
     '/admin/dia-diem-nhu-cau-du-lich/{maDiaDiem}/{maNhuCau}',
     [AdminDiaDiemNhuCauDuLichController::class, 'destroy']
 )->name('admin.diadiemnhucau.destroy');
+/*
+|--------------------------------------------------------------------------
+| ADMIN - ĐỐI TÁC
+|--------------------------------------------------------------------------
+*/
 
+Route::get(
+    '/admin/doitac',
+    [AdminDoiTacController::class, 'index']
+)->name('admin.doitac.index');
+
+Route::get(
+    '/admin/doitac/{id}',
+    [AdminDoiTacController::class, 'show']
+)->name('admin.doitac.show');
+
+Route::patch(
+    '/doitac/{id}/duyet',
+    [AdminDoiTacController::class, 'duyet']
+)->name('admin.doitac.duyet');
+
+Route::patch(
+    '/{id}/tuchoi',
+    [AdminDoiTacController::class, 'tuChoi']
+)->name('admin.doitac.tuchoi');
+
+Route::get(
+    '/khachsan/{id}/edit',
+    [KhachSanController::class, 'edit']
+)->name('doitac.khachsan.edit');
+
+Route::patch(
+    '/khachsan/{id}',
+    [KhachSanController::class, 'update']
+)->name('doitac.khachsan.update');
 /*
 TÌM KIẾM TỪ TRANG CHỦ
 */

@@ -16,20 +16,63 @@ use App\Models\HinhAnhLoaiPhong;
 
 class KhachSanController extends Controller
 {
-    public function index()
-    {
-       $khachSans = KhachSan::where(
-    'ma_nguoi_dung',
-    auth()->user()->ma_nguoi_dung
-)
-->orderBy('ma_khach_san', 'desc')
-->paginate(10);
+   public function index()
+{
+    $maNguoiDung = auth()->user()->ma_nguoi_dung;
 
-        return view(
-            'doitac.khachsan.index',
-            compact('khachSans')
-        );
-    }
+    $khachSans = KhachSan::where(
+            'ma_nguoi_dung',
+            $maNguoiDung
+        )
+        ->orderBy('ma_khach_san', 'desc')
+        ->paginate(10);
+
+    $tongKhachSan = KhachSan::where(
+        'ma_nguoi_dung',
+        $maNguoiDung
+    )->count();
+
+    $choDuyet = KhachSan::where(
+        'ma_nguoi_dung',
+        $maNguoiDung
+    )
+    ->where(
+        'trang_thai_duyet',
+        'ChoDuyet'
+    )
+    ->count();
+
+    $daDuyet = KhachSan::where(
+        'ma_nguoi_dung',
+        $maNguoiDung
+    )
+    ->where(
+        'trang_thai_duyet',
+        'DaDuyet'
+    )
+    ->count();
+
+    $biTuChoi = KhachSan::where(
+        'ma_nguoi_dung',
+        $maNguoiDung
+    )
+    ->where(
+        'trang_thai_duyet',
+        'TuChoi'
+    )
+    ->count();
+
+    return view(
+        'doitac.khachsan.index',
+        compact(
+            'khachSans',
+            'tongKhachSan',
+            'choDuyet',
+            'daDuyet',
+            'biTuChoi'
+        )
+    );
+}
 
     public function form1()
     {
@@ -602,5 +645,37 @@ class KhachSanController extends Controller
                 'Có lỗi xảy ra, vui lòng thử lại.'
             );
     }
+}
+public function edit($id)
+{
+    $khachSan = KhachSan::with([
+        'hinhAnh',
+        'diaDiem',
+        'tienNghis',
+        'loaiPhongs.hinhAnh',
+        'loaiPhongs.tienNghis',
+    ])
+    ->where(
+        'ma_nguoi_dung',
+        auth()->user()->ma_nguoi_dung
+    )
+    ->findOrFail($id);
+
+    $diaDiems = DiaDiem::orderBy(
+        'ten_dia_diem'
+    )->get();
+
+    $tienNghis = TienNghi::orderBy(
+        'ten_tien_nghi'
+    )->get();
+
+    return view(
+        'doitac.khachsan.edit',
+        compact(
+            'khachSan',
+            'diaDiems',
+            'tienNghis'
+        )
+    );
 }
 }
