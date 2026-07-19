@@ -187,6 +187,23 @@ public function show(Request $request, $id)
         'loaiPhongs.tienNghis',
     ])
     ->findOrFail($id);
+    if ($request->hasAny([
+    'ngay_nhan_phong',
+    'ngay_tra_phong',
+    'so_nguoi_truong_thanh',
+    'so_tre_em',
+    'so_nguoi_cao_tuoi',
+    'so_luong_phong',
+])) {
+
+    $request->validate([
+        'ngay_nhan_phong' => 'required',
+        'ngay_tra_phong'  => 'required',
+    ], [
+        'ngay_nhan_phong.required' => 'Vui lòng chọn ngày nhận phòng.',
+        'ngay_tra_phong.required'  => 'Vui lòng chọn ngày trả phòng.',
+    ]);
+}
         
         $daKiemTraPhong = $request->filled('ngay_nhan_phong')
     && $request->filled('ngay_tra_phong');
@@ -346,8 +363,17 @@ return view(
     )
 );
     }
-        public function timKiem(Request $request)
+ public function timKiem(Request $request)
 {
+     $request->validate([
+        'ma_dia_diem' => ['required'],
+        'ngay_nhan_phong' => ['required'],
+        'ngay_tra_phong' => ['required'],
+    ], [
+        'ma_dia_diem.required' => 'Vui lòng chọn địa điểm.',
+        'ngay_nhan_phong.required' => 'Vui lòng chọn ngày nhận phòng.',
+        'ngay_tra_phong.required' => 'Vui lòng chọn ngày trả phòng.',
+    ]);
     $query = $this->locKhachSan($request);
 
     $khachSans = $query

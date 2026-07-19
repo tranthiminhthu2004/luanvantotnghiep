@@ -9,6 +9,6 @@ class UserDoiTacController extends Controller
 {
     public function index()
     {
-        return view('doitac.dashboard');
+        return view('users.doitac.index');
     }
 }

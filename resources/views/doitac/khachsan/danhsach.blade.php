@@ -131,7 +131,6 @@
                     </td>
 
                     {{-- Thao tác --}}
-                    {{-- Thao tác --}}
                     <td class="px-4 py-4">
 
                         <div class="flex justify-center gap-3">

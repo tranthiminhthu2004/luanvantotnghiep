@@ -267,18 +267,6 @@
 
         </a>
 
-        <!-- Đánh giá -->
-        <a href="#" class="mx-2 flex items-center gap-3 px-4 py-2 text-sm rounded-full transition
-            {{ request()->routeIs('admin.danhgia.*')
-            ? 'bg-blue-800'
-            : 'hover:bg-blue-900' }}">
-
-            <i class="fa-solid fa-star w-4"></i>
-
-            Đánh giá
-
-        </a>
-
         <!-- Thống kê -->
         <p class="px-4 mt-6 mb-2 text-[11px] text-gray-400 uppercase tracking-widest">
             Thống kê
@@ -312,30 +300,6 @@
         <p class="px-4 mt-6 mb-2 text-[11px] text-gray-400 uppercase tracking-widest">
             Cài đặt
         </p>
-
-        <!-- Cài đặt hệ thống -->
-        <a href="#" class="mx-2 flex items-center gap-3 px-4 py-2 text-sm rounded-full transition
-            {{ request()->routeIs('admin.caidat.*')
-            ? 'bg-blue-800'
-            : 'hover:bg-blue-900' }}">
-
-            <i class="fa-solid fa-gear w-4"></i>
-
-            Cài đặt hệ thống
-
-        </a>
-
-        <!-- Phân quyền -->
-        <a href="#" class="mx-2 flex items-center gap-3 px-4 py-2 text-sm rounded-full transition
-            {{ request()->routeIs('admin.phanquyen.*')
-            ? 'bg-blue-800'
-            : 'hover:bg-blue-900' }}">
-
-            <i class="fa-solid fa-user-shield w-4"></i>
-
-            Phân quyền
-
-        </a>
 
         <!-- Đăng xuất -->
         <form method="POST" action="{{ route('logout') }}" class="mx-2 mt-2">

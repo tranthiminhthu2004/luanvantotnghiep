@@ -13,31 +13,25 @@
 
                 </h1>
 
-                <p class="mt-8 text-slate-600 text-lg leading-8 text-justify">
-
-                    Đưa khách sạn của bạn tiếp cận nhiều khách hàng hơn thông qua
-                    hệ thống đặt phòng trực tuyến. Sau khi gửi thông tin khách
-                    sạn, đội ngũ quản trị sẽ xem xét và phê duyệt trước khi hiển
-                    thị trên hệ thống.
-
+                <p class="mt-8 text-slate-600 text-lg leading-8">
+                    Đưa khách sạn của bạn tiếp cận nhiều khách hàng hơn thông qua hệ thống đặt
+                    phòng trực tuyến. Sau khi gửi thông tin khách sạn, đội ngũ quản trị sẽ xem
+                    xét và phê duyệt trước khi hiển thị trên hệ thống.
                 </p>
 
-                <div class="mt-8 flex flex-wrap gap-4">
+                <p class="mt-4 text-slate-600 text-lg leading-8">
+                    Vui lòng liên hệ với chúng tôi qua email
+                    <span class="font-medium">hotelbooking.com@gmail.com</span>
+                    hoặc số điện thoại
+                    <span class="font-medium">19001010</span>
+                    để biết thêm chi tiết.
+                </p>
 
-                    <a href="{{ route('register', ['role' => 'doitac']) }}"
-                        class="inline-flex items-center gap-2 bg-[#1040C5] hover:bg-blue-700 text-white px-8 py-4 rounded-full font-semibold transition">
-
-                        Đăng ký đối tác
-
-                    </a>
-
-
-                </div>
 
             </div>
 
             {{-- Ảnh --}}
-            <div class="bg-gradient-to-br from-blue-50 to-blue-100">
+            <div class=" bg-gradient-to-br from-blue-50 to-blue-100">
 
                 <img src="{{ asset('images/anhhoptac.png') }}" alt="Đối tác" class="w-full h-full object-cover">
 

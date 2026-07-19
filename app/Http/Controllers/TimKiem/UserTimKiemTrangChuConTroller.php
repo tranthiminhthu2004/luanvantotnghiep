@@ -12,6 +12,15 @@ class UserTimKiemTrangChuController extends Controller
 {
    public function index(Request $request)
 {
+    $request->validate([
+            'ma_dia_diem' => 'required',
+            'ngay_nhan_phong' => 'required',
+            'ngay_tra_phong' => 'required',
+        ], [
+            'ma_dia_diem.required' => 'Vui lòng chọn địa điểm.',
+            'ngay_nhan_phong.required' => 'Vui lòng chọn ngày nhận phòng.',
+            'ngay_tra_phong.required' => 'Vui lòng chọn ngày trả phòng.',
+    ]);
     $diaDiems = DiaDiem::orderBy(
         'ten_dia_diem'
     )->get();

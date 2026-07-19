@@ -44,25 +44,7 @@
 
         </a>
 
-        <!-- Đơn đặt phòng -->
-        <a href="#"
-            class="mx-3 mt-2 flex items-center gap-3 rounded-full px-4 py-2 text-sm hover:bg-blue-900 transition">
 
-            <i class="fa-solid fa-calendar-check w-4"></i>
-
-            Đơn đặt phòng
-
-        </a>
-
-        <!-- Đánh giá -->
-        <a href="#"
-            class="mx-3 mt-1 flex items-center gap-3 rounded-full px-4 py-2 text-sm hover:bg-blue-900 transition">
-
-            <i class="fa-solid fa-star w-4"></i>
-
-            Đánh giá
-
-        </a>
 
         <!-- Tài khoản -->
         <p class="px-4 mt-6 mb-2 text-[11px] uppercase tracking-widest text-gray-400">

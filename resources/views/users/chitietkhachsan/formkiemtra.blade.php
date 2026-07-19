@@ -13,8 +13,14 @@
 
                 </label>
 
-                <input type="text" name="ngay_nhan_phong" id="ngay_nhan_phong" value="{{ request('ngay_nhan_phong') }}"
-                    placeholder="Chọn ngày" autocomplete="off" class="mt-2 w-full border rounded-xl px-4 py-3">
+                <input type="text" name="ngay_nhan_phong" id="ngay_nhan_phong"
+                    value="{{ old('ngay_nhan_phong', request('ngay_nhan_phong')) }}" placeholder=" Chọn ngày"
+                    autocomplete="off" class="mt-2 w-full border rounded-xl px-4 py-3">
+                <div class="h-5 mt-1">
+                    @error('ngay_nhan_phong')
+                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
 
             </div>
 
@@ -27,9 +33,14 @@
 
                 </label>
 
-                <input type="text" name="ngay_tra_phong" id="ngay_tra_phong" value="{{ request('ngay_tra_phong') }}"
-                    placeholder="Chọn ngày" autocomplete="off" class="mt-2 w-full border rounded-xl px-4 py-3">
-
+                <input type="text" name="ngay_tra_phong" id="ngay_tra_phong"
+                    value="{{ old('ngay_tra_phong', request('ngay_tra_phong')) }}" placeholder=" Chọn ngày"
+                    autocomplete="off" class="mt-2 w-full border rounded-xl px-4 py-3">
+                <div class="h-5 mt-1">
+                    @error('ngay_tra_phong')
+                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
             </div>
 
             {{-- Khách --}}
@@ -51,6 +62,8 @@
                     </span>
 
                 </button>
+                <div class="h-5 mt-1">
+                </div>
 
                 <div id="guestDropdown" class="hidden absolute z-50 bg-white border rounded-xl shadow-xl p-4 w-80 mt-2">
 
@@ -188,12 +201,9 @@
 
                     <input type="hidden" name="so_nguoi_truong_thanh" id="adultInput"
                         value="{{ request('so_nguoi_truong_thanh',1) }}">
-
                     <input type="hidden" name="so_tre_em" id="childInput" value="{{ request('so_tre_em',0) }}">
-
                     <input type="hidden" name="so_nguoi_cao_tuoi" id="elderInput"
                         value="{{ request('so_nguoi_cao_tuoi',0) }}">
-
                     <input type="hidden" name="so_luong_phong" id="roomInput" value="{{ request('so_luong_phong',1) }}">
 
                 </div>
@@ -209,7 +219,8 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
 
                 </button>
-
+                <div class="h-5 mt-1">
+                </div>
             </div>
 
         </div>
@@ -312,8 +323,7 @@ document.addEventListener("DOMContentLoaded", function() {
         minDate: "today",
 
         defaultDate: document.getElementById("ngay_nhan_phong").value ?
-            document.getElementById("ngay_nhan_phong").value :
-            null,
+            document.getElementById("ngay_nhan_phong").value : null,
 
         onChange: function(selectedDates) {
 
@@ -351,8 +361,7 @@ document.addEventListener("DOMContentLoaded", function() {
         minDate: new Date().fp_incr(1),
 
         defaultDate: document.getElementById("ngay_tra_phong").value ?
-            document.getElementById("ngay_tra_phong").value :
-            null
+            document.getElementById("ngay_tra_phong").value : null
 
     });
 

@@ -35,26 +35,15 @@
 
                 @include('users.chitietkhachsan.thongtinkhachsan')
 
-                @if($daKiemTraPhong)
-
-                @include('users.chitietkhachsan.danhsachloaiphong')
-
-                @else
-
                 @include('users.chitietkhachsan.formkiemtra')
 
+                @if($daKiemTraPhong)
+                @include('users.chitietkhachsan.danhsachloaiphong')
                 @endif
 
                 @include('users.chitietkhachsan.bando')
 
-                @include('users.chitietkhachsan.danhgia')
-
                 @include('users.chitietkhachsan.diadiemganday')
-
-            </div>
-            <div class="mt-8">
-
-                @include('users.chitietkhachsan.khachsantuongtu')
 
             </div>
 
