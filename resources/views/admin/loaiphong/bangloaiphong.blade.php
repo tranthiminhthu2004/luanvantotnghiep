@@ -2,7 +2,7 @@
 
     <div class="w-full overflow-x-auto lg:overflow-visible">
 
-        <table class="w-full lg:min-w-0 min-w-[980px] border-collapse">
+        <table class="w-full lg:min-w-0 min-w-[1200px] border-collapse">
 
             <thead class="bg-slate-50 border-b">
 

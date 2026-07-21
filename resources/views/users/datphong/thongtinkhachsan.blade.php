@@ -1,8 +1,7 @@
 {{-- THÔNG TIN KHÁCH SẠN --}}
-
 <section>
 
-    <h2 class="text-xl sm:text-2xl font-bold text-slate-800 mb-6">
+    <h2 class="text-3xl lg:text-4xl font-bold text-[#061755] mb-6">
 
         Thông tin khách sạn
 

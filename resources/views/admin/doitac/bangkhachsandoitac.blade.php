@@ -134,23 +134,6 @@
 
                             </a>
 
-                            <!-- Duyệt -->
-                            <button
-                                class="w-8 h-8 rounded-full bg-green-100 text-green-600 hover:bg-green-200 flex items-center justify-center transition"
-                                title="Duyệt">
-
-                                <i class="fa-solid fa-check text-xs"></i>
-
-                            </button>
-
-                            <!-- Từ chối -->
-                            <button
-                                class="w-8 h-8 rounded-full bg-red-100 text-red-600 hover:bg-red-200 flex items-center justify-center transition"
-                                title="Từ chối">
-
-                                <i class="fa-solid fa-xmark text-xs"></i>
-
-                            </button>
 
                         </div>
 

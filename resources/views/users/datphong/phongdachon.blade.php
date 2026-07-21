@@ -2,7 +2,7 @@
 
 <section>
 
-    <h2 class="text-xl sm:text-2xl font-bold text-slate-800 mb-6">
+    <h2 class="text-xl lg:text-4xl font-bold text-[#061755] mb-6">
 
         Danh sách phòng đã chọn
 
@@ -18,31 +18,31 @@
 
                     <tr>
 
-                        <th class="px-6 py-4 text-left text-sm font-semibold text-slate-700">
+                        <th class="px-6 py-4 text-left text-base font-semibold text-slate-700">
 
                             Loại phòng
 
                         </th>
 
-                        <th class="px-4 py-4 text-center text-sm font-semibold text-slate-700">
+                        <th class="px-4 py-4 text-center text-base font-semibold text-slate-700">
 
                             Số lượng
 
                         </th>
 
-                        <th class="px-4 py-4 text-right text-sm font-semibold text-slate-700">
+                        <th class="px-4 py-4 text-right text-base font-semibold text-slate-700">
 
                             Đơn giá (1 đêm)
 
                         </th>
 
-                        <th class="px-4 py-4 text-center text-sm font-semibold text-slate-700">
+                        <th class="px-4 py-4 text-center text-base font-semibold text-slate-700">
 
                             Số đêm
 
                         </th>
 
-                        <th class="px-6 py-4 text-right text-sm font-semibold text-slate-700">
+                        <th class="px-6 py-4 text-right text-basefont-semibold text-slate-700">
 
                             Thành tiền
 

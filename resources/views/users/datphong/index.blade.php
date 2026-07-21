@@ -23,11 +23,6 @@
 
         <div class="max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-6 py-8">
 
-            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800 mb-8">
-
-                Xác nhận đặt phòng
-
-            </h1>
 
             <form id="datPhongForm" method="POST" action="{{ route('thanhtoan.index') }}">
 
@@ -35,6 +30,12 @@
 
                 <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 lg:p-8">
 
+                    <h1 class="text-xl sm:text-3xl lg:text-4xl font-bold text-[#061755] mb-8">
+
+                        Xác nhận đặt phòng
+
+                    </h1>
+                    <div class="border-t border-slate-200 my-8"></div>
                     {{-- Thông tin khách sạn --}}
                     @include('users.datphong.thongtinkhachsan')
 

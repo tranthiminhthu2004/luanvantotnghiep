@@ -2,7 +2,7 @@
 
 <section>
 
-    <h2 class="text-xl sm:text-2xl font-bold text-slate-800 mb-6">
+    <h2 class="text-xl lg:text-4xl font-bold text-[#061755] mb-6">
 
         Thông tin khách hàng
 
@@ -13,7 +13,7 @@
         {{-- Họ và tên --}}
         <div>
 
-            <label class="block mb-2 text-sm font-medium text-slate-700">
+            <label class="block mb-2 text-base font-medium text-slate-700">
 
                 Họ và tên <span class="text-red-500">*</span>
 
@@ -38,7 +38,7 @@
         {{-- Số điện thoại --}}
         <div>
 
-            <label class="block mb-2 text-sm font-medium text-slate-700">
+            <label class="block mb-2 text-base font-medium text-slate-700">
 
                 Số điện thoại <span class="text-red-500">*</span>
 
@@ -63,7 +63,7 @@
         {{-- Email --}}
         <div class="md:col-span-2">
 
-            <label class="block mb-2 text-sm font-medium text-slate-700">
+            <label class="block mb-2 text-base font-medium text-slate-700">
 
                 Email <span class="text-red-500">*</span>
 
@@ -88,7 +88,7 @@
         {{-- Ghi chú --}}
         <div class="md:col-span-2">
 
-            <label class="block mb-2 text-sm font-medium text-slate-700">
+            <label class="block mb-2 text-base font-medium text-slate-700">
 
                 Ghi chú
 

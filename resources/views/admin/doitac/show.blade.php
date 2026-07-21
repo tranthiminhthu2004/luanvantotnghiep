@@ -300,7 +300,7 @@
 
         <div class="px-6 py-4 border-b flex items-center justify-between">
 
-            <h2 class="text-lg font-bold text-[#061755] uppercase">
+            <h2 class="text-lg font-bold text-[#061755] ">
 
                 Album ảnh khách sạn
 
@@ -322,10 +322,10 @@
 
                 @foreach($doiTac->hinhAnh as $hinhAnh)
 
-                <a href="{{ asset('images/khachsan/' . $hinhAnh->duong_dan_anh) }}" target="_blank"
+                <a href="{{ asset($hinhAnh->duong_dan_anh) }}" target="_blank"
                     class="overflow-hidden rounded-xl border hover:shadow transition">
 
-                    <img src="{{ asset('images/khachsan/' . $hinhAnh->duong_dan_anh) }}" alt="Ảnh khách sạn"
+                    <img src="{{ asset($hinhAnh->duong_dan_anh) }}" alt="Ảnh khách sạn"
                         class="w-full h-44 object-cover">
 
                 </a>
@@ -346,8 +346,6 @@
 
         </div>
     </div>
-
-
 
     {{-- ========================================================= --}}
     {{-- LOẠI PHÒNG --}}
@@ -433,7 +431,7 @@
 
                             @if($anh)
 
-                            <img src="{{ asset('images/loaiphong/' . $anh->duong_dan_anh) }}" alt="Ảnh loại phòng"
+                            <img src="{{ asset($anh->duong_dan_anh) }}" alt="Ảnh loại phòng"
                                 class="w-28 h-20 object-cover rounded-lg border">
 
                             @else
@@ -523,9 +521,7 @@
         </div>
 
     </div>
-    {{-- ========================================================= --}}
-    {{-- TIỆN NGHI --}}
-    {{-- ========================================================= --}}
+
 
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
 
@@ -646,9 +642,6 @@
         </div>
 
     </div>
-    {{-- ========================================================= --}}
-    {{-- THAO TÁC --}}
-    {{-- ========================================================= --}}
 
     <div>
 
@@ -685,7 +678,7 @@
 
         @elseif($doiTac->trang_thai_duyet == 'DaDuyet')
 
-        <div class="rounded-xl border border-green-200 bg-green-50 p-5">
+        <div class="rounded-xl p-5">
 
             <div class="flex items-center gap-2 text-green-700 font-semibold">
 
