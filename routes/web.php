@@ -842,6 +842,7 @@ Route::prefix('doitac')
             '/khachsan/create/form2',
             [KhachSanController::class, 'luuForm2']
         )->name('doitac.khachsan.create.form2.store');
+        
 
         Route::get(
             '/khachsan/create/form3',
@@ -864,9 +865,14 @@ Route::prefix('doitac')
         )->name('doitac.khachsan.create.form4.store');
         
         Route::delete(
-    '/khachsan/{ma_khach_san}',
-    [KhachSanController::class, 'destroy']
-)->name('doitac.khachsan.destroy');
+        '/khachsan/{ma_khach_san}',
+        [KhachSanController::class, 'destroy']
+        )->name('doitac.khachsan.destroy');
+        
+        Route::get(
+        '/khach-san/{maKhachSan}',
+        [KhachSanController::class, 'show']
+        )->name('doitac.khachsan.show');
         /*
         |--------------------------------------------------------------------------
         | ĐẶT PHÒNG

@@ -136,7 +136,7 @@
                         <div class="flex justify-center gap-3">
 
                             {{-- Chi tiết --}}
-                            <a href="#"
+                            <a href="{{route('doitac.khachsan.show', $khachSan->ma_khach_san)}}"
                                 class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center hover:bg-blue-200 transition"
                                 title="Chi tiết">
 
@@ -147,7 +147,7 @@
                             {{-- Chỉ sửa khi bị từ chối --}}
                             @if($khachSan->trang_thai_duyet == 'TuChoi')
 
-                            <a href="{{ route('doitac.khachsan.edit', $khachSan->ma_khach_san) }}"
+                            <a href=" {{ route('doitac.khachsan.edit', $khachSan->ma_khach_san) }}"
                                 class="w-8 h-8 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center hover:bg-yellow-200 transition"
                                 title="Chỉnh sửa">
 

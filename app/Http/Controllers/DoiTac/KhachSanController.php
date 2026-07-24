@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\DoiTac;
+use Illuminate\Support\Facades\Validator;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -74,6 +75,38 @@ class KhachSanController extends Controller
             )
         );
     }
+    public function show($maKhachSan)
+{
+    $khachSan = KhachSan::with([
+
+        'diaDiem',
+
+        'hinhAnh',
+
+        'tienNghis',
+
+        'loaiPhongs.hinhAnh',
+
+        'loaiPhongs.phongs',
+
+        'loaiPhongs.tienNghis'
+
+    ])
+    ->where(
+        'ma_khach_san',
+        $maKhachSan
+    )
+    ->where(
+        'ma_nguoi_dung',
+        auth()->user()->ma_nguoi_dung
+    )
+    ->firstOrFail();
+
+    return view(
+        'doitac.khachsan.show',
+        compact('khachSan')
+    );
+}
 
    public function form1()
 {
@@ -133,7 +166,7 @@ class KhachSanController extends Controller
 
         'so_dien_thoai.required' => 'Vui lòng nhập số điện thoại.',
 
-        'so_dien_thoai.regex' => 'Số điện thoại phải có 10 số và bắt đầu bằng 0.',
+        'so_dien_thoai.regex' => 'Số điện thoại phải có 10 ,bắt đầu bằng 0 và không được có khoảng cách.',
 
         'email.required' => 'Vui lòng nhập email.',
 
@@ -205,81 +238,153 @@ public function form2()
 
 public function luuForm2(Request $request)
 {
-    if (
-        !$request->hasFile('hinh_anh') &&
-        session()->has('doitac_khachsan_form2')
-    )
+    $anhCu = session(
+        'doitac_khachsan_form2',
+        []
+    );
+
+    $anhXoa = json_decode(
+        $request->anh_xoa ?? '[]',
+        true
+    );
+
+    if (!is_array($anhXoa))
     {
-        return redirect()->route(
-            'doitac.khachsan.create.form3'
-        );
+        $anhXoa = [];
+    }
+    
+    if ($request->hasFile('hinh_anh'))
+    {
+        $request->validate([
+
+            'hinh_anh' => 'array',
+
+            'hinh_anh.*' =>
+                'image|mimes:jpg,jpeg,png,webp|max:2048'
+
+        ], [
+
+            'hinh_anh.*.image' =>
+                'Tệp tải lên phải là hình ảnh.',
+
+            'hinh_anh.*.mimes' =>
+                'Chỉ chấp nhận JPG, JPEG, PNG hoặc WEBP.',
+
+            'hinh_anh.*.max' =>
+                'Mỗi hình ảnh tối đa 2MB.',
+
+        ]);
     }
 
-    $request->validate([
+    $danhSachHinhAnh = array_values(
 
-        'hinh_anh' => 'required|array|min:5|max:15',
+        array_diff(
 
-        'hinh_anh.*' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+            $anhCu,
 
-    ], [
+            $anhXoa
 
-        'hinh_anh.required' => 'Vui lòng chọn hình ảnh.',
+        )
 
-        'hinh_anh.array' => 'Dữ liệu hình ảnh không hợp lệ.',
+    );
 
-        'hinh_anh.min' => 'Khách sạn phải có ít nhất 5 hình ảnh.',
-
-        'hinh_anh.max' => 'Khách sạn chỉ được tải lên tối đa 15 hình ảnh.',
-
-        'hinh_anh.*.required' => 'Vui lòng chọn hình ảnh.',
-
-        'hinh_anh.*.image' => 'Tệp tải lên phải là hình ảnh.',
-
-        'hinh_anh.*.mimes' => 'Chỉ chấp nhận JPG, JPEG, PNG hoặc WEBP.',
-
-        'hinh_anh.*.max' => 'Mỗi hình ảnh tối đa 2MB.',
-
-    ]);
-
-    if (session()->has('doitac_khachsan_form2'))
+    if ($request->hasFile('hinh_anh'))
     {
-        foreach (session('doitac_khachsan_form2') as $tenAnh)
+        foreach ($request->file('hinh_anh') as $hinhAnh)
         {
-            $duongDan = public_path(
-                'images/khachsan/' . $tenAnh
+            $tenAnh =
+                time() . '_' .
+                uniqid() . '.' .
+                $hinhAnh->getClientOriginalExtension();
+
+            $hinhAnh->move(
+                public_path('images/khachsan'),
+                $tenAnh
             );
 
-            if (File::exists($duongDan))
-            {
-                File::delete($duongDan);
-            }
+            $danhSachHinhAnh[] = $tenAnh;
         }
     }
 
-    $danhSachHinhAnh = [];
-
-    foreach ($request->file('hinh_anh') as $hinhAnh)
+    if (count($danhSachHinhAnh) < 5)
     {
-        $tenAnh =
-            time() . '_' .
-            uniqid() . '.' .
-            $hinhAnh->getClientOriginalExtension();
+        return back()
+            ->withInput()
+            ->withErrors([
+                'hinh_anh' =>
+                'Khách sạn phải có ít nhất 5 hình ảnh.'
+            ]);
+    }
 
-        $hinhAnh->move(
-            public_path('images/khachsan'),
-            $tenAnh
+    if (count($danhSachHinhAnh) > 15)
+    {
+        return back()
+            ->withInput()
+            ->withErrors([
+                'hinh_anh' =>
+                'Khách sạn chỉ được có tối đa 15 hình ảnh.'
+            ]);
+    }
+     foreach ($anhXoa as $tenAnh)
+    {
+        $duongDan = public_path(
+            'images/khachsan/' . $tenAnh
         );
 
-        $danhSachHinhAnh[] = $tenAnh;
+        if (File::exists($duongDan))
+        {
+            File::delete($duongDan);
+        }
     }
 
     session([
+
         'doitac_khachsan_form2' => $danhSachHinhAnh
+
     ]);
 
     return redirect()->route(
         'doitac.khachsan.create.form3'
     );
+}
+public function themAnhTam(Request $request)
+{
+    $request->validate([
+        'hinh_anh.*' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048'
+    ]);
+
+    $danhSachAnh = session('doitac_khachsan_form2', []);
+
+    foreach ($request->file('hinh_anh', []) as $file) {
+
+        if (count($danhSachAnh) >= 15) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Chỉ được tải tối đa 15 hình.'
+            ], 422);
+        }
+
+        $tenAnh =
+            time() . '_' .
+            uniqid() . '.' .
+            $file->getClientOriginalExtension();
+
+        $file->move(
+            public_path('images/khachsan'),
+            $tenAnh
+        );
+
+        $danhSachAnh[] = $tenAnh;
+    }
+
+    session([
+        'doitac_khachsan_form2' => $danhSachAnh
+    ]);
+
+    return response()->json([
+        'success' => true,
+        'images' => $danhSachAnh
+    ]);
 }
 public function form3()
 {
@@ -292,60 +397,97 @@ public function form3()
         );
     }
 
+    $loaiPhongs = old(
+        'loai_phong',
+        session(
+            'doitac_khachsan_form3',
+            [
+                [
+                    'ten_loai_phong' => '',
+                    'so_nguoi_toi_da' => '',
+                    'dien_tich' => '',
+                    'so_giuong' => '',
+                    'gia_co_ban' => '',
+                    'mo_ta' => '',
+                    'hinh_anh' => null,
+                    'phong' => [
+                        [
+                            'so_phong' => '',
+                            'tang' => '',
+                        ]
+                    ]
+                ]
+            ]
+        )
+    );
+
     return view(
-        'doitac.khachsan.create.form3'
+        'doitac.khachsan.create.form3',
+        compact('loaiPhongs')
     );
 }
 
 public function luuForm3(Request $request)
 {
-    $request->validate([
+    $request->validate(
 
-        'loai_phong' => 'required|array|min:1',
+        [
 
-        'loai_phong.*.ten_loai_phong' => 'required|string|max:255',
+            'loai_phong' => 'required|array|min:1',
 
-        'loai_phong.*.so_nguoi_toi_da' => 'required|integer|min:1',
+            'loai_phong.*.ten_loai_phong' => 'required|string|max:255',
 
-        'loai_phong.*.dien_tich' => 'required|numeric|min:1',
+            'loai_phong.*.so_nguoi_toi_da' => 'required|integer|min:1',
 
-        'loai_phong.*.so_giuong' => 'required|integer|min:1',
+            'loai_phong.*.dien_tich' => 'required|numeric|min:1',
 
-        'loai_phong.*.gia_co_ban' => 'required|numeric|min:1000',
+            'loai_phong.*.so_giuong' => 'required|integer|min:1',
 
-        'loai_phong.*.mo_ta' => 'nullable|string',
+            'loai_phong.*.gia_co_ban' => 'required|numeric|min:1000',
 
-        'loai_phong.*.hinh_anh' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'loai_phong.*.mo_ta' => 'nullable|string',
 
-        'loai_phong.*.phong' => 'required|array|min:1',
+            'loai_phong.*.hinh_anh' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
 
-        'loai_phong.*.phong.*.so_phong' => 'required|string|max:20',
+            'loai_phong.*.phong' => 'required|array|min:1',
 
-        'loai_phong.*.phong.*.tang' => 'required|integer|min:1',
+            'loai_phong.*.phong.*.so_phong' => 'required|string|max:20',
 
-    ], [
+            'loai_phong.*.phong.*.tang' => 'required|integer|min:1',
 
-        'loai_phong.required' => 'Vui lòng thêm ít nhất một loại phòng.',
+        ],
 
-        'loai_phong.*.ten_loai_phong.required' => 'Vui lòng nhập tên loại phòng.',
+       [
+    'loai_phong.required' => 'Vui lòng thêm ít nhất một loại phòng.',
 
-        'loai_phong.*.so_nguoi_toi_da.required' => 'Vui lòng nhập số người tối đa.',
+    'loai_phong.*.ten_loai_phong.required' => 'Vui lòng nhập tên loại phòng.',
+    'loai_phong.*.ten_loai_phong.max' => 'Tên loại phòng tối đa 255 ký tự.',
 
-        'loai_phong.*.dien_tich.required' => 'Vui lòng nhập diện tích.',
+    'loai_phong.*.so_nguoi_toi_da.required' => 'Vui lòng nhập số người tối đa.',
+    'loai_phong.*.so_nguoi_toi_da.integer' => 'Số người tối đa phải là số nguyên.',
+    'loai_phong.*.so_nguoi_toi_da.min' => 'Số người tối đa phải lớn hơn 0.',
 
-        'loai_phong.*.so_giuong.required' => 'Vui lòng nhập số giường.',
+    'loai_phong.*.dien_tich.required' => 'Vui lòng nhập diện tích.',
+    'loai_phong.*.dien_tich.numeric' => 'Diện tích phải là số.',
+    'loai_phong.*.dien_tich.min' => 'Diện tích phải lớn hơn 0.',
 
-        'loai_phong.*.gia_co_ban.required' => 'Vui lòng nhập giá cơ bản.',
+    'loai_phong.*.so_giuong.required' => 'Vui lòng nhập số giường.',
+    'loai_phong.*.so_giuong.integer' => 'Số giường phải là số nguyên.',
 
-        'loai_phong.*.hinh_anh.required' => 'Vui lòng chọn hình ảnh loại phòng.',
+    'loai_phong.*.gia_co_ban.required' => 'Vui lòng nhập giá cơ bản.',
+    'loai_phong.*.gia_co_ban.numeric' => 'Giá cơ bản phải là số.',
+    'loai_phong.*.gia_co_ban.min' => 'Giá cơ bản tối thiểu là 1.000.',
 
-        'loai_phong.*.phong.required' => 'Vui lòng thêm ít nhất một phòng.',
+    'loai_phong.*.hinh_anh.image' => 'File phải là hình ảnh.',
+    'loai_phong.*.hinh_anh.mimes' => 'Chỉ chấp nhận JPG, JPEG, PNG, WEBP.',
+    'loai_phong.*.hinh_anh.max' => 'Ảnh không được vượt quá 2MB.',
 
-        'loai_phong.*.phong.*.so_phong.required' => 'Vui lòng nhập số phòng.',
+    'loai_phong.*.phong.required' => 'Vui lòng thêm ít nhất một phòng.',
+    'loai_phong.*.phong.*.so_phong.required' => 'Vui lòng nhập số phòng.',
+    'loai_phong.*.phong.*.tang.required' => 'Vui lòng nhập tầng.',
+]
 
-        'loai_phong.*.phong.*.tang.required' => 'Vui lòng nhập tầng.',
-
-    ]);
+    );
 
     $danhSachSoPhong = [];
 
@@ -369,71 +511,79 @@ public function luuForm3(Request $request)
     }
 
     $danhSachLoaiPhong = [];
+
     foreach ($request->loai_phong as $index => $loaiPhong)
-{
-    $tenAnh = null;
-
-    if ($request->hasFile("loai_phong.$index.hinh_anh"))
     {
-        $file = $request->file("loai_phong.$index.hinh_anh");
+        $tenAnh = $loaiPhong['hinh_anh_cu'] ?? null;
 
-        $tenAnh =
-            time() . '_' .
-            uniqid() . '.' .
-            $file->getClientOriginalExtension();
+        if ($request->hasFile("loai_phong.$index.hinh_anh"))
+        {
+            $file = $request->file("loai_phong.$index.hinh_anh");
 
-        $file->move(
-            public_path('images/loaiphong'),
-            $tenAnh
-        );
-    }
+            $tenAnh =
+                time() . '_' .
+                uniqid() . '.' .
+                $file->getClientOriginalExtension();
 
-    $danhSachPhong = [];
+            $file->move(
+                public_path('images/loaiphong'),
+                $tenAnh
+            );
+        }
 
-    foreach ($loaiPhong['phong'] as $phong)
-    {
-        $danhSachPhong[] = [
+        if (!$tenAnh)
+        {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    "loai_phong.$index.hinh_anh" =>
+                        'Vui lòng chọn hình ảnh loại phòng.'
+                ]);
+        }
 
-            'so_phong' => trim($phong['so_phong']),
+        $danhSachPhong = [];
 
-            'tang' => $phong['tang'],
+        foreach ($loaiPhong['phong'] as $phong)
+        {
+            $danhSachPhong[] = [
+
+                'so_phong' => trim($phong['so_phong']),
+
+                'tang' => $phong['tang'],
+
+            ];
+        }
+
+        $danhSachLoaiPhong[] = [
+
+            'ten_loai_phong' => $loaiPhong['ten_loai_phong'],
+
+            'so_nguoi_toi_da' => $loaiPhong['so_nguoi_toi_da'],
+
+            'dien_tich' => $loaiPhong['dien_tich'],
+
+            'so_giuong' => $loaiPhong['so_giuong'],
+
+            'gia_co_ban' => $loaiPhong['gia_co_ban'],
+
+            'mo_ta' => $loaiPhong['mo_ta'] ?? null,
+
+            'hinh_anh' => $tenAnh,
+
+            'phong' => $danhSachPhong,
 
         ];
     }
 
-    $danhSachLoaiPhong[] = [
+    session([
+        'doitac_khachsan_form3' => $danhSachLoaiPhong
+    ]);
 
-        'ten_loai_phong' => $loaiPhong['ten_loai_phong'],
-
-        'so_nguoi_toi_da' => $loaiPhong['so_nguoi_toi_da'],
-
-        'dien_tich' => $loaiPhong['dien_tich'],
-
-        'so_giuong' => $loaiPhong['so_giuong'],
-
-        'gia_co_ban' => $loaiPhong['gia_co_ban'],
-
-        'mo_ta' => $loaiPhong['mo_ta'] ?? null,
-
-        'hinh_anh' => $tenAnh,
-
-        'phong' => $danhSachPhong,
-
-    ];
+    return redirect()->route(
+        'doitac.khachsan.create.form4'
+    );
 }
-
-session([
-
-    'doitac_khachsan_form3' => $danhSachLoaiPhong
-
-]);
-
-return redirect()->route(
-
-    'doitac.khachsan.create.form4'
-
-);
-}public function form4()
+public function form4()
 {
     if (
         !session()->has('doitac_khachsan_form1') ||
@@ -454,18 +604,22 @@ return redirect()->route(
     )
     ->get();
 
-    $loaiPhongs = session(
-        'doitac_khachsan_form3'
-    );
+    $loaiPhongs = session('doitac_khachsan_form3');
 
+$tienNghiKhachSan = old('tien_nghi_khach_san', []);
+
+$tienNghiLoaiPhong = old('tien_nghi_loai_phong', []);
     return view(
         'doitac.khachsan.create.form4',
         compact(
             'tienNghis',
-            'loaiPhongs'
+            'loaiPhongs',
+            'tienNghiKhachSan',
+            'tienNghiLoaiPhong'
         )
     );
 }
+
 public function luuForm4(Request $request)
 {
     if (
@@ -478,17 +632,31 @@ public function luuForm4(Request $request)
         );
     }
 
-    $request->validate([
-        'tien_nghi_khach_san' => 'required|array|min:1',
-        'tien_nghi_loai_phong' => 'required|array',
-    ], [
-        'tien_nghi_khach_san.required' =>
-            'Vui lòng chọn ít nhất một tiện nghi khách sạn.',
+    $request->validate(
+        [
+            'tien_nghi_khach_san' => 'required|array|min:1',
+        ],
+        [
+            'tien_nghi_khach_san.required' => 'Vui lòng chọn ít nhất một tiện nghi khách sạn.',
+            'tien_nghi_khach_san.min' => 'Vui lòng chọn ít nhất một tiện nghi khách sạn.',
+        ]
+    );
 
-        'tien_nghi_khach_san.min' =>
-            'Vui lòng chọn ít nhất một tiện nghi khách sạn.',
-    ]);
+    // Kiểm tra từng loại phòng
+    $danhSachLoaiPhong = session('doitac_khachsan_form3');
 
+    foreach ($danhSachLoaiPhong as $index => $loaiPhong) {
+
+        if (empty($request->input("tien_nghi_loai_phong.$index"))) {
+
+            return back()
+                ->withInput()
+                ->withErrors([
+                    "tien_nghi_loai_phong.$index" =>
+                    "Vui lòng chọn ít nhất một tiện nghi."
+                ]);
+        }
+    }
     try {
 
         DB::beginTransaction();
@@ -539,11 +707,6 @@ public function luuForm4(Request $request)
 
         ]);
 
-        /*
-        |--------------------------------------------------------------------------
-        | Hình ảnh khách sạn
-        |--------------------------------------------------------------------------
-        */
 
        foreach ($danhSachHinhAnh as $anh)
 {
@@ -556,12 +719,6 @@ public function luuForm4(Request $request)
     ]);
 }
 
-        /*
-        |--------------------------------------------------------------------------
-        | Tiện nghi khách sạn
-        |--------------------------------------------------------------------------
-        */
-
         foreach ($request->tien_nghi_khach_san as $maTienNghi)
         {
             DB::table('khach_san_tien_nghi')->insert([
@@ -572,12 +729,6 @@ public function luuForm4(Request $request)
 
             ]);
         }
-
-        /*
-        |--------------------------------------------------------------------------
-        | Loại phòng
-        |--------------------------------------------------------------------------
-        */
 
         foreach ($danhSachLoaiPhong as $index => $loaiPhong)
         {
@@ -615,12 +766,6 @@ public function luuForm4(Request $request)
     'duong_dan_anh' => 'images/loaiphong/' . $loaiPhong['hinh_anh']
 
 ]);
-
-            /*
-            |--------------------------------------------------------------------------
-            | Danh sách phòng
-            |--------------------------------------------------------------------------
-            */
 
             foreach ($loaiPhong['phong'] as $phong)
             {

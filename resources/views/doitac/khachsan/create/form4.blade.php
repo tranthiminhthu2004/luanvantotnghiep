@@ -115,18 +115,15 @@
 
             <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
                 @foreach($tienNghis as $tienNghi)
-
                 <label
                     class="flex items-center gap-3 rounded-xl border border-slate-200 px-4 py-3 cursor-pointer transition hover:border-[#1040C5] hover:bg-blue-50">
 
                     <input type="checkbox" name="tien_nghi_khach_san[]" value="{{ $tienNghi->ma_tien_nghi }}"
                         class="w-5 h-5 accent-[#1040C5]"
-                        {{ in_array($tienNghi->ma_tien_nghi, old('tien_nghi_khach_san', [])) ? 'checked' : '' }}>
+                        {{ in_array($tienNghi->ma_tien_nghi, $tienNghiKhachSan) ? 'checked' : '' }}>
 
                     <span class="text-slate-700 font-medium">
-
                         {{ $tienNghi->ten_tien_nghi }}
-
                     </span>
 
                 </label>
@@ -174,7 +171,7 @@
                     <input type="checkbox" name="tien_nghi_loai_phong[{{ $index }}][]"
                         value="{{ $tienNghi->ma_tien_nghi }}" class="w-5 h-5 accent-[#1040C5]" {{ in_array(
                             $tienNghi->ma_tien_nghi,
-                            old('tien_nghi_loai_phong.'.$index, [])
+                           $tienNghiLoaiPhong[$index] ?? []
                         ) ? 'checked' : '' }}>
 
                     <span class="text-slate-700 font-medium">

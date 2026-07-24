@@ -18,14 +18,14 @@
     <nav class="flex-1 py-4 overflow-y-auto overflow-x-hidden">
 
         <!-- Dashboard -->
-        <a href="#"
+        <!-- <a href="#"
             class="mx-3 mb-2 flex items-center gap-3 rounded-full bg-blue-800 px-4 py-2 text-sm font-medium transition">
 
             <i class="fa-solid fa-house w-4"></i>
 
             Dashboard
 
-        </a>
+        </a> -->
 
         <!-- Quản lý -->
         <p class="px-4 mt-5 mb-2 text-[11px] uppercase tracking-widest text-gray-400">

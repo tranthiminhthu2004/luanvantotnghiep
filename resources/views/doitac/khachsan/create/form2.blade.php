@@ -92,11 +92,13 @@
 
     </div>
 
-    {{-- Form --}}
     <form action="{{ route('doitac.khachsan.create.form2.store') }}" method="POST" enctype="multipart/form-data"
         class="bg-white border border-slate-200 rounded-2xl shadow-sm">
 
         @csrf
+
+        {{-- Danh sách ảnh cũ cần xóa --}}
+        <input type="hidden" name="anh_xoa" id="anh_xoa">
 
         <div class="p-8">
 
@@ -108,6 +110,7 @@
                     <span class="text-red-500">*</span>
 
                 </label>
+
                 <label for="hinh_anh" class="flex h-72 w-full cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed transition
                     @if($errors->has('hinh_anh') || $errors->has('hinh_anh.*'))
                         border-red-500 bg-red-50
@@ -126,7 +129,7 @@
                     <p class="mt-2 text-sm text-slate-500">
 
                         Chọn tối thiểu <strong>5</strong> hình ảnh và tối đa
-                        <strong>15</strong> hình ảnh
+                        <strong>15</strong> hình ảnh mỗi ảnh dưới <strong>2MB</strong>
 
                     </p>
 
@@ -142,23 +145,15 @@
                     multiple>
 
                 @error('hinh_anh')
-
                 <p class="mt-2 text-sm text-red-500">
-
                     {{ $message }}
-
                 </p>
-
                 @enderror
 
                 @error('hinh_anh.*')
-
                 <p class="mt-2 text-sm text-red-500">
-
                     {{ $message }}
-
                 </p>
-
                 @enderror
 
             </div>
@@ -178,7 +173,6 @@
 
         </div>
 
-        {{-- Footer --}}
         <div class="border-t border-slate-200 px-8 py-5">
 
             <div class="flex justify-center gap-3">
@@ -204,25 +198,120 @@
     </form>
 
 </div>
+
 <script>
 const input = document.getElementById('hinh_anh');
 const preview = document.getElementById('preview');
 const soLuongAnh = document.getElementById('soLuongAnh');
 const btnSubmit = document.getElementById('btnSubmit');
 
+const hinhAnhDaTai = @json($hinhAnhDaTai);
+
 let dataTransfer = new DataTransfer();
+let danhSachXoa = [];
+
+/*
+|--------------------------------------------------------------------------
+| Cập nhật số lượng ảnh
+|--------------------------------------------------------------------------
+*/
 
 function capNhatSoLuong() {
 
-    soLuongAnh.innerHTML =
-        `Đã chọn: <span class="text-[#1040C5] font-bold">${dataTransfer.files.length}</span> / 15 hình ảnh`;
+    const tongAnh =
+        (hinhAnhDaTai.length - danhSachXoa.length) +
+        dataTransfer.files.length;
+
+    soLuongAnh.innerHTML = `
+        Đã chọn:
+        <span class="text-[#1040C5] font-bold">
+            ${tongAnh}
+        </span>
+        / 15 hình ảnh
+    `;
 
 }
+
+/*
+|--------------------------------------------------------------------------
+| Hiển thị ảnh cũ
+|--------------------------------------------------------------------------
+*/
+
+function renderAnhCu() {
+
+    let viTri = 0;
+
+    hinhAnhDaTai.forEach((tenAnh) => {
+
+        // Nếu đã đánh dấu xóa thì bỏ qua
+        if (danhSachXoa.includes(tenAnh)) {
+            return;
+        }
+
+        const item = document.createElement('div');
+
+        item.className =
+            'relative overflow-hidden rounded-2xl border border-slate-200 shadow-sm group';
+
+        const laAnhDaiDien = (viTri === 0);
+
+        viTri++;
+
+        item.innerHTML = `
+
+            <img
+                src="/images/khachsan/${tenAnh}"
+                class="w-full h-52 object-cover transition group-hover:scale-105">
+
+            ${laAnhDaiDien ? `
+                <div class="absolute left-3 top-3 rounded-full bg-[#1040C5] px-3 py-1 text-xs font-semibold text-white shadow">
+
+                    Ảnh đại diện
+
+                </div>
+            ` : ''}
+
+            <button
+                type="button"
+                class="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-red-600 text-white opacity-0 transition group-hover:opacity-100 hover:bg-red-700">
+
+                <i class="fa-solid fa-trash"></i>
+
+            </button>
+
+        `;
+
+        item.querySelector("button").addEventListener("click", function() {
+
+            danhSachXoa.push(tenAnh);
+
+            renderPreview();
+
+        });
+
+        preview.appendChild(item);
+
+    });
+
+}
+/*
+|--------------------------------------------------------------------------
+| Hiển thị toàn bộ Preview
+|--------------------------------------------------------------------------
+*/
 
 function renderPreview() {
 
     preview.innerHTML = '';
 
+    // Hiển thị ảnh cũ
+    renderAnhCu();
+
+    // Đếm số ảnh cũ còn lại
+    const soAnhCu = hinhAnhDaTai.length - danhSachXoa.length;
+
+    // Hiển thị ảnh mới
     [...dataTransfer.files].forEach((file, index) => {
 
         const reader = new FileReader();
@@ -234,15 +323,21 @@ function renderPreview() {
             item.className =
                 'relative overflow-hidden rounded-2xl border border-slate-200 shadow-sm group';
 
+            // Nếu không còn ảnh cũ thì ảnh mới đầu tiên sẽ là ảnh đại diện
+            const laAnhDaiDien =
+                (soAnhCu === 0 && index === 0);
+
             item.innerHTML = `
 
                 <img
                     src="${e.target.result}"
                     class="w-full h-52 object-cover transition group-hover:scale-105">
 
-                ${index === 0 ? `
+                ${laAnhDaiDien ? `
                     <div class="absolute left-3 top-3 rounded-full bg-[#1040C5] px-3 py-1 text-xs font-semibold text-white shadow">
+
                         Ảnh đại diện
+
                     </div>
                 ` : ''}
 
@@ -256,7 +351,7 @@ function renderPreview() {
 
             `;
 
-            item.querySelector('button').addEventListener('click', function() {
+            item.querySelector("button").addEventListener("click", function() {
 
                 xoaAnh(index);
 
@@ -274,12 +369,23 @@ function renderPreview() {
 
 }
 
-input.addEventListener('change', function() {
+/*
+|--------------------------------------------------------------------------
+| Chọn thêm ảnh
+|--------------------------------------------------------------------------
+*/
+
+input.addEventListener("change", function() {
 
     [...this.files].forEach(file => {
 
-        if (dataTransfer.files.length >= 15) {
-            alert('Chỉ được chọn tối đa 15 hình ảnh.');
+        const tongAnh =
+            (hinhAnhDaTai.length - danhSachXoa.length) +
+            dataTransfer.files.length;
+
+        if (tongAnh >= 15) {
+
+            alert("Chỉ được chọn tối đa 15 hình ảnh.");
 
             return;
 
@@ -294,6 +400,11 @@ input.addEventListener('change', function() {
     renderPreview();
 
 });
+/*
+|--------------------------------------------------------------------------
+| Xóa ảnh mới
+|--------------------------------------------------------------------------
+*/
 
 function xoaAnh(index) {
 
@@ -315,23 +426,36 @@ function xoaAnh(index) {
 
 }
 
-btnSubmit.addEventListener('click', function(e) {
+/*
+|--------------------------------------------------------------------------
+| Submit Form
+|--------------------------------------------------------------------------
+*/
 
-    if (dataTransfer.files.length < 5) {
+btnSubmit.addEventListener("click", function(e) {
+
+    document.getElementById("anh_xoa").value =
+        JSON.stringify(danhSachXoa);
+
+    const tongAnh =
+        (hinhAnhDaTai.length - danhSachXoa.length) +
+        dataTransfer.files.length;
+
+    if (tongAnh < 5) {
 
         e.preventDefault();
 
-        alert('Vui lòng chọn tối thiểu 5 hình ảnh.');
+        alert("Khách sạn phải có tối thiểu 5 hình ảnh.");
 
         return;
 
     }
 
-    if (dataTransfer.files.length > 15) {
+    if (tongAnh > 15) {
 
         e.preventDefault();
 
-        alert('Chỉ được chọn tối đa 15 hình ảnh.');
+        alert("Khách sạn chỉ được có tối đa 15 hình ảnh.");
 
         return;
 
@@ -339,7 +463,7 @@ btnSubmit.addEventListener('click', function(e) {
 
 });
 
-capNhatSoLuong();
+renderPreview();
 </script>
 
 @endsection
