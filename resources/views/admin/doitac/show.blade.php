@@ -731,8 +731,6 @@
 
 </div>
 
-
-{{-- ===================== MODAL TỪ CHỐI HỒ SƠ ===================== --}}
 <div id="modalTuChoi" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4">
 
     <div class="bg-white rounded-xl w-full max-w-lg shadow-lg border border-slate-200">

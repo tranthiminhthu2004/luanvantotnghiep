@@ -512,6 +512,8 @@ public function luuForm3(Request $request)
 
     $danhSachLoaiPhong = [];
 
+    $duLieuCu = session('doitac_khachsan_form3', []);
+
     foreach ($request->loai_phong as $index => $loaiPhong)
     {
         $tenAnh = $loaiPhong['hinh_anh_cu'] ?? null;
@@ -545,34 +547,40 @@ public function luuForm3(Request $request)
 
         foreach ($loaiPhong['phong'] as $phong)
         {
-            $danhSachPhong[] = [
+           $danhSachPhong[] = [
 
-                'so_phong' => trim($phong['so_phong']),
+    'ma_phong' => $phong['ma_phong'] ?? null,
 
-                'tang' => $phong['tang'],
+    'so_phong' => trim($phong['so_phong']),
 
-            ];
+    'tang' => $phong['tang'],
+
+];
         }
 
-        $danhSachLoaiPhong[] = [
+       $danhSachLoaiPhong[] = [
 
-            'ten_loai_phong' => $loaiPhong['ten_loai_phong'],
+    'ma_loai_phong' => $loaiPhong['ma_loai_phong'] ?? null,
 
-            'so_nguoi_toi_da' => $loaiPhong['so_nguoi_toi_da'],
+    'ten_loai_phong' => $loaiPhong['ten_loai_phong'],
 
-            'dien_tich' => $loaiPhong['dien_tich'],
+    'so_nguoi_toi_da' => $loaiPhong['so_nguoi_toi_da'],
 
-            'so_giuong' => $loaiPhong['so_giuong'],
+    'dien_tich' => $loaiPhong['dien_tich'],
 
-            'gia_co_ban' => $loaiPhong['gia_co_ban'],
+    'so_giuong' => $loaiPhong['so_giuong'],
 
-            'mo_ta' => $loaiPhong['mo_ta'] ?? null,
+    'gia_co_ban' => $loaiPhong['gia_co_ban'],
 
-            'hinh_anh' => $tenAnh,
+    'mo_ta' => $loaiPhong['mo_ta'] ?? null,
 
-            'phong' => $danhSachPhong,
+    'hinh_anh' => $tenAnh,
 
-        ];
+    'tien_nghi' => $duLieuCu[$index]['tien_nghi'] ?? [],
+
+    'phong' => $danhSachPhong,
+
+];
     }
 
     session([
@@ -606,9 +614,32 @@ public function form4()
 
     $loaiPhongs = session('doitac_khachsan_form3');
 
-$tienNghiKhachSan = old('tien_nghi_khach_san', []);
+$edit = session()->has('edit_khach_san');
 
-$tienNghiLoaiPhong = old('tien_nghi_loai_phong', []);
+if ($edit)
+{
+    $khachSan = KhachSan::with('tienNghis')
+        ->find(session('edit_khach_san'));
+
+    $tienNghiKhachSan = old(
+        'tien_nghi_khach_san',
+        $khachSan->tienNghis->pluck('ma_tien_nghi')->toArray()
+    );
+
+    $tienNghiLoaiPhong = [];
+
+    foreach ($loaiPhongs as $index => $loaiPhong)
+    {
+        $tienNghiLoaiPhong[$index] =
+            $loaiPhong['tien_nghi'] ?? [];
+    }
+}
+else
+{
+    $tienNghiKhachSan = old('tien_nghi_khach_san', []);
+
+    $tienNghiLoaiPhong = old('tien_nghi_loai_phong', []);
+}
     return view(
         'doitac.khachsan.create.form4',
         compact(
@@ -666,6 +697,61 @@ public function luuForm4(Request $request)
         $danhSachHinhAnh = session('doitac_khachsan_form2');
 
         $danhSachLoaiPhong = session('doitac_khachsan_form3');
+        
+        $maKhachSanEdit = session('edit_khach_san');
+        
+        if ($maKhachSanEdit) {
+
+  $khachSan = KhachSan::where(
+    'ma_khach_san',
+    $maKhachSanEdit
+)
+->where(
+    'ma_nguoi_dung',
+    auth()->user()->ma_nguoi_dung
+)
+->firstOrFail();
+
+$khachSan->update([
+
+    'ten_khach_san' => $duLieuKhachSan['ten_khach_san'],
+
+    'dia_chi' => $duLieuKhachSan['dia_chi'],
+
+    'ma_dia_diem' => $duLieuKhachSan['ma_dia_diem'],
+
+    'vi_do' => $duLieuKhachSan['vi_do'],
+
+    'kinh_do' => $duLieuKhachSan['kinh_do'],
+
+    'so_sao_khach_san' => $duLieuKhachSan['so_sao_khach_san'],
+
+    'mo_ta' => $duLieuKhachSan['mo_ta'],
+
+    'so_dien_thoai' => $duLieuKhachSan['so_dien_thoai'],
+
+    'email' => $duLieuKhachSan['email'],
+
+    'gio_check_in' => $duLieuKhachSan['gio_check_in'],
+
+    'gio_check_out' => $duLieuKhachSan['gio_check_out'],
+
+    'so_gio_huy_mien_phi' => $duLieuKhachSan['so_gio_huy_mien_phi'],
+
+    // Gửi duyệt lại
+    'trang_thai' => 0,
+
+    'trang_thai_duyet' => 'ChoDuyet',
+
+    'ly_do_tu_choi' => null,
+
+    'ngay_gui_duyet' => now(),
+
+    'ngay_duyet' => null,
+
+]);
+
+} else {
 
         $khachSan = KhachSan::create([
 
@@ -707,8 +793,18 @@ public function luuForm4(Request $request)
 
         ]);
 
+}
+if ($maKhachSanEdit) {
 
-       foreach ($danhSachHinhAnh as $anh)
+    // Xóa toàn bộ ảnh cũ
+    HinhAnhKhachSan::where(
+        'ma_khach_san',
+        $khachSan->ma_khach_san
+    )->delete();
+}
+
+// Thêm lại ảnh
+foreach ($danhSachHinhAnh as $anh)
 {
     HinhAnhKhachSan::create([
 
@@ -718,40 +814,89 @@ public function luuForm4(Request $request)
 
     ]);
 }
+      
+       if ($maKhachSanEdit)
+{
+    // Xóa toàn bộ tiện nghi cũ
+    DB::table('khach_san_tien_nghi')
+        ->where(
+            'ma_khach_san',
+            $khachSan->ma_khach_san
+        )
+        ->delete();
+}
 
-        foreach ($request->tien_nghi_khach_san as $maTienNghi)
-        {
-            DB::table('khach_san_tien_nghi')->insert([
+// Thêm lại tiện nghi hiện tại
+foreach ($request->tien_nghi_khach_san as $maTienNghi)
+{
+    DB::table('khach_san_tien_nghi')->insert([
 
-                'ma_khach_san' => $khachSan->ma_khach_san,
+        'ma_khach_san' => $khachSan->ma_khach_san,
 
-                'ma_tien_nghi' => $maTienNghi
+        'ma_tien_nghi' => $maTienNghi
 
-            ]);
-        }
-
+    ]);
+}
+$danhSachLoaiPhongConLai = [];
         foreach ($danhSachLoaiPhong as $index => $loaiPhong)
         {
 
-            $loaiPhongMoi = LoaiPhong::create([
+            if (
+        $maKhachSanEdit &&
+        !empty($loaiPhong['ma_loai_phong'])
+    )
+    {
+        // ===== Cập nhật loại phòng cũ =====
 
-                'ma_khach_san' => $khachSan->ma_khach_san,
+        $loaiPhongMoi = LoaiPhong::where(
+            'ma_loai_phong',
+            $loaiPhong['ma_loai_phong']
+        )
+        ->where(
+            'ma_khach_san',
+            $khachSan->ma_khach_san
+        )
+        ->first();
 
-                'ten_loai_phong' => $loaiPhong['ten_loai_phong'],
+        $loaiPhongMoi->update([
 
-                'mo_ta' => $loaiPhong['mo_ta'],
+            'ten_loai_phong' => $loaiPhong['ten_loai_phong'],
 
-                'so_nguoi_toi_da' => $loaiPhong['so_nguoi_toi_da'],
+            'so_nguoi_toi_da' => $loaiPhong['so_nguoi_toi_da'],
 
-                'dien_tich' => $loaiPhong['dien_tich'],
+            'dien_tich' => $loaiPhong['dien_tich'],
 
-                'so_giuong' => $loaiPhong['so_giuong'],
+            'so_giuong' => $loaiPhong['so_giuong'],
 
-                'gia_co_ban' => $loaiPhong['gia_co_ban'],
+            'gia_co_ban' => $loaiPhong['gia_co_ban'],
 
-                'trang_thai' => 1,
+            'mo_ta' => $loaiPhong['mo_ta'],
 
-            ]);
+        ]);
+    }
+    else
+    {
+        // ===== Tạo loại phòng mới =====
+
+        $loaiPhongMoi = LoaiPhong::create([
+
+            'ma_khach_san' => $khachSan->ma_khach_san,
+
+            'ten_loai_phong' => $loaiPhong['ten_loai_phong'],
+
+            'so_nguoi_toi_da' => $loaiPhong['so_nguoi_toi_da'],
+
+            'dien_tich' => $loaiPhong['dien_tich'],
+
+            'so_giuong' => $loaiPhong['so_giuong'],
+
+            'gia_co_ban' => $loaiPhong['gia_co_ban'],
+
+            'mo_ta' => $loaiPhong['mo_ta'],
+
+        ]);
+    }
+    $danhSachLoaiPhongConLai[] = $loaiPhongMoi->ma_loai_phong;
 
             /*
             |--------------------------------------------------------------------------
@@ -759,49 +904,146 @@ public function luuForm4(Request $request)
             |--------------------------------------------------------------------------
             */
 
-           HinhAnhLoaiPhong::create([
+          if ($maKhachSanEdit && !empty($loaiPhong['ma_loai_phong']))
+{
+    // Xóa ảnh cũ trong database
+    HinhAnhLoaiPhong::where(
+        'ma_loai_phong',
+        $loaiPhongMoi->ma_loai_phong
+    )->delete();
+}
+
+// Thêm lại ảnh hiện tại
+HinhAnhLoaiPhong::create([
 
     'ma_loai_phong' => $loaiPhongMoi->ma_loai_phong,
 
     'duong_dan_anh' => 'images/loaiphong/' . $loaiPhong['hinh_anh']
 
-]);
+]); 
+$danhSachPhongConLai = [];
 
-            foreach ($loaiPhong['phong'] as $phong)
-            {
-                Phong::create([
+foreach ($loaiPhong['phong'] as $phong)
+{
+    if (
+        $maKhachSanEdit &&
+        !empty($phong['ma_phong'])
+    )
+    {
+        // ===== Cập nhật phòng cũ =====
 
-                    'ma_loai_phong' => $loaiPhongMoi->ma_loai_phong,
+        $phongMoi = Phong::where(
+            'ma_phong',
+            $phong['ma_phong']
+        )->first();
 
-                    'so_phong' => trim($phong['so_phong']),
+        $phongMoi->update([
 
-                    'tang' => $phong['tang'],
+            'so_phong' => $phong['so_phong'],
 
-                    'trang_thai_phong' => 'DangHoatDong',
+            'tang' => $phong['tang'],
 
-                ]);
-            }
+        ]);
+    }
+    else
+    {
+        // ===== Tạo phòng mới =====
 
+        $phongMoi = Phong::create([
+
+            'ma_loai_phong' => $loaiPhongMoi->ma_loai_phong,
+
+            'so_phong' => $phong['so_phong'],
+
+            'tang' => $phong['tang'],
+
+        ]);
+    }
+
+    $danhSachPhongConLai[] = $phongMoi->ma_phong;
+}
+if ($maKhachSanEdit)
+{
+    Phong::where(
+        'ma_loai_phong',
+        $loaiPhongMoi->ma_loai_phong
+    )
+    ->whereNotIn(
+        'ma_phong',
+        $danhSachPhongConLai
+    )
+    ->delete();
+}
             /*
             |--------------------------------------------------------------------------
             | Tiện nghi loại phòng
             |--------------------------------------------------------------------------
             */
 
-            if (isset($request->tien_nghi_loai_phong[$index]))
-            {
-                foreach ($request->tien_nghi_loai_phong[$index] as $maTienNghi)
-                {
-                    DB::table('loai_phong_tien_nghi')->insert([
+           if ($maKhachSanEdit)
+{
+    DB::table('loai_phong_tien_nghi')
+        ->where(
+            'ma_loai_phong',
+            $loaiPhongMoi->ma_loai_phong
+        )
+        ->delete();
+}
 
-                        'ma_loai_phong' => $loaiPhongMoi->ma_loai_phong,
+$tienNghisLoaiPhong = $request->input(
+    "tien_nghi_loai_phong.$index",
+    []
+);
 
-                        'ma_tien_nghi' => $maTienNghi
+foreach ($tienNghisLoaiPhong as $maTienNghi)
+{
+    DB::table('loai_phong_tien_nghi')->insert([
 
-                    ]);
-                }
-            }
+        'ma_loai_phong' => $loaiPhongMoi->ma_loai_phong,
+
+        'ma_tien_nghi' => $maTienNghi,
+
+    ]);
+}
         }
+        if ($maKhachSanEdit)
+{
+    $loaiPhongCanXoa = LoaiPhong::where(
+        'ma_khach_san',
+        $khachSan->ma_khach_san
+    )
+    ->whereNotIn(
+        'ma_loai_phong',
+        $danhSachLoaiPhongConLai
+    )
+    ->get();
+
+    foreach ($loaiPhongCanXoa as $loaiPhongXoa)
+    {
+        // Xóa tất cả phòng của loại phòng
+        Phong::where(
+            'ma_loai_phong',
+            $loaiPhongXoa->ma_loai_phong
+        )->delete();
+
+        // Xóa ảnh loại phòng
+        HinhAnhLoaiPhong::where(
+            'ma_loai_phong',
+            $loaiPhongXoa->ma_loai_phong
+        )->delete();
+
+        // Xóa tiện nghi loại phòng
+        DB::table('loai_phong_tien_nghi')
+            ->where(
+                'ma_loai_phong',
+                $loaiPhongXoa->ma_loai_phong
+            )
+            ->delete();
+
+        // Cuối cùng xóa loại phòng
+        $loaiPhongXoa->delete();
+    }
+}
 
         DB::commit();
 
@@ -812,6 +1054,8 @@ public function luuForm4(Request $request)
             'doitac_khachsan_form2',
 
             'doitac_khachsan_form3',
+            
+            'edit_khach_san',
 
         ]);
 
@@ -835,5 +1079,110 @@ public function luuForm4(Request $request)
                 'Có lỗi xảy ra: ' . $e->getMessage()
             );
     }
+}
+
+public function edit($maKhachSan)
+{
+    $khachSan = KhachSan::with([
+        'hinhAnh',
+        'tienNghis',
+        'loaiPhongs.hinhAnh',
+        'loaiPhongs.phongs',
+        'loaiPhongs.tienNghis'
+    ])
+    ->where('ma_khach_san', $maKhachSan)
+    ->where('ma_nguoi_dung', auth()->user()->ma_nguoi_dung)
+    ->where('trang_thai_duyet', 'TuChoi')
+    ->firstOrFail();
+
+    // Form 1
+    session([
+        'doitac_khachsan_form1' => [
+            'ten_khach_san' => $khachSan->ten_khach_san,
+            'ma_dia_diem' => $khachSan->ma_dia_diem,
+            'dia_chi' => $khachSan->dia_chi,
+            'vi_do' => $khachSan->vi_do,
+            'kinh_do' => $khachSan->kinh_do,
+            'so_sao_khach_san' => $khachSan->so_sao_khach_san,
+            'so_dien_thoai' => $khachSan->so_dien_thoai,
+            'email' => $khachSan->email,
+            'gio_check_in' => $khachSan->gio_check_in,
+            'gio_check_out' => $khachSan->gio_check_out,
+            'so_gio_huy_mien_phi' => $khachSan->so_gio_huy_mien_phi,
+            'mo_ta' => $khachSan->mo_ta,
+        ]
+    ]);
+
+    // Form 2
+    session([
+        'doitac_khachsan_form2' => $khachSan
+            ->hinhAnh
+            ->pluck('duong_dan_anh')
+            ->map(fn ($item) => basename($item))
+            ->toArray()
+    ]);
+$danhSachLoaiPhong = [];
+
+foreach ($khachSan->loaiPhongs as $loaiPhong) {
+
+    $anhLoaiPhong = $loaiPhong->hinhAnh->first();
+
+    $danhSachLoaiPhong[] = [
+
+        'ma_loai_phong' => $loaiPhong->ma_loai_phong,
+
+        'ten_loai_phong' => $loaiPhong->ten_loai_phong,
+
+        'so_nguoi_toi_da' => $loaiPhong->so_nguoi_toi_da,
+
+        'dien_tich' => $loaiPhong->dien_tich,
+
+        'so_giuong' => $loaiPhong->so_giuong,
+
+        'gia_co_ban' => $loaiPhong->gia_co_ban,
+
+        'mo_ta' => $loaiPhong->mo_ta,
+
+        'hinh_anh' => $anhLoaiPhong
+            ? basename($anhLoaiPhong->duong_dan_anh)
+            : null,
+
+        // Tiện nghi loại phòng
+        'tien_nghi' => $loaiPhong
+            ->tienNghis
+            ->pluck('ma_tien_nghi')
+            ->toArray(),
+
+        // Danh sách phòng
+        'phong' => $loaiPhong
+            ->phongs
+            ->map(function ($phong) {
+
+                return [
+
+                    'ma_phong' => $phong->ma_phong,
+
+                    'so_phong' => $phong->so_phong,
+
+                    'tang' => $phong->tang,
+
+                ];
+
+            })
+            ->toArray(),
+
+    ];
+}
+
+session([
+    'doitac_khachsan_form3' => $danhSachLoaiPhong
+]);
+
+    // Đánh dấu đây là chế độ chỉnh sửa
+    session([
+        'edit_khach_san' => $khachSan->ma_khach_san
+    ]);
+
+    return redirect()->route('doitac.khachsan.create.form1');
 }
 }

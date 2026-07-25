@@ -157,7 +157,6 @@
 
                             @endif
 
-                            {{-- Chỉ xóa khi đang chờ duyệt --}}
                             @if($khachSan->trang_thai_duyet == 'ChoDuyet')
 
                             <form action=" {{ route('doitac.khachsan.destroy', $khachSan->ma_khach_san) }}"

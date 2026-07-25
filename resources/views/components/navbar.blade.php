@@ -48,7 +48,7 @@
 
                     <li>
 
-                        <a href="#" class="hover:text-blue-600 transition">
+                        <a href="{{route('users.tracuudatphong.index')}}" class="hover:text-blue-600 transition">
 
                             Tra cứu đặt phòng
 
@@ -245,7 +245,8 @@
 
             </a>
 
-            <a href="#" class="block font-semibold text-[#061755] hover:text-blue-600">
+            <a href="{{route('users.tracuudatphong.index')}}"
+                class="block font-semibold text-[#061755] hover:text-blue-600">
 
                 Tra cứu đặt phòng
 

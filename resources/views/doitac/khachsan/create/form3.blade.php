@@ -188,6 +188,9 @@
                         <input type="hidden" name="loai_phong[{{ $index }}][hinh_anh_cu]"
                             value="{{ old("loai_phong.$index.hinh_anh_cu", $loaiPhong['hinh_anh'] ?? '') }}">
 
+                        <input type="hidden" name="loai_phong[{{ $index }}][ma_loai_phong]"
+                            value="{{ $loaiPhong['ma_loai_phong'] ?? '' }}">
+
                         {{-- preview --}}
                         <div class="mb-3">
 
@@ -289,6 +292,10 @@
                                     <label class="block font-semibold text-[#061755] mb-2">
                                         Số phòng <span class="text-red-500">*</span>
                                     </label>
+
+                                    <input type="hidden"
+                                        name="loai_phong[{{ $index }}][phong][{{ $phongIndex }}][ma_phong]"
+                                        value="{{ $phong['ma_phong'] ?? '' }}">
 
                                     <input type="text"
                                         name="loai_phong[{{ $index }}][phong][{{ $phongIndex }}][so_phong]"
@@ -415,6 +422,8 @@
 
                 <input type="hidden" data-name="hinh_anh_cu" value="">
 
+                <input type="hidden" data-name="ma_loai_phong" value="">
+
                 <img class="previewLoaiPhong hidden w-40 h-40 rounded-xl object-cover border border-slate-300 mb-3">
 
                 <input type="file" accept=".jpg,.jpeg,.png,.webp" data-name="hinh_anh"
@@ -450,6 +459,7 @@
                         <div>
                             <label class="block font-semibold text-[#061755] mb-2">Số phòng <span
                                     class="text-red-500">*</span></label>
+                            <input type="hidden" data-phong="ma_phong" value="">
                             <input type="text" data-phong="so_phong" required
                                 class="w-full rounded-xl border border-slate-300 px-4 py-3">
                         </div>
@@ -521,17 +531,27 @@
     // Cập nhật thuộc tính name cho các input trong phòng
     // ----------------------------------------------
     function capNhatNamePhong(loaiPhongItem) {
-        const chiSoLoaiPhong = [...document.querySelectorAll('.loai-phong')].indexOf(loaiPhongItem);
+        const chiSoLoaiPhong = [...document.querySelectorAll('.loai-phong')]
+            .indexOf(loaiPhongItem);
 
         loaiPhongItem.querySelectorAll('.phong-item').forEach(function(phong, index) {
-            const oSoPhong = phong.querySelector('[data-phong="so_phong"]');
-            const oTang = phong.querySelector('[data-phong="tang"]');
+            const maPhong = phong.querySelector('[data-phong="ma_phong"]');
+            const soPhong = phong.querySelector('[data-phong="so_phong"]');
+            const tang = phong.querySelector('[data-phong="tang"]');
 
-            if (oSoPhong) {
-                oSoPhong.name = `loai_phong[${chiSoLoaiPhong}][phong][${index}][so_phong]`;
+            if (maPhong) {
+                maPhong.name =
+                    `loai_phong[${chiSoLoaiPhong}][phong][${index}][ma_phong]`;
             }
-            if (oTang) {
-                oTang.name = `loai_phong[${chiSoLoaiPhong}][phong][${index}][tang]`;
+
+            if (soPhong) {
+                soPhong.name =
+                    `loai_phong[${chiSoLoaiPhong}][phong][${index}][so_phong]`;
+            }
+
+            if (tang) {
+                tang.name =
+                    `loai_phong[${chiSoLoaiPhong}][phong][${index}][tang]`;
             }
         });
     }

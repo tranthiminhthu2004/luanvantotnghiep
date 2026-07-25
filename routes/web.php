@@ -45,6 +45,7 @@ use App\Http\Controllers\DoiTac\UserDoiTacController;
 use App\Http\Controllers\DoiTac\KhachSanController;
 use App\Http\Controllers\DoiTac\DatPhongController;
 use App\Http\Controllers\DoiTac\AdminDoiTacController;
+use App\Http\Controllers\DatPhong\TraCuuDatPhongController;
 
 /*
 TRANG CHỦ
@@ -873,6 +874,15 @@ Route::prefix('doitac')
         '/khach-san/{maKhachSan}',
         [KhachSanController::class, 'show']
         )->name('doitac.khachsan.show');
+        Route::get(
+    '/khach-san/{maKhachSan}/edit',
+    [KhachSanController::class, 'edit']
+)->name('doitac.khachsan.edit');
+
+Route::put(
+    '/khach-san/{maKhachSan}',
+    [KhachSanController::class, 'update']
+)->name('doitac.khachsan.update');
         /*
         |--------------------------------------------------------------------------
         | ĐẶT PHÒNG
@@ -885,5 +895,26 @@ Route::prefix('doitac')
         )->name('doitac.datphong.index');
 
     });
+
+    /*Tra cứu */
+    Route::prefix('tra-cuu-dat-phong')->group(function () {
+
+    /**
+     * Hiển thị trang tra cứu.
+     */
+    Route::get(
+        '/',
+        [TraCuuDatPhongController::class, 'index']
+    )->name('users.tracuudatphong.index');
+
+    /**
+     * Xử lý tra cứu.
+     */
+    Route::post(
+        '/',
+        [TraCuuDatPhongController::class, 'traCuu']
+    )->name('tracuudatphong.tracuu');
+
+});
     
 require __DIR__ . '/auth.php';
