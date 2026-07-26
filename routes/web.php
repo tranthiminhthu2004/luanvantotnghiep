@@ -522,6 +522,11 @@ Route::delete(
 )->name('admin.datphong.destroy');
 
 Route::post(
+    '/dat-phong/{id}/huy',
+    [AdminDatPhongController::class, 'huy']
+)->name('admin.datphong.huy');
+
+Route::post(
     '/admin/datphong/kiem-tra-phong',
     [AdminDatPhongController::class, 'kiemTraPhong']
 )->name('admin.datphong.kiemTraPhong');
@@ -582,6 +587,11 @@ Route::get(
     '/lich-su-dat-phong/{maDonDatPhong}',
     [UserLichSuDatPhongController::class, 'show']
 )->middleware('auth')->name('lichsudatphong.show');
+
+Route::post(
+    '/lich-su-dat-phong/{maDonDatPhong}/huy',
+    [UserLichSuDatPhongController::class, 'huy']
+)->middleware('auth')->name('lichsudatphong.huy');
 /*
 Admin nhu cầu du lịch
 */

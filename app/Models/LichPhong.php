@@ -12,11 +12,12 @@ class LichPhong extends Model
 
     public $timestamps = false;
 
-    protected $fillable = [
-        'ma_phong',
-        'ngay',
-        'trang_thai'
-    ];
+   protected $fillable = [
+    'ma_don_dat_phong',
+    'ma_phong',
+    'ngay',
+    'trang_thai'
+];
 
     public function phong()
     {
@@ -26,4 +27,13 @@ class LichPhong extends Model
             'ma_phong'
         );
     }
+
+    public function datPhong()
+{
+    return $this->belongsTo(
+        DatPhong::class,
+        'ma_don_dat_phong',
+        'ma_don_dat_phong'
+    );
+}
 }

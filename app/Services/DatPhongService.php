@@ -224,16 +224,19 @@ class DatPhongService
 
                         LichPhong::create([
 
-                            'ma_phong'
-                                => $phong->ma_phong,
+    'ma_don_dat_phong'
+        => $datPhong->ma_don_dat_phong,
 
-                            'ngay'
-                                => $ngay->format('Y-m-d'),
+    'ma_phong'
+        => $phong->ma_phong,
 
-                            'trang_thai'
-                                => 'DaDat'
+    'ngay'
+        => $ngay->format('Y-m-d'),
 
-                        ]);
+    'trang_thai'
+        => 'DaDat'
+
+]);
 
                         $ngay->addDay();
 
@@ -258,4 +261,72 @@ class DatPhongService
         }           
         
     }
+    public function huyDatPhong($maDonDatPhong)
+{
+    DB::beginTransaction();
+
+    try {
+
+        $datPhong = DatPhong::findOrFail($maDonDatPhong);
+
+        if ($datPhong->trang_thai_dat_phong == 'DaHuy') {
+
+    throw new \Exception(
+        'Đơn đặt phòng đã được hủy.'
+    );
+
+}
+
+if ($datPhong->trang_thai_dat_phong == 'DaNhanPhong') {
+
+    throw new \Exception(
+        'Không thể hủy vì khách đã nhận phòng.'
+    );
+
+}
+
+if ($datPhong->trang_thai_dat_phong == 'DaTraPhong') {
+
+    throw new \Exception(
+        'Không thể hủy vì khách đã trả phòng.'
+    );
+
+}
+
+if ($datPhong->trang_thai_dat_phong == 'KhongDen') {
+
+    throw new \Exception(
+        'Không thể hủy vì đơn đã được xác nhận không đến.'
+    );
+
+}
+
+        $datPhong->update([
+
+            'trang_thai_dat_phong' => 'DaHuy'
+
+        ]);
+
+        LichPhong::where(
+
+            'ma_don_dat_phong',
+
+            $maDonDatPhong
+
+        )->delete();
+
+        DB::commit();
+
+        return $datPhong;
+
+    }
+    catch (\Exception $e)
+    {
+
+        DB::rollBack();
+
+        throw $e;
+
+    }
+}
 }

@@ -509,13 +509,18 @@ public function capNhatTrangThai(
         );
     }
 
+    if ($trangThaiMoi == 'DaHuy')
+{
+    $this->datPhongService->huyDatPhong(
+        $datPhong->ma_don_dat_phong
+    );
+}
+else
+{
     $datPhong->update([
-
-        'trang_thai_dat_phong' =>
-
-            $trangThaiMoi
-
+        'trang_thai_dat_phong' => $trangThaiMoi
     ]);
+}
 
     return back()->with(
 
@@ -538,6 +543,28 @@ public function show($id)
         'admin.datphong.show',
         compact('datPhong')
     );
+}
+public function huy($id)
+{
+    try {
+
+        $this->datPhongService->huyDatPhong($id);
+
+        return redirect()
+            ->route('admin.datphong.show', $id)
+            ->with(
+                'success',
+                'Hủy đặt phòng thành công.'
+            );
+
+    } catch (\Exception $e) {
+
+        return back()->with(
+            'error',
+            $e->getMessage()
+        );
+
+    }
 }
 
 public function destroy($id)
