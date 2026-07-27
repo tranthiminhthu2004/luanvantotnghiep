@@ -26,6 +26,7 @@
     <main class="max-w-7xl mx-auto px-4 lg:px-8 pb-10 pt-24">
 
         @include('users.diemden.thongtin')
+        @include('users.diemden.khachsanganday')
 
     </main>
 

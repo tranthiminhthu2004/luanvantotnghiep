@@ -120,7 +120,7 @@
                             @endif
                             <div class="mt-4">
 
-                                <a href="#"
+                                <a href="{{ route('diemden.show', $diaDiemDuLich->ma_dia_diem_du_lich) }}"
                                     class="inline-flex items-center justify-center gap-2 w-full bg-[#1040C5] hover:bg-blue-700 text-white rounded-xl py-2.5 text-sm font-semibold transition">
 
                                     Xem chi tiết

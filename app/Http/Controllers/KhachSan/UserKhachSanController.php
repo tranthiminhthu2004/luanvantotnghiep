@@ -187,6 +187,35 @@ public function show(Request $request, $id)
         'loaiPhongs.tienNghis',
     ])
     ->findOrFail($id);
+    $diaDiemDuLichs = DiaDiemDuLich::query()
+    ->where(
+        'ma_dia_diem',
+        $khachSan->ma_dia_diem
+    )
+    ->with([
+        'hinhAnhs',
+        'diaDiem'
+    ])
+    ->get();
+
+foreach ($diaDiemDuLichs as $diaDiemDuLich) {
+
+    $diaDiemDuLich->khoang_cach_km =
+        $this->tinhKhoangCach(
+
+            $khachSan->vi_do,
+            $khachSan->kinh_do,
+
+            $diaDiemDuLich->vi_do,
+            $diaDiemDuLich->kinh_do
+
+        );
+}
+
+$diaDiemDuLichs = $diaDiemDuLichs
+    ->sortBy('khoang_cach_km')
+    ->values();
+    
     if ($request->hasAny([
     'ngay_nhan_phong',
     'ngay_tra_phong',
@@ -218,7 +247,8 @@ public function show(Request $request, $id)
             'tongNguoi' => 0,
             'soPhong' => 0,
             'sucChuaCanThiet' => 0,
-            'daKiemTraPhong' => false
+            'daKiemTraPhong' => false,
+            'diaDiemDuLichs' => $diaDiemDuLichs
         ]
     );
 
@@ -359,7 +389,8 @@ return view(
         'soPhong',
         'sucChuaCanThiet',
         'loaiPhongsKhac',
-        'daKiemTraPhong'
+        'daKiemTraPhong',
+        'diaDiemDuLichs'
     )
 );
     }
@@ -418,6 +449,40 @@ return view(
             'tienNghis',
             'diaDiemDuLichs'
         )
+    );
+}
+private function tinhKhoangCach(
+    $viDo1,
+    $kinhDo1,
+    $viDo2,
+    $kinhDo2
+) {
+
+    $banKinhTraiDat = 6371;
+
+    $dViDo = deg2rad($viDo2 - $viDo1);
+
+    $dKinhDo = deg2rad($kinhDo2 - $kinhDo1);
+
+    $a =
+        sin($dViDo / 2) * sin($dViDo / 2) +
+
+        cos(deg2rad($viDo1)) *
+
+        cos(deg2rad($viDo2)) *
+
+        sin($dKinhDo / 2) *
+
+        sin($dKinhDo / 2);
+
+    $c = 2 * atan2(
+        sqrt($a),
+        sqrt(1 - $a)
+    );
+
+    return round(
+        $banKinhTraiDat * $c,
+        2
     );
 }
 }
