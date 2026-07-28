@@ -69,6 +69,25 @@
                     </p>
 
                 </div>
+                <div class="flex items-center justify-center gap-3 text-sm text-gray-500 mb-2">
+
+                    <span>
+
+                        1: Không thích
+
+                    </span>
+
+                    <div class="w-48 h-[2px] bg-gradient-to-r from-orange-400 to-green-500">
+
+                    </div>
+
+                    <span>
+
+                        5: Rất thích
+
+                    </span>
+
+                </div>
 
                 <form method="POST" action="{{ route('sothich.store') }}">
 
@@ -150,26 +169,6 @@ peer-checked:ring-blue-100">
                     </div>
 
                     <div class="mt-6 flex flex-col items-center gap-3">
-
-                        <div class="flex items-center gap-3 text-sm text-gray-500">
-
-                            <span>
-
-                                1: Không thích
-
-                            </span>
-
-                            <div class="w-48 h-[2px] bg-gradient-to-r from-orange-400 to-green-500">
-
-                            </div>
-
-                            <span>
-
-                                5: Rất thích
-
-                            </span>
-
-                        </div>
 
                         <div class="mt-8 flex flex-wrap justify-center gap-4">
 

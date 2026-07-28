@@ -235,7 +235,7 @@
                     $giaThapNhat = $khachSan->loaiPhongs->min('gia_co_ban');
                     @endphp
 
-                    <a href="{{ route('khachsan.show', $khachSan->ma_khach_san) }}"
+                    <a href="{{ route('khachsan.show', [ $khachSan->ma_khach_san, 'ngay_nhan_phong' => request('ngay_nhan_phong'), 'ngay_tra_phong' => request('ngay_tra_phong'), 'so_nguoi_truong_thanh' => request('so_nguoi_truong_thanh'), 'so_tre_em' => request('so_tre_em'), 'so_nguoi_cao_tuoi' => request('so_nguoi_cao_tuoi'), ]) }}"
                         class="min-w-[260px] md:min-w-[310px] bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-lg transition block">
 
                         <div class="h-44 overflow-hidden bg-slate-100 relative">

@@ -52,8 +52,7 @@
                                 @foreach($diaDiems as $diaDiem)
 
                                 <option value="{{ $diaDiem->ma_dia_diem }}"
-                                    {{ request('ma_dia_diem') == $diaDiem->ma_dia_diem ? 'selected' : '' }}>
-
+                                    {{ old('ma_dia_diem', request('ma_dia_diem')) == $diaDiem->ma_dia_diem ? 'selected' : '' }}>
                                     {{ $diaDiem->ten_dia_diem }}
 
                                 </option>
@@ -78,8 +77,8 @@
                             </label>
 
                             <input type="text" name="ngay_nhan_phong" id="trang_chu_ngay_nhan_phong"
-                                value="{{ request('ngay_nhan_phong') }}" placeholder="Chọn ngày" autocomplete="off"
-                                readonly
+                                value="{{ old('ngay_nhan_phong', request('ngay_nhan_phong')) }}" placeholder="Chọn ngày"
+                                autocomplete="off" readonly
                                 class="mt-2 w-full border rounded-xl px-4 py-3 text-sm cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <div class="h-5 mt-1">
                                 @error('ngay_nhan_phong')
@@ -98,8 +97,8 @@
 
 
                             <input type="text" name="ngay_tra_phong" id="trang_chu_ngay_tra_phong"
-                                value="{{ request('ngay_tra_phong') }}" placeholder="Chọn ngày" autocomplete="off"
-                                readonly
+                                value="{{ old('ngay_tra_phong', request('ngay_tra_phong')) }}" placeholder="Chọn ngày"
+                                autocomplete="off" readonly
                                 class="mt-2 w-full border rounded-xl px-4 py-3 text-sm cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <div class="h-5 mt-1">
                                 @error('ngay_tra_phong')
@@ -229,16 +228,16 @@
                                 </div>
 
                                 <input type="hidden" name="so_nguoi_truong_thanh" id="trangChuAdultInput"
-                                    value="{{ request('so_nguoi_truong_thanh', 1) }}">
+                                    value="{{ old('so_nguoi_truong_thanh', request('so_nguoi_truong_thanh', 1)) }}">
 
                                 <input type="hidden" name="so_tre_em" id="trangChuChildInput"
-                                    value="{{ request('so_tre_em', 0) }}">
+                                    value="{{ old('so_tre_em', request('so_tre_em', 0)) }}">
 
                                 <input type="hidden" name="so_nguoi_cao_tuoi" id="trangChuElderInput"
-                                    value="{{ request('so_nguoi_cao_tuoi', 0) }}">
+                                    value="{{ old('so_nguoi_cao_tuoi', request('so_nguoi_cao_tuoi', 0)) }}">
 
                                 <input type="hidden" name="so_luong_phong" id="trangChuRoomInput"
-                                    value="{{ request('so_luong_phong', 1) }}">
+                                    value="{{ old('so_luong_phong', request('so_luong_phong', 1)) }}">
 
                             </div>
 
@@ -385,25 +384,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     trangChuUpdateSummary();
 
-    const trangChuNgayNhan =
-        flatpickr(
-            "#trang_chu_ngay_nhan_phong", {
-                dateFormat: "d/m/Y",
-                minDate: "today",
-                allowInput: false,
-                disableMobile: true
-            }
-        );
+    const trangChuNgayNhan = flatpickr("#trang_chu_ngay_nhan_phong", {
+        dateFormat: "d/m/Y",
+        defaultDate: document.getElementById("trang_chu_ngay_nhan_phong").value || null,
+        minDate: "today",
+        allowInput: false,
+        disableMobile: true
+    });
 
-    const trangChuNgayTra =
-        flatpickr(
-            "#trang_chu_ngay_tra_phong", {
-                dateFormat: "d/m/Y",
-                minDate: new Date().fp_incr(1),
-                allowInput: false,
-                disableMobile: true
-            }
-        );
+    const trangChuNgayTra = flatpickr("#trang_chu_ngay_tra_phong", {
+        dateFormat: "d/m/Y",
+        defaultDate: document.getElementById("trang_chu_ngay_tra_phong").value || null,
+        minDate: new Date().fp_incr(1),
+        allowInput: false,
+        disableMobile: true
+    });
 
     document
         .getElementById('trang_chu_ngay_nhan_phong')
