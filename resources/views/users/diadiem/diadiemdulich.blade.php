@@ -5,13 +5,13 @@
 
         <h2 class="text-4xl font-bold text-[#061755]">
 
-            Địa điểm du lịch nổi bật
+            Địa điểm du lịch
 
         </h2>
 
         <p class="mt-2 text-slate-500">
 
-            Khám phá các địa điểm du lịch nổi bật tại {{ $diaDiem->ten_dia_diem }}.
+            Khám phá các địa điểm du lịch tại {{ $diaDiem->ten_dia_diem }}.
 
         </p>
 

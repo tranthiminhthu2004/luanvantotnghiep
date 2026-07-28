@@ -925,6 +925,11 @@ Route::put(
         [TraCuuDatPhongController::class, 'traCuu']
     )->name('tracuudatphong.tracuu');
 
+    Route::post(
+    '/{maDonDatPhong}/huy',
+    [TraCuuDatPhongController::class, 'huy']
+)->name('tracuudatphong.huy');
+
 });
     
 require __DIR__ . '/auth.php';

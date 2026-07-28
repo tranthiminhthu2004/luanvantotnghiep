@@ -10,11 +10,11 @@
 
     </div>
 
-    @if($khachSansNoiBat->count() > 0)
+    @if($khachSansMoiNhat->count() > 0)
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-        @foreach($khachSansNoiBat as $khachSan)
+        @foreach($khachSansMoiNhat as $khachSan)
 
         <div class="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300">
 
@@ -128,7 +128,7 @@
 
     <div class="bg-white rounded-3xl p-8 text-center text-gray-500 shadow-sm">
 
-        Chưa có khách sạn nổi bật để hiển thị.
+        Chưa có khách mới .
 
     </div>
 

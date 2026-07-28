@@ -764,11 +764,19 @@ $hinhAnh = $datPhong->khachSan->hinhAnh->first();
 
                             @if($datPhong->trang_thai_dat_phong != 'DaHuy')
 
-                            <a href="#" class="px-8 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white transition">
+                            <form action="{{ route('tracuudatphong.huy', $datPhong->ma_dat_phong) }}" method="POST"
+                                onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn đặt phòng này?')">
 
-                                Hủy đặt phòng
+                                @csrf
 
-                            </a>
+                                <button type="submit"
+                                    class="px-8 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white transition">
+
+                                    Hủy đặt phòng
+
+                                </button>
+
+                            </form>
 
                             @endif
 

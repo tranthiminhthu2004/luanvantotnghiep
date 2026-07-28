@@ -304,15 +304,17 @@
                             <a href="https://www.google.com/maps?q={{ $khachSan->vi_do }},{{ $khachSan->kinh_do }}"
                                 target="_blank"
                                 style="display:inline-block;padding:10px 18px;background:#2563eb;color:#fff;text-decoration:none;border-radius:4px;margin-right:10px;">
+                                <i class="fa-solid fa-map-pin"></i>
 
-                                📍 Xem vị trí khách sạn
+                                Xem vị trí khách sạn
 
                             </a>
 
-                            <a href="#" target="_blank"
+                            <a href="{{route('users.tracuudatphong.index')}}" target="_blank"
                                 style="display:inline-block;padding:10px 18px;background:#16a34a;color:#fff;text-decoration:none;border-radius:4px;">
+                                <i class="fa-solid fa-magnifying-glass"></i>
 
-                                🔍 Tra cứu đơn đặt phòng
+                                Tra cứu đơn đặt phòng
 
                             </a>
 

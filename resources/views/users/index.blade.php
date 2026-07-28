@@ -29,7 +29,7 @@
 
         @include('users.trangchu.nhucaudulich')
 
-        @include('users.trangchu.khachsannoibat')
+        @include('users.trangchu.khachsanmoinhat')
 
         @include('users.trangchu.visaochon')
     </main>

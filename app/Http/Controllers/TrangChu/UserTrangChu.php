@@ -51,13 +51,13 @@ class UserTrangChu extends Controller
                 ->get();
         }
         
-        $khachSansNoiBat = KhachSan::where('trang_thai', 1)
+        $khachSansMoiNhat = KhachSan::where('trang_thai', 1)
     ->with([
         'hinhAnh',
         'diaDiem',
         'loaiPhongs'
     ])
-    ->orderByDesc('so_sao_khach_san')
+    ->orderByDesc('ngay_tao')
     ->limit(4)
     ->get();
     
@@ -69,7 +69,7 @@ class UserTrangChu extends Controller
                 'khachSansTimKiem',
                 'diaDiemDuLichsTimKiem',
                 'daTimKiem',
-                'khachSansNoiBat'
+                'khachSansMoiNhat'
             )
         );
     }
