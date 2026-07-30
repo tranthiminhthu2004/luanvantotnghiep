@@ -238,7 +238,7 @@ class DatPhongService
 
 ]);
 
-                        $ngay->addDay();
+    $ngay->addDay();
 
                     }
 

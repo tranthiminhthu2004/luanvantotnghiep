@@ -32,7 +32,6 @@ class PhongService
         'trang_thai_phong',
         'DangHoatDong'
     )
-    ->lockForUpdate()
     ->get();
 
     $phongTrong = collect();

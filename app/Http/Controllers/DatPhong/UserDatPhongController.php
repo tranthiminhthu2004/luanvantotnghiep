@@ -10,9 +10,7 @@ use Carbon\Carbon;
 
 class UserDatPhongController extends Controller
 {
-    /**
-     * Hiển thị trang xác nhận đặt phòng
-     */
+    
    public function index()
 {
     $duLieu = session('xac_nhan_dat_phong');

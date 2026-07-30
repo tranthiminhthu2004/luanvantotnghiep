@@ -33,7 +33,6 @@
         <div
             class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-7 flex flex-col">
 
-            {{-- Tên địa điểm --}}
             <div>
 
                 <h3 class="text-2xl font-bold text-[#061755]">
@@ -44,7 +43,6 @@
 
             </div>
 
-            {{-- Phần trăm --}}
             <div class="mt-5">
 
                 <span
@@ -57,12 +55,10 @@
             </div>
 
             {{-- Mô tả --}}
-            <div class="mt-6 flex-1">
+            <div class="mt-2 flex-1">
 
-                <p class="text-slate-600 leading-7 line-clamp-3 whitespace-pre-line">
-
+                <p class="text-slate-600 leading-normal line-clamp-3 whitespace-pre-line">
                     {{ $diaDiem->mo_ta }}
-
                 </p>
 
             </div>
