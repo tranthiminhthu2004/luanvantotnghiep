@@ -2,7 +2,7 @@
 
 $anhDaiDien = $diemDen->hinhAnhs->first();
 
-$anhPhu = $diemDen->hinhAnhs->slice(1,4);
+$anhPhu = $diemDen->hinhAnhs->slice(1,4)->values();
 
 @endphp
 
@@ -44,14 +44,6 @@ $anhPhu = $diemDen->hinhAnhs->slice(1,4);
                     @if($anhDaiDien)
 
                     <img src="{{ asset($anhDaiDien->duong_dan_anh) }}" class="w-full h-full object-cover">
-
-                    @else
-
-                    <div class="w-full h-full flex items-center justify-center">
-
-                        <i class="fa-regular fa-image text-7xl text-slate-300"></i>
-
-                    </div>
 
                     @endif
 

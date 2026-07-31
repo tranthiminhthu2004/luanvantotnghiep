@@ -19,77 +19,81 @@
 
     @if($diaDiem->diaDiemDuLichs->count())
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+    <div class="swiper diaDiemSwiper">
 
-        @foreach($diaDiem->diaDiemDuLichs as $diem)
+        <div class="swiper-wrapper">
 
-        @php
+            @foreach($diaDiem->diaDiemDuLichs as $diem)
 
-        $anh = $diem->hinhAnhs->first();
+            @php
+            $anh = $diem->hinhAnhs->first();
+            @endphp
 
-        @endphp
+            <div
+                class="swiper-slide bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition duration-300">
 
-        <div
-            class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition duration-300">
+                {{-- Ảnh --}}
+                <div class="h-44 bg-slate-100 overflow-hidden">
 
-            {{-- Ảnh --}}
-            <div class="h-44 bg-slate-100 overflow-hidden">
+                    @if($anh)
 
-                @if($anh)
+                    <img src="{{ asset($anh->duong_dan_anh) }}" class="w-full h-full object-cover object-center">
 
-                <img src="{{ asset($anh->duong_dan_anh) }}" class="w-full h-full object-cover object-center">
+                    @else
 
-                @else
+                    <div class="w-full h-full flex flex-col items-center justify-center text-slate-400">
 
-                <div class="w-full h-full flex flex-col items-center justify-center text-slate-400">
+                        <i class="fa-regular fa-image text-5xl"></i>
 
-                    <i class="fa-regular fa-image text-5xl"></i>
+                        <span class="mt-2 text-sm">
 
-                    <span class="mt-2 text-sm">
+                            Chưa có hình ảnh
 
-                        Chưa có hình ảnh
+                        </span>
 
-                    </span>
+                    </div>
 
-                </div>
-
-                @endif
-
-            </div>
-
-            {{-- Nội dung --}}
-            <div class="p-5">
-
-                <h3 class="text-lg font-bold text-[#061755]">
-
-                    {{ $diem->ten_dia_diem }}
-
-                </h3>
-
-                <p class="mt-3 text-sm text-slate-600 leading-6 line-clamp-3">
-
-                    {{ $diem->mo_ta }}
-
-                </p>
-
-                <div class="mt-5">
-
-                    <a href="{{ route('diemden.show', $diem->ma_dia_diem_du_lich) }}" class="inline-flex items-center
-                        gap-2 text-[#1040C5] font-semibold hover:underline">
-
-                        Xem chi tiết
-
-                        <i class="fa-solid fa-arrow-right text-sm"></i>
-
-                    </a>
+                    @endif
 
                 </div>
 
+                {{-- Nội dung --}}
+                <div class="p-5">
+
+                    <h3 class="text-lg font-bold text-[#061755]">
+
+                        {{ $diem->ten_dia_diem }}
+
+                    </h3>
+
+                    <p class="mt-3 text-sm text-slate-600 leading-6 line-clamp-3">
+
+                        {{ $diem->mo_ta }}
+
+                    </p>
+
+                    <div class="mt-5">
+
+                        <a href="{{ route('diemden.show', $diem->ma_dia_diem_du_lich) }}"
+                            class="inline-flex items-center gap-2 text-[#1040C5] font-semibold hover:underline">
+
+                            Xem chi tiết
+
+                        </a>
+
+                    </div>
+
+                </div>
+
             </div>
+
+            @endforeach
 
         </div>
 
-        @endforeach
+        <div class="swiper-button-prev"></div>
+
+        <div class="swiper-button-next"></div>
 
     </div>
 

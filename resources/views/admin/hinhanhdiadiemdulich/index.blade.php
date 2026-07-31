@@ -46,38 +46,6 @@
 
         @endif
 
-        @if(session('error'))
-
-        <div class="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-700">
-
-            <i class="fa-solid fa-circle-exclamation mr-2"></i>
-
-            {{ session('error') }}
-
-        </div>
-
-        @endif
-
-        @if($errors->any())
-
-        <div class="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-700">
-
-            <i class="fa-solid fa-circle-exclamation mr-2"></i>
-
-            <ul class="list-disc ml-6 mt-2">
-
-                @foreach($errors->all() as $error)
-
-                <li>{{ $error }}</li>
-
-                @endforeach
-
-            </ul>
-
-        </div>
-
-        @endif
-
         @if($diaDiemDuLich->hinhAnhs->count() < 5) <form
             action="{{ route('admin.hinhanhdiadiemdulich.store', $diaDiemDuLich->ma_dia_diem_du_lich) }}" method="POST"
             enctype="multipart/form-data">
@@ -101,43 +69,16 @@
             </div>
 
             @error('hinh_anh')
-
-            <p class="text-red-500 text-sm mt-3">
-
-                {{ $message }}
-
-            </p>
-
+            <p class="text-red-500 text-sm mt-3">{{ $message }}</p>
             @enderror
 
             @error('hinh_anh.*')
-
-            <p class="text-red-500 text-sm mt-2">
-
-                {{ $message }}
-
-            </p>
-
+            <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
             @enderror
 
             </form>
 
-            <!-- Preview ảnh mới chọn -->
             <div id="preview" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 mt-6"></div>
-
-            @else
-
-            <div class="rounded-xl border border-yellow-200 bg-yellow-50 px-5 py-4 text-yellow-700">
-
-                <i class="fa-solid fa-triangle-exclamation mr-2"></i>
-
-                Địa điểm du lịch đã đạt giới hạn
-
-                <strong>5 hình ảnh.</strong>
-
-                Muốn thêm ảnh vui lòng xóa một ảnh cũ.
-
-            </div>
 
             @endif
 
@@ -156,7 +97,6 @@
 
                         <img src="{{ asset($anh->duong_dan_anh) }}" class="w-full h-56 object-cover">
 
-                        <!-- STT -->
                         <span class="absolute top-3 left-3 bg-black/70 text-white text-xs px-3 py-1 rounded-full">
 
                             Ảnh {{ $loop->iteration }}

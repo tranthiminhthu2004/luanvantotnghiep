@@ -18,124 +18,122 @@
 
     @if($diaDiem->khachSans->count())
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+    <div class="swiper khachSanSwiper">
 
-        @foreach($diaDiem->khachSans as $khachSan)
+        <div class="swiper-wrapper">
 
-        @php
+            @foreach($diaDiem->khachSans as $khachSan)
 
-        $anh = $khachSan->hinhAnh->first();
+            @php
 
-        $giaThapNhat = $khachSan->loaiPhongs->min('gia_co_ban');
+            $anh = $khachSan->hinhAnh->first();
 
-        @endphp
+            $giaThapNhat = $khachSan->loaiPhongs->min('gia_co_ban');
 
-        <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition">
+            @endphp
 
-            {{-- Ảnh --}}
-            <div class="h-44 bg-slate-100 overflow-hidden">
+            <div
+                class="swiper-slide bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition">
 
-                @if($anh)
+                {{-- Ảnh --}}
+                <div class="h-44 bg-slate-100 overflow-hidden">
 
-                <img src="{{ asset($anh->duong_dan_anh) }}" class="w-full h-full object-cover">
+                    @if($anh)
 
-                @else
-
-                <div class="w-full h-full flex items-center justify-center">
-
-                    <i class="fa-regular fa-image text-5xl text-slate-300"></i>
-
-                </div>
-
-                @endif
-
-            </div>
-
-            {{-- Nội dung --}}
-            <div class="p-5">
-
-                <h3 class="text-lg font-bold text-[#061755]">
-
-                    {{ $khachSan->ten_khach_san }}
-
-                </h3>
-
-                {{-- Sao --}}
-                <div class="mt-3">
-
-                    @for($i = 1; $i <= 5; $i++) @if($i <=$khachSan->so_sao_khach_san)
-
-                        <i class="fa-solid fa-star text-yellow-400"></i>
-
-                        @else
-
-                        <i class="fa-regular fa-star text-slate-300"></i>
-
-                        @endif
-
-                        @endfor
-
-                </div>
-
-                {{-- Giá --}}
-                <div class="mt-4">
-
-                    @if($giaThapNhat)
-
-                    <p class="text-[#1040C5] font-bold text-lg">
-
-                        Từ
-
-                        {{ number_format($giaThapNhat,0,',','.') }}
-
-                        đ / đêm
-
-                    </p>
+                    <img src="{{ asset($anh->duong_dan_anh) }}" class="w-full h-full object-cover">
 
                     @else
 
-                    <p class="text-slate-400">
+                    <div class="w-full h-full flex items-center justify-center">
 
-                        Chưa cập nhật giá
+                        <i class="fa-regular fa-image text-5xl text-slate-300"></i>
 
-                    </p>
+                    </div>
 
                     @endif
 
                 </div>
 
-                {{-- Button --}}
-                <div class="mt-6">
+                {{-- Nội dung --}}
+                <div class="p-5">
 
-                    <a href="{{ route('khachsan.show', [
-    'id' => $khachSan->ma_khach_san,
+                    <h3 class="text-lg font-bold text-[#061755]">
 
-    'so_nguoi_truong_thanh' => request('so_nguoi_truong_thanh'),
+                        {{ $khachSan->ten_khach_san }}
 
-    'so_tre_em' => request('so_tre_em'),
+                    </h3>
 
-    'so_nguoi_cao_tuoi' => request('so_nguoi_cao_tuoi'),
+                    {{-- Sao --}}
+                    <div class="mt-3">
 
-    'ngay_nhan_phong' => request('ngay_nhan_phong'),
+                        @for($i = 1; $i <= 5; $i++) @if($i <=$khachSan->so_sao_khach_san)
 
-    'ngay_tra_phong' => request('ngay_tra_phong'),
-    
-    'so_luong_phong' => request('so_luong_phong'),
-]) }}""
-                        class=" w-full inline-flex justify-center items-center bg-[#1040C5] hover:bg-blue-700
-                        text-white py-3 rounded-xl font-semibold transition">
+                            <i class="fa-solid fa-star text-yellow-400"></i>
 
-                        Xem chi tiết
+                            @else
 
-                    </a>
+                            <i class="fa-regular fa-star text-slate-300"></i>
+
+                            @endif
+
+                            @endfor
+
+                    </div>
+
+                    {{-- Giá --}}
+                    <div class="mt-4">
+
+                        @if($giaThapNhat)
+
+                        <p class="text-[#1040C5] font-bold text-lg">
+
+                            Từ {{ number_format($giaThapNhat,0,',','.') }} đ / đêm
+
+                        </p>
+
+                        @else
+
+                        <p class="text-slate-400">
+
+                            Chưa cập nhật giá
+
+                        </p>
+
+                        @endif
+
+                    </div>
+
+                    {{-- Button --}}
+                    <div class="mt-6">
+
+                        <a href="{{ route('khachsan.show', [
+                            'id' => $khachSan->ma_khach_san,
+                            'so_nguoi_truong_thanh' => request('so_nguoi_truong_thanh'),
+                            'so_tre_em' => request('so_tre_em'),
+                            'so_nguoi_cao_tuoi' => request('so_nguoi_cao_tuoi'),
+                            'ngay_nhan_phong' => request('ngay_nhan_phong'),
+                            'ngay_tra_phong' => request('ngay_tra_phong'),
+                            'so_luong_phong' => request('so_luong_phong'),
+                        ]) }}"
+                            class="w-full inline-flex justify-center items-center bg-[#1040C5] hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition">
+
+                            Xem chi tiết
+
+                        </a>
+
+                    </div>
 
                 </div>
 
             </div>
 
+            @endforeach
+
         </div>
 
-        @endforeach
+        <div class="swiper-button-prev"></div>
+
+        <div class="swiper-button-next"></div>
 
     </div>
 
