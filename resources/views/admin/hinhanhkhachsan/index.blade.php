@@ -99,11 +99,6 @@
 
             @enderror
 
-            {{-- Preview ảnh --}}
-            <div id="preview" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 mt-1">
-
-            </div>
-
             </form>
 
             @else
@@ -270,78 +265,6 @@
 
 </div>
 <script>
-const input = document.getElementById('chonAnh');
-const preview = document.getElementById('preview');
-
-if (input && preview) {
-
-    input.addEventListener('change', function() {
-
-        preview.innerHTML = '';
-
-        const files = Array.from(this.files);
-
-        if (files.length === 0) {
-
-            return;
-
-        }
-
-        if (files.length > 15) {
-
-            alert('Chỉ được chọn tối đa 15 hình ảnh.');
-
-            this.value = '';
-
-            return;
-
-        }
-
-        files.forEach(function(file, index) {
-
-            if (!file.type.startsWith('image/')) {
-
-                return;
-
-            }
-
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-
-                const card = document.createElement('div');
-
-                card.className =
-                    'border rounded-2xl overflow-hidden shadow-sm bg-white';
-
-                card.innerHTML = `
-                    <img
-                        src="${e.target.result}"
-                        class="w-full h-40 object-cover">
-
-                    <div class="p-3">
-
-                        <p class="text-center text-sm font-semibold">
-
-                            Ảnh ${index + 1}
-
-                        </p>
-
-                    </div>
-                `;
-
-                preview.appendChild(card);
-
-            };
-
-            reader.readAsDataURL(file);
-
-        });
-
-    });
-
-}
-
 function openModal(action) {
 
     document.getElementById('formSuaAnh').action = action;

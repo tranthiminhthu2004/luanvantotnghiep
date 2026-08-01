@@ -15,6 +15,9 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
+    {{-- Swiper --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
@@ -38,7 +41,9 @@
                 @include('users.chitietkhachsan.formkiemtra')
 
                 @if($daKiemTraPhong)
+
                 @include('users.chitietkhachsan.danhsachloaiphong')
+
                 @endif
 
                 @include('users.chitietkhachsan.bando')
@@ -52,6 +57,49 @@
     </main>
 
     @include('components.footer')
+
+    {{-- Swiper --}}
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+    const diaDiemGanDaySwiper = new Swiper('.diaDiemGanDaySwiper', {
+
+        slidesPerView: 1,
+
+        slidesPerGroup: 1,
+
+        spaceBetween: 20,
+
+        navigation: {
+
+            nextEl: '.diaDiemGanDaySwiper .swiper-button-next',
+
+            prevEl: '.diaDiemGanDaySwiper .swiper-button-prev',
+
+        },
+
+        breakpoints: {
+
+            640: {
+
+                slidesPerView: 2,
+
+                slidesPerGroup: 2,
+
+            },
+
+            1024: {
+
+                slidesPerView: 3,
+
+                slidesPerGroup: 3,
+
+            }
+
+        }
+
+    });
+    </script>
 
 </body>
 

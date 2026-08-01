@@ -18,130 +18,122 @@
 
     @if($diaDiemDuLichs->count() > 0)
 
-    <div id="danhSachDiaDiemGanDay" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+    <div class="swiper diaDiemGanDaySwiper">
 
-        @foreach($diaDiemDuLichs as $index => $diaDiem)
+        <div class="swiper-wrapper">
 
-        @php
+            @foreach($diaDiemDuLichs as $diaDiem)
 
-        $anhDiaDiem = asset('images/diadiemdulich.png');
+            @php
 
-        if (
-        $diaDiem->hinhAnhs &&
-        $diaDiem->hinhAnhs->count() > 0
-        ) {
+            $anhDiaDiem = asset('images/diadiemdulich.png');
 
-        $duongDanAnh =
-        $diaDiem
-        ->hinhAnhs
-        ->first()
-        ->duong_dan_anh;
+            if (
+            $diaDiem->hinhAnhs &&
+            $diaDiem->hinhAnhs->count() > 0
+            ) {
 
-        if ($duongDanAnh) {
+            $duongDanAnh =
+            $diaDiem
+            ->hinhAnhs
+            ->first()
+            ->duong_dan_anh;
 
-        $anhDiaDiem =
-        asset($duongDanAnh);
+            if ($duongDanAnh) {
 
-        }
+            $anhDiaDiem =
+            asset($duongDanAnh);
 
-        }
+            }
 
-        @endphp
+            }
 
-        <div class="dia-diem-item {{ $index >= 6 ? 'hidden' : '' }}
-                    bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-lg transition">
+            @endphp
 
-            <div class="h-44 overflow-hidden bg-slate-100">
+            <div
+                class="swiper-slide bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-lg transition flex flex-col h-auto">
 
-                <img src="{{ $anhDiaDiem }}" alt="{{ $diaDiem->ten_dia_diem }}"
-                    class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                {{-- Ảnh --}}
+                <div class="h-44 overflow-hidden bg-slate-100">
 
-            </div>
-
-            <div class="p-4">
-
-                <div class="flex items-center justify-between mb-2">
-
-                    <span class="flex items-center gap-2 text-xs font-semibold text-[#1040C5]">
-
-                        <i class="fa-solid fa-location-dot"></i>
-
-                        {{ $diaDiem->diaDiem->ten_dia_diem ?? '' }}
-
-                    </span>
-
-                    <span class="text-xs font-bold text-green-600">
-
-                        {{ number_format($diaDiem->khoang_cach_km,1) }}
-                        km
-
-                    </span>
+                    <img src="{{ $anhDiaDiem }}" alt="{{ $diaDiem->ten_dia_diem }}"
+                        class="w-full h-full object-cover hover:scale-105 transition duration-500">
 
                 </div>
 
-                <h3 class="text-lg font-bold text-[#061755] line-clamp-1">
+                {{-- Nội dung --}}
+                <div class="p-4 flex flex-col flex-1">
 
-                    {{ $diaDiem->ten_dia_diem }}
+                    <div class="flex items-center justify-between mb-2">
 
-                </h3>
+                        <span class="flex items-center gap-2 text-xs font-semibold text-[#1040C5]">
 
-                <p class="text-gray-500 text-sm mt-2 leading-6 line-clamp-2">
+                            <i class="fa-solid fa-location-dot"></i>
 
-                    {{ $diaDiem->mo_ta ?? 'Địa điểm du lịch phù hợp để tham quan.' }}
+                            {{ $diaDiem->diaDiem->ten_dia_diem ?? '' }}
 
-                </p>
+                        </span>
 
-                @if(!empty($diaDiem->dia_chi))
+                        <span class="text-xs font-bold text-green-600">
 
-                <p class="text-sm text-gray-500 mt-3 flex items-start gap-2 line-clamp-1">
+                            {{ number_format($diaDiem->khoang_cach_km,1) }} km
 
-                    <i class="fa-solid fa-map-pin mt-1 text-[#1040C5]"></i>
+                        </span>
 
-                    <span>
+                    </div>
 
-                        {{ $diaDiem->dia_chi }}
+                    <h3 class="text-lg font-bold text-[#061755] line-clamp-1">
 
-                    </span>
+                        {{ $diaDiem->ten_dia_diem }}
 
-                </p>
+                    </h3>
 
-                @endif
+                    <p class="text-gray-500 text-sm mt-2 leading-6 line-clamp-2 min-h-[48px]">
 
-                <div class="mt-4">
+                        {{ $diaDiem->mo_ta ?? 'Địa điểm du lịch phù hợp để tham quan.' }}
 
-                    <a href="{{ route('diemden.show',$diaDiem->ma_dia_diem_du_lich) }}"
-                        class="inline-flex items-center justify-center w-full bg-[#1040C5] hover:bg-blue-700 text-white rounded-xl py-2.5 text-sm font-semibold transition">
+                    </p>
 
-                        Xem chi tiết
+                    @if(!empty($diaDiem->dia_chi))
 
-                    </a>
+                    <p class="text-sm text-gray-500 mt-3 flex items-start gap-2 line-clamp-2 min-h-[48px]">
+
+                        <i class="fa-solid fa-map-pin mt-1 text-[#1040C5]"></i>
+
+                        <span>
+
+                            {{ $diaDiem->dia_chi }}
+
+                        </span>
+
+                    </p>
+
+                    @endif
+
+                    <div class="mt-auto pt-4">
+
+                        <a href="{{ route('diemden.show',$diaDiem->ma_dia_diem_du_lich) }}"
+                            class="inline-flex items-center justify-center w-full bg-[#1040C5] hover:bg-blue-700 text-white rounded-xl py-2.5 text-sm font-semibold transition">
+
+                            Xem chi tiết
+
+                        </a>
+
+                    </div>
 
                 </div>
 
             </div>
+
+            @endforeach
 
         </div>
 
-        @endforeach
+        <div class="swiper-button-prev"></div>
+
+        <div class="swiper-button-next"></div>
 
     </div>
-
-    @if($diaDiemDuLichs->count() > 6)
-
-    <div class="mt-6 flex justify-center">
-
-        <button type="button" id="btnXemTatCaDiaDiemGanDay"
-            class="inline-flex items-center gap-2 text-[#1040C5] font-bold hover:underline">
-
-            Xem tất cả địa điểm
-
-            <i class="fa-solid fa-arrow-right"></i>
-
-        </button>
-
-    </div>
-
-    @endif
 
     @else
 

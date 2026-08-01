@@ -11,7 +11,7 @@
 
         <p class="mt-5 text-slate-500 text-xl max-w-3xl mx-auto leading-9">
 
-            Một số câu hỏi phổ biến dành cho đối tác khi tham gia hệ thống.
+            Một số câu hỏi thường gặp dành cho đối tác khi quản lý khách sạn trên hệ thống.
 
         </p>
 
@@ -25,7 +25,7 @@
 
             <summary class="flex justify-between items-center cursor-pointer p-6 text-xl font-semibold text-[#061755]">
 
-                Đăng ký đối tác có mất phí không?
+                Làm thế nào để trở thành đối tác?
 
                 <i class="fa-solid fa-chevron-down group-open:rotate-180 transition"></i>
 
@@ -33,13 +33,33 @@
 
             <div class="px-6 pb-6 text-lg text-slate-600 leading-8">
 
-                Không. Việc đăng ký trở thành đối tác và gửi thông tin khách sạn lên hệ thống hoàn toàn miễn phí.
-
+                Đối tác cần liên hệ với đơn vị quản lý để ký kết hợp đồng hợp tác. Sau khi hoàn tất, hệ thống sẽ cấp tài
+                khoản để đăng nhập.
             </div>
 
         </details>
 
         {{-- Câu 2 --}}
+        <details class="bg-white rounded-2xl border border-slate-200 shadow-sm group">
+
+            <summary class="flex justify-between items-center cursor-pointer p-6 text-xl font-semibold text-[#061755]">
+
+                Sau khi được cấp tài khoản, tôi cần làm gì?
+
+                <i class="fa-solid fa-chevron-down group-open:rotate-180 transition"></i>
+
+            </summary>
+
+            <div class="px-6 pb-6 text-lg text-slate-600 leading-8">
+
+                Đối tác đăng nhập vào hệ thống, nhập đầy đủ thông tin khách sạn, loại phòng và hình ảnh rồi gửi yêu cầu
+                để Admin xét duyệt.
+
+            </div>
+
+        </details>
+
+        {{-- Câu 3 --}}
         <details class="bg-white rounded-2xl border border-slate-200 shadow-sm group">
 
             <summary class="flex justify-between items-center cursor-pointer p-6 text-xl font-semibold text-[#061755]">
@@ -52,26 +72,7 @@
 
             <div class="px-6 pb-6 text-lg text-slate-600 leading-8">
 
-                Thông thường trong vòng từ 24 đến 48 giờ làm việc sau khi gửi đầy đủ thông tin.
-
-            </div>
-
-        </details>
-
-        {{-- Câu 3 --}}
-        <details class="bg-white rounded-2xl border border-slate-200 shadow-sm group">
-
-            <summary class="flex justify-between items-center cursor-pointer p-6 text-xl font-semibold text-[#061755]">
-
-                Nếu bài đăng bị từ chối thì sao?
-
-                <i class="fa-solid fa-chevron-down group-open:rotate-180 transition"></i>
-
-            </summary>
-
-            <div class="px-6 pb-6 text-lg text-slate-600 leading-8">
-
-                Bạn sẽ nhận được lý do từ chối từ Admin và có thể chỉnh sửa, bổ sung thông tin rồi gửi lại để xét duyệt.
+                Sau khi đối tác gửi đầy đủ thông tin, Admin sẽ kiểm tra và xét duyệt trong thời gian sớm nhất.
 
             </div>
 
@@ -82,7 +83,7 @@
 
             <summary class="flex justify-between items-center cursor-pointer p-6 text-xl font-semibold text-[#061755]">
 
-                Sau khi được duyệt thì khách sạn có tự hiển thị không?
+                Nếu khách sạn chưa được duyệt thì sao?
 
                 <i class="fa-solid fa-chevron-down group-open:rotate-180 transition"></i>
 
@@ -90,8 +91,7 @@
 
             <div class="px-6 pb-6 text-lg text-slate-600 leading-8">
 
-                Có. Sau khi Admin phê duyệt, khách sạn sẽ tự động xuất hiện trên website và khách hàng có thể tìm kiếm,
-                xem thông tin và đặt phòng.
+                Admin sẽ thông báo lý do chưa duyệt để đối tác chỉnh sửa hoặc bổ sung thông tin trước khi gửi lại.
 
             </div>
 
@@ -102,7 +102,7 @@
 
             <summary class="flex justify-between items-center cursor-pointer p-6 text-xl font-semibold text-[#061755]">
 
-                Tôi có thể chỉnh sửa thông tin khách sạn không?
+                Sau khi khách sạn được duyệt thì điều gì xảy ra?
 
                 <i class="fa-solid fa-chevron-down group-open:rotate-180 transition"></i>
 
@@ -110,8 +110,7 @@
 
             <div class="px-6 pb-6 text-lg text-slate-600 leading-8">
 
-                Có. Đối tác có thể cập nhật thông tin khách sạn của mình bất cứ lúc nào. Những thay đổi sẽ được Admin
-                kiểm tra trước khi áp dụng nếu cần thiết.
+                Khách sạn sẽ được hiển thị trên hệ thống để người dùng tìm kiếm, xem thông tin và thực hiện đặt phòng.
 
             </div>
 

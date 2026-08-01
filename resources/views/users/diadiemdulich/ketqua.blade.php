@@ -19,64 +19,76 @@
 
     </div>
 
-    {{-- Danh sách địa điểm --}}
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+    <div class="swiper ketQuaGoiYSwiper">
 
-        @foreach($ketQuaGoiY as $item)
+        <div class="swiper-wrapper">
 
-        @php
+            @foreach($ketQuaGoiY as $item)
 
-        $diaDiem = $item['dia_diem'];
+            @php
 
-        @endphp
+            $diaDiem = $item['dia_diem'];
 
-        <div
-            class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-7 flex flex-col">
+            @endphp
 
-            <div>
+            <div class="swiper-slide">
 
-                <h3 class="text-2xl font-bold text-[#061755]">
+                <div
+                    class="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-7 flex flex-col h-full">
 
-                    {{ $diaDiem->ten_dia_diem }}
+                    <div>
 
-                </h3>
+                        <h3 class="text-2xl font-bold text-[#061755]">
+
+                            {{ $diaDiem->ten_dia_diem }}
+
+                        </h3>
+
+                    </div>
+
+                    <div class="mt-5">
+
+                        <span
+                            class="inline-flex items-center bg-blue-100 text-[#1040C5] px-4 py-2 rounded-full text-sm font-bold">
+
+                            {{ $item['phan_tram'] }}% phù hợp
+
+                        </span>
+
+                    </div>
+
+                    {{-- Mô tả --}}
+                    <div class="mt-4 flex-1">
+
+                        <p class="text-slate-600 leading-normal line-clamp-3 whitespace-pre-line min-h-[72px]">
+                            {{ $diaDiem->mo_ta }}
+                        </p>
+
+                    </div>
+
+                    {{-- Nút --}}
+                    <div class="mt-auto pt-6">
+
+                        <a href="{{ route('diadiem.show', $diaDiem->ma_dia_diem) }}"
+                            class="w-full inline-flex items-center justify-center gap-2 bg-[#1040C5] hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition">
+
+                            Xem chi tiết
+
+                        </a>
+
+                    </div>
+
+                </div>
 
             </div>
 
-            <div class="mt-5">
-
-                <span
-                    class="inline-flex items-center bg-blue-100 text-[#1040C5] px-4 py-2 rounded-full text-sm font-bold">
-
-                    {{ $item['phan_tram'] }}% phù hợp
-
-                </span>
-
-            </div>
-
-            {{-- Mô tả --}}
-            <div class="mt-2 flex-1">
-
-                <p class="text-slate-600 leading-normal line-clamp-3 whitespace-pre-line">
-                    {{ $diaDiem->mo_ta }}
-                </p>
-
-            </div>
-            {{-- Nút --}}
-            <div class="mt-8">
-
-                <a href="{{ route('diadiem.show', $diaDiem->ma_dia_diem) }}" class=" w-full inline-flex items-center justify-center gap-2 bg-[#1040C5] hover:bg-blue-700
-                    text-white py-3 rounded-xl font-semibold transition">
-
-                    Xem chi tiết
-
-                </a>
-
-            </div>
+            @endforeach
 
         </div>
 
-        @endforeach
+        <div class="swiper-button-prev"></div>
+
+        <div class="swiper-button-next"></div>
 
     </div>
 

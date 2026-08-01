@@ -42,7 +42,8 @@ $file->move(
 );
 
 HinhAnhKhachSan::create([
-    'duong_dan_anh' => 'images/khachsan/'.$tenAnh,
+    'ma_khach_san' => $id,
+    'duong_dan_anh' => 'images/khachsan/' . $tenAnh,
 ]);
             }
         }

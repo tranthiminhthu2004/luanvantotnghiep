@@ -13,6 +13,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
 </head>
 
 <body class="bg-slate-50">
@@ -23,7 +25,6 @@
 
         @include('users.diadiemdulich.search')
 
-        {{-- Nội dung --}}
         <main class="max-w-7xl mx-auto px-4 lg:px-8 py-8 space-y-8">
 
             @include('users.diadiemdulich.trangthai')
@@ -49,6 +50,42 @@
     </div>
 
     @include('components.footer')
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+    new Swiper(".ketQuaGoiYSwiper", {
+
+        slidesPerView: 1,
+
+        spaceBetween: 24,
+
+        navigation: {
+
+            nextEl: ".ketQuaGoiYSwiper .swiper-button-next",
+
+            prevEl: ".ketQuaGoiYSwiper .swiper-button-prev",
+
+        },
+
+        breakpoints: {
+
+            640: {
+
+                slidesPerView: 2,
+
+            },
+
+            1024: {
+
+                slidesPerView: 3,
+
+            }
+
+        }
+
+    });
+    </script>
 
 </body>
 
