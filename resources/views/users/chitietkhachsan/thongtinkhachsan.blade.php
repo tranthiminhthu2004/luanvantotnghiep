@@ -230,30 +230,60 @@
 
     </h2>
 
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div class="flex flex-wrap gap-3">
 
         @forelse($khachSan->tienNghis as $tienNghi)
 
-        <div
-            class="flex items-center gap-3 border border-slate-200 rounded-xl p-4 hover:bg-slate-50 hover:border-blue-200 transition">
+        <div class="relative group">
 
-            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+            <div
+                class="inline-flex items-center gap-2 border border-slate-200 rounded-lg px-3 py-2 bg-white hover:bg-blue-50 hover:border-blue-300 transition duration-200 cursor-pointer">
 
-                <i class="fa-solid {{ $tienNghi->icon }} text-blue-600"></i>
+                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+
+                    <i class="fa-solid {{ $tienNghi->icon }} text-blue-600 text-sm"></i>
+
+                </div>
+
+                <span class="text-sm font-medium text-slate-700 whitespace-nowrap">
+
+                    {{ $tienNghi->ten_tien_nghi }}
+
+                </span>
 
             </div>
 
-            <span class="font-medium text-slate-700">
+            {{-- Tooltip mô tả --}}
+            @if(!empty($tienNghi->mo_ta))
 
-                {{ $tienNghi->ten_tien_nghi }}
+            <div
+                class="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-64 bg-slate-900 text-white text-xs rounded-lg p-3 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-200 z-50">
 
-            </span>
+                <p class="font-semibold mb-1">
+
+                    {{ $tienNghi->ten_tien_nghi }}
+
+                </p>
+
+                <p class="leading-5 text-slate-200">
+
+                    {{ $tienNghi->mo_ta }}
+
+                </p>
+
+                {{-- Mũi tên --}}
+                <div class="absolute -top-2 left-1/2 -translate-x-1/2 border-8 border-transparent border-b-slate-900">
+                </div>
+
+            </div>
+
+            @endif
 
         </div>
 
         @empty
 
-        <div class="col-span-full text-center py-8 text-gray-500">
+        <div class="w-full text-center py-8 text-gray-500">
 
             <i class="fa-solid fa-circle-info text-2xl mb-2"></i>
 

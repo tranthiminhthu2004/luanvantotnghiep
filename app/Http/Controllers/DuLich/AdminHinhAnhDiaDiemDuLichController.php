@@ -37,6 +37,7 @@ class AdminHinhAnhDiaDiemDuLichController extends Controller
                 'hinh_anh.*.image' => 'Tệp tải lên phải là hình ảnh.',
                 'hinh_anh.*.mimes' => 'Chỉ chấp nhận JPG, JPEG, PNG hoặc WEBP.',
                 'hinh_anh.*.max' => 'Mỗi hình ảnh không được vượt quá 2MB.',
+                'hinh_anh.*.uploaded' => 'Không thể tải lên hình ảnh. Có thể kích thước tệp vượt quá giới hạn cho phép.'
             ]
         );
 

@@ -27,12 +27,7 @@
 
             @include('users.doitac.loiich')
 
-            @include('users.doitac.quytrinh')
-
             @include('users.doitac.cauhoithuonggap')
-
-
-
 
         </main>
 

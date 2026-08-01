@@ -1,19 +1,20 @@
-<div class="bg-white rounded-2xl border overflow-hidden flex flex-col lg:flex-row shadow-sm hover:shadow-lg transition">
+<div
+    class="bg-white rounded-2xl border overflow-hidden flex flex-col lg:flex-row shadow-sm hover:shadow-lg transition min-h-[260px]">
 
     {{-- Ảnh khách sạn --}}
     @if($khachSan->hinhAnh->count())
 
     <img src="{{ asset($khachSan->hinhAnh->first()->duong_dan_anh) }}"
-        class="w-full lg:w-[350px] h-[250px] lg:h-auto object-cover">
+        class="w-full lg:w-[350px] h-[260px] object-cover flex-shrink-0">
 
     @else
 
-    <img src="{{ asset('images/no-image.jpg') }}" class="w-full lg:w-[350px] h-[250px] lg:h-auto object-cover">
+    <img src="{{ asset('images/no-image.jpg') }}" class="w-full lg:w-[350px] h-[260px] object-cover flex-shrink-0">
 
     @endif
 
     {{-- Nội dung --}}
-    <div class="flex-1 p-5 flex flex-col justify-between">
+    <div class="flex-1 p-5 flex flex-col">
 
         <div>
 
@@ -34,7 +35,7 @@
             </p>
 
             {{-- Địa chỉ --}}
-            <p class="text-gray-500 mt-1">
+            <p class="text-gray-500 mt-1 line-clamp-2">
 
                 {{ $khachSan->dia_chi }}
 
@@ -83,24 +84,18 @@
         </div>
 
         {{-- Nút xem chi tiết --}}
-        <div class="mt-5">
+        <div class="mt-auto pt-5">
 
             <a href="{{ route('khachsan.show', [
-    'id' => $khachSan->ma_khach_san,
-
-    'so_nguoi_truong_thanh' => request('so_nguoi_truong_thanh'),
-
-    'so_tre_em' => request('so_tre_em'),
-
-    'so_nguoi_cao_tuoi' => request('so_nguoi_cao_tuoi'),
-
-    'ngay_nhan_phong' => request('ngay_nhan_phong'),
-
-    'ngay_tra_phong' => request('ngay_tra_phong'),
-    
-    'so_luong_phong' => request('so_luong_phong'),
-]) }}" class="w-full lg:w-auto justify-center bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-full inline-flex items-center gap-2">
-
+                'id' => $khachSan->ma_khach_san,
+                'so_nguoi_truong_thanh' => request('so_nguoi_truong_thanh'),
+                'so_tre_em' => request('so_tre_em'),
+                'so_nguoi_cao_tuoi' => request('so_nguoi_cao_tuoi'),
+                'ngay_nhan_phong' => request('ngay_nhan_phong'),
+                'ngay_tra_phong' => request('ngay_tra_phong'),
+                'so_luong_phong' => request('so_luong_phong'),
+            ]) }}"
+                class="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold transition">
 
                 Xem chi tiết
 

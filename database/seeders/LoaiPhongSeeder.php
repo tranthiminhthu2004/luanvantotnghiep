@@ -19,6 +19,40 @@ class LoaiPhongSeeder extends Seeder
                 continue;
             }
 
+            // Giá phòng theo số sao khách sạn
+            switch ($khachSan->so_sao_khach_san) {
+
+                case 1:
+                    $giaStandard = 400000;
+                    $giaFamily = 700000;
+                    break;
+
+                case 2:
+                    $giaStandard = 600000;
+                    $giaFamily = 900000;
+                    break;
+
+                case 3:
+                    $giaStandard = 900000;
+                    $giaFamily = 1400000;
+                    break;
+
+                case 4:
+                    $giaStandard = 1300000;
+                    $giaFamily = 1900000;
+                    break;
+
+                case 5:
+                    $giaStandard = 1800000;
+                    $giaFamily = 2800000;
+                    break;
+
+                default:
+                    $giaStandard = 800000;
+                    $giaFamily = 1500000;
+                    break;
+            }
+
             $danhSachLoaiPhong = [
 
                 [
@@ -26,38 +60,18 @@ class LoaiPhongSeeder extends Seeder
                     'so_nguoi_toi_da' => 2,
                     'dien_tich' => 22,
                     'so_giuong' => 1,
-                    'gia_co_ban' => 800000,
+                    'gia_co_ban' => $giaStandard,
                     'mo_ta' => 'Phòng Standard phù hợp cho 2 khách, đầy đủ tiện nghi cơ bản.',
                     'trang_thai' => 1,
                 ],
 
                 [
-                    'ten_loai_phong' => 'Superior',
-                    'so_nguoi_toi_da' => 2,
-                    'dien_tich' => 28,
-                    'so_giuong' => 1,
-                    'gia_co_ban' => 1000000,
-                    'mo_ta' => 'Phòng Superior rộng rãi, nội thất hiện đại, cửa sổ lớn.',
-                    'trang_thai' => 1,
-                ],
-
-                [
-                    'ten_loai_phong' => 'Deluxe',
-                    'so_nguoi_toi_da' => 3,
-                    'dien_tich' => 35,
-                    'so_giuong' => 2,
-                    'gia_co_ban' => 1200000,
-                    'mo_ta' => 'Phòng Deluxe sang trọng, thích hợp cho gia đình nhỏ.',
-                    'trang_thai' => 1,
-                ],
-
-                [
-                    'ten_loai_phong' => 'Premium',
+                    'ten_loai_phong' => 'Family',
                     'so_nguoi_toi_da' => 4,
-                    'dien_tich' => 45,
+                    'dien_tich' => 40,
                     'so_giuong' => 2,
-                    'gia_co_ban' => 1800000,
-                    'mo_ta' => 'Phòng Premium cao cấp, không gian rộng rãi và đầy đủ tiện nghi.',
+                    'gia_co_ban' => $giaFamily,
+                    'mo_ta' => 'Phòng Family rộng rãi, phù hợp cho gia đình hoặc nhóm bạn.',
                     'trang_thai' => 1,
                 ],
 
@@ -77,9 +91,8 @@ class LoaiPhongSeeder extends Seeder
                 ]);
 
             }
-
         }
 
-        $this->command->info('Đã thêm loại phòng cho các khách sạn chưa có loại phòng.');
+        $this->command->info('Đã thêm 2 loại phòng (Standard, Family) cho các khách sạn chưa có loại phòng.');
     }
 }

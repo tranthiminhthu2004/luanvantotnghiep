@@ -55,8 +55,8 @@
 
                 @foreach($loaiPhongs as $loaiPhong)
 
-                <option value="{{ $loaiPhong->ma_loai_phong }}"
-                    {{ request('ma_loai_phong') == $loaiPhong->ma_loai_phong ? 'selected' : '' }}>
+                <option value="{{ $loaiPhong->ten_loai_phong }}"
+                    {{ request('ma_loai_phong') == $loaiPhong->ten_loai_phong ? 'selected' : '' }}>
 
                     {{ $loaiPhong->ten_loai_phong }}
 

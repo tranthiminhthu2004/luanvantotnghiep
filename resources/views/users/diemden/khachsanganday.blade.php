@@ -46,126 +46,134 @@
 
     @else
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="swiper khachSanGanDaySwiper">
 
-        @foreach($khachSans as $khachSan)
+        <div class="swiper-wrapper">
 
-        @php
+            @foreach($khachSans as $khachSan)
 
-        $anhKhachSan = asset('images/khachsan.jpg');
+            @php
 
-        if (
-        $khachSan->hinhAnh &&
-        $khachSan->hinhAnh->count() > 0 &&
-        $khachSan->hinhAnh->first()->duong_dan_anh
-        ) {
+            $anhKhachSan = asset('images/khachsan.jpg');
 
-        $anhKhachSan = asset(
-        $khachSan->hinhAnh->first()->duong_dan_anh
-        );
+            if (
+            $khachSan->hinhAnh &&
+            $khachSan->hinhAnh->count() > 0 &&
+            $khachSan->hinhAnh->first()->duong_dan_anh
+            ) {
 
-        }
+            $anhKhachSan = asset(
+            $khachSan->hinhAnh->first()->duong_dan_anh
+            );
 
-        $giaThapNhat = $khachSan
-        ->loaiPhongs
-        ->min('gia_co_ban');
+            }
 
-        @endphp
+            $giaThapNhat = $khachSan->loaiPhongs->min('gia_co_ban');
 
-        <div class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-lg transition">
+            @endphp
 
-            <div class="h-56 overflow-hidden">
+            <div class="swiper-slide h-full">
 
-                <img src="{{ $anhKhachSan }}" alt="{{ $khachSan->ten_khach_san }}"
-                    class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                <div
+                    class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-lg transition flex flex-col h-full">
 
-            </div>
+                    <div class="h-56 overflow-hidden">
 
-            <div class="p-5">
+                        <img src="{{ $anhKhachSan }}" alt="{{ $khachSan->ten_khach_san }}"
+                            class="w-full h-full object-cover hover:scale-105 transition duration-500">
 
-                <div class="flex justify-between items-start">
+                    </div>
 
-                    <h3 class="text-xl font-bold text-[#061755] line-clamp-2">
+                    <div class="p-5 flex flex-col flex-1">
 
-                        {{ $khachSan->ten_khach_san }}
+                        <div class="flex justify-between items-start">
 
-                    </h3>
+                            <h3 class="text-xl font-bold text-[#061755] line-clamp-2">
 
-                    <span class="text-yellow-500 text-sm whitespace-nowrap">
+                                {{ $khachSan->ten_khach_san }}
 
-                        {{ $khachSan->so_sao_khach_san }}
+                            </h3>
 
-                        <i class="fa-solid fa-star"></i>
+                            <span class="text-yellow-500 text-sm whitespace-nowrap">
 
-                    </span>
+                                {{ $khachSan->so_sao_khach_san }}
 
-                </div>
+                                <i class="fa-solid fa-star"></i>
 
-                <p class="text-gray-500 text-sm mt-3 flex items-start gap-2">
+                            </span>
 
-                    <i class="fa-solid fa-location-dot text-[#1040C5] mt-1">
-                    </i>
+                        </div>
 
-                    <span>
+                        <p class="text-gray-500 text-sm mt-3 flex items-start gap-2 line-clamp-2 min-h-[48px]">
 
-                        {{ $khachSan->dia_chi }}
+                            <i class="fa-solid fa-location-dot text-[#1040C5] mt-1"></i>
 
-                    </span>
+                            <span>
 
-                </p>
+                                {{ $khachSan->dia_chi }}
 
-                <p class="text-sm text-[#1040C5] mt-3 font-medium">
+                            </span>
 
-                    <i class="fa-solid fa-route"></i>
+                        </p>
 
-                    Cách điểm du lịch
+                        <p class="text-sm text-[#1040C5] mt-3 font-medium">
 
-                    <strong>
+                            <i class="fa-solid fa-route"></i>
 
-                        {{ number_format($khachSan->khoang_cach_km,2) }}
+                            Cách điểm du lịch
 
-                        km
+                            <strong>
 
-                    </strong>
+                                {{ number_format($khachSan->khoang_cach_km,2) }} km
 
-                </p>
+                            </strong>
 
-                <div class="mt-5">
+                        </p>
 
-                    <span class="text-sm text-gray-500">
+                        <div class="mt-auto pt-5">
 
-                        Giá từ
+                            <span class="text-sm text-gray-500">
 
-                    </span>
+                                Giá từ
 
-                    <div class="text-2xl font-bold text-red-600">
+                            </span>
 
-                        @if($giaThapNhat)
+                            <div class="text-2xl font-bold text-red-600">
 
-                        {{ number_format($giaThapNhat) }} đ
+                                @if($giaThapNhat)
 
-                        @else
+                                {{ number_format($giaThapNhat) }} đ
 
-                        Liên hệ
+                                @else
 
-                        @endif
+                                Liên hệ
+
+                                @endif
+
+                            </div>
+
+                        </div>
+
+                        <a href="{{ route('khachsan.show', $khachSan->ma_khach_san) }}"
+                            class="mt-5 inline-flex items-center justify-center w-full bg-[#1040C5] hover:bg-blue-700 text-white rounded-xl py-3 font-semibold transition">
+
+                            Xem chi tiết
+
+                        </a>
 
                     </div>
 
                 </div>
 
-                <a href="{{ route('khachsan.show', $khachSan->ma_khach_san) }}"
-                    class="mt-5 inline-flex items-center justify-center w-full bg-[#1040C5] hover:bg-blue-700 text-white rounded-xl py-3 font-semibold transition">
-
-                    Xem chi tiết
-
-                </a>
-
             </div>
+
+            @endforeach
 
         </div>
 
-        @endforeach
+        <div class="swiper-button-prev khachSanGanDayPrev"></div>
+
+        <div class="swiper-button-next khachSanGanDayNext"></div>
 
     </div>
 

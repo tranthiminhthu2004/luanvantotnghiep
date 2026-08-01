@@ -32,14 +32,16 @@ class AdminPhongController extends Controller
         }
 
         // Lọc loại phòng
-        if ($request->filled('ma_loai_phong'))
-        {
-            $query->where(
-                'ma_loai_phong',
-                $request->ma_loai_phong
-            );
-        }
-
+       // Lọc loại phòng
+if ($request->filled('ten_loai_phong'))
+{
+    $query->whereHas('loaiPhong', function ($q) use ($request) {
+        $q->where(
+            'ten_loai_phong',
+            $request->ten_loai_phong
+        );
+    });
+}
         // Lọc trạng thái
         if ($request->filled('trang_thai_phong'))
         {
@@ -97,9 +99,10 @@ class AdminPhongController extends Controller
             'NgungHoatDong'
         )->count();
 
-        $loaiPhongs = LoaiPhong::with(
-            'khachSan'
-        )->get();
+       $loaiPhongs = LoaiPhong::select('ten_loai_phong')
+    ->distinct()
+    ->orderBy('ten_loai_phong')
+    ->get();
 
         $khachSans = KhachSan::all();
 $danhSachSoPhong = Phong::select('so_phong')

@@ -37,27 +37,17 @@ class PhongSeeder extends Seeder
                     $batDau = 101;
                     break;
 
-                case 'Superior':
+                case 'Family':
                     $tang = 2;
                     $batDau = 201;
-                    break;
-
-                case 'Deluxe':
-                    $tang = 3;
-                    $batDau = 301;
-                    break;
-
-                case 'Premium':
-                    $tang = 4;
-                    $batDau = 401;
                     break;
 
                 default:
                     continue 2;
             }
 
-            // Tạo 5 phòng
-            for ($i = 0; $i < 5; $i++) {
+            // Tạo 2 phòng cho mỗi loại phòng
+            for ($i = 0; $i < 2; $i++) {
 
                 Phong::create([
 
@@ -73,6 +63,6 @@ class PhongSeeder extends Seeder
             }
         }
 
-        $this->command->info('Đã tạo 400 phòng thành công!');
+        $this->command->info('Đã tạo 2 phòng cho mỗi loại phòng thành công!');
     }
 }
