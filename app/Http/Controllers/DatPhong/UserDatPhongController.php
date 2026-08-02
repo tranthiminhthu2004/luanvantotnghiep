@@ -150,6 +150,46 @@ class UserDatPhongController extends Controller
                     'phong' => 'Vui lòng chọn ít nhất một loại phòng.'
                 ]);
         }
+        
+
+  $tongKhachTinhSucChua =
+    (int) $request->so_nguoi_truong_thanh
+    +
+    (int) $request->so_nguoi_cao_tuoi;
+
+$tongSucChua = 0;
+
+foreach ($phongsDaChon as $phong)
+{
+    $loaiPhong = LoaiPhong::find(
+        $phong['ma_loai_phong']
+    );
+
+    if (!$loaiPhong) {
+        continue;
+    }
+
+    $tongSucChua +=
+
+        $loaiPhong->so_nguoi_toi_da
+
+        *
+
+        $phong['so_luong'];
+}
+
+if ($tongKhachTinhSucChua > $tongSucChua)
+{
+    return back()
+        ->withInput()
+        ->withErrors([
+
+            'phong' =>
+
+            "Tổng sức chứa của các phòng chỉ là {$tongSucChua} người. Vui lòng chọn thêm phòng hoặc chọn loại phòng khác."
+
+        ]);
+}
 
         $tongNguoi =
             (int) $request->so_nguoi_truong_thanh +
@@ -167,10 +207,8 @@ session([
 
         'ma_khach_san' => $khachSan->ma_khach_san,
 
-        // Giữ lại để hiển thị giao diện
         'phongsDaChon' => $phongsDaChon,
 
-        // DatPhongService sử dụng
         'chi_tiet_phong' => collect($phongsDaChon)
             ->map(function ($phong) {
 

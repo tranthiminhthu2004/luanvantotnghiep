@@ -32,7 +32,34 @@ class DatPhongService
                 'Không có phòng được chọn.'
             );
         }
+foreach ($duLieu['chi_tiet_phong'] as $chiTiet)
+{
 
+    if (
+        ($chiTiet['so_luong_phong'] ?? 0) <= 0
+    )
+    {
+
+        throw new \Exception(
+            'Số lượng phòng không hợp lệ.'
+        );
+
+    }
+
+    $loaiPhong = LoaiPhong::find(
+        $chiTiet['ma_loai_phong']
+    );
+
+    if (!$loaiPhong)
+    {
+
+        throw new \Exception(
+            'Loại phòng không tồn tại.'
+        );
+
+    }
+
+}
         $tongTien = collect(
             $duLieu['chi_tiet_phong']
         )->sum('thanh_tien');

@@ -155,7 +155,7 @@
                                 <!-- Trẻ em -->
                                 <div class="flex justify-between items-center mb-4">
 
-                                    <span>Trẻ em</span>
+                                    <span>Trẻ em (Dưới 6 tuổi)</span>
 
                                     <div class="flex items-center gap-3">
 

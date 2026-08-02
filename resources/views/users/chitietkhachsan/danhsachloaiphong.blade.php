@@ -337,7 +337,7 @@
 
                                 <i class="fa-solid fa-child mr-2 text-blue-600"></i>
 
-                                Trẻ em
+                                Trẻ em (Dưới 6 tuổi)
 
                             </span>
 
@@ -379,6 +379,12 @@
                         Giỏ đặt phòng
 
                     </h3>
+                    @if ($errors->has('phong'))
+                    <div class="mb-5 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-red-600">
+                        <i class="fa-solid fa-circle-exclamation mr-2"></i>
+                        {{ $errors->first('phong') }}
+                    </div>
+                    @endif
 
                     <div id="selectedRooms">
 

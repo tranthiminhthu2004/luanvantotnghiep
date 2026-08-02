@@ -12,7 +12,10 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 </head>
 
 <body class="bg-slate-50">
@@ -26,135 +29,133 @@
     {{-- NỘI DUNG KẾT QUẢ --}}
     <main>
 
-        <section class="max-w-7xl mx-auto px-4 lg:px-8 py-4">
+        <section class="max-w-7xl mx-auto px-4 lg:px-8 py-8">
 
-            {{-- ĐỊA ĐIỂM DU LỊCH --}}
+            {{-- ==================== ĐỊA ĐIỂM DU LỊCH ==================== --}}
             <div class="mb-14">
 
-                <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
+                <div class="flex items-center justify-between mb-6">
 
                     <div>
 
-                        <h2 class="text-3xl lg:text-4xl font-bold text-[#061755] mt-2">
+                        <h2 class="text-3xl font-bold text-[#061755]">
+
                             Địa điểm du lịch tại khu vực này
+
                         </h2>
 
+                        <p class="text-gray-500 mt-2">
+
+                            Danh sách các địa điểm du lịch thuộc khu vực bạn đang tìm kiếm.
+
+                        </p>
+
                     </div>
-
-                    <p class="text-gray-500 font-semibold whitespace-nowrap">
-
-                        {{ isset($diaDiemDuLichs) ? $diaDiemDuLichs->count() : 0 }} địa điểm
-
-                    </p>
 
                 </div>
 
                 @if(isset($diaDiemDuLichs) && $diaDiemDuLichs->count() > 0)
 
-                <div id="danhSachDiaDiemDuLich"
-                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                <div class="swiper diaDiemDuLichSwiper">
 
-                    @foreach($diaDiemDuLichs as $index => $diaDiemDuLich)
+                    <div class="swiper-wrapper">
 
-                    @php
-                    $anhDiaDiem = asset('images/diadiemdulich.png');
+                        @foreach($diaDiemDuLichs as $diaDiemDuLich)
 
-                    if (
-                    $diaDiemDuLich->hinhAnhs &&
-                    $diaDiemDuLich->hinhAnhs->count() > 0
-                    ) {
-                    $duongDanAnh = $diaDiemDuLich->hinhAnhs->first()->duong_dan_anh;
+                        @php
 
-                    if ($duongDanAnh) {
-                    $anhDiaDiem = asset($duongDanAnh);
-                    }
-                    }
-                    @endphp
+                        $anhDiaDiem = asset('images/diadiemdulich.png');
 
-                    <div
-                        class="dia-diem-du-lich-item {{ $index >= 4 ? 'hidden' : '' }} bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-lg transition">
+                        if (
+                        $diaDiemDuLich->hinhAnhs &&
+                        $diaDiemDuLich->hinhAnhs->count() > 0 &&
+                        $diaDiemDuLich->hinhAnhs->first()->duong_dan_anh
+                        ) {
 
-                        <div class="h-44 overflow-hidden bg-slate-100">
+                        $anhDiaDiem = asset(
+                        $diaDiemDuLich->hinhAnhs->first()->duong_dan_anh
+                        );
 
-                            <img src="{{ $anhDiaDiem }}" alt="{{ $diaDiemDuLich->ten_dia_diem }}"
-                                class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                        }
 
-                        </div>
+                        @endphp
 
-                        <div class="p-4">
+                        <div class="swiper-slide h-full">
 
-                            <div class="flex items-center gap-2 text-xs text-[#1040C5] font-semibold mb-2">
+                            <div
+                                class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-lg transition flex flex-col h-full">
 
-                                <i class="fa-solid fa-location-dot"></i>
+                                <div class="h-56 overflow-hidden">
 
-                                <span>
-                                    {{ $diaDiemDuLich->diaDiem->ten_dia_diem ?? '' }}
-                                </span>
+                                    <img src="{{ $anhDiaDiem }}" alt="{{ $diaDiemDuLich->ten_dia_diem }}"
+                                        class="w-full h-full object-cover hover:scale-105 transition duration-500">
+
+                                </div>
+
+                                <div class="p-5 flex flex-col flex-1">
+
+                                    <div class="flex items-center gap-2 text-sm text-[#1040C5] font-medium">
+
+                                        <i class="fa-solid fa-location-dot"></i>
+
+                                        <span>
+
+                                            {{ $diaDiemDuLich->diaDiem->ten_dia_diem ?? '' }}
+
+                                        </span>
+
+                                    </div>
+
+                                    <h3 class="text-xl font-bold text-[#061755] mt-3 line-clamp-2">
+
+                                        {{ $diaDiemDuLich->ten_dia_diem }}
+
+                                    </h3>
+
+                                    <p class="text-gray-500 text-sm mt-3 leading-7 line-clamp-3">
+
+                                        {{ $diaDiemDuLich->mo_ta ?? 'Địa điểm du lịch phù hợp để tham quan trong chuyến đi của bạn.' }}
+
+                                    </p>
+
+                                    @if(!empty($diaDiemDuLich->dia_chi))
+
+                                    <p class="text-sm text-gray-500 mt-3 flex items-start gap-2 line-clamp-2 mb-2">
+
+                                        <i class="fa-solid fa-map-pin text-[#1040C5] mt-1"></i>
+
+                                        <span>
+
+                                            {{ $diaDiemDuLich->dia_chi }}
+
+                                        </span>
+
+                                    </p>
+
+                                    @endif
+
+                                    <a href="{{ route('diemden.show',$diaDiemDuLich->ma_dia_diem_du_lich) }}"
+                                        class="mt-auto inline-flex items-center justify-center w-full bg-[#1040C5] hover:bg-blue-700 text-white rounded-xl py-3 font-semibold transition">
+
+                                        Xem chi tiết
+
+                                    </a>
+
+                                </div>
 
                             </div>
 
-                            <h3 class="text-lg font-bold text-[#061755] line-clamp-1">
-
-                                {{ $diaDiemDuLich->ten_dia_diem }}
-
-                            </h3>
-
-                            <p class="text-gray-500 text-sm mt-2 leading-6 line-clamp-2">
-
-                                {{ $diaDiemDuLich->mo_ta ?? 'Địa điểm du lịch phù hợp để tham quan trong chuyến đi của bạn.' }}
-
-                            </p>
-
-                            @if(!empty($diaDiemDuLich->dia_chi))
-
-                            <p class="text-sm text-gray-500 mt-3 flex items-start gap-2 line-clamp-1">
-
-                                <i class="fa-solid fa-map-pin mt-1 text-[#1040C5]"></i>
-
-                                <span>
-                                    {{ $diaDiemDuLich->dia_chi }}
-                                </span>
-
-                            </p>
-
-                            @endif
-                            <div class="mt-4">
-
-                                <a href="{{ route('diemden.show', $diaDiemDuLich->ma_dia_diem_du_lich) }}"
-                                    class="inline-flex items-center justify-center gap-2 w-full bg-[#1040C5] hover:bg-blue-700 text-white rounded-xl py-2.5 text-sm font-semibold transition">
-
-                                    Xem chi tiết
-
-
-
-                                </a>
-
-                            </div>
-
                         </div>
+
+                        @endforeach
 
                     </div>
 
-                    @endforeach
+                    <div class="swiper-button-prev diaDiemDuLichPrev"></div>
+
+                    <div class="swiper-button-next diaDiemDuLichNext"></div>
 
                 </div>
-
-                @if($diaDiemDuLichs->count() > 4)
-
-                <div class="mt-6 flex justify-center">
-
-                    <button type="button" id="btnXemTatCaDiaDiemDuLich"
-                        class="inline-flex items-center gap-2 text-[#1040C5] font-bold hover:underline">
-
-                        Xem tất cả địa điểm
-
-                        <i class="fa-solid fa-arrow-right"></i>
-
-                    </button>
-
-                </div>
-
-                @endif
 
                 @else
 
@@ -169,13 +170,13 @@
 
                     <h3 class="text-2xl font-bold text-slate-700 mt-5">
 
-                        Chưa có địa điểm du lịch phù hợp
+                        Chưa có địa điểm du lịch
 
                     </h3>
 
                     <p class="text-gray-500 mt-2">
 
-                        Điểm đến này hiện chưa có dữ liệu địa điểm du lịch trong hệ thống.
+                        Hiện tại chưa có địa điểm du lịch nào thuộc khu vực này.
 
                     </p>
 
@@ -184,144 +185,165 @@
                 @endif
 
             </div>
-            {{-- KHÁCH SẠN --}}
+
+            {{-- ==================== KHÁCH SẠN ==================== --}}
             <div>
 
-                <div class="flex items-end justify-between gap-4 mb-6">
+                <div class="flex items-center justify-between mb-6">
 
                     <div>
 
-
-                        <h2 class="text-3xl lg:text-4xl font-bold text-[#061755] mt-2">
+                        <h2 class="text-3xl font-bold text-[#061755]">
 
                             Khách sạn ở khu vực này
 
                         </h2>
 
+                        <p class="text-gray-500 mt-2">
+
+                            Danh sách các khách sạn phù hợp với điểm đến bạn đã chọn.
+
+                        </p>
 
                     </div>
-
-                    <p class="text-gray-500 font-semibold whitespace-nowrap">
-
-                        Tìm thấy {{ isset($khachSans) ? $khachSans->total() : 0 }} khách sạn
-
-                    </p>
 
                 </div>
 
                 @if(isset($khachSans) && $khachSans->count() > 0)
 
-                <div class="flex gap-5 overflow-x-auto pb-4 scroll-smooth">
+                <div class="swiper khachSanSwiper">
 
-                    @foreach($khachSans as $khachSan)
+                    <div class="swiper-wrapper">
 
-                    @php
-                    $anhKhachSan = null;
+                        @foreach($khachSans as $khachSan)
 
-                    if ($khachSan->hinhAnh && $khachSan->hinhAnh->count() > 0) {
-                    $tenAnh = $khachSan->hinhAnh->first()->duong_dan_anh;
+                        @php
 
-                    if ($tenAnh) {
-                    if (filter_var($tenAnh, FILTER_VALIDATE_URL)) {
-                    $anhKhachSan = $tenAnh;
-                    } elseif (str_starts_with($tenAnh, 'images/')) {
-                    $anhKhachSan = asset($tenAnh);
-                    } else {
-                    $anhKhachSan = asset('images/khachsan/' . $tenAnh);
-                    }
-                    }
-                    }
+                        $anhKhachSan = asset('images/khachsan.jpg');
 
-                    $giaThapNhat = $khachSan->loaiPhongs->min('gia_co_ban');
-                    @endphp
+                        if (
+                        $khachSan->hinhAnh &&
+                        $khachSan->hinhAnh->count() > 0 &&
+                        $khachSan->hinhAnh->first()->duong_dan_anh
+                        ) {
 
-                    <a href="{{ route('khachsan.show', [ $khachSan->ma_khach_san, 'ngay_nhan_phong' => request('ngay_nhan_phong'), 'ngay_tra_phong' => request('ngay_tra_phong'), 'so_nguoi_truong_thanh' => request('so_nguoi_truong_thanh'), 'so_tre_em' => request('so_tre_em'), 'so_nguoi_cao_tuoi' => request('so_nguoi_cao_tuoi'), ]) }}"
-                        class="min-w-[260px] md:min-w-[310px] bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-lg transition block">
+                        $tenAnh = $khachSan->hinhAnh->first()->duong_dan_anh;
 
-                        <div class="h-44 overflow-hidden bg-slate-100 relative">
+                        if (filter_var($tenAnh, FILTER_VALIDATE_URL)) {
 
-                            @if($anhKhachSan)
+                        $anhKhachSan = $tenAnh;
 
-                            <img src="{{ $anhKhachSan }}" alt="{{ $khachSan->ten_khach_san }}"
-                                class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                        } elseif (str_starts_with($tenAnh,'images/')) {
 
-                            @else
+                        $anhKhachSan = asset($tenAnh);
 
-                            <div class="w-full h-full flex items-center justify-center text-gray-400">
+                        } else {
 
-                                <i class="fa-solid fa-hotel text-4xl"></i>
+                        $anhKhachSan = asset('images/khachsan/'.$tenAnh);
 
-                            </div>
+                        }
 
-                            @endif
+                        }
 
-                        </div>
+                        $giaThapNhat = $khachSan->loaiPhongs->min('gia_co_ban');
 
-                        <div class="p-4">
+                        @endphp
 
-                            <h3 class="text-lg font-bold text-[#061755] line-clamp-1">
+                        <div class="swiper-slide h-full">
 
-                                {{ $khachSan->ten_khach_san }}
+                            <div
+                                class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-lg transition flex flex-col h-full">
 
-                            </h3>
+                                <div class="h-56 overflow-hidden">
 
-                            <p class="text-sm text-gray-500 mt-2 line-clamp-1">
-
-                                <i class="fa-solid fa-location-dot text-red-500 mr-1"></i>
-
-                                {{ $khachSan->dia_chi }}
-
-                            </p>
-
-                            <div class="mt-3 flex items-center gap-1 text-yellow-400">
-
-                                @for($i = 1; $i <= (int) $khachSan->so_sao_khach_san; $i++)
-
-                                    <i class="fa-solid fa-star text-sm"></i>
-
-                                    @endfor
-
-                            </div>
-
-                            <div class="mt-4 flex items-end justify-between gap-3">
-
-                                <div>
-
-                                    <p class="text-xs text-gray-400">
-
-                                        Giá từ
-
-                                    </p>
-
-                                    <p class="text-[#061755] font-bold text-lg">
-
-                                        @if($giaThapNhat)
-
-                                        {{ number_format($giaThapNhat, 0, ',', '.') }}đ
-
-                                        @else
-
-                                        Đang cập nhật
-
-                                        @endif
-
-                                    </p>
+                                    <img src="{{ $anhKhachSan }}" alt="{{ $khachSan->ten_khach_san }}"
+                                        class="w-full h-full object-cover hover:scale-105 transition duration-500">
 
                                 </div>
 
-                                <span class="bg-[#1040C5] text-white px-4 py-2 rounded-full text-sm font-semibold">
+                                <div class="p-5 flex flex-col flex-1">
 
-                                    Xem chi tiết
+                                    <div class="flex justify-between items-start">
 
-                                </span>
+                                        <h3 class="text-xl font-bold text-[#061755] line-clamp-2">
+
+                                            {{ $khachSan->ten_khach_san }}
+
+                                        </h3>
+
+                                        <span class="text-yellow-500 text-sm whitespace-nowrap">
+
+                                            {{ $khachSan->so_sao_khach_san }}
+
+                                            <i class="fa-solid fa-star"></i>
+
+                                        </span>
+
+                                    </div>
+
+                                    <p
+                                        class="text-gray-500 text-sm mt-3 flex items-start gap-2 line-clamp-2 min-h-[48px]">
+
+                                        <i class="fa-solid fa-location-dot text-[#1040C5] mt-1"></i>
+
+                                        <span>
+
+                                            {{ $khachSan->dia_chi }}
+
+                                        </span>
+
+                                    </p>
+
+                                    <div class="mt-auto pt-5">
+
+                                        <span class="text-sm text-gray-500">
+
+                                            Giá từ
+
+                                        </span>
+
+                                        <div class="text-2xl font-bold text-red-600">
+
+                                            @if($giaThapNhat)
+
+                                            {{ number_format($giaThapNhat,0,',','.') }} đ
+
+                                            @else
+
+                                            Liên hệ
+
+                                            @endif
+
+                                        </div>
+
+                                    </div>
+
+                                    <a href="{{ route('khachsan.show',[
+                            $khachSan->ma_khach_san,
+                            'ngay_nhan_phong'=>request('ngay_nhan_phong'),
+                            'ngay_tra_phong'=>request('ngay_tra_phong'),
+                            'so_nguoi_truong_thanh'=>request('so_nguoi_truong_thanh'),
+                            'so_tre_em'=>request('so_tre_em'),
+                            'so_nguoi_cao_tuoi'=>request('so_nguoi_cao_tuoi')
+                        ]) }}" class="mt-5 inline-flex items-center justify-center w-full bg-[#1040C5] hover:bg-blue-700 text-white rounded-xl py-3 font-semibold transition">
+
+                                        Xem chi tiết
+
+                                    </a>
+
+                                </div>
 
                             </div>
 
                         </div>
 
-                    </a>
+                        @endforeach
 
-                    @endforeach
+                    </div>
+
+                    <div class="swiper-button-prev khachSanPrev"></div>
+
+                    <div class="swiper-button-next khachSanNext"></div>
 
                 </div>
 
@@ -330,7 +352,7 @@
                 <div class="bg-white rounded-3xl border border-dashed border-slate-300 p-10 text-center">
 
                     <div
-                        class="w-20 h-20 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto">
+                        class="w-20 h-20 rounded-full bg-blue-50 text-[#1040C5] flex items-center justify-center mx-auto">
 
                         <i class="fa-solid fa-hotel text-3xl"></i>
 
@@ -338,13 +360,13 @@
 
                     <h3 class="text-2xl font-bold text-slate-700 mt-5">
 
-                        Chưa tìm thấy khách sạn phù hợp
+                        Chưa có khách sạn
 
                     </h3>
 
                     <p class="text-gray-500 mt-2">
 
-                        Bạn có thể thử chọn điểm đến khác hoặc thay đổi điều kiện tìm kiếm.
+                        Hiện tại chưa có khách sạn phù hợp trong khu vực này.
 
                     </p>
 
@@ -357,7 +379,88 @@
         </section>
 
     </main>
+
     @include('components.footer')
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+    new Swiper(".diaDiemDuLichSwiper", {
+
+        slidesPerView: 1,
+
+        spaceBetween: 24,
+
+        navigation: {
+
+            nextEl: ".diaDiemDuLichNext",
+
+            prevEl: ".diaDiemDuLichPrev",
+
+        },
+
+        breakpoints: {
+
+            640: {
+
+                slidesPerView: 1,
+
+            },
+
+            768: {
+
+                slidesPerView: 2,
+
+            },
+
+            1024: {
+
+                slidesPerView: 3,
+
+            }
+
+        }
+
+    });
+
+    new Swiper(".khachSanSwiper", {
+
+        slidesPerView: 1,
+
+        spaceBetween: 24,
+
+        navigation: {
+
+            nextEl: ".khachSanNext",
+
+            prevEl: ".khachSanPrev",
+
+        },
+
+        breakpoints: {
+
+            640: {
+
+                slidesPerView: 1,
+
+            },
+
+            768: {
+
+                slidesPerView: 2,
+
+            },
+
+            1024: {
+
+                slidesPerView: 3,
+
+            }
+
+        }
+
+    });
+    </script>
 
 </body>
 

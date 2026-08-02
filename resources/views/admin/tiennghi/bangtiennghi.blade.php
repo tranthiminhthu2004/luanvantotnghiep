@@ -172,15 +172,14 @@
         </table>
 
     </div>
-
-    @if($tienNghis->hasPages())
-
     <div class="border-t px-4 py-4">
 
-        {{ $tienNghis->links() }}
+        <div class="flex justify-center">
+
+            {{ $tienNghis->links() }}
+
+        </div>
 
     </div>
-
-    @endif
 
 </div>

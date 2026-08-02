@@ -105,7 +105,7 @@
 
                         <span>
 
-                            Trẻ em
+                            Trẻ em (Dưới 6 tuổi)
 
                         </span>
 
