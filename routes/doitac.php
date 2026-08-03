@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DoiTac\UserDoiTacController;
 use App\Http\Controllers\DoiTac\KhachSanController;
 use App\Http\Controllers\DoiTac\DatPhongController;
-
+use App\Http\Controllers\DoiTac\PartnerHoSoController;
 /*
 |--------------------------------------------------------------------------
 | ĐỐI TÁC
@@ -127,9 +127,22 @@ Route::prefix('doitac')
             [KhachSanController::class, 'edit']
         )->name('doitac.khachsan.edit');
 
-        Route::put(
-            '/khach-san/{maKhachSan}',
-            [KhachSanController::class, 'update']
+        Route::put('/khach-san/{maKhachSan}', [KhachSanController::class, 'update']
         )->name('doitac.khachsan.update');
+        
+        Route::get(
+    '/ho-so',
+    [PartnerHoSoController::class,'index']
+)->name('doitac.hoso.index');
+
+Route::get(
+    '/ho-so/chinh-sua',
+    [PartnerHoSoController::class,'edit']
+)->name('doitac.hoso.edit');
+
+Route::put(
+    '/ho-so',
+    [PartnerHoSoController::class,'update']
+)->name('doitac.hoso.update');
 
     });

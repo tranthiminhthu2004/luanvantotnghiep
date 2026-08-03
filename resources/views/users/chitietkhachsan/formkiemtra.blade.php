@@ -314,43 +314,59 @@ updateSummary();
 <script>
 document.addEventListener("DOMContentLoaded", function() {
 
+    // Thời gian hiện tại
+    const now = new Date();
+
+    // Sau 14h thì không cho chọn hôm nay
+    let minNgayNhan = "today";
+
+    if (now.getHours() >= 14) {
+        minNgayNhan = new Date().fp_incr(1);
+    }
+
     const ngayNhan = flatpickr("#ngay_nhan_phong", {
 
         locale: "vn",
 
         dateFormat: "d/m/Y",
 
-        minDate: "today",
+        minDate: minNgayNhan,
 
         defaultDate: document.getElementById("ngay_nhan_phong").value ?
-            document.getElementById("ngay_nhan_phong").value : null,
+            document.getElementById("ngay_nhan_phong").value :
+            null,
 
         onChange: function(selectedDates) {
 
-            if (selectedDates.length > 0) {
-                const ngayNhanDaChon = selectedDates[0];
+            if (selectedDates.length === 0) return;
 
-                ngayTra.set(
-                    "minDate",
-                    ngayNhanDaChon.fp_incr(1)
-                );
+            const ngayNhanDaChon = selectedDates[0];
 
-                const ngayTraDangChon =
-                    ngayTra.selectedDates[0];
+            // Chỉ cập nhật ngày nhỏ nhất được chọn
+            ngayTra.set(
+                "minDate",
+                ngayNhanDaChon.fp_incr(1)
+            );
 
-                if (
-                    !ngayTraDangChon ||
-                    ngayTraDangChon <= ngayNhanDaChon
-                ) {
-                    ngayTra.setDate(
-                        ngayNhanDaChon.fp_incr(1)
-                    );
-                }
+            // Nếu ngày trả đang chọn không hợp lệ thì xóa
+            const ngayTraDangChon =
+                ngayTra.selectedDates[0];
+
+            if (
+                ngayTraDangChon &&
+                ngayTraDangChon <= ngayNhanDaChon
+            ) {
+                ngayTra.clear();
             }
 
         }
 
     });
+
+    const minNgayTra =
+        now.getHours() >= 14 ?
+        new Date().fp_incr(2) :
+        new Date().fp_incr(1);
 
     const ngayTra = flatpickr("#ngay_tra_phong", {
 
@@ -358,13 +374,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
         dateFormat: "d/m/Y",
 
-        minDate: new Date().fp_incr(1),
+        minDate: minNgayTra,
 
         defaultDate: document.getElementById("ngay_tra_phong").value ?
-            document.getElementById("ngay_tra_phong").value : null
+            document.getElementById("ngay_tra_phong").value :
+            null
 
     });
-
     document.addEventListener("click", function(e) {
 
         const button =

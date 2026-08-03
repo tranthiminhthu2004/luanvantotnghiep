@@ -384,18 +384,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
     trangChuUpdateSummary();
 
+    // Xác định ngày nhận phòng tối thiểu
+    const now = new Date();
+
+    const minCheckIn = new Date();
+
+    if (now.getHours() >= 14) {
+
+        minCheckIn.setDate(minCheckIn.getDate() + 1);
+    }
+
     const trangChuNgayNhan = flatpickr("#trang_chu_ngay_nhan_phong", {
         dateFormat: "d/m/Y",
         defaultDate: document.getElementById("trang_chu_ngay_nhan_phong").value || null,
-        minDate: "today",
+        minDate: minCheckIn,
         allowInput: false,
         disableMobile: true
     });
 
+    const minCheckOut = new Date(minCheckIn);
+    minCheckOut.setDate(minCheckOut.getDate() + 1);
+
     const trangChuNgayTra = flatpickr("#trang_chu_ngay_tra_phong", {
         dateFormat: "d/m/Y",
         defaultDate: document.getElementById("trang_chu_ngay_tra_phong").value || null,
-        minDate: new Date().fp_incr(1),
+        minDate: minCheckOut,
         allowInput: false,
         disableMobile: true
     });

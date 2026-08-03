@@ -18,14 +18,14 @@
     <nav class="flex-1 py-4 overflow-y-auto overflow-x-hidden">
 
         <!-- Dashboard -->
-        <!-- <a href="#"
-            class="mx-3 mb-2 flex items-center gap-3 rounded-full bg-blue-800 px-4 py-2 text-sm font-medium transition">
+        <a href="{{ route('doitac.dashboard') }}" class="mx-3 mb-2 flex items-center gap-3 rounded-full px-4 py-2 text-sm font-medium transition
+            {{ request()->routeIs('doitac.dashboard') ? 'bg-blue-800' : 'hover:bg-blue-900' }}">
 
             <i class="fa-solid fa-house w-4"></i>
 
             Dashboard
 
-        </a> -->
+        </a>
 
         <!-- Quản lý -->
         <p class="px-4 mt-5 mb-2 text-[11px] uppercase tracking-widest text-gray-400">
@@ -35,16 +35,14 @@
         </p>
 
         <!-- Khách sạn -->
-        <a href="{{ route('doitac.khachsan.index') }}"
-            class="mx-3 flex items-center gap-3 rounded-full px-4 py-2 text-sm hover:bg-blue-900 transition">
+        <a href="{{ route('doitac.khachsan.index') }}" class="mx-3 flex items-center gap-3 rounded-full px-4 py-2 text-sm transition
+            {{ request()->routeIs('doitac.khachsan.*') ? 'bg-blue-800' : 'hover:bg-blue-900' }}">
 
             <i class="fa-solid fa-hotel w-4"></i>
 
             Khách sạn của tôi
 
         </a>
-
-
 
         <!-- Tài khoản -->
         <p class="px-4 mt-6 mb-2 text-[11px] uppercase tracking-widest text-gray-400">
@@ -54,7 +52,8 @@
         </p>
 
         <!-- Hồ sơ -->
-        <a href="#" class="mx-3 flex items-center gap-3 rounded-full px-4 py-2 text-sm hover:bg-blue-900 transition">
+        <a href="{{ route('doitac.hoso.index') }}" class="mx-3 flex items-center gap-3 rounded-full px-4 py-2 text-sm transition
+    {{ request()->routeIs('doitac.hoso.*') ? 'bg-blue-800' : 'hover:bg-blue-900' }}">
 
             <i class="fa-solid fa-user w-4"></i>
 
@@ -77,7 +76,6 @@
             </button>
 
         </form>
-
 
     </nav>
 

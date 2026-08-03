@@ -25,29 +25,12 @@
             </select>
 
             <!-- Khách sạn -->
-            <select name="ma_khach_san" onchange="this.form.submit()"
-                class="border rounded-xl px-4 py-3 text-base  text-black bg-white">
-
-                <option value="">
-                    Tất cả khách sạn
-                </option>
-
-                @foreach($khachSans as $khachSan)
-
-                <option value="{{ $khachSan->ma_khach_san }}"
-                    {{ request('ma_khach_san') == $khachSan->ma_khach_san ? 'selected' : '' }}>
-
-                    {{ $khachSan->ten_khach_san }}
-
-                </option>
-
-                @endforeach
-
-            </select>
+            <input type="text" id="ten_khach_san" name="ten_khach_san" value="{{ request('ten_khach_san') }}"
+                placeholder="Tìm khách sạn..." class="border rounded-xl px-4 py-3 text-base text-black bg-white">
 
             <!-- Loại phòng -->
-            <select name="ma_loai_phong" onchange="this.form.submit()"
-                class="border rounded-xl px-4 py-3 text-base  text-black bg-white">
+            <select name="ten_loai_phong" onchange="this.form.submit()"
+                class="border rounded-xl px-4 py-3 text-base text-black bg-white">
 
                 <option value="">
                     Tất cả loại phòng
@@ -56,7 +39,7 @@
                 @foreach($loaiPhongs as $loaiPhong)
 
                 <option value="{{ $loaiPhong->ten_loai_phong }}"
-                    {{ request('ma_loai_phong') == $loaiPhong->ten_loai_phong ? 'selected' : '' }}>
+                    {{ request('ten_loai_phong') == $loaiPhong->ten_loai_phong ? 'selected' : '' }}>
 
                     {{ $loaiPhong->ten_loai_phong }}
 
@@ -65,7 +48,6 @@
                 @endforeach
 
             </select>
-
             <!-- Trạng thái -->
             <select name="trang_thai_phong" onchange="this.form.submit()"
                 class="border rounded-xl px-4 py-3 text-base  text-black bg-white">
@@ -130,3 +112,25 @@
     </form>
 
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    const input = document.getElementById('ten_khach_san');
+    const form = document.getElementById('filterForm');
+
+    if (!input) return;
+
+    let timer;
+
+    input.addEventListener('input', function() {
+
+        clearTimeout(timer);
+
+        timer = setTimeout(function() {
+            form.submit();
+        }, 800);
+
+    });
+
+});
+</script>

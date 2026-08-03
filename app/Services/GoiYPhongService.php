@@ -129,7 +129,9 @@ if ($tongSucChuaKhachSan < $soNguoi)
                     $this->tinhSoPhongToiThieu(
 
                         $danhSachLoaiPhong,
-
+                        
+                        $conPhong,
+                        
                         $soNguoi
 
                     )

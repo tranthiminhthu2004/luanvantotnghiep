@@ -335,23 +335,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
     updateSummary();
 
-    const ngayNhan = flatpickr(
-        "#ngay_nhan_phong", {
-            dateFormat: "d/m/Y",
-            minDate: "today",
-            allowInput: false,
-            disableMobile: true
-        }
-    );
+    // Lấy thời gian hiện tại
+    const now = new Date();
 
-    const ngayTra = flatpickr(
-        "#ngay_tra_phong", {
-            dateFormat: "d/m/Y",
-            minDate: new Date().fp_incr(1),
-            allowInput: false,
-            disableMobile: true
-        }
-    );
+    // Nếu sau 14h thì ngày nhận phòng tối thiểu là ngày mai
+    let minNgayNhan = "today";
+
+    if (now.getHours() >= 14) {
+        minNgayNhan = new Date().fp_incr(1);
+    }
+
+    const ngayNhan = flatpickr("#ngay_nhan_phong", {
+        dateFormat: "d/m/Y",
+        minDate: minNgayNhan,
+        allowInput: false,
+        disableMobile: true
+    });
+
+    // Ngày trả luôn sau ngày nhận ít nhất 1 ngày
+    let minNgayTra =
+        now.getHours() >= 14 ?
+        new Date().fp_incr(2) :
+        new Date().fp_incr(1);
+
+    const ngayTra = flatpickr("#ngay_tra_phong", {
+        dateFormat: "d/m/Y",
+        minDate: minNgayTra,
+        allowInput: false,
+        disableMobile: true
+    });
 
     document
         .getElementById('ngay_nhan_phong')

@@ -40,15 +40,6 @@
                         </h1>
 
                     </div>
-                    @if ($errors->any())
-                    <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    @endif
 
                     {{-- Avatar --}}
                     <div class="py-8 flex flex-col items-center">
@@ -113,13 +104,8 @@
 
                             <div class="px-6 py-4">
 
-                                <input type="email" name="email" value="{{ old('email', $nguoiDung->email) }}"
-                                    class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500">
-
-                                @error('email')
-                                <p class="text-red-500 text-sm mt-2">{{ $message }}</p>
-                                @enderror
-
+                                <input type="email" value="{{ $nguoiDung->email }}" readonly
+                                    class="mt-2 w-full border rounded-xl px-4 py-3 bg-slate-100 cursor-not-allowed">
                             </div>
 
                         </div>
@@ -240,8 +226,6 @@
                                        font-semibold
                                        px-6 py-3 rounded-xl
                                        transition duration-300">
-
-                                    <i class="fa-solid fa-arrow-left"></i>
 
                                     Quay lại
 

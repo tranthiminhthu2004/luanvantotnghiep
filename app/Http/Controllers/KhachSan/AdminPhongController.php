@@ -17,25 +17,23 @@ class AdminPhongController extends Controller
         ]);
 
         // Lọc khách sạn
-        if ($request->filled('ma_khach_san'))
-        {
-            $query->whereHas(
-                'loaiPhong',
-                function ($q) use ($request)
-                {
-                    $q->where(
-                        'ma_khach_san',
-                        $request->ma_khach_san
-                    );
-                }
-            );
-        }
+        if ($request->filled('ten_khach_san'))
+{
+    $query->whereHas('loaiPhong.khachSan', function ($q) use ($request)
+    {
+        $q->where(
+            'ten_khach_san',
+            'like',
+            '%' . trim($request->ten_khach_san) . '%'
+        );
+    });
+}
 
-        // Lọc loại phòng
        // Lọc loại phòng
 if ($request->filled('ten_loai_phong'))
 {
-    $query->whereHas('loaiPhong', function ($q) use ($request) {
+    $query->whereHas('loaiPhong', function ($q) use ($request)
+    {
         $q->where(
             'ten_loai_phong',
             $request->ten_loai_phong
@@ -98,8 +96,10 @@ if ($request->filled('ten_loai_phong'))
             'trang_thai_phong',
             'NgungHoatDong'
         )->count();
-
-       $loaiPhongs = LoaiPhong::select('ten_loai_phong')
+ 
+    $loaiPhongs = LoaiPhong::select(
+        'ten_loai_phong'
+    )
     ->distinct()
     ->orderBy('ten_loai_phong')
     ->get();
@@ -118,7 +118,6 @@ $danhSachSoPhong = Phong::select('so_phong')
                 'phongBaoTri',
                 'phongNgungHoatDong',
                 'loaiPhongs',
-                'khachSans',
                 'danhSachSoPhong'
             )
         );

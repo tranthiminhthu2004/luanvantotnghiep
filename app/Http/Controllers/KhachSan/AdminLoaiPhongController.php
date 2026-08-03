@@ -23,14 +23,18 @@ class AdminLoaiPhongController extends Controller
     );
 }
 
-    // Lọc theo khách sạn
-    if ($request->filled('ma_khach_san'))
+    // Tìm theo tên khách sạn
+if ($request->filled('ten_khach_san'))
+{
+    $query->whereHas('khachSan', function ($q) use ($request)
     {
-        $query->where(
-            'ma_khach_san',
-            $request->ma_khach_san
+        $q->where(
+            'ten_khach_san',
+            'like',
+            '%' . trim($request->ten_khach_san) . '%'
         );
-    }
+    });
+}
 
     // Lọc theo trạng thái
    if ($request->filled('trang_thai'))
@@ -89,7 +93,6 @@ $danhSachLoaiPhong = LoaiPhong::select(
             'tongLoaiPhong',
             'dangHoatDong',
             'tamDung',
-            'khachSans',
             'danhSachLoaiPhong'
         )
     );

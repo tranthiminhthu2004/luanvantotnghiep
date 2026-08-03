@@ -23,27 +23,26 @@
     </div>
 
     <!-- Bên phải -->
-    <div class="flex items-center gap-4">
-        <!-- Avatar -->
-        <div class="flex items-center gap-3">
+    <!-- Bên phải -->
+    <div class="flex items-center gap-3">
 
-            <img src="https://ui-avatars.com/api/?name=Partner" class="w-10 h-10 rounded-full border object-cover">
+        <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->ten) }}&background=1040C5&color=fff&size=128"
+            class="w-10 h-10 rounded-full border object-cover">
 
-            <div class="hidden md:block">
+        <div class="hidden md:block">
 
-                <h4 class="font-semibold text-sm text-slate-800">
+            <h4 class="font-semibold text-sm text-slate-800">
 
-                    Đối tác
+                {{ auth()->user()->ho_va_ten_dem }}
+                {{ auth()->user()->ten }}
 
-                </h4>
+            </h4>
 
-                <p class="text-xs text-gray-500">
+            <p class="text-xs text-gray-500">
 
-                    Chủ khách sạn
+                Chủ khách sạn
 
-                </p>
-
-            </div>
+            </p>
 
         </div>
 

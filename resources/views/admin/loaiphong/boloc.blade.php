@@ -25,26 +25,10 @@
 
             </select>
 
-            <!-- Khách sạn -->
-            <select name="ma_khach_san" onchange="this.form.submit()"
+            <!-- Tìm khách sạn -->
+            <input type="text" id="ten_khach_san" name="ten_khach_san" value="{{ request('ten_khach_san') }}"
+                placeholder="Nhập tên khách sạn..."
                 class="w-full border border-slate-300 rounded-xl px-4 py-3 text-base text-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-
-                <option value="">
-                    Tất cả khách sạn
-                </option>
-
-                @foreach($khachSans as $khachSan)
-
-                <option value="{{ $khachSan->ma_khach_san }}"
-                    {{ request('ma_khach_san') == $khachSan->ma_khach_san ? 'selected' : '' }}>
-
-                    {{ $khachSan->ten_khach_san }}
-
-                </option>
-
-                @endforeach
-
-            </select>
 
             <!-- Trạng thái -->
             <select name="trang_thai" onchange="this.form.submit()"
@@ -103,3 +87,31 @@
     </form>
 
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    const input = document.getElementById('ten_khach_san');
+    const form = document.getElementById('filterForm');
+
+    if (!input) return;
+
+    let timer;
+
+    input.addEventListener('input', function() {
+
+        clearTimeout(timer);
+
+        // Nếu xóa hết thì tải lại ngay
+        if (this.value.trim() === '') {
+            form.submit();
+            return;
+        }
+
+        timer = setTimeout(function() {
+            form.submit();
+        }, 800);
+
+    });
+
+});
+</script>

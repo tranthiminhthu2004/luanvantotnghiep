@@ -142,7 +142,7 @@
                     <!-- Thao tác -->
                     <td class="px-4 py-4">
 
-                        <div class="flex items-center justify-center gap-4 whitespace-nowrap">
+                        <div class="flex items-center justify-center gap-2.5 whitespace-nowrap">
 
                             <a href="{{ route('admin.loaiphong.show',$loaiPhong->ma_loai_phong) }}"
                                 class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center hover:bg-blue-200 transition"

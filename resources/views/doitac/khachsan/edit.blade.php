@@ -1,4 +1,4 @@
-@extends('admin.trangchinh.admin')
+@extends('doitac.trangchinh.partner')
 
 @section('title', 'Chỉnh sửa khách sạn')
 

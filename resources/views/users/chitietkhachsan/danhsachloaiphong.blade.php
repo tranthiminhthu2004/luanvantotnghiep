@@ -89,7 +89,8 @@
 
                 <div class="room-item border rounded-3xl p-5 mb-6 hover:shadow-lg transition"
                     data-id="{{ $loaiPhong->ma_loai_phong }}" data-name="{{ $loaiPhong->ten_loai_phong }}"
-                    data-price="{{ $loaiPhong->gia_co_ban }}" data-stock="{{ $loaiPhong->soPhongConLai ?? 0 }}">
+                    data-price="{{ $loaiPhong->gia_co_ban }}" data-stock="{{ $loaiPhong->soPhongConLai ?? 0 }}"
+                    data-capacity="{{ $loaiPhong->so_nguoi_toi_da }}">
                     <div class="flex gap-6">
 
                         {{-- ẢNH --}}
@@ -305,6 +306,12 @@
                         Thông tin đặt phòng
 
                     </h3>
+                    <div id="canhBaoSucChua"
+                        class="hidden mb-5  px-4 py-3 text-red-600">
+            
+                        Sức chứa của các phòng đã chọn không đủ cho số lượng khách.
+
+                    </div>
 
                     <div class="space-y-4">
 
@@ -413,8 +420,7 @@
 
                     </h3>
                     @if ($errors->has('phong'))
-                    <div class="mb-5 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-red-600">
-                        <i class="fa-solid fa-circle-exclamation mr-2"></i>
+                    <div class="mb-5  px-4 py-3 text-red-600">
                         {{ $errors->first('phong') }}
                     </div>
                     @endif
@@ -495,88 +501,66 @@
 
 const goiYPhong = @json($goiYPhong['goi_y']['phuong_an']);
 
-document
-    .getElementById('btnApDungGoiY')
-    ?.addEventListener('click', function() {
+document.getElementById('btnApDungGoiY')?.addEventListener('click', function() {
 
-        // Reset tất cả về 0
-        document.querySelectorAll('[id^="room_"]').forEach(function(input) {
+    // Reset
+    document.querySelectorAll('[id^="room_"]').forEach(function(input) {
 
-            const id = input.id.replace('room_', '');
+        const id = input.id.replace('room_', '');
 
-            input.value = 0;
+        input.value = 0;
 
-            document.getElementById(
-                'hidden_room_' + id
-            ).value = 0;
-
-        });
-
-        // Áp dụng gợi ý
-        goiYPhong.forEach(function(item) {
-
-            const id = item.loai_phong.ma_loai_phong;
-
-            document.getElementById(
-                'room_' + id
-            ).value = item.so_luong;
-
-            document.getElementById(
-                'hidden_room_' + id
-            ).value = item.so_luong;
-
-        });
-
-        updateCart();
+        document.getElementById('hidden_room_' + id).value = 0;
 
     });
 
+    // Áp dụng gợi ý
+    goiYPhong.forEach(function(item) {
+
+        const id = item.loai_phong.ma_loai_phong;
+
+        document.getElementById('room_' + id).value = item.so_luong;
+
+        document.getElementById('hidden_room_' + id).value = item.so_luong;
+
+    });
+
+    updateCart();
+
+});
+
 @endif
 
+
+// Tổng khách (không tính trẻ em dưới 6 tuổi)
+const tongKhach =
+{{ request('so_nguoi_truong_thanh',0) }} +
+{{ request('so_nguoi_cao_tuoi',0) }};
+
 function changeRoom(id, amount) {
-    const input =
-        document.getElementById(
-            'room_' + id
-        );
 
-    const hidden =
-        document.getElementById(
-            'hidden_room_' + id
-        );
+    const input = document.getElementById('room_' + id);
 
-    const room =
-        document.querySelector(
-            '.room-item[data-id="' + id + '"]'
-        );
+    const hidden = document.getElementById('hidden_room_' + id);
 
-    if (!input || !hidden || !room) {
-        return;
-    }
+    const room = document.querySelector('.room-item[data-id="' + id + '"]');
 
-    const stock =
-        parseInt(
-            room.dataset.stock || 0
-        );
+    if (!input || !hidden || !room) return;
 
-    let current =
-        parseInt(
-            input.value || 0
-        );
+    const stock = parseInt(room.dataset.stock || 0);
+
+    let current = parseInt(input.value || 0);
 
     current += amount;
 
-    if (current < 0) {
-        current = 0;
-    }
+    if (current < 0) current = 0;
 
     if (current > stock) {
+
         current = stock;
 
-        alert(
-            'Loại phòng này chỉ còn ' +
-            stock +
-            ' phòng.'
-        );
+        alert('Loại phòng này chỉ còn ' + stock + ' phòng.');
+
     }
 
     input.value = current;
@@ -584,158 +568,131 @@ function changeRoom(id, amount) {
     hidden.value = current;
 
     updateCart();
+
 }
 
+
 function updateCart() {
+
     let totalRooms = 0;
 
     let totalPrice = 0;
 
+    let tongSucChua = 0;
+
     let html = '';
 
-    document
-        .querySelectorAll('.room-item')
-        .forEach(function(room) {
+    document.querySelectorAll('.room-item').forEach(function(room) {
 
-            const id =
-                room.dataset.id;
+        const id = room.dataset.id;
 
-            const input =
-                document.getElementById(
-                    'room_' + id
-                );
+        const quantity = parseInt(document.getElementById('room_' + id).value || 0);
 
-            if (!input) {
-                return;
-            }
+        const price = parseInt(room.dataset.price || 0);
 
-            const name =
-                room.dataset.name;
+        const capacity = parseInt(room.dataset.capacity || 0);
 
-            const price =
-                parseInt(
-                    room.dataset.price || 0
-                );
+        const name = room.dataset.name;
 
-            const stock =
-                parseInt(
-                    room.dataset.stock || 0
-                );
+        if (quantity > 0) {
 
-            const quantity =
-                parseInt(
-                    input.value || 0
-                );
+            totalRooms += quantity;
 
-            if (quantity > 0) {
-                const thanhTien =
-                    quantity * price;
+            totalPrice += quantity * price;
 
-                totalRooms += quantity;
+            tongSucChua += quantity * capacity;
 
-                totalPrice += thanhTien;
+            html += `
+                <div class="border-b pb-4 mb-4">
 
-                html += `
-                    <div class="border-b pb-4 mb-4">
+                    <div class="flex justify-between">
 
-                        <div class="flex justify-between">
+                        <div>
 
-                            <div>
+                            <div class="font-semibold">${name}</div>
 
-                                <div class="font-semibold">
-
-                                    ${name}
-
-                                </div>
-
-                                <div class="text-sm text-gray-500">
-
-                                    ${quantity} phòng
-
-                                </div>
-
-                            </div>
-
-                            <div class="text-right">
-
-                                <div class="font-bold text-blue-600">
-
-                                    ${thanhTien.toLocaleString('vi-VN')}đ
-
-                                </div>
-
+                            <div class="text-sm text-gray-500">
+                                ${quantity} phòng
                             </div>
 
                         </div>
 
-                    </div>
-                `;
-            }
+                        <div class="font-bold text-blue-600">
 
-        });
+                            ${(quantity * price).toLocaleString('vi-VN')}đ
+
+                        </div>
+
+                    </div>
+
+                </div>
+            `;
+        }
+
+    });
 
     if (html === '') {
+
         html = `
             <div class="text-center py-8 text-gray-400">
 
                 <i class="fa-solid fa-cart-shopping text-4xl mb-3"></i>
 
-                <p>
-
-                    Bạn chưa chọn loại phòng nào
-
-                </p>
+                <p>Bạn chưa chọn loại phòng nào</p>
 
             </div>
         `;
+
     }
 
-    document.getElementById(
-        'selectedRooms'
-    ).innerHTML = html;
+    document.getElementById('selectedRooms').innerHTML = html;
 
-    document.getElementById(
-        'totalRooms'
-    ).innerText = totalRooms;
+    document.getElementById('totalRooms').innerText = totalRooms;
 
-    document.getElementById(
-            'totalPrice'
-        ).innerText =
+    document.getElementById('totalPrice').innerText =
         totalPrice.toLocaleString('vi-VN') + 'đ';
 
-    const btn =
-        document.getElementById(
-            'btnDatPhong'
-        );
+    const btn = document.getElementById('btnDatPhong');
 
-    if (totalRooms > 0) {
+    const canhBao = document.getElementById('canhBaoSucChua');
+
+   if (canhBao) {
+
+    if (totalRooms > 0 && tongSucChua < tongKhach) {
+
+        canhBao.classList.remove('hidden');
+
+    } else {
+
+        canhBao.classList.add('hidden');
+
+    }
+
+}
+
+    if (totalRooms > 0 && tongSucChua >= tongKhach) {
+
         btn.disabled = false;
 
-        btn.classList.remove(
-            'bg-gray-400',
-            'cursor-not-allowed'
-        );
+        btn.classList.remove('bg-gray-400', 'cursor-not-allowed');
 
-        btn.classList.add(
-            'bg-blue-600',
-            'hover:bg-blue-700'
-        );
+        btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+
     } else {
+
         btn.disabled = true;
 
-        btn.classList.remove(
-            'bg-blue-600',
-            'hover:bg-blue-700'
-        );
+        btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
 
-        btn.classList.add(
-            'bg-gray-400',
-            'cursor-not-allowed'
-        );
+        btn.classList.add('bg-gray-400', 'cursor-not-allowed');
+
     }
+
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+
     updateCart();
+
 });
 </script>
