@@ -22,24 +22,68 @@
 
                 <div class="flex items-center justify-between mb-6">
 
-                    <div>
-
-                        <h2 class="text-3xl font-bold">
-
-                            Chọn loại phòng
-
-                        </h2>
-
-                    </div>
+                    <h2 class="text-3xl font-bold text-[#061755]">
+                        Chọn loại phòng
+                    </h2>
 
                     <div class="bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold">
-
-                        {{ $khachSan->loaiPhongs->count() }}
-                        loại phòng
-
+                        {{ $khachSan->loaiPhongs->count() }} loại phòng
                     </div>
 
                 </div>
+
+                @if($goiYPhong)
+
+                @if($goiYPhong['thanh_cong'])
+
+                <p class="mb-6 text-black font-semibold">
+
+                    <span class="text-red-600">
+                        Đề xuất:
+                    </span>
+
+                    @foreach($goiYPhong['goi_y']['phuong_an'] as $item)
+
+                    {{ $item['loai_phong']->ten_loai_phong }}
+                    × {{ $item['so_luong'] }}
+
+                    @if(!$loop->last)
+                    •
+                    @endif
+
+                    @endforeach
+
+                    <span>
+                        ({{ number_format($goiYPhong['goi_y']['tong_gia']) }}đ / đêm)
+                    </span>
+
+                    <span id="btnApDungGoiY" class="ml-3 text-blue-600 font-semibold cursor-pointer hover:underline">
+
+                        Áp dụng
+
+                    </span>
+
+                </p>
+
+                @else
+
+                <p class="mb-6 text-red-600 font-semibold">
+
+                    {{ $goiYPhong['thong_bao'] }}
+
+                    @if($goiYPhong['so_phong_de_xuat'])
+
+                    (Bạn nên chọn ít nhất
+                    {{ $goiYPhong['so_phong_de_xuat'] }}
+                    phòng.)
+
+                    @endif
+
+                </p>
+
+                @endif
+
+                @endif
 
                 @foreach($khachSan->loaiPhongs as $loaiPhong)
 
@@ -50,17 +94,6 @@
 
                         {{-- ẢNH --}}
                         <div class="relative flex-shrink-0">
-
-                            @if($loaiPhong->so_nguoi_toi_da >= $sucChuaCanThiet)
-
-                            <span
-                                class="absolute left-3 top-3 bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
-
-                                Đề xuất
-
-                            </span>
-
-                            @endif
 
                             <img src="{{ $loaiPhong->hinhAnh->count()
                                 ? asset($loaiPhong->hinhAnh->first()->duong_dan_anh)
@@ -458,6 +491,48 @@
 </form>
 
 <script>
+@if($goiYPhong && $goiYPhong['thanh_cong'])
+
+const goiYPhong = @json($goiYPhong['goi_y']['phuong_an']);
+
+document
+    .getElementById('btnApDungGoiY')
+    ?.addEventListener('click', function() {
+
+        // Reset tất cả về 0
+        document.querySelectorAll('[id^="room_"]').forEach(function(input) {
+
+            const id = input.id.replace('room_', '');
+
+            input.value = 0;
+
+            document.getElementById(
+                'hidden_room_' + id
+            ).value = 0;
+
+        });
+
+        // Áp dụng gợi ý
+        goiYPhong.forEach(function(item) {
+
+            const id = item.loai_phong.ma_loai_phong;
+
+            document.getElementById(
+                'room_' + id
+            ).value = item.so_luong;
+
+            document.getElementById(
+                'hidden_room_' + id
+            ).value = item.so_luong;
+
+        });
+
+        updateCart();
+
+    });
+
+@endif
+
 function changeRoom(id, amount) {
     const input =
         document.getElementById(

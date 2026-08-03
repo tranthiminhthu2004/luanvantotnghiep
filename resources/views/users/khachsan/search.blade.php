@@ -50,7 +50,7 @@
                                 @foreach($diaDiems as $diaDiem)
 
                                 <option value="{{ $diaDiem->ma_dia_diem }}"
-                                    {{ old('ma_dia_diem') == $diaDiem->ma_dia_diem ? 'selected' : '' }}>
+                                    {{ request ('ma_dia_diem') == $diaDiem->ma_dia_diem ? 'selected' : '' }}>
 
                                     {{ $diaDiem->ten_dia_diem }}
 
@@ -74,7 +74,7 @@
                             </label>
 
                             <input type="text" name="ngay_nhan_phong" id="ngay_nhan_phong"
-                                value="{{ old('ngay_nhan_phong') }}" placeholder="Chọn ngày" autocomplete="off"
+                                value="{{ request('ngay_nhan_phong') }}" placeholder="Chọn ngày" autocomplete="off"
                                 class="mt-2 w-full border rounded-xl px-4 py-3">
                             <div class="h-5 mt-1">
                                 @error('ngay_nhan_phong')
@@ -91,7 +91,7 @@
                             </label>
 
                             <input type="text" name="ngay_tra_phong" id="ngay_tra_phong"
-                                value="{{ old('ngay_tra_phong') }}" placeholder="Chọn ngày" autocomplete="off"
+                                value="{{ request('ngay_tra_phong') }}" placeholder="Chọn ngày" autocomplete="off"
                                 class="mt-2 w-full border rounded-xl px-4 py-3">
                             <div class="h-5 mt-1">
                                 @error('ngay_tra_phong')
@@ -207,15 +207,15 @@
                                 </div>
 
                                 <input type="hidden" name="so_nguoi_truong_thanh" id="adultInput"
-                                    value="{{ old('so_nguoi_truong_thanh',1) }}">
+                                    value="{{ request('so_nguoi_truong_thanh',1) }}">
 
                                 <input type="hidden" name="so_tre_em" id="childInput" value="{{ old('so_tre_em',0) }}">
 
                                 <input type="hidden" name="so_nguoi_cao_tuoi" id="elderInput"
-                                    value="{{ old('so_nguoi_cao_tuoi',0) }}">
+                                    value="{{ request('so_nguoi_cao_tuoi',0) }}">
 
                                 <input type="hidden" name="so_luong_phong" id="roomInput"
-                                    value="{{ old('so_luong_phong',1) }}">
+                                    value="{{ request('so_luong_phong',1) }}">
 
                             </div>
 

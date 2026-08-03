@@ -64,6 +64,34 @@ class GoiYPhongService
 
             ];
         }
+        $tongSucChuaKhachSan = 0;
+
+foreach ($danhSachLoaiPhong as $loaiPhong)
+{
+    $tongSucChuaKhachSan +=
+
+        $loaiPhong->so_nguoi_toi_da
+
+        *
+
+        $conPhong[$loaiPhong->ma_loai_phong];
+}
+// Khách sạn không đủ sức chứa cho số lượng khách
+if ($tongSucChuaKhachSan < $soNguoi)
+{
+    return [
+
+        'thanh_cong' => false,
+
+        'thong_bao' =>
+            'Khách sạn hiện không đủ sức chứa cho số lượng khách của bạn.',
+
+        'goi_y' => null,
+
+        'so_phong_de_xuat' => null
+
+    ];
+}
 
         $tatCaToHop = [];
 
@@ -321,7 +349,18 @@ private function timPhuongAnTotNhat(
                 $b['du_cho'];
         }
 
-        // 2. Ưu tiên giá thấp hơn
+           // 2. Ưu tiên ít loại phòng hơn
+        if ($a['so_loai_phong'] != $b['so_loai_phong'])
+        {
+            return
+
+                $a['so_loai_phong']
+
+                <=>
+
+                $b['so_loai_phong'];
+        }
+        // 3. Ưu tiên giá thấp hơn
         if ($a['tong_gia'] != $b['tong_gia'])
         {
             return
@@ -333,18 +372,6 @@ private function timPhuongAnTotNhat(
                 $b['tong_gia'];
         }
 
-        // 3. Ưu tiên ít loại phòng hơn
-        if ($a['so_loai_phong'] != $b['so_loai_phong'])
-        {
-            return
-
-                $a['so_loai_phong']
-
-                <=>
-
-                $b['so_loai_phong'];
-        }
-
         return 0;
 
     });
@@ -354,39 +381,52 @@ private function timPhuongAnTotNhat(
 /**
  * Tính số phòng tối thiểu cần thiết
  */
+
+/**
+ * Tính số phòng tối thiểu cần để chứa đủ số khách
+ * dựa trên số phòng còn trống thực tế.
+ */
 private function tinhSoPhongToiThieu(
     $danhSachLoaiPhong,
+    $conPhong,
     $soNguoi
 )
 {
-    $sucChuaLonNhat = 0;
+    // Sắp xếp loại phòng theo sức chứa giảm dần
+    $loaiPhongs = collect($danhSachLoaiPhong)
+        ->sortByDesc('so_nguoi_toi_da')
+        ->values();
 
-    foreach ($danhSachLoaiPhong as $loaiPhong)
+    $tongSucChua = 0;
+
+    $soPhongCan = 0;
+
+    foreach ($loaiPhongs as $loaiPhong)
     {
-        if (
-            $loaiPhong->so_nguoi_toi_da >
-            $sucChuaLonNhat
-        )
+        $soPhongCon =
+
+            $conPhong[
+                $loaiPhong->ma_loai_phong
+            ] ?? 0;
+
+        // Duyệt từng phòng còn trống
+        for ($i = 0; $i < $soPhongCon; $i++)
         {
-            $sucChuaLonNhat =
+            $tongSucChua +=
+
                 $loaiPhong->so_nguoi_toi_da;
+
+            $soPhongCan++;
+
+            // Đã đủ sức chứa
+            if ($tongSucChua >= $soNguoi)
+            {
+                return $soPhongCan;
+            }
         }
     }
 
-    // Khách sạn không có loại phòng nào
-    if ($sucChuaLonNhat == 0)
-    {
-        return null;
-    }
-
-    return (int) ceil(
-
-        $soNguoi
-
-        /
-
-        $sucChuaLonNhat
-
-    );
+    // Toàn khách sạn cũng không đủ sức chứa
+    return null;
 }
 }

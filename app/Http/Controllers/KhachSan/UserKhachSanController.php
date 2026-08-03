@@ -10,9 +10,12 @@ use Illuminate\Http\Request;
 use App\Services\PhongService;
 use App\Models\DiaDiemDuLich;
 use Carbon\Carbon;
+use App\Services\GoiYPhongService;
 
 class UserKhachSanController extends Controller
 {
+    protected $goiYPhongService;
+    
     private function locKhachSan(Request $request)
     {
         $query = KhachSan::query()
@@ -121,6 +124,23 @@ if ($request->filled('tien_nghi'))
    public function index(Request $request)
 {
     $query = $this->locKhachSan($request);
+    if ($request->filled('sap_xep'))
+{
+    if ($request->sap_xep == 'moi_nhat')
+    {
+        $query->orderBy(
+            'ma_khach_san',
+            'desc'
+        );
+    }
+    elseif ($request->sap_xep == 'cu_nhat')
+    {
+        $query->orderBy(
+            'ma_khach_san',
+            'asc'
+        );
+    }
+}
 
     $khachSans = $query
         ->with([
@@ -169,11 +189,15 @@ if ($request->filled('tien_nghi'))
 protected $phongService;
 
 public function __construct(
-    PhongService $phongService
+    PhongService $phongService,
+    GoiYPhongService $goiYPhongService
 )
 {
     $this->phongService = $phongService;
+
+    $this->goiYPhongService = $goiYPhongService;
 }
+
 public function show(Request $request, $id)
     {
        $khachSan = KhachSan::query()
@@ -248,7 +272,8 @@ $diaDiemDuLichs = $diaDiemDuLichs
             'soPhong' => 0,
             'sucChuaCanThiet' => 0,
             'daKiemTraPhong' => false,
-            'diaDiemDuLichs' => $diaDiemDuLichs
+            'diaDiemDuLichs' => $diaDiemDuLichs,
+            'goiYPhong' => null
         ]
     );
 
@@ -379,6 +404,25 @@ $khachSan->setRelation(
         })
         ->values()
 );
+$goiYPhong = $this->goiYPhongService->goiY(
+
+    $khachSan->loaiPhongs,
+
+    Carbon::createFromFormat(
+        'd/m/Y',
+        $request->ngay_nhan_phong
+    )->format('Y-m-d'),
+
+    Carbon::createFromFormat(
+        'd/m/Y',
+        $request->ngay_tra_phong
+    )->format('Y-m-d'),
+
+    $tongNguoi,
+
+    $soPhong
+
+);
 
 return view(
     'users.chitietkhachsan.index',
@@ -390,7 +434,8 @@ return view(
         'sucChuaCanThiet',
         'loaiPhongsKhac',
         'daKiemTraPhong',
-        'diaDiemDuLichs'
+        'diaDiemDuLichs',
+        'goiYPhong'
     )
 );
     }

@@ -10,29 +10,49 @@
 
     </div>
 
-    <div class="w-full lg:w-auto">
+    <form method="GET">
 
-        <select
+        @foreach(request()->except('sap_xep') as $key => $value)
+
+        @if(is_array($value))
+
+        @foreach($value as $item)
+
+        <input type="hidden" name="{{ $key }}[]" value="{{ $item }}">
+
+        @endforeach
+
+        @else
+
+        <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+
+        @endif
+
+        @endforeach
+
+        <select name="sap_xep" onchange="this.form.submit()"
             class="w-full lg:w-auto border rounded-xl px-4 py-3 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
 
-            <option>
-                Phổ biến nhất
+            <option value="" {{ request('sap_xep') == '' ? 'selected' : '' }}>
+
+                Tất cả
+
             </option>
 
-            <option>
-                Giá thấp đến cao
+            <option value="moi_nhat" {{ request('sap_xep') == 'moi_nhat' ? 'selected' : '' }}>
+
+                Mới nhất
+
             </option>
 
-            <option>
-                Giá cao đến thấp
-            </option>
+            <option value="cu_nhat" {{ request('sap_xep') == 'cu_nhat' ? 'selected' : '' }}>
 
-            <option>
-                Đánh giá cao nhất
+                Cũ nhất
+
             </option>
 
         </select>
 
-    </div>
+    </form>
 
 </div>
