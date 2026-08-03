@@ -7,11 +7,18 @@ use Illuminate\Http\Request;
 use App\Models\LoaiPhong;
 use App\Models\KhachSan;
 use Carbon\Carbon;
+use App\Services\GoiYPhongService;
 
 class UserDatPhongController extends Controller
 {
-    
-   public function index()
+    protected $goiYPhongService;
+
+    public function __construct(GoiYPhongService $goiYPhongService)
+    {
+        $this->goiYPhongService = $goiYPhongService;
+    }
+
+    public function index()
 {
     $duLieu = session('xac_nhan_dat_phong');
 
@@ -21,9 +28,12 @@ class UserDatPhongController extends Controller
     }
 
    $khachSan = KhachSan::with([
-        'hinhAnh',
-        'diaDiem'
-    ])
+    'hinhAnh',
+    'diaDiem',
+    'loaiPhongs',
+    'loaiPhongs.hinhAnh',
+    'loaiPhongs.tienNghis'
+])
     ->where(
         'trang_thai',
         1
@@ -35,8 +45,26 @@ class UserDatPhongController extends Controller
     ->findOrFail(
         $duLieu['ma_khach_san']
     );
+    $ketQuaGoiY =
+    $this->goiYPhongService
+        ->goiY(
+
+            $khachSan->loaiPhongs,
+
+            $duLieu['ngay_nhan_phong'],
+
+            $duLieu['ngay_tra_phong'],
+
+            $duLieu['soNguoiTruongThanh']
+            +
+            $duLieu['soNguoiCaoTuoi'],
+
+            $duLieu['soPhong']
+
+        );
 
     $duLieu['khachSan'] = $khachSan;
+    $duLieu['goiYPhong'] =$ketQuaGoiY;
 
     return view(
         'users.datphong.index',
@@ -126,20 +154,23 @@ class UserDatPhongController extends Controller
 
             $tongTien += $thanhTien;
 
-            $phongsDaChon[] =
-            [
-                'ma_loai_phong' => $loaiPhong->ma_loai_phong,
+            $phongsDaChon[] = [
 
-                'ten_loai_phong' => $loaiPhong->ten_loai_phong,
+    'ma_loai_phong' => $loaiPhong->ma_loai_phong,
 
-                'so_luong' => $soLuong,
+    'ten_loai_phong' => $loaiPhong->ten_loai_phong,
 
-                'gia' => $loaiPhong->gia_co_ban,
+    'so_luong' => $soLuong,
 
-                'so_dem' => $soDem,
+    'gia' => $loaiPhong->gia_co_ban,
 
-                'thanh_tien' => $thanhTien,
-            ];
+    'so_dem' => $soDem,
+
+    'thanh_tien' => $thanhTien,
+
+    'so_nguoi_toi_da' => $loaiPhong->so_nguoi_toi_da,
+
+];
         }
 
         if (count($phongsDaChon) == 0)
@@ -151,7 +182,7 @@ class UserDatPhongController extends Controller
                 ]);
         }
         
-
+// Tính sức chứa phòng
   $tongKhachTinhSucChua =
     (int) $request->so_nguoi_truong_thanh
     +
@@ -161,17 +192,9 @@ $tongSucChua = 0;
 
 foreach ($phongsDaChon as $phong)
 {
-    $loaiPhong = LoaiPhong::find(
-        $phong['ma_loai_phong']
-    );
-
-    if (!$loaiPhong) {
-        continue;
-    }
-
     $tongSucChua +=
 
-        $loaiPhong->so_nguoi_toi_da
+        $phong['so_nguoi_toi_da']
 
         *
 
@@ -196,20 +219,19 @@ if ($tongKhachTinhSucChua > $tongSucChua)
             (int) $request->so_tre_em +
             (int) $request->so_nguoi_cao_tuoi;
 
-        $khachSan = KhachSan::with([
-            'hinhAnh',
-            'diaDiem'
-        ])->findOrFail(
-            $request->ma_khach_san
-        );
+       $khachSan = KhachSan::findOrFail(
+    $request->ma_khach_san
+);
 session([
-    'xac_nhan_dat_phong' => [
+        'xac_nhan_dat_phong' => [
 
         'ma_khach_san' => $khachSan->ma_khach_san,
 
         'phongsDaChon' => $phongsDaChon,
 
         'chi_tiet_phong' => collect($phongsDaChon)
+        
+        
             ->map(function ($phong) {
 
                 return [
@@ -257,6 +279,8 @@ session([
         'soTreEm' => (int) $request->so_tre_em,
 
         'soNguoiCaoTuoi' => (int) $request->so_nguoi_cao_tuoi,
+        
+        'soPhong' => (int) $request->so_luong_phong,
 
     ]
 ]);
