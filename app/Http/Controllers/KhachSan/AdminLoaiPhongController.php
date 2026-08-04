@@ -7,12 +7,19 @@ use App\Models\LoaiPhong;
 use App\Models\KhachSan;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Models\ChiTietDatPhong;
+use App\Models\DatPhong;
+use Carbon\Carbon;
 
 class AdminLoaiPhongController extends Controller
 {
  public function index(Request $request)
 {
     $query = LoaiPhong::with('khachSan');
+
+    $query->whereHas('khachSan', function ($q) {
+    $q->where('trang_thai_duyet', 'DaDuyet');
+});
 
     // Tìm kiếm theo tên loại phòng
    if ($request->filled('ten_loai_phong'))
@@ -66,26 +73,42 @@ if ($request->filled('ten_khach_san'))
     ->withQueryString();
 
     // Thống kê
-    $tongLoaiPhong = LoaiPhong::count();
-
-    $dangHoatDong = LoaiPhong::where(
-        'trang_thai',
-        1
-    )->count();
-
-    $tamDung = LoaiPhong::where(
-        'trang_thai',
-        0
-    )->count();
-
-    $khachSans = KhachSan::all();
-    
-$danhSachLoaiPhong = LoaiPhong::select(
-    'ten_loai_phong'
-)
+   $tongLoaiPhong = LoaiPhong::whereHas('khachSan', function ($q) {
+    $q->where('trang_thai_duyet', 'DaDuyet');
+})
+->select('ten_loai_phong')
 ->distinct()
-->orderBy('ten_loai_phong')
-->get();
+->count();
+
+$dangHoatDong = LoaiPhong::where('trang_thai', 1)
+    ->whereHas('khachSan', function ($q) {
+        $q->where('trang_thai_duyet', 'DaDuyet');
+    })
+    ->select('ten_loai_phong')
+    ->distinct()
+    ->count();
+
+$tamDung = LoaiPhong::where('trang_thai', 0)
+    ->whereHas('khachSan', function ($q) {
+        $q->where('trang_thai_duyet', 'DaDuyet');
+    })
+    ->select('ten_loai_phong')
+    ->distinct()
+    ->count();
+    
+    $khachSans = KhachSan::where(
+    'trang_thai_duyet',
+    'DaDuyet'
+)->get();
+    
+$danhSachLoaiPhong = LoaiPhong::whereHas('khachSan', function ($q) {
+        $q->where('trang_thai_duyet', 'DaDuyet');
+    })
+    ->select('ten_loai_phong')
+    ->distinct()
+    ->orderBy('ten_loai_phong')
+    ->get();
+    
     return view(
         'admin.loaiphong.index',
         compact(
@@ -99,7 +122,10 @@ $danhSachLoaiPhong = LoaiPhong::select(
 }
     public function create()
 {
-    $khachSans = KhachSan::all();
+    $khachSans = KhachSan::where(
+        'trang_thai_duyet',
+        'DaDuyet'
+    )->get();
 
     return view(
         'admin.loaiphong.create',
@@ -197,6 +223,44 @@ public function edit($id)
 public function update(Request $request, $id)
 {
     $loaiPhong = LoaiPhong::findOrFail($id);
+    // Kiểm tra trước khi tạm dừng loại phòng
+if (
+    $loaiPhong->trang_thai == 1 &&
+    $request->trang_thai == 0
+) {
+
+    $conDonDatPhong = ChiTietDatPhong::where(
+        'ma_loai_phong',
+        $loaiPhong->ma_loai_phong
+    )
+    ->whereHas('datPhong', function ($query) {
+
+        $query->whereIn(
+            'trang_thai_dat_phong',
+            [
+                'DaXacNhan',
+                'DaNhanPhong'
+            ]
+        )
+        ->whereDate(
+            'ngay_tra_phong',
+            '>=',
+            Carbon::today()
+        );
+
+    })
+    ->exists();
+
+    if ($conDonDatPhong) {
+
+        return back()
+            ->withInput()
+            ->with(
+                'error',
+                'Không thể tạm dừng loại phòng vì vẫn còn đơn đặt phòng chưa hoàn thành.'
+            );
+    }
+}
 
     $request->validate([
 

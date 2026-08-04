@@ -76,17 +76,15 @@
 
                 @if($giaThapNhat)
 
-                <p class="mt-4 text-xl font-bold text-[#1040C5]">
+                <div class="mt-4 flex items-end gap-1">
+                    <p class="text-xl font-bold text-[#1040C5]">
+                        {{ number_format($giaThapNhat, 0, ',', '.') }}đ
+                    </p>
 
-                    {{ number_format($giaThapNhat, 0, ',', '.') }}đ
-
-                </p>
-
-                <p class="text-sm text-gray-500">
-
-                    / đêm
-
-                </p>
+                    <p class="text-sm text-gray-500">
+                         / đêm
+                     </p>
+                </div>
 
                 @else
 

@@ -211,27 +211,31 @@
                 <!-- Trạng thái -->
                 <div>
 
-                    <label class="block text-base font-semibold text-black">
-                        Trạng thái
-                    </label>
+            <label class="block text-base font-semibold text-black">
+                Trạng thái
+            </label>
 
-                    <select name="trang_thai" class="w-full mt-2 border rounded-xl px-4 py-2.5 text-base text-black">
+    <select
+        name="trang_thai"
+        class="w-full mt-2 border rounded-xl px-4 py-2.5 text-base text-black">
 
-                        <option value="1" {{ $khachSan->trang_thai == 1 ? 'selected' : '' }}>
+        <option value="1" {{ $khachSan->trang_thai == 1 ? 'selected' : '' }}>
+            Hoạt động
+        </option>
 
-                            Hoạt động
+        <option value="0" {{ $khachSan->trang_thai == 0 ? 'selected' : '' }}>
+            Tạm dừng
+        </option>
 
-                        </option>
+    </select>
 
-                        <option value="0" {{ $khachSan->trang_thai == 0 ? 'selected' : '' }}>
+    @if(session('error'))
+        <p class="mt-2 text-sm text-red-600">
+            {{ session('error') }}
+        </p>
+    @endif
 
-                            Tạm dừng
-
-                        </option>
-
-                    </select>
-
-                </div>
+</div>
 
                 <!-- Mô tả -->
                 <div class="md:col-span-2">

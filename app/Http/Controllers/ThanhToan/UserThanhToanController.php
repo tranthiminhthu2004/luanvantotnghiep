@@ -295,7 +295,6 @@ class UserThanhToanController extends Controller
                 $duLieuVNPay['duLieu']['chi_tiet_phong']
 
         ];
-dd($duLieuService);
 
 $datPhong = $this->datPhongService
     ->taoDonDatPhong($duLieuService);

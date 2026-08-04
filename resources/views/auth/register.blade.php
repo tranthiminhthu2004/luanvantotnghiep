@@ -151,7 +151,7 @@
                     </h1>
 
 
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}" novalidate>
 
                         @csrf
 
@@ -164,7 +164,7 @@
                                 Họ và tên
                             </label>
 
-                            <input type="text" name="name" value="{{ old('name') }}" required
+                            <input type="text" name="name" value="{{ old('name') }}"
                                 placeholder="Nhập họ và tên của bạn"
                                 class="w-full border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-full">
                             @error('name')
@@ -181,7 +181,7 @@
                                 Email
                             </label>
 
-                            <input type="email" name="email" value="{{ old('email') }}" required
+                            <input type="email" name="email" value="{{ old('email') }}" 
                                 placeholder="Nhập email của bạn"
                                 class="w-full border border-gray-300  px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-full">
 
@@ -203,7 +203,7 @@
                             <div class="relative">
 
                                 <input type="password" id="password" name="password" autocomplete="new-password"
-                                    required placeholder="Nhập mật khẩu"
+                                     placeholder="Nhập mật khẩu"
                                     class="w-full border border-gray-300 rounded-full px-3 py-2 pr-14 focus:outline-none focus:ring-2 focus:ring-blue-500">
 
                                 <button type="button" onclick="togglePassword('password','passwordIcon')"
@@ -230,7 +230,7 @@
                             <div class="relative">
 
                                 <input type="password" id="password_confirmation" name="password_confirmation"
-                                    autocomplete="new-password" required placeholder="Nhập lại mật khẩu"
+                                    autocomplete="new-password"  placeholder="Nhập lại mật khẩu"
                                     class="w-full border border-gray-300 rounded-full px-3 py-2 pr-14 focus:outline-none focus:ring-2 focus:ring-blue-500">
 
                                 <button type="button" onclick="togglePassword('password_confirmation','confirmIcon')"

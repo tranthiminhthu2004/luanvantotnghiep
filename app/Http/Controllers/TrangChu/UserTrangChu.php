@@ -32,6 +32,7 @@ class UserTrangChu extends Controller
 
         if ($daTimKiem) {
             $khachSansTimKiem = KhachSan::where('trang_thai', 1)
+                ->where('trang_thai_duyet', 'DaDuyet')
                 ->where('ma_dia_diem', $request->ma_dia_diem)
                 ->with([
                     'hinhAnh',
@@ -51,7 +52,8 @@ class UserTrangChu extends Controller
                 ->get();
         }
         
-        $khachSansMoiNhat = KhachSan::where('trang_thai', 1)
+    $khachSansMoiNhat = KhachSan::where('trang_thai', 1)
+    ->where('trang_thai_duyet', 'DaDuyet')
     ->with([
         'hinhAnh',
         'diaDiem',

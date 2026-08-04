@@ -26,13 +26,23 @@ class LoginRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
-    {
-        return [
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
-        ];
-    }
+   public function rules(): array
+{
+    return [
+        'email' => ['required', 'string', 'email'],
+        'password' => ['required', 'string'],
+    ];
+}
+
+public function messages(): array
+{
+    return [
+        'email.required' => 'Vui lòng nhập email.',
+        'email.email' => 'Email không đúng định dạng.',
+
+        'password.required' => 'Vui lòng nhập mật khẩu.',
+    ];
+}
 
     /**
      * Attempt to authenticate the request's credentials.

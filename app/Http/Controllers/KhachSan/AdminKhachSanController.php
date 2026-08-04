@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\KhachSan;
 use Illuminate\Http\Request;
 use App\Models\DiaDiem;
+use App\Models\DatPhong;
+use Carbon\Carbon;
+
 class AdminKhachSanController extends Controller
 {
     public function index(Request $request)
@@ -18,14 +21,6 @@ $query->where(
     'DaDuyet'
 );
 
-    // Tìm kiếm theo tên khách sạn
-   if ($request->filled('ma_khach_san'))
-{
-    $query->where(
-        'ma_khach_san',
-        $request->ma_khach_san
-    );
-}
 
     // Lọc theo địa điểm 
     if ($request->filled('ma_dia_diem'))
@@ -108,17 +103,16 @@ if ($request->filled('trang_thai'))
     'ten_dia_diem'
 )->get();
 
-    $soSaos = KhachSan::select('so_sao_khach_san')
-        ->distinct()
-        ->orderBy('so_sao_khach_san', 'desc')
-        ->get();
-        
-    $danhSachKhachSan = KhachSan::where(
+    $soSaos = KhachSan::where(
         'trang_thai_duyet',
         'DaDuyet'
     )
-    ->orderBy('ten_khach_san')
+    ->select('so_sao_khach_san')
+    ->distinct()
+    ->orderBy('so_sao_khach_san', 'desc')
     ->get();
+        
+
 
     return view(
         'admin.khachsan.index',
@@ -128,8 +122,8 @@ if ($request->filled('trang_thai'))
             'dangHoatDong',
             'tamDung',
             'diaDiems',
-            'soSaos',
-            'danhSachKhachSan'
+            'soSaos'
+      
         )
     );
 }
@@ -241,11 +235,16 @@ if ($request->filled('trang_thai'))
 }
    public function show($id)
 {
-    $khachSan = KhachSan::with([
+    $khachSan = KhachSan::where(
+        'trang_thai_duyet',
+        'DaDuyet'
+    )
+    ->with([
         'hinhAnh',
         'tienNghis',
         'diaDiem'
-    ])->findOrFail($id);
+    ])
+    ->findOrFail($id);
 
     return view(
         'admin.khachsan.show',
@@ -297,6 +296,38 @@ if ($request->filled('trang_thai'))
     'gio_check_out.required' => 'Vui lòng nhập giờ trả phòng.',
 ]);
     $khachSan = KhachSan::findOrFail($id);
+     // Kiểm tra trước khi tạm dừng khách sạn
+if (
+    $khachSan->trang_thai == 1 &&
+    $request->trang_thai == 0
+) {
+
+    $conDonDatPhong = DatPhong::where(
+        'ma_khach_san',
+        $khachSan->ma_khach_san
+    )
+    ->whereIn('trang_thai_dat_phong', [
+        'DaXacNhan',
+        'DaNhanPhong'
+    ])
+    ->whereDate(
+        'ngay_tra_phong',
+        '>=',
+        Carbon::today()
+    )
+    ->exists();
+
+    if ($conDonDatPhong) {
+
+        return redirect()
+            ->back()
+            ->withInput()
+            ->with(
+                'error',
+                'Không thể tạm dừng khách sạn vì vẫn còn đơn đặt phòng chưa hoàn thành.'
+            );
+    }
+}
 
     $khachSan->update([
 

@@ -2,27 +2,7 @@
 
     <form id="filterForm" method="GET" action="{{ route('admin.khachsan.index') }}">
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-6 gap-3">
-
-            <!-- Khách sạn -->
-            <select name="ma_khach_san" onchange="this.form.submit()" class="border rounded-xl text-base px-4 py-3">
-
-                <option value="">
-                    Tất cả khách sạn
-                </option>
-
-                @foreach($danhSachKhachSan as $khachSan)
-
-                <option value="{{ $khachSan->ma_khach_san }}"
-                    {{ request('ma_khach_san') == $khachSan->ma_khach_san ? 'selected' : '' }}>
-
-                    {{ $khachSan->ten_khach_san }}
-
-                </option>
-
-                @endforeach
-
-            </select>
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-3">
 
             <!-- Địa điểm -->
             <select name="ma_dia_diem" onchange="this.form.submit()" class="border rounded-xl text-base px-4 py-2.5">

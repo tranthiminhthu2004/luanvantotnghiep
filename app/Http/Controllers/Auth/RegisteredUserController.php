@@ -28,7 +28,7 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
 
-       $request->validate([
+      $request->validate([
     'name' => [
         'required',
         'string',
@@ -52,8 +52,15 @@ class RegisteredUserController extends Controller
     ],
 
 ], [
+
+    'name.required' => 'Vui lòng nhập họ và tên.',
     'name.regex' => 'Họ và tên chỉ được chứa chữ cái và khoảng trắng.',
+
+    'email.required' => 'Vui lòng nhập email.',
+    'email.email' => 'Email không đúng định dạng.',
     'email.unique' => 'Email đã tồn tại.',
+
+    'password.required' => 'Vui lòng nhập mật khẩu.',
     'password.confirmed' => 'Xác nhận mật khẩu không khớp.',
 ]);
 

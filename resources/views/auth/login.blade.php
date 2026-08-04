@@ -147,16 +147,7 @@
                         Đăng nhập
                     </h1>
 
-                    @if(session('error'))
-
-                    <div class="mb-4 p-3 bg-red-100 text-red-600 rounded-lg">
-
-                        {{ session('error') }}
-
-                    </div>
-
-                    @endif
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('login') }}" novalidate>
                         @csrf
 
                         <!-- Email -->
@@ -166,7 +157,7 @@
                                 Email
                             </label>
 
-                            <input type="email" name="email" value="{{ old('email') }}" required
+                            <input type="email" name="email" value="{{ old('email') }}" 
                                 placeholder="Nhập email của bạn"
                                 class="w-full border border-gray-300 rounded-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
 
@@ -187,7 +178,7 @@
 
                             <div class="relative">
 
-                                <input type="password" id="password" name="password" required
+                                <input type="password" id="password" name="password" 
                                     placeholder="Nhập mật khẩu"
                                     class="w-full border border-gray-300 rounded-full px-3 py-2 pr-14 focus:outline-none focus:ring-2 focus:ring-blue-500">
 

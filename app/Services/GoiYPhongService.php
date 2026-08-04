@@ -384,10 +384,6 @@ private function timPhuongAnTotNhat(
  * Tính số phòng tối thiểu cần thiết
  */
 
-/**
- * Tính số phòng tối thiểu cần để chứa đủ số khách
- * dựa trên số phòng còn trống thực tế.
- */
 private function tinhSoPhongToiThieu(
     $danhSachLoaiPhong,
     $conPhong,

@@ -15,6 +15,9 @@ class AdminPhongController extends Controller
         $query = Phong::with([
             'loaiPhong.khachSan'
         ]);
+        $query->whereHas('loaiPhong.khachSan', function ($q) {
+    $q->where('trang_thai_duyet', 'DaDuyet');
+});
 
         // Lọc khách sạn
         if ($request->filled('ten_khach_san'))
@@ -80,22 +83,36 @@ if ($request->filled('ten_loai_phong'))
             ->withQueryString();
 
         // Thống kê
-        $tongPhong = Phong::count();
+        $tongPhong = Phong::whereHas('loaiPhong.khachSan', function ($q) {
+        $q->where('trang_thai_duyet', 'DaDuyet');
+        })->count();
 
         $phongDangHoatDong = Phong::where(
-            'trang_thai_phong',
-            'DangHoatDong'
-        )->count();
-
+        'trang_thai_phong',
+        'DangHoatDong'
+        )
+        ->whereHas('loaiPhong.khachSan', function ($q) {
+        $q->where('trang_thai_duyet', 'DaDuyet');
+        })
+        ->count();
+    
         $phongBaoTri = Phong::where(
-            'trang_thai_phong',
-            'BaoTri'
-        )->count();
+        'trang_thai_phong',
+        'BaoTri'
+        )
+        ->whereHas('loaiPhong.khachSan', function ($q) {
+        $q->where('trang_thai_duyet', 'DaDuyet');
+        })
+        ->count();
 
         $phongNgungHoatDong = Phong::where(
-            'trang_thai_phong',
-            'NgungHoatDong'
-        )->count();
+        'trang_thai_phong',
+        'NgungHoatDong'
+    )
+    ->whereHas('loaiPhong.khachSan', function ($q) {
+        $q->where('trang_thai_duyet', 'DaDuyet');
+    })
+    ->count();
  
     $loaiPhongs = LoaiPhong::select(
         'ten_loai_phong'
@@ -125,9 +142,11 @@ $danhSachSoPhong = Phong::select('so_phong')
 
     public function create()
     {
-        $loaiPhongs = LoaiPhong::with(
-            'khachSan'
-        )->get();
+        $loaiPhongs = LoaiPhong::with('khachSan')
+    ->whereHas('khachSan', function ($q) {
+        $q->where('trang_thai_duyet', 'DaDuyet');
+    })
+    ->get();
 
         return view(
             'admin.phong.create',
@@ -220,9 +239,11 @@ $danhSachSoPhong = Phong::select('so_phong')
     {
         $phong = Phong::findOrFail($id);
 
-        $loaiPhongs = LoaiPhong::with(
-            'khachSan'
-        )->get();
+        $loaiPhongs = LoaiPhong::with('khachSan')
+    ->whereHas('khachSan', function ($q) {
+        $q->where('trang_thai_duyet', 'DaDuyet');
+    })
+    ->get();
 
         return view(
             'admin.phong.edit',
