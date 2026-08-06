@@ -43,6 +43,12 @@ Route::post(
     [UserLichSuDatPhongController::class, 'huy']
 )->middleware('auth')->name('lichsudatphong.huy');
 
+Route::post(
+    '/lich-su-dat-phong/{maDonDatPhong}/thanh-toan-lai',
+    [UserLichSuDatPhongController::class, 'thanhToanLai']
+)->middleware('auth')
+->name('lichsudatphong.thanhtoanlai');
+
 /*
 |--------------------------------------------------------------------------
 | TRA CỨU ĐẶT PHÒNG

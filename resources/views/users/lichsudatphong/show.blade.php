@@ -71,7 +71,7 @@
 
                         </div>
 
-                        <div class="bg-white/10 rounded-xl border border-white/20 px-6 py-4 text-white">
+                        <div class=" px-6 py-4 text-white">
 
                             <div class="flex items-center gap-8">
 
@@ -116,8 +116,20 @@
                     </div>
 
                 </div>
+                @if($datPhong->trang_thai_dat_phong == 'ChoThanhToan' )
+
+                <div class="mt-2 mb-0 p-4 ">
+
+                    <div class="font-semibold text-red-700 text-base">
+                        Hạn thanh toán: {{ \Carbon\Carbon::parse($datPhong->han_thanh_toan)->format('d/m/Y H:i') }}
+
+                    </div>
+
+                </div>
+
+                @endif
                 {{-- THÔNG TIN KHÁCH SẠN --}}
-                <div class="px-8 py-6 border-b border-slate-200">
+                <div class="px-8 py-2 border-b border-slate-200 ">
 
                     <h2 class="text-2xl font-bold text-slate-800 mb-6">
 
@@ -565,11 +577,10 @@
                                 </span>
 
                                 @switch($datPhong->trang_thai_dat_phong)
-
-                                @case('ChoXacNhan')
+                                @case('ChoThanhToan')
                                 <span
-                                    class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-700 text-sm font-semibold">
-                                    Chờ xác nhận
+                                    class="px-3 py-1 rounded-full bg-orange-100 text-orange-700 text-sm font-semibold">
+                                    Chờ thanh toán
                                 </span>
                                 @break
 
@@ -608,6 +619,7 @@
 
                     <div class="mt-8 border-t border-slate-200 pt-5 flex justify-between items-center">
 
+
                         <span class="text-xl font-bold text-slate-800">
                             Tổng tiền phòng
                         </span>
@@ -617,7 +629,6 @@
                         </span>
 
                     </div>
-
                     <div class="px-8 py-6">
 
                         <div class="flex flex-wrap justify-center gap-4">
@@ -629,6 +640,32 @@
 
                             </a>
 
+                            {{-- Thanh toán ngay --}}
+                            @if(
+                            $datPhong->trang_thai_dat_phong == 'ChoThanhToan'
+                            &&
+                            now()->lt($datPhong->han_thanh_toan)
+                            )
+
+                            <form action="{{ route('lichsudatphong.thanhtoanlai', $datPhong->ma_don_dat_phong) }}"
+                                method="POST">
+
+                                @csrf
+
+                                <button type="submit"
+                                    class="px-7 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold transition">
+
+                                    <i class="fa-solid fa-credit-card mr-2"></i>
+
+                                    Thanh toán ngay
+
+                                </button>
+
+                            </form>
+
+                            @endif
+
+                            {{-- Hủy đặt phòng --}}
                             @if(
                             !in_array(
                             $datPhong->trang_thai_dat_phong,
@@ -644,6 +681,21 @@
                                 Hủy đặt phòng
 
                             </button>
+
+                            @endif
+
+                            {{-- Quá hạn thanh toán --}}
+                            @if(
+                            $datPhong->trang_thai_dat_phong == 'ChoThanhToan'
+                            &&
+                            now()->gte($datPhong->han_thanh_toan)
+                            )
+
+                            <div class="px-5 py-3 rounded-xl bg-red-100 text-red-700 font-semibold">
+
+                                Đơn đặt phòng đã hết hạn thanh toán.
+
+                            </div>
 
                             @endif
 

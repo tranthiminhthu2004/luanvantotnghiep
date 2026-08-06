@@ -8,21 +8,29 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('dia_diem', function (Blueprint $table) {
+        if (!Schema::hasColumn('dia_diem', 'mo_ta')) {
 
-            $table->text('mo_ta')
-                ->nullable()
-                ->after('ten_dia_diem');
+            Schema::table('dia_diem', function (Blueprint $table) {
 
-        });
+                $table->text('mo_ta')
+                    ->nullable()
+                    ->after('ten_dia_diem');
+
+            });
+
+        }
     }
 
     public function down(): void
     {
-        Schema::table('dia_diem', function (Blueprint $table) {
+        if (Schema::hasColumn('dia_diem', 'mo_ta')) {
 
-            $table->dropColumn('mo_ta');
+            Schema::table('dia_diem', function (Blueprint $table) {
 
-        });
+                $table->dropColumn('mo_ta');
+
+            });
+
+        }
     }
 };

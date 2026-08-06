@@ -122,7 +122,9 @@
 
                             <select name="trang_thai_dat_phong" onchange="this.form.submit()" class="px-3 py-2 rounded-full text-sm font-medium border-0 cursor-pointer
 
-    @if($datPhong->trang_thai_dat_phong == 'DaXacNhan')
+    @if($datPhong->trang_thai_dat_phong == 'ChoThanhToan')
+        bg-orange-100 text-orange-700
+    @elseif($datPhong->trang_thai_dat_phong == 'DaXacNhan')
         bg-green-100 text-green-700
     @elseif($datPhong->trang_thai_dat_phong == 'DaNhanPhong')
         bg-blue-100 text-blue-700
@@ -132,15 +134,22 @@
         bg-red-100 text-red-700
     @elseif($datPhong->trang_thai_dat_phong == 'KhongDen')
         bg-orange-100 text-orange-700
-    @endif" @if(in_array($datPhong->trang_thai_dat_phong,[
-
+    @endif
+    " @if(in_array($datPhong->trang_thai_dat_phong,[
+                                'ChoThanhToan',
                                 'DaTraPhong',
-
                                 'DaHuy',
-
                                 'KhongDen'
+                                ]))
+                                disabled
+                                @endif
+                                >
+                                @if($datPhong->trang_thai_dat_phong == 'ChoThanhToan')
 
-                                ])) disabled @endif>
+                                <option value="ChoThanhToan" selected>
+                                    Chờ thanh toán
+                                </option>
+                                @endif
 
                                 @if($datPhong->trang_thai_dat_phong == 'DaXacNhan')
                                 <option value="DaXacNhan" selected>Đã xác nhận</option>

@@ -44,7 +44,8 @@ class DatPhong extends Model
         
         'ngay_dat' ,
         
-        'ghi_chu'
+        'ghi_chu',
+        'han_thanh_toan'
         
     ];
 

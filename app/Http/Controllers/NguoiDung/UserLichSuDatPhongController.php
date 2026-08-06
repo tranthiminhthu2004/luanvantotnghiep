@@ -7,14 +7,20 @@ use App\Models\DatPhong;
 use Illuminate\Support\Facades\Auth;
 use App\Services\DatPhongService;
 use Illuminate\Http\Request;
+use App\Services\VNPayService;
+use App\Models\ThanhToan;
 
 class UserLichSuDatPhongController extends Controller
 {
     protected $datPhongService;
+    
+    protected $vnpayService;
 
-    public function __construct(DatPhongService $datPhongService)
-    {
+   public function __construct( DatPhongService $datPhongService, VNPayService $vnpayService )
+   {
     $this->datPhongService = $datPhongService;
+
+    $this->vnpayService = $vnpayService;
     }
 
     public function index()
@@ -95,5 +101,105 @@ class UserLichSuDatPhongController extends Controller
         );
 
     }
+}
+public function thanhToanLai(
+    Request $request,
+    $maDonDatPhong
+)
+{
+    $datPhong = DatPhong::where(
+            'ma_nguoi_dung',
+            Auth::user()->ma_nguoi_dung
+        )
+        ->where(
+            'ma_don_dat_phong',
+            $maDonDatPhong
+        )
+        ->firstOrFail();
+
+    if (
+        $datPhong->trang_thai_dat_phong
+        != 'ChoThanhToan'
+    ) {
+
+        return back()->with(
+            'error',
+            'Đơn này không thể thanh toán.'
+        );
+
+    }
+
+    if ( now()->gt( $datPhong->han_thanh_toan))
+        {
+
+        return back()->with(
+            'error',
+            'Đơn đặt phòng đã hết hạn thanh toán.'
+        );
+
+    }
+
+    $loaiThanhToan =
+        $request->loai_thanh_toan;
+
+    $soTien =
+        $datPhong->tong_tien;
+
+    $moTa =
+        'Thanh toán toàn bộ đặt phòng';
+
+    if (
+        $loaiThanhToan
+        == 'DatCoc'
+    ) {
+
+        $soTien = round(
+            $soTien * 0.3
+        );
+
+        $moTa =
+            'Đặt cọc 30% đặt phòng';
+
+    }
+
+    session([
+
+        'ma_don_dat_phong' =>
+
+            $datPhong->ma_don_dat_phong,
+
+        'du_lieu_vnpay' => [
+
+            'loaiThanhToan' =>
+
+                $loaiThanhToan,
+
+            'soTienThanhToan' =>
+
+                $soTien,
+
+            'ma_dat_phong' =>
+
+                $datPhong->ma_dat_phong
+
+        ]
+
+    ]);
+
+    $url =
+        $this->vnpayService
+            ->createPaymentUrl(
+
+                $datPhong->ma_dat_phong,
+
+                $soTien,
+
+                $moTa
+
+            );
+
+    return redirect()->away(
+        $url
+    );
 }
 }

@@ -36,7 +36,7 @@
             </div>
 
             {{-- Danh sách --}}
-            <div class="space-y-6">
+            <div class="space-y-10">
 
                 @forelse($datPhongs as $datPhong)
 
@@ -45,10 +45,10 @@
 
                     <div class="p-6">
 
-                        <div class="flex flex-col lg:flex-row gap-6">
+                        <div class="flex flex-col lg:flex-row gap-6 items-start">
 
                             {{-- Ảnh khách sạn --}}
-                            <div class="lg:w-72">
+                            <div class="lg:w-72 flex-shrink-0">
 
                                 @if(
                                 $datPhong->khachSan &&
@@ -91,7 +91,18 @@
 
                                     <div>
 
-                                        @if($datPhong->trang_thai_dat_phong == 'ChoXacNhan')
+                                        @if($datPhong->trang_thai_dat_phong == 'ChoThanhToan')
+
+                                        <span
+                                            class="inline-flex items-center bg-orange-100 text-orange-700 px-4 py-2 rounded-full font-semibold">
+
+                                            <i class="fa-solid fa-credit-card mr-2"></i>
+
+                                            Chờ thanh toán
+
+                                        </span>
+
+                                        @elseif($datPhong->trang_thai_dat_phong == 'ChoXacNhan')
 
                                         <span
                                             class="inline-flex items-center bg-yellow-100 text-yellow-700 px-4 py-2 rounded-full font-semibold">
@@ -146,7 +157,7 @@
 
                                         </span>
 
-                                        @elseif($datPhong->trang_thai_dat_phong == 'KhongDenNhanPhong')
+                                        @elseif($datPhong->trang_thai_dat_phong == 'KhongDen')
 
                                         <span
                                             class="inline-flex items-center bg-orange-100 text-orange-700 px-4 py-2 rounded-full font-semibold">
@@ -289,55 +300,55 @@
                         </div>
 
                     </div>
-                    @empty
+                </div>
+                @empty
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-200">
 
-                    <div class="bg-white rounded-3xl shadow-sm border border-slate-200">
+                    <div class="py-20 text-center">
 
-                        <div class="py-20 text-center">
+                        <i class="fa-regular fa-calendar-xmark text-6xl text-slate-300"></i>
 
-                            <i class="fa-regular fa-calendar-xmark text-6xl text-slate-300"></i>
+                        <h2 class="mt-6 text-2xl font-bold text-slate-700">
 
-                            <h2 class="mt-6 text-2xl font-bold text-slate-700">
+                            Chưa có lịch sử đặt phòng
 
-                                Chưa có lịch sử đặt phòng
+                        </h2>
 
-                            </h2>
+                        <p class="mt-2 text-slate-500">
 
-                            <p class="mt-2 text-slate-500">
+                            Bạn chưa thực hiện đơn đặt phòng nào.
 
-                                Bạn chưa thực hiện đơn đặt phòng nào.
+                        </p>
 
-                            </p>
+                        <a href="{{ route('khachsan.index') }}"
+                            class="inline-flex items-center gap-2 mt-8 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition">
 
-                            <a href="{{ route('khachsan.index') }}"
-                                class="inline-flex items-center gap-2 mt-8 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition">
+                            <i class="fa-solid fa-hotel"></i>
 
-                                <i class="fa-solid fa-hotel"></i>
+                            Đặt phòng ngay
 
-                                Đặt phòng ngay
-
-                            </a>
-
-                        </div>
+                        </a>
 
                     </div>
 
-                    @endforelse
-
                 </div>
 
-                {{-- Phân trang --}}
-                @if($datPhongs->hasPages())
-
-                <div class="mt-10">
-
-                    {{ $datPhongs->links() }}
-
-                </div>
-
-                @endif
+                @endforelse
 
             </div>
+
+            {{-- Phân trang --}}
+            @if($datPhongs->hasPages())
+
+            <div class="mt-10">
+
+                {{ $datPhongs->links() }}
+
+            </div>
+
+            @endif
+
+        </div>
 
     </main>
 

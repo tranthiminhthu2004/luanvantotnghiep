@@ -152,10 +152,13 @@ foreach ($duLieu['chi_tiet_phong'] as $chiTiet)
                     $tongTien,
 
                 'trang_thai_dat_phong' =>
-                    'DaXacNhan',
+                    'ChoThanhToan',
 
                 'ghi_chu' =>
                     $duLieu['ghi_chu']??null,
+                    
+                'han_thanh_toan' =>
+                    now()->addHours(24),
 
                 'ngay_dat' =>
                     now()
@@ -288,7 +291,7 @@ foreach ($duLieu['chi_tiet_phong'] as $chiTiet)
         }           
         
     }
-    public function huyDatPhong($maDonDatPhong)
+public function xacNhanThanhToan($maDonDatPhong)
 {
     DB::beginTransaction();
 
@@ -296,50 +299,71 @@ foreach ($duLieu['chi_tiet_phong'] as $chiTiet)
 
         $datPhong = DatPhong::findOrFail($maDonDatPhong);
 
-        if ($datPhong->trang_thai_dat_phong == 'DaHuy') {
+        if ($datPhong->trang_thai_dat_phong != 'ChoThanhToan') {
 
-    throw new \Exception(
-        'Đơn đặt phòng đã được hủy.'
-    );
+            throw new \Exception(
+                'Đơn đặt phòng không ở trạng thái chờ thanh toán.'
+            );
 
+        }
+
+        if (
+            $datPhong->han_thanh_toan &&
+            now()->gt($datPhong->han_thanh_toan)
+        ) {
+
+            throw new \Exception(
+                'Đơn đặt phòng đã hết hạn thanh toán.'
+            );
+
+        }
+
+        $datPhong->trang_thai_dat_phong = 'DaXacNhan';
+        $datPhong->han_thanh_toan = null;
+        $datPhong->save();
+
+        DB::commit();
+
+        return $datPhong;
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        throw $e;
+
+    }
 }
+   public function huyDatPhong($maDonDatPhong)
+{
+    DB::beginTransaction();
 
-if ($datPhong->trang_thai_dat_phong == 'DaNhanPhong') {
+    try {
 
-    throw new \Exception(
-        'Không thể hủy vì khách đã nhận phòng.'
-    );
+        $datPhong = DatPhong::findOrFail($maDonDatPhong);
 
-}
+        if (!in_array($datPhong->trang_thai_dat_phong, [
+            'ChoThanhToan',
+            'DaXacNhan'
+        ])) {
 
-if ($datPhong->trang_thai_dat_phong == 'DaTraPhong') {
+            throw new \Exception(
+                'Đơn đặt phòng không thể hủy.'
+            );
 
-    throw new \Exception(
-        'Không thể hủy vì khách đã trả phòng.'
-    );
-
-}
-
-if ($datPhong->trang_thai_dat_phong == 'KhongDen') {
-
-    throw new \Exception(
-        'Không thể hủy vì đơn đã được xác nhận không đến.'
-    );
-
-}
+        }
 
         $datPhong->update([
 
-            'trang_thai_dat_phong' => 'DaHuy'
+            'trang_thai_dat_phong' => 'DaHuy',
+
+            'han_thanh_toan' => null
 
         ]);
 
         LichPhong::where(
-
             'ma_don_dat_phong',
-
             $maDonDatPhong
-
         )->delete();
 
         DB::commit();

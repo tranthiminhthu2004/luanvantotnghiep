@@ -6,28 +6,30 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-   public function up(): void
-{
-    Schema::create('dia_diem', function (Blueprint $table) {
+    public function up(): void
+    {
+        if (!Schema::hasTable('dia_diem')) {
 
-        $table->id('ma_dia_diem');
+            Schema::create('dia_diem', function (Blueprint $table) {
 
-        $table->string(
-            'ten_dia_diem',
-            150
-        );
+                $table->id('ma_dia_diem');
 
-    });
-}
+                $table->string(
+                    'ten_dia_diem',
+                    150
+                );
 
-    /**
-     * Reverse the migrations.
-     */
+            });
+
+        }
+    }
+
     public function down(): void
     {
-        Schema::dropIfExists('dia_diem');
+        if (Schema::hasTable('dia_diem')) {
+
+            Schema::dropIfExists('dia_diem');
+
+        }
     }
 };

@@ -95,58 +95,176 @@ class UserThanhToanController extends Controller
         );
     }
 
-    public function store(Request $request)
+   public function store(Request $request)
+{
+    $request->validate([
+    'phuong_thuc_thanh_toan' =>
+        'required|in:DatCoc,ThanhToanToanBo',
+    ],[
+    'phuong_thuc_thanh_toan.required' =>
+        'Vui lòng chọn phương thức thanh toán.',
+
+    'phuong_thuc_thanh_toan.in' =>
+        'Phương thức thanh toán không hợp lệ.',
+    ]);
+
+    $duLieu = session('xac_nhan_dat_phong');
+
+    if (!$duLieu)
     {
-        $duLieu = session(
-            'xac_nhan_dat_phong'
+        return redirect()->route(
+            'khachsan.index'
+        );
+    }
+
+    $loaiThanhToan =
+        $request->phuong_thuc_thanh_toan;
+
+    $soTienThanhToan =
+        $duLieu['tongTien'];
+
+    $moTa =
+        'Thanh toán toàn bộ đặt phòng';
+
+    if ($loaiThanhToan == 'DatCoc')
+    {
+        $soTienThanhToan = round(
+            $duLieu['tongTien'] * 0.3
         );
 
-        if (!$duLieu)
-        {
-            return redirect()->route(
-                'khachsan.index'
-            );
-        }
-
-        $loaiThanhToan =
-            $request->phuong_thuc_thanh_toan;
-
-        $soTienThanhToan =
-            $duLieu['tongTien'];
-
         $moTa =
-            'Thanh toán toàn bộ đặt phòng';
+            'Đặt cọc 30% đặt phòng';
+    }
 
-        if ($loaiThanhToan == 'DatCoc')
-        {
-            $soTienThanhToan = round(
-                $duLieu['tongTien'] * 0.3
+    $hoTen = trim(
+        $request->ho_ten
+    );
+
+    $tachTen = explode(
+        ' ',
+        $hoTen
+    );
+
+    $ten = array_pop(
+        $tachTen
+    );
+
+    $hoVaTenDem = implode(
+        ' ',
+        $tachTen
+    );
+
+    $duLieuService = [
+
+        'ma_nguoi_dung' =>
+
+            auth()->check()
+                ? auth()->user()->ma_nguoi_dung
+                : null,
+
+        'ma_khach_san' =>
+
+            $duLieu['ma_khach_san'],
+
+        'ho_va_ten_dem_khach' =>
+
+            $hoVaTenDem,
+
+        'ten_khach' =>
+
+            $ten,
+
+        'email_khach' =>
+
+            $request->email,
+
+        'so_dien_thoai_khach' =>
+
+            $request->so_dien_thoai,
+
+        'ngay_nhan_phong' =>
+
+            $duLieu['ngay_nhan_phong'],
+
+        'ngay_tra_phong' =>
+
+            $duLieu['ngay_tra_phong'],
+
+        'so_nguoi_truong_thanh' =>
+
+            $duLieu['soNguoiTruongThanh'],
+
+        'so_tre_em' =>
+
+            $duLieu['soTreEm'],
+
+        'so_nguoi_cao_tuoi' =>
+
+            $duLieu['soNguoiCaoTuoi'],
+
+        'ghi_chu' =>
+
+            $request->ghi_chu,
+
+        'chi_tiet_phong' =>
+
+            $duLieu['chi_tiet_phong']
+
+    ];
+
+    $datPhong =
+        $this->datPhongService
+            ->taoDonDatPhong(
+                $duLieuService
             );
+            
+    ThanhToan::create([
 
-            $moTa =
-                'Đặt cọc 30% đặt phòng';
-        }
+    'ma_don_dat_phong' =>
 
-        session([
+        $datPhong->ma_don_dat_phong,
 
-            'du_lieu_vnpay' => [
+    'loai_thanh_toan' =>
 
-                'duLieu' => $duLieu,
+        $loaiThanhToan,
 
-                'thongTinKhach' =>
-                    $request->all(),
+    'so_tien' =>
 
-                'loaiThanhToan' =>
-                    $loaiThanhToan
+        $soTienThanhToan,
 
-            ]
+    'phuong_thuc_thanh_toan' =>
 
-        ]);
+        'VNPay',
 
-        $url = $this->vnpayService
+    'trang_thai_thanh_toan' =>
+
+        'ChoXuLy'
+
+]);
+
+    session([
+
+    'ma_don_dat_phong' =>
+
+        $datPhong->ma_don_dat_phong,
+
+    'du_lieu_vnpay' => [
+
+        'loaiThanhToan' => $loaiThanhToan,
+
+        'soTienThanhToan' => $soTienThanhToan,
+
+        'ma_dat_phong' =>  $datPhong->ma_dat_phong
+
+    ]
+
+]);
+
+    $url =
+        $this->vnpayService
             ->createPaymentUrl(
 
-                uniqid('DP'),
+                $datPhong->ma_dat_phong,
 
                 $soTienThanhToan,
 
@@ -154,8 +272,8 @@ class UserThanhToanController extends Controller
 
             );
 
-        return redirect()->away($url);
-    }
+    return redirect()->away($url);
+}
  
     public function thanhCong()
     {
@@ -187,8 +305,7 @@ class UserThanhToanController extends Controller
             compact('datPhong')
         );
     }
-
-   public function vnpayReturn(Request $request)
+public function vnpayReturn(Request $request)
 {
     if (
         !$this->vnpayService->verifyResponse(
@@ -203,18 +320,12 @@ class UserThanhToanController extends Controller
             );
     }
 
-    if ($request->vnp_ResponseCode != '00') {
-        return redirect()
-            ->route('khachsan.index')
-            ->with(
-                'error',
-                'Thanh toán thất bại.'
-            );
-    }
+    $maDonDatPhong = session('ma_don_dat_phong');
 
     $duLieuVNPay = session('du_lieu_vnpay');
 
-    if (!$duLieuVNPay) {
+    if (!$maDonDatPhong || !$duLieuVNPay) {
+
         return redirect()
             ->route('khachsan.index')
             ->with(
@@ -223,108 +334,46 @@ class UserThanhToanController extends Controller
             );
     }
 
+    // Thanh toán thất bại
+    if ($request->vnp_ResponseCode != '00') {
+
+        ThanhToan::where(
+            'ma_don_dat_phong',
+            $maDonDatPhong
+        )->update([
+            'trang_thai_thanh_toan' => 'ThatBai'
+        ]);
+
+        return redirect()
+            ->route('lichsudatphong.index')
+            ->with(
+                'warning',
+                'Thanh toán chưa thành công.'
+            );
+    }
+
     try {
 
-        $loaiThanhToan =
-            $duLieuVNPay['loaiThanhToan'];
-
-        if ($loaiThanhToan == 'DatCoc') {
-
-            $soTienThanhToan = round(
-                $duLieuVNPay['duLieu']['tongTien'] * 0.3
+        $datPhong = $this->datPhongService
+            ->xacNhanThanhToan(
+                $maDonDatPhong
             );
 
-        } else {
+        $thanhToan = ThanhToan::where(
+            'ma_don_dat_phong',
+            $maDonDatPhong
+        )->firstOrFail();
 
-            $soTienThanhToan =
-                $duLieuVNPay['duLieu']['tongTien'];
+        $thanhToan->update([
 
-        }
+            'trang_thai_thanh_toan' => 'ThanhCong',
 
-        $hoTen = trim(
-            $duLieuVNPay['thongTinKhach']['ho_ten']
-        );
+            'ma_giao_dich' => $request->vnp_TransactionNo,
 
-        $tachTen = explode(' ', $hoTen);
-
-        $ten = array_pop($tachTen);
-
-        $hoVaTenDem = implode(' ', $tachTen);
-
-        $duLieuService = [
-
-            'ma_nguoi_dung' =>
-                auth()->check()
-                    ? auth()->user()->ma_nguoi_dung
-                    : null,
-
-            'ma_khach_san' =>
-                $duLieuVNPay['duLieu']['ma_khach_san'],
-
-            'ho_va_ten_dem_khach' =>
-                $hoVaTenDem,
-
-            'ten_khach' =>
-                $ten,
-
-            'email_khach' =>
-                $duLieuVNPay['thongTinKhach']['email'],
-
-            'so_dien_thoai_khach' =>
-                $duLieuVNPay['thongTinKhach']['so_dien_thoai'],
-
-            'ngay_nhan_phong' =>
-                $duLieuVNPay['duLieu']['ngay_nhan_phong'],
-
-            'ngay_tra_phong' =>
-                $duLieuVNPay['duLieu']['ngay_tra_phong'],
-
-            'so_nguoi_truong_thanh' =>
-                $duLieuVNPay['duLieu']['soNguoiTruongThanh'],
-
-            'so_tre_em' =>
-                $duLieuVNPay['duLieu']['soTreEm'],
-
-            'so_nguoi_cao_tuoi' =>
-                $duLieuVNPay['duLieu']['soNguoiCaoTuoi'],
-
-            'ghi_chu' =>
-                $duLieuVNPay['thongTinKhach']['ghi_chu'] ?? null,
-
-            'chi_tiet_phong' =>
-                $duLieuVNPay['duLieu']['chi_tiet_phong']
-
-        ];
-
-$datPhong = $this->datPhongService
-    ->taoDonDatPhong($duLieuService);
-        $datPhong = $this->datPhongService
-            ->taoDonDatPhong($duLieuService);
-
-        ThanhToan::create([
-
-            'ma_don_dat_phong' =>
-                $datPhong->ma_don_dat_phong,
-
-            'loai_thanh_toan' =>
-                $loaiThanhToan,
-
-            'so_tien' =>
-                $soTienThanhToan,
-
-            'phuong_thuc_thanh_toan' =>
-                'VNPay',
-
-            'trang_thai_thanh_toan' =>
-                'ThanhCong',
-
-            'ma_giao_dich' =>
-                $request->vnp_TransactionNo,
-
-            'ngay_thanh_toan' =>
-                now()
+            'ngay_thanh_toan' => now()
 
         ]);
+        
 
         $datPhong->load([
 
@@ -339,29 +388,26 @@ $datPhong = $this->datPhongService
         Mail::to(
             $datPhong->email_khach
         )->send(
-            new DatPhongThanhCongMail($datPhong)
+            new DatPhongThanhCongMail(
+                $datPhong
+            )
         );
-
-
-        session([
-            'ma_don_dat_phong' =>
-                $datPhong->ma_don_dat_phong
-        ]);
 
         session()->forget('du_lieu_vnpay');
         session()->forget('xac_nhan_dat_phong');
 
-        return redirect()->route(
-            'datphong.thanhcong'
+        return redirect()
+            ->route('datphong.thanhcong');
+
+     } catch (\Throwable $e) {
+
+    return redirect()
+        ->route('lichsudatphong.index')
+        ->with(
+            'error',
+            $e->getMessage()
         );
 
-    } catch (\Throwable $e) {
-
-        dd(
-            $e->getMessage(),
-            $e->getFile(),
-            $e->getLine()
-        );
-    }
+}
 }
 }
