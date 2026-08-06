@@ -472,6 +472,10 @@ public function capNhatTrangThai(
 
     // Luồng chuyển trạng thái hợp lệ
    $hopLe = [
+     'ChoThanhToan' => [
+        'DaXacNhan',
+        'DaHuy'
+    ],
 
     'DaXacNhan' => [
         'DaNhanPhong',
@@ -517,9 +521,40 @@ public function capNhatTrangThai(
 }
 else
 {
-    $datPhong->update([
-        'trang_thai_dat_phong' => $trangThaiMoi
-    ]);
+    if (
+        $trangThaiCu == 'ChoThanhToan' &&
+        $trangThaiMoi == 'DaXacNhan'
+    ) {
+
+        $this->datPhongService
+            ->xacNhanThanhToan(
+                $datPhong->ma_don_dat_phong
+            );
+
+        $datPhong->thanhToans()
+            ->where(
+                'trang_thai_thanh_toan',
+                '!=',
+                'ThanhCong'
+            )
+            ->update([
+
+                'trang_thai_thanh_toan' => 'ThanhCong',
+
+                'ngay_thanh_toan' => now(),
+
+                // Vì thanh toán ngoài hệ thống
+                'ma_giao_dich' => null
+
+            ]);
+
+    } else {
+
+        $datPhong->update([
+            'trang_thai_dat_phong' => $trangThaiMoi
+        ]);
+
+    }
 }
 
     return back()->with(

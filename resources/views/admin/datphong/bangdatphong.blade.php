@@ -136,7 +136,6 @@
         bg-orange-100 text-orange-700
     @endif
     " @if(in_array($datPhong->trang_thai_dat_phong,[
-                                'ChoThanhToan',
                                 'DaTraPhong',
                                 'DaHuy',
                                 'KhongDen'
@@ -147,10 +146,13 @@
                                 @if($datPhong->trang_thai_dat_phong == 'ChoThanhToan')
 
                                 <option value="ChoThanhToan" selected>
-                                    Chờ thanh toán
+                                Chờ thanh toán
+                                </option>
+
+                                <option value="DaXacNhan">
+                                Đã xác nhận
                                 </option>
                                 @endif
-
                                 @if($datPhong->trang_thai_dat_phong == 'DaXacNhan')
                                 <option value="DaXacNhan" selected>Đã xác nhận</option>
                                 <option value="DaNhanPhong">Đã nhận phòng</option>
