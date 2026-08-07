@@ -293,46 +293,33 @@ foreach ($duLieu['chi_tiet_phong'] as $chiTiet)
     }
 public function xacNhanThanhToan($maDonDatPhong)
 {
-    DB::beginTransaction();
+    $datPhong = DatPhong::findOrFail($maDonDatPhong);
 
-    try {
+    if ($datPhong->trang_thai_dat_phong != 'ChoThanhToan') {
 
-        $datPhong = DatPhong::findOrFail($maDonDatPhong);
-
-        if ($datPhong->trang_thai_dat_phong != 'ChoThanhToan') {
-
-            throw new \Exception(
-                'Đơn đặt phòng không ở trạng thái chờ thanh toán.'
-            );
-
-        }
-
-        if (
-            $datPhong->han_thanh_toan &&
-            now()->gt($datPhong->han_thanh_toan)
-        ) {
-
-            throw new \Exception(
-                'Đơn đặt phòng đã hết hạn thanh toán.'
-            );
-
-        }
-
-        $datPhong->trang_thai_dat_phong = 'DaXacNhan';
-        $datPhong->han_thanh_toan = null;
-        $datPhong->save();
-
-        DB::commit();
-
-        return $datPhong;
-
-    } catch (\Exception $e) {
-
-        DB::rollBack();
-
-        throw $e;
+        throw new \Exception(
+            'Đơn đặt phòng không ở trạng thái chờ thanh toán.'
+        );
 
     }
+
+    if (
+        $datPhong->han_thanh_toan &&
+        now()->gt($datPhong->han_thanh_toan)
+    ) {
+
+        throw new \Exception(
+            'Đơn đặt phòng đã hết hạn thanh toán.'
+        );
+
+    }
+
+    $datPhong->update([
+        'trang_thai_dat_phong' => 'DaXacNhan',
+        'han_thanh_toan' => null,
+    ]);
+
+    return $datPhong;
 }
    public function huyDatPhong($maDonDatPhong)
 {

@@ -130,7 +130,8 @@
                             <td class="px-6 py-4">
 
                                 <input type="checkbox" class="chon-phong w-5 h-5" name="loai_phong[]"
-                                    value="{{ $item['loaiPhong']->ma_loai_phong }}">
+                                    value="{{ $item['loaiPhong']->ma_loai_phong }}"
+                                    data-gia="{{ $item['loaiPhong']->gia_co_ban }}">
 
                             </td>
 
@@ -199,6 +200,75 @@
             </div>
 
         </div>
+        <div class="mt-8 bg-slate-50 rounded-2xl p-6">
+
+            <h3 class="text-xl font-bold text-[#061755] mb-4">
+                Thanh toán
+            </h3>
+
+            <div class="mb-4">
+
+                <p class="text-lg">
+                    Tổng tiền:
+                    <span id="tongTienHienThi" class="font-bold text-blue-600">
+                        0đ
+                    </span>
+                </p>
+
+            </div>
+
+            <div class="space-y-3">
+
+                <label class="flex items-center gap-3">
+
+                    <input type="radio" name="loai_thanh_toan" value="DatCoc" checked required>
+
+                    <span>
+                        Đặt cọc 30%
+                        (<span id="tienDatCoc">0đ</span>)
+                    </span>
+
+                </label>
+
+                <label class="flex items-center gap-3">
+
+                    <input type="radio" name="loai_thanh_toan" value="ThanhToanToanBo">
+
+                    <span>
+                        Thanh toán toàn bộ
+                        (<span id="tienToanBo">0đ</span>)
+                    </span>
+
+                </label>
+
+            </div>
+            <hr class="my-6">
+
+            <h3 class="text-xl font-bold text-[#061755] mb-4">
+                Phương thức thanh toán
+            </h3>
+
+            <div class="space-y-3">
+
+                <label class="flex items-center gap-3">
+
+                    <input type="radio" name="phuong_thuc_thanh_toan" value="TienMat" checked>
+
+                    <span>Tiền mặt</span>
+
+                </label>
+
+                <label class="flex items-center gap-3">
+
+                    <input type="radio" name="phuong_thuc_thanh_toan" value="ChuyenKhoan">
+
+                    <span>Chuyển khoản</span>
+
+                </label>
+
+            </div>
+
+        </div>
         <div class="mt-6 flex flex-wrap gap-4">
 
             <button type="submit"
@@ -226,15 +296,50 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-    const checkboxes = document.querySelectorAll('.chon-phong');
+    const ngayNhan = new Date("{{ $duLieuDatPhong['ngay_nhan_phong'] }}");
+    const ngayTra = new Date("{{ $duLieuDatPhong['ngay_tra_phong'] }}");
 
-    checkboxes.forEach(function(checkbox) {
+    const soDem = Math.round(
+        (ngayTra - ngayNhan) / (1000 * 60 * 60 * 24)
+    );
+
+    function capNhatTongTien() {
+
+        let tongTien = 0;
+
+        document.querySelectorAll('.chon-phong').forEach(function(checkbox) {
+
+            const dong = checkbox.closest('tr');
+            const soLuong = dong.querySelector('.so-luong');
+
+            if (checkbox.checked) {
+
+                tongTien +=
+                    parseFloat(checkbox.dataset.gia) *
+                    parseInt(soLuong.value) *
+                    soDem;
+
+            }
+
+        });
+
+        document.getElementById('tongTienHienThi').innerText =
+            tongTien.toLocaleString('vi-VN') + 'đ';
+
+        document.getElementById('tienDatCoc').innerText =
+            Math.round(tongTien * 0.3).toLocaleString('vi-VN') + 'đ';
+
+        document.getElementById('tienToanBo').innerText =
+            tongTien.toLocaleString('vi-VN') + 'đ';
+
+    }
+
+    // Bật/tắt số lượng và cập nhật tổng tiền
+    document.querySelectorAll('.chon-phong').forEach(function(checkbox) {
 
         checkbox.addEventListener('change', function() {
 
-            const row = this.closest('tr');
-
-            const soLuong = row.querySelector('.so-luong');
+            const soLuong = this.closest('tr').querySelector('.so-luong');
 
             if (this.checked) {
                 soLuong.disabled = false;
@@ -244,32 +349,43 @@ document.addEventListener('DOMContentLoaded', function() {
                 soLuong.value = 1;
             }
 
+            capNhatTongTien();
+
         });
 
     });
 
+    // Khi thay đổi số lượng
+    document.querySelectorAll('.so-luong').forEach(function(input) {
+
+        input.addEventListener('input', capNhatTongTien);
+
+    });
+
+    // Kiểm tra trước khi submit
     document.querySelector('form').addEventListener('submit', function(e) {
 
         const daChon = document.querySelectorAll('.chon-phong:checked');
 
         if (daChon.length === 0) {
+
             e.preventDefault();
 
             alert('Vui lòng chọn ít nhất một loại phòng.');
 
             return;
+
         }
 
         let hopLe = true;
 
         daChon.forEach(function(item) {
 
-            const row = item.closest('tr');
-
-            const soLuong = row.querySelector('.so-luong');
+            const soLuong =
+                item.closest('tr').querySelector('.so-luong');
 
             if (
-                soLuong.value == '' ||
+                soLuong.value === '' ||
                 parseInt(soLuong.value) < 1 ||
                 parseInt(soLuong.value) > parseInt(soLuong.max)
             ) {
@@ -279,14 +395,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         if (!hopLe) {
+
             e.preventDefault();
 
             alert('Số lượng phòng không hợp lệ.');
 
-            return;
         }
 
     });
+
+    capNhatTongTien();
 
 });
 </script>

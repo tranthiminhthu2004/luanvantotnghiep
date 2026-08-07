@@ -13,6 +13,7 @@ use App\Models\LichPhong;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Services\DatPhongService;
+use App\Models\ThanhToan;
 
 class AdminDatPhongController extends Controller
 {
@@ -276,6 +277,12 @@ public function store(Request $request)
 
         'loai_phong' =>
             'required|array|min:1',
+        
+        'loai_thanh_toan' =>
+        'required|in:DatCoc,ThanhToanToanBo',
+
+        'phuong_thuc_thanh_toan' =>
+        'required|in:TienMat,ChuyenKhoan',
 
     ], [
 
@@ -332,6 +339,18 @@ public function store(Request $request)
 
         'loai_phong.required' =>
             'Vui lòng chọn ít nhất một loại phòng.',
+            
+        'loai_thanh_toan.required' =>
+        'Vui lòng chọn loại thanh toán.',
+
+        'loai_thanh_toan.in' =>
+        'Loại thanh toán không hợp lệ.',
+
+        'phuong_thuc_thanh_toan.required' =>
+            'Vui lòng chọn phương thức thanh toán.',
+
+        'phuong_thuc_thanh_toan.in' =>
+            'Phương thức thanh toán không hợp lệ.',
 
     ]);
 
@@ -383,7 +402,7 @@ try {
         ];
     }
 
-    $this->datPhongService->taoDonDatPhong([
+    $datPhong = $this->datPhongService->taoDonDatPhong([
 
         'ma_nguoi_dung' =>
             auth()->user()->ma_nguoi_dung,
@@ -425,6 +444,33 @@ try {
             $chiTietPhong
 
     ]);
+    $soTienThanhToan = $datPhong->tong_tien;
+
+if ($request->loai_thanh_toan == 'DatCoc')
+{
+    $soTienThanhToan = round(
+        $datPhong->tong_tien * 0.3
+    );
+}
+
+ThanhToan::create([
+
+    'ma_don_dat_phong' =>
+        $datPhong->ma_don_dat_phong,
+
+    'loai_thanh_toan' =>
+        $request->loai_thanh_toan,
+
+    'so_tien' =>
+        $soTienThanhToan,
+
+    'phuong_thuc_thanh_toan' =>
+        $request->phuong_thuc_thanh_toan,
+
+    'trang_thai_thanh_toan' =>
+        'ChoXuLy',
+
+]);
 
     session()->forget(
         'duLieuDatPhong'
@@ -531,23 +577,26 @@ else
                 $datPhong->ma_don_dat_phong
             );
 
-        $datPhong->thanhToans()
-            ->where(
-                'trang_thai_thanh_toan',
-                '!=',
-                'ThanhCong'
-            )
-            ->update([
+       $datPhong->thanhToans()
+    ->where(
+        'trang_thai_thanh_toan',
+        '!=',
+        'ThanhCong'
+    )
+    ->update([
 
-                'trang_thai_thanh_toan' => 'ThanhCong',
+        'trang_thai_thanh_toan' => 'ThanhCong',
 
-                'ngay_thanh_toan' => now(),
+        'ngay_thanh_toan' => now(),
 
-                // Vì thanh toán ngoài hệ thống
-                'ma_giao_dich' => null
+        'ma_giao_dich' => null,
 
-            ]);
+        'phuong_thuc_thanh_toan' =>
+            $datPhong->thanhToans
+                ->first()
+                ?->phuong_thuc_thanh_toan
 
+    ]);
     } else {
 
         $datPhong->update([

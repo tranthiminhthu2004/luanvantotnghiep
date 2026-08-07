@@ -14,6 +14,7 @@ use App\Services\DatPhongService;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\DatPhongThanhCongMail;
+use Illuminate\Support\Facades\DB;
 
 class UserThanhToanController extends Controller
 {
@@ -334,72 +335,58 @@ public function vnpayReturn(Request $request)
             );
     }
 
-    // Thanh toán thất bại
-    if ($request->vnp_ResponseCode != '00') {
+  // Thanh toán chưa thành công
+if ($request->vnp_ResponseCode != '00') {
 
-        ThanhToan::where(
-            'ma_don_dat_phong',
-            $maDonDatPhong
-        )->update([
-            'trang_thai_thanh_toan' => 'ThatBai'
-        ]);
-
-        return redirect()
-            ->route('lichsudatphong.index')
-            ->with(
-                'warning',
-                'Thanh toán chưa thành công.'
-            );
-    }
-
-    try {
-
-        $datPhong = $this->datPhongService
-            ->xacNhanThanhToan(
-                $maDonDatPhong
-            );
-
-        $thanhToan = ThanhToan::where(
-            'ma_don_dat_phong',
-            $maDonDatPhong
-        )->firstOrFail();
-
-        $thanhToan->update([
-
-            'trang_thai_thanh_toan' => 'ThanhCong',
-
-            'ma_giao_dich' => $request->vnp_TransactionNo,
-
-            'ngay_thanh_toan' => now()
-
-        ]);
-        
-
-        $datPhong->load([
-
-            'khachSan',
-
-            'chiTietDatPhong.loaiPhong',
-
-            'thanhToans'
-
-        ]);
-
-        Mail::to(
-            $datPhong->email_khach
-        )->send(
-            new DatPhongThanhCongMail(
-                $datPhong
-            )
+    return redirect()
+        ->route('lichsudatphong.index')
+        ->with(
+            'warning',
+            'Thanh toán chưa thành công. Đơn đặt phòng vẫn được giữ trong 24 giờ, bạn có thể thanh toán lại trước khi hết hạn.'
         );
+}
 
-        session()->forget('du_lieu_vnpay');
-        session()->forget('xac_nhan_dat_phong');
+   try {
 
-        return redirect()
-            ->route('datphong.thanhcong');
+    DB::beginTransaction();
 
-     } catch (\Throwable $e) {
+    $thanhToan = ThanhToan::where(
+        'ma_don_dat_phong',
+        $maDonDatPhong
+    )->firstOrFail();
+
+    $thanhToan->update([
+        'trang_thai_thanh_toan' => 'ThanhCong',
+        'ma_giao_dich' => $request->vnp_TransactionNo,
+        'ngay_thanh_toan' => now()
+    ]);
+
+    $datPhong = $this->datPhongService
+        ->xacNhanThanhToan($maDonDatPhong);
+
+    DB::commit();
+
+    $datPhong->load([
+        'khachSan',
+        'chiTietDatPhong.loaiPhong',
+        'thanhToans'
+    ]);
+
+    Mail::to(
+        $datPhong->email_khach
+    )->send(
+        new DatPhongThanhCongMail($datPhong)
+    );
+
+    session()->forget('du_lieu_vnpay');
+    session()->forget('xac_nhan_dat_phong');
+
+    return redirect()
+        ->route('datphong.thanhcong');
+
+} catch (\Throwable $e) {
+
+    DB::rollBack();
 
     return redirect()
         ->route('lichsudatphong.index')
@@ -407,7 +394,5 @@ public function vnpayReturn(Request $request)
             'error',
             $e->getMessage()
         );
-
 }
-}
-}
+}}

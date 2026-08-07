@@ -7,6 +7,7 @@ use App\Models\LichPhong;
 use App\Models\ThanhToan;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\DB;
 
 class HuyDonDatPhongQuaHanJob implements ShouldQueue
 {
@@ -29,45 +30,37 @@ class HuyDonDatPhongQuaHanJob implements ShouldQueue
                 'trang_thai_dat_phong',
                 'ChoThanhToan'
             )
-            ->whereNotNull(
-                'han_thanh_toan'
-            )
-            ->where(
-                'han_thanh_toan',
-                '<',
-                now()
-            )
+            ->whereNotNull('han_thanh_toan')
+            ->where('han_thanh_toan', '<', now())
             ->get();
 
-        foreach ($danhSachDon as $datPhong)
-        {
-            $datPhong->update([
+        foreach ($danhSachDon as $datPhong) {
 
-                'trang_thai_dat_phong' =>
+            DB::transaction(function () use ($datPhong) {
 
-                    'DaHuy',
+                $datPhong->update([
+                    'trang_thai_dat_phong' => 'DaHuy',
+                    'han_thanh_toan' => null,
+                ]);
 
-                'han_thanh_toan' =>
+                ThanhToan::where(
+                        'ma_don_dat_phong',
+                        $datPhong->ma_don_dat_phong
+                    )
+                    ->where(
+                        'trang_thai_thanh_toan',
+                        'ChoXuLy'
+                    )
+                    ->update([
+                        'trang_thai_thanh_toan' => 'ThatBai',
+                    ]);
 
-                    null
+                LichPhong::where(
+                    'ma_don_dat_phong',
+                    $datPhong->ma_don_dat_phong
+                )->delete();
 
-            ]);
-
-            ThanhToan::where(
-                'ma_don_dat_phong',
-                $datPhong->ma_don_dat_phong
-            )->update([
-
-                'trang_thai_thanh_toan' =>
-
-                    'ThatBai'
-
-            ]);
-
-            LichPhong::where(
-                'ma_don_dat_phong',
-                $datPhong->ma_don_dat_phong
-            )->delete();
+            });
         }
     }
 }
