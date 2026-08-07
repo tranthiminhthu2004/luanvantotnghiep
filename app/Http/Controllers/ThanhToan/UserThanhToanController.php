@@ -12,8 +12,6 @@ use App\Models\KhachSan;
 use App\Services\VNPayService;
 use App\Services\DatPhongService;
 
-use Illuminate\Support\Facades\Mail;
-use App\Mail\DatPhongThanhCongMail;
 use Illuminate\Support\Facades\DB;
 
 class UserThanhToanController extends Controller
@@ -366,18 +364,6 @@ if ($request->vnp_ResponseCode != '00') {
 
     DB::commit();
 
-    $datPhong->load([
-        'khachSan',
-        'chiTietDatPhong.loaiPhong',
-        'thanhToans'
-    ]);
-
-    Mail::to(
-        $datPhong->email_khach
-    )->send(
-        new DatPhongThanhCongMail($datPhong)
-    );
-
     session()->forget('du_lieu_vnpay');
     session()->forget('xac_nhan_dat_phong');
 
@@ -395,4 +381,5 @@ if ($request->vnp_ResponseCode != '00') {
             $e->getMessage()
         );
 }
-}}
+}
+}

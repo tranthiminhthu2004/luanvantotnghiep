@@ -1,6 +1,6 @@
 <div class="bg-white rounded-2xl shadow-2xl p-5">
 
-    <form method="GET" action="{{ route('khachsan.show',$khachSan->ma_khach_san) }}">
+    <form id="formKiemTraPhong" method="GET" action="{{ route('khachsan.show',$khachSan->ma_khach_san) }}">
 
         <div class="grid grid-cols-12 gap-3 items-end">
 
@@ -229,144 +229,81 @@
 
 </div>
 <script>
-let adult =
-    parseInt(
-        document.getElementById('adultInput').value
-    );
+document.addEventListener("DOMContentLoaded", function () {
 
-let child =
-    parseInt(
-        document.getElementById('childInput').value
-    );
+    // ==========================
+    // Khách
+    // ==========================
+    let adult = parseInt(document.getElementById('adultInput').value);
+    let child = parseInt(document.getElementById('childInput').value);
+    let elder = parseInt(document.getElementById('elderInput').value);
+    let room = parseInt(document.getElementById('roomInput').value);
 
-let elder =
-    parseInt(
-        document.getElementById('elderInput').value
-    );
+    const guestButton = document.getElementById('guestButton');
+    const guestDropdown = document.getElementById('guestDropdown');
 
-let room =
-    parseInt(
-        document.getElementById('roomInput').value
-    );
-
-document
-    .getElementById('guestButton')
-    .addEventListener('click', function() {
-
-        document
-            .getElementById('guestDropdown')
-            .classList.toggle('hidden');
-
+    guestButton.addEventListener('click', function () {
+        guestDropdown.classList.toggle('hidden');
     });
 
-function updateSummary() {
-    document
-        .getElementById('guestSummary')
-        .innerText =
-        adult +
-        ' người lớn · ' +
-        child +
-        ' trẻ em · ' +
-        elder +
-        ' người cao tuổi · ' +
-        room +
-        ' phòng';
-}
-
-function changeValue(type, amount) {
-    if (type === 'adult') {
-        adult = Math.max(1, adult + amount);
-
-        document.getElementById('adultText').innerText = adult;
-
-        document.getElementById('adultInput').value = adult;
+    function updateSummary() {
+        document.getElementById('guestSummary').innerText =
+            adult +
+            ' người lớn · ' +
+            child +
+            ' trẻ em · ' +
+            elder +
+            ' người cao tuổi · ' +
+            room +
+            ' phòng';
     }
 
-    if (type === 'child') {
-        child = Math.max(0, child + amount);
+    window.changeValue = function(type, amount) {
 
-        document.getElementById('childText').innerText = child;
+        if (type === 'adult') {
+            adult = Math.max(1, adult + amount);
+            document.getElementById('adultText').innerText = adult;
+            document.getElementById('adultInput').value = adult;
+        }
 
-        document.getElementById('childInput').value = child;
-    }
+        if (type === 'child') {
+            child = Math.max(0, child + amount);
+            document.getElementById('childText').innerText = child;
+            document.getElementById('childInput').value = child;
+        }
 
-    if (type === 'elder') {
-        elder = Math.max(0, elder + amount);
+        if (type === 'elder') {
+            elder = Math.max(0, elder + amount);
+            document.getElementById('elderText').innerText = elder;
+            document.getElementById('elderInput').value = elder;
+        }
 
-        document.getElementById('elderText').innerText = elder;
+        if (type === 'room') {
+            room = Math.max(1, room + amount);
+            document.getElementById('roomText').innerText = room;
+            document.getElementById('roomInput').value = room;
+        }
 
-        document.getElementById('elderInput').value = elder;
-    }
-
-    if (type === 'room') {
-        room = Math.max(1, room + amount);
-
-        document.getElementById('roomText').innerText = room;
-
-        document.getElementById('roomInput').value = room;
-    }
+        updateSummary();
+    };
 
     updateSummary();
-}
 
-updateSummary();
-</script>
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-
-    // Thời gian hiện tại
+    // ==========================
+    // Flatpickr
+    // ==========================
     const now = new Date();
 
-    // Sau 14h thì không cho chọn hôm nay
     let minNgayNhan = "today";
 
-    if (now.getHours() >= 14) {
+    if (now.getHours() >= 22) {
         minNgayNhan = new Date().fp_incr(1);
     }
 
-    const ngayNhan = flatpickr("#ngay_nhan_phong", {
-
-        locale: "vn",
-
-        dateFormat: "d/m/Y",
-
-        minDate: minNgayNhan,
-
-        defaultDate: document.getElementById("ngay_nhan_phong").value ?
-            document.getElementById("ngay_nhan_phong").value :
-            null,
-
-        onChange: function(selectedDates) {
-
-            if (selectedDates.length === 0) return;
-
-            const ngayNhanDaChon = selectedDates[0];
-
-            // Chỉ cập nhật ngày nhỏ nhất được chọn
-            ngayTra.set(
-                "minDate",
-                ngayNhanDaChon.fp_incr(1)
-            );
-
-            // Nếu ngày trả đang chọn không hợp lệ thì xóa
-            const ngayTraDangChon =
-                ngayTra.selectedDates[0];
-
-            if (
-                ngayTraDangChon &&
-                ngayTraDangChon <= ngayNhanDaChon
-            ) {
-                ngayTra.clear();
-            }
-
-        }
-
-    });
-
     const minNgayTra =
-        now.getHours() >= 14 ?
-        new Date().fp_incr(2) :
-        new Date().fp_incr(1);
+        now.getHours() >= 22
+            ? new Date().fp_incr(2)
+            : new Date().fp_incr(1);
 
     const ngayTra = flatpickr("#ngay_tra_phong", {
 
@@ -376,27 +313,103 @@ document.addEventListener("DOMContentLoaded", function() {
 
         minDate: minNgayTra,
 
-        defaultDate: document.getElementById("ngay_tra_phong").value ?
-            document.getElementById("ngay_tra_phong").value :
-            null
+        defaultDate:
+            document.getElementById("ngay_tra_phong").value || null
 
     });
-    document.addEventListener("click", function(e) {
 
-        const button =
-            document.getElementById("guestButton");
+    flatpickr("#ngay_nhan_phong", {
 
-        const dropdown =
-            document.getElementById("guestDropdown");
+        locale: "vn",
 
-        if (
-            !button.contains(e.target) &&
-            !dropdown.contains(e.target)
-        ) {
-            dropdown.classList.add("hidden");
+        dateFormat: "d/m/Y",
+
+        minDate: minNgayNhan,
+
+        defaultDate:
+            document.getElementById("ngay_nhan_phong").value || null,
+
+        onChange: function (selectedDates) {
+
+            if (!selectedDates.length) return;
+
+            const ngayNhanDaChon = selectedDates[0];
+
+            ngayTra.set(
+                "minDate",
+                ngayNhanDaChon.fp_incr(1)
+            );
+
+            const ngayTraDangChon = ngayTra.selectedDates[0];
+
+            if (
+                ngayTraDangChon &&
+                ngayTraDangChon <= ngayNhanDaChon
+            ) {
+                ngayTra.clear();
+            }
         }
 
     });
+
+    // ==========================
+    // Đóng dropdown khi click ngoài
+    // ==========================
+    document.addEventListener("click", function (e) {
+
+        if (
+            !guestButton.contains(e.target) &&
+            !guestDropdown.contains(e.target)
+        ) {
+            guestDropdown.classList.add("hidden");
+        }
+
+    });
+
+});
+// ==========================
+// Ajax kiểm tra phòng
+// ==========================
+const form = document.getElementById("formKiemTraPhong");
+
+form.addEventListener("submit", async function (e) {
+
+    e.preventDefault();
+    document.getElementById("ketQuaPhong").innerHTML = `
+    <div class="py-10 text-center">
+        <i class="fa-solid fa-spinner fa-spin text-3xl text-blue-600"></i>
+        <p class="mt-3 text-gray-500">
+            Đang kiểm tra phòng trống...
+        </p>
+    </div>
+`;
+
+    const url =
+        form.action +
+        "?" +
+        new URLSearchParams(new FormData(form)).toString();
+
+    try {
+
+        const response = await fetch(url, {
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            }
+        });
+
+        const html = await response.text();
+
+        document.getElementById("ketQuaPhong").innerHTML = html;
+        document.getElementById("ketQuaPhong").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
 
 });
 </script>

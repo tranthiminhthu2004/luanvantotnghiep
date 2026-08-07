@@ -7,6 +7,8 @@ use App\Models\ChiTietDatPhong;
 use App\Models\LoaiPhong;
 use App\Models\LichPhong;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\DatPhongThanhCongMail;
 use Illuminate\Support\Facades\DB;
 
 class DatPhongService
@@ -318,6 +320,15 @@ public function xacNhanThanhToan($maDonDatPhong)
         'trang_thai_dat_phong' => 'DaXacNhan',
         'han_thanh_toan' => null,
     ]);
+
+    $datPhong->load([
+        'khachSan',
+        'chiTietDatPhong.loaiPhong',
+        'thanhToans'
+    ]);
+
+    Mail::to($datPhong->email_khach)
+        ->send(new DatPhongThanhCongMail($datPhong));
 
     return $datPhong;
 }

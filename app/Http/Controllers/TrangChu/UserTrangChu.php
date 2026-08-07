@@ -62,6 +62,17 @@ class UserTrangChu extends Controller
     ->orderByDesc('ngay_tao')
     ->limit(4)
     ->get();
+    if ($request->ajax()) {
+
+    return view(
+        'users.trangchu.ketqua',
+        [
+            'khachSans' => $khachSansTimKiem,
+            'diaDiemDuLichs' => $diaDiemDuLichsTimKiem,
+        ]
+    );
+
+}
     
         return view(
             'users.index',

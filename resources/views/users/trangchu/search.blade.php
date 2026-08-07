@@ -29,7 +29,7 @@
         <!-- Search Box -->
         <div class="mt-8 lg:mt-32">
 
-            <form method="GET" action="{{ route('timkiem.trangchu') }}">
+            <form id="formTimKiemTrangChu" method="GET" action="{{ route('timkiem.trangchu') }}">
 
                 <div class="bg-white rounded-2xl shadow-2xl p-5">
 
@@ -270,188 +270,227 @@
 </section>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
 
-    let trangChuAdult =
-        parseInt(
-            document.getElementById('trangChuAdultInput').value
-        );
+    // ==========================
+    // Guest
+    // ==========================
+    let trangChuAdult = parseInt(document.getElementById('trangChuAdultInput').value);
+    let trangChuChild = parseInt(document.getElementById('trangChuChildInput').value);
+    let trangChuElder = parseInt(document.getElementById('trangChuElderInput').value);
+    let trangChuRoom = parseInt(document.getElementById('trangChuRoomInput').value);
 
-    let trangChuChild =
-        parseInt(
-            document.getElementById('trangChuChildInput').value
-        );
+    const trangChuGuestButton = document.getElementById('trangChuGuestButton');
+    const trangChuGuestDropdown = document.getElementById('trangChuGuestDropdown');
 
-    let trangChuElder =
-        parseInt(
-            document.getElementById('trangChuElderInput').value
-        );
-
-    let trangChuRoom =
-        parseInt(
-            document.getElementById('trangChuRoomInput').value
-        );
-
-    const trangChuGuestButton =
-        document.getElementById('trangChuGuestButton');
-
-    const trangChuGuestDropdown =
-        document.getElementById('trangChuGuestDropdown');
-
-    trangChuGuestButton.addEventListener('click', function() {
-
+    trangChuGuestButton.addEventListener('click', function () {
         trangChuGuestDropdown.classList.toggle('hidden');
-
     });
 
     window.trangChuChangeValue = function(type, amount) {
 
-        if (type === 'adult') {
-
-            trangChuAdult = Math.max(
-                1,
-                trangChuAdult + amount
-            );
-
-            document.getElementById('trangChuAdultText').innerText =
-                trangChuAdult;
-
-            document.getElementById('trangChuAdultInput').value =
-                trangChuAdult;
-
+        if(type === 'adult'){
+            trangChuAdult = Math.max(1, trangChuAdult + amount);
+            document.getElementById('trangChuAdultText').innerText = trangChuAdult;
+            document.getElementById('trangChuAdultInput').value = trangChuAdult;
         }
 
-        if (type === 'child') {
-
-            trangChuChild = Math.max(
-                0,
-                trangChuChild + amount
-            );
-
-            document.getElementById('trangChuChildText').innerText =
-                trangChuChild;
-
-            document.getElementById('trangChuChildInput').value =
-                trangChuChild;
-
+        if(type === 'child'){
+            trangChuChild = Math.max(0, trangChuChild + amount);
+            document.getElementById('trangChuChildText').innerText = trangChuChild;
+            document.getElementById('trangChuChildInput').value = trangChuChild;
         }
 
-        if (type === 'elder') {
-
-            trangChuElder = Math.max(
-                0,
-                trangChuElder + amount
-            );
-
-            document.getElementById('trangChuElderText').innerText =
-                trangChuElder;
-
-            document.getElementById('trangChuElderInput').value =
-                trangChuElder;
-
+        if(type === 'elder'){
+            trangChuElder = Math.max(0, trangChuElder + amount);
+            document.getElementById('trangChuElderText').innerText = trangChuElder;
+            document.getElementById('trangChuElderInput').value = trangChuElder;
         }
 
-        if (type === 'room') {
-
-            trangChuRoom = Math.max(
-                1,
-                trangChuRoom + amount
-            );
-
-            document.getElementById('trangChuRoomText').innerText =
-                trangChuRoom;
-
-            document.getElementById('trangChuRoomInput').value =
-                trangChuRoom;
-
+        if(type === 'room'){
+            trangChuRoom = Math.max(1, trangChuRoom + amount);
+            document.getElementById('trangChuRoomText').innerText = trangChuRoom;
+            document.getElementById('trangChuRoomInput').value = trangChuRoom;
         }
 
-        trangChuUpdateSummary();
-
+        updateSummary();
     }
 
-    function trangChuUpdateSummary() {
-
-        document
-            .getElementById('trangChuGuestSummary')
-            .innerText =
+    function updateSummary() {
+        document.getElementById('trangChuGuestSummary').innerText =
             trangChuAdult + ' người lớn · ' +
             trangChuChild + ' trẻ em · ' +
             trangChuElder + ' người cao tuổi · ' +
             trangChuRoom + ' phòng';
-
     }
 
-    trangChuUpdateSummary();
+    updateSummary();
 
-    // Xác định ngày nhận phòng tối thiểu
+    document.addEventListener('click', function(e){
+        if(
+            !trangChuGuestButton.contains(e.target) &&
+            !trangChuGuestDropdown.contains(e.target)
+        ){
+            trangChuGuestDropdown.classList.add('hidden');
+        }
+    });
+
+    // ==========================
+    // Flatpickr
+    // ==========================
+
     const now = new Date();
+    let minCheckIn = new Date();
 
-    const minCheckIn = new Date();
-
-    if (now.getHours() >= 14) {
-
+    if(now.getHours() >= 22){
         minCheckIn.setDate(minCheckIn.getDate() + 1);
     }
 
-    const trangChuNgayNhan = flatpickr("#trang_chu_ngay_nhan_phong", {
-        dateFormat: "d/m/Y",
-        defaultDate: document.getElementById("trang_chu_ngay_nhan_phong").value || null,
-        minDate: minCheckIn,
-        allowInput: false,
-        disableMobile: true
+    const trangChuNgayTra = flatpickr("#trang_chu_ngay_tra_phong",{
+        locale:"vn",
+        dateFormat:"d/m/Y",
+        minDate:new Date(minCheckIn.getTime() + 86400000)
     });
 
-    const minCheckOut = new Date(minCheckIn);
-    minCheckOut.setDate(minCheckOut.getDate() + 1);
+    flatpickr("#trang_chu_ngay_nhan_phong",{
+        locale:"vn",
+        dateFormat:"d/m/Y",
+        minDate:minCheckIn,
 
-    const trangChuNgayTra = flatpickr("#trang_chu_ngay_tra_phong", {
-        dateFormat: "d/m/Y",
-        defaultDate: document.getElementById("trang_chu_ngay_tra_phong").value || null,
-        minDate: minCheckOut,
-        allowInput: false,
-        disableMobile: true
-    });
+        onChange:function(selectedDates){
 
-    document
-        .getElementById('trang_chu_ngay_nhan_phong')
-        .addEventListener('change', function() {
+            if(selectedDates.length==0) return;
 
-            if (!this.value) {
-                return;
-            }
+            let minTra = new Date(selectedDates[0]);
 
-            let parts = this.value.split('/');
+            minTra.setDate(minTra.getDate()+1);
 
-            let date = new Date(
-                parts[2],
-                parts[1] - 1,
-                parts[0]
-            );
-
-            date.setDate(
-                date.getDate() + 1
-            );
-
-            trangChuNgayTra.set(
-                'minDate',
-                date
-            );
+            trangChuNgayTra.set('minDate',minTra);
 
             trangChuNgayTra.clear();
 
-        });
-
-    document.addEventListener('click', function(event) {
-
-        if (
-            !trangChuGuestButton.contains(event.target) &&
-            !trangChuGuestDropdown.contains(event.target)
-        ) {
-            trangChuGuestDropdown.classList.add('hidden');
         }
-
     });
 
+    // ==========================
+    // Khởi tạo Swiper
+    // ==========================
+
+    function khoiTaoSwiperKetQua() {
+
+        if(document.querySelector('.diaDiemDuLichSwiper')){
+
+            new Swiper(".diaDiemDuLichSwiper",{
+                slidesPerView:1,
+                spaceBetween:24,
+                navigation:{
+                    nextEl:".diaDiemDuLichNext",
+                    prevEl:".diaDiemDuLichPrev"
+                },
+                breakpoints:{
+                    640:{slidesPerView:1},
+                    768:{slidesPerView:2},
+                    1024:{slidesPerView:3}
+                }
+            });
+
+        }
+
+        if(document.querySelector('.khachSanSwiper')){
+
+            new Swiper(".khachSanSwiper",{
+                slidesPerView:1,
+                spaceBetween:24,
+                navigation:{
+                    nextEl:".khachSanNext",
+                    prevEl:".khachSanPrev"
+                },
+                breakpoints:{
+                    640:{slidesPerView:1},
+                    768:{slidesPerView:2},
+                    1024:{slidesPerView:3}
+                }
+            });
+
+        }
+
+    }
+
+    // ==========================
+    // Ajax tìm kiếm
+    // ==========================
+document
+    .getElementById('formTimKiemTrangChu')
+    .addEventListener('submit', function (e) {
+
+        e.preventDefault();
+
+        const form = this;
+
+        const ketQua =
+            document.getElementById('ketQuaTimKiemTrangChu');
+
+        const noiDungTrangChu =
+            document.getElementById('noiDungTrangChu');
+
+        if (!ketQua || !noiDungTrangChu) {
+            console.error('Không tìm thấy phần tử HTML.');
+            return;
+        }
+
+        // Hiện loading
+        ketQua.classList.remove('hidden');
+
+        ketQua.innerHTML = `
+            <div class="py-10 text-center">
+                <i class="fa-solid fa-spinner fa-spin text-3xl text-blue-600"></i>
+                <p class="mt-3 text-gray-500">
+                    Đang tìm thông tin...
+                </p>
+            </div>
+        `;
+
+        const url =
+            form.action +
+            '?' +
+            new URLSearchParams(
+                new FormData(form)
+            ).toString();
+
+        fetch(url, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.text())
+        .then(html => {
+
+            ketQua.innerHTML = html;
+
+            noiDungTrangChu.classList.add('hidden');
+
+            // Khởi tạo lại Swiper
+            if (typeof khoiTaoSwiperKetQua === 'function') {
+                khoiTaoSwiperKetQua();
+            }
+
+            ketQua.scrollIntoView({
+                behavior: 'smooth'
+            });
+
+        })
+        .catch(error => {
+
+            ketQua.innerHTML = `
+                <div class="py-10 text-center text-red-500">
+                    Có lỗi xảy ra. Vui lòng thử lại.
+                </div>
+            `;
+
+            console.error(error);
+
+        });
+
+    });
 });
 </script>

@@ -23,11 +23,13 @@
 
     @include('components.navbar')
 
-    <main class="pt-20 lg:pt-24">
+<main class="pt-20 lg:pt-24">
 
-        @include('users.khachsan.search')
+    @include('users.khachsan.search')
 
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <div id="ketQuaKhachSan">
 
             <div class="flex flex-col lg:flex-row gap-6">
 
@@ -41,15 +43,15 @@
 
                         @forelse($khachSans as $khachSan)
 
-                        @include('users.khachsan.thekhachsan')
+                            @include('users.khachsan.thekhachsan')
 
                         @empty
 
-                        <div class="bg-white rounded-2xl border p-10 text-center text-gray-500">
+                            <div class="bg-white rounded-2xl border p-10 text-center text-gray-500">
 
-                            Chưa có khách sạn nào
+                                Chưa có khách sạn nào
 
-                        </div>
+                            </div>
 
                         @endforelse
 
@@ -65,10 +67,13 @@
 
             </div>
 
-        </section>
+        </div>
 
-    </main>
-    @include('components.footer')
+    </section>
+
+</main>
+
+@include('components.footer')
 </body>
 
 </html>

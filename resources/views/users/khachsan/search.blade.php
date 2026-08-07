@@ -28,7 +28,7 @@
 
         <!-- Search Box -->
         <div class="mt-16 lg:mt-56">
-            <form method="GET" action="{{ route('khachsan.timkiem') }}">
+            <form id="formTimKiemKhachSan" method="GET" action="{{ route('khachsan.timkiem') }}">
 
                 <div class="bg-white rounded-2xl shadow-2xl p-5">
 
@@ -341,7 +341,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Nếu sau 14h thì ngày nhận phòng tối thiểu là ngày mai
     let minNgayNhan = "today";
 
-    if (now.getHours() >= 14) {
+    if (now.getHours() >= 22) {
         minNgayNhan = new Date().fp_incr(1);
     }
 
@@ -352,9 +352,8 @@ document.addEventListener('DOMContentLoaded', function() {
         disableMobile: true
     });
 
-    // Ngày trả luôn sau ngày nhận ít nhất 1 ngày
     let minNgayTra =
-        now.getHours() >= 14 ?
+        now.getHours() >= 22 ?
         new Date().fp_incr(2) :
         new Date().fp_incr(1);
 

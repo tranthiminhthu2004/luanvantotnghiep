@@ -39,12 +39,15 @@
                 @include('users.chitietkhachsan.thongtinkhachsan')
 
                 @include('users.chitietkhachsan.formkiemtra')
+               <div id="ketQuaPhong">
 
-                @if($daKiemTraPhong)
+               @if($daKiemTraPhong)
 
-                @include('users.chitietkhachsan.danhsachloaiphong')
+               @include('users.chitietkhachsan.danhsachloaiphong')
 
-                @endif
+               @endif
+
+               </div>
 
                 @include('users.chitietkhachsan.bando')
 

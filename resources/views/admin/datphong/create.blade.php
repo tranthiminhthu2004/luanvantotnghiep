@@ -343,61 +343,36 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
-    const now = new Date();
-
-    // Sau 14h thì ngày nhận tối thiểu là ngày mai
-    let minNgayNhan = "today";
-
-    if (now.getHours() >= 14) {
-        minNgayNhan = new Date().fp_incr(1);
-    }
+    // Admin luôn được chọn ngày hôm nay
+    const minNgayNhan = "today";
 
     const ngayTra = flatpickr("#ngay_tra_phong", {
-
         dateFormat: "Y-m-d",
-
         altInput: true,
-
         altFormat: "d/m/Y",
-
         allowInput: false,
-
-        minDate: now.getHours() >= 14
-            ? new Date().fp_incr(2)
-            : new Date().fp_incr(1),
-
+        minDate: new Date().fp_incr(1),
         defaultDate: document.getElementById("ngay_tra_phong").value || null
-
     });
 
     flatpickr("#ngay_nhan_phong", {
-
         dateFormat: "Y-m-d",
-
         altInput: true,
-
         altFormat: "d/m/Y",
-
         allowInput: false,
-
         minDate: minNgayNhan,
-
         defaultDate: document.getElementById("ngay_nhan_phong").value || null,
 
         onChange: function(selectedDates) {
 
             if (!selectedDates.length) return;
 
-            // Ngày trả phải sau ít nhất 1 ngày
             const minCheckout = new Date(selectedDates[0]);
             minCheckout.setDate(minCheckout.getDate() + 1);
 
             ngayTra.clear();
-
             ngayTra.set("minDate", minCheckout);
-
         }
-
     });
 
 });

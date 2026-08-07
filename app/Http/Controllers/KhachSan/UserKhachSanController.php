@@ -424,6 +424,24 @@ $goiYPhong = $this->goiYPhongService->goiY(
 
 );
 
+if ($request->ajax()) {
+
+    return view(
+        'users.chitietkhachsan.danhsachloaiphong',
+        compact(
+            'khachSan',
+            'loaiPhongsDeXuat',
+            'tongNguoi',
+            'soPhong',
+            'sucChuaCanThiet',
+            'loaiPhongsKhac',
+            'daKiemTraPhong',
+            'goiYPhong'
+        )
+    );
+
+}
+
 return view(
     'users.chitietkhachsan.index',
     compact(
@@ -485,6 +503,17 @@ return view(
             ])
             ->get();
     }
+    if ($request->ajax()) {
+    return view(
+        'users.trangchu.ketquatrangchu',
+        compact(
+            'khachSans',
+            'diaDiems',
+            'tienNghis',
+            'diaDiemDuLichs'
+        )
+    );
+}
 
     return view(
         'users.khachsan.ketqua',

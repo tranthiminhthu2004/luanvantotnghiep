@@ -274,8 +274,6 @@
             <button type="submit"
                 class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-semibold transition">
 
-                <i class="fa-solid fa-check mr-2"></i>
-
                 Tạo đơn đặt phòng
 
             </button>

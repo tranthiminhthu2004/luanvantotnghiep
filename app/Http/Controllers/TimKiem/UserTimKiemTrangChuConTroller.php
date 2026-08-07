@@ -65,14 +65,25 @@ class UserTimKiemTrangChuController extends Controller
             ->withQueryString();
     }
 
+   if ($request->ajax()) {
     return view(
-        'users.timkiem.ketquatrangchu',
+        'users.trangchu.ketquatrangchu',
         compact(
-            'diaDiems',
             'diaDiemDaChon',
             'diaDiemDuLichs',
             'khachSans'
         )
     );
+}
+
+return view(
+    'users.trangchu.ketquatrangchu',
+    compact(
+        'diaDiems',
+        'diaDiemDaChon',
+        'diaDiemDuLichs',
+        'khachSans'
+    )
+);
 }
 }
