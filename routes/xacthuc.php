@@ -6,6 +6,7 @@ use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\NguoiDung\UserHoSoController;
+use App\Http\Controllers\Admin\AdminDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,21 +32,10 @@ Route::get(
 
 Route::get(
     '/dashboard',
-    function ()
-    {
-        if (
-            !auth()->check() ||
-            auth()->user()->ma_vai_tro != 1
-        )
-        {
-            abort(403);
-        }
-
-        return view('admin.dashboard');
-
-    }
-)->middleware('auth')
- ->name('dashboard');
+    [AdminDashboardController::class, 'index']
+)
+->middleware('auth')
+->name('dashboard');
 
 /*
 |--------------------------------------------------------------------------

@@ -53,10 +53,12 @@ class PhongService
             '<',
             $ngayTraPhong
         )
-        ->where(
-            'trang_thai',
-            'DaDat'
-        )
+       ->whereIn( 'trang_thai',
+    [
+        'TamGiu',
+        'DaDat'
+    ]
+)
         ->lockForUpdate()
         ->exists();
 
@@ -113,10 +115,12 @@ class PhongService
             'ma_phong',
             $phong->ma_phong
         )
-        ->where(
-            'trang_thai',
-            'DaDat'
-        )
+        ->whereIn( 'trang_thai',
+    [
+        'TamGiu',
+        'DaDat'
+    ]
+)
         ->where(
             'ngay',
             '>=',

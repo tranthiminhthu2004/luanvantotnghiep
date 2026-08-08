@@ -1,225 +1,418 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('admin.trangchinh.admin')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang Dashboard</title>
-</head>
+@section('title', 'Dashboard')
 
-<body>
-    @extends('admin.trangchinh.admin')
+@section('content')
 
-    @section('title','Dashboard')
+{{-- ========================================================= --}}
+{{-- THỐNG KÊ TỔNG QUAN --}}
+{{-- ========================================================= --}}
 
-    @section('content')
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
 
-    <!-- Thống kê 
+   {{-- Tổng khách sạn --}}
+<div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-        Tổng khách sạn 
-    <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition">
+    <div class="flex items-center gap-3">
 
-        <div class="flex items-center gap-4">
+        <div class="w-11 h-11 rounded-full bg-blue-100 flex items-center justify-center">
 
-            <div class="w-14 h-14 rounded-full bg-blue-500 flex items-center justify-center text-white text-2xl">
-
-                <i class="fa-solid fa-hotel"></i>
-
-            </div>
-
-            <div>
-
-                <h3 class="text-gray-500">
-                    Tổng khách sạn
-                </h3>
-            </div>
+            <i class="fa-solid fa-hotel text-blue-600 text-lg"></i>
 
         </div>
 
-    </div>-->
+        <div>
 
-    <!-- Địa điểm 
-    <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition">
+            <p class="text-base text-black">
+                Tổng số khách sạn
+            </p>
 
-        <div class="flex items-center gap-4">
-
-            <div class="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center text-white text-2xl">
-
-                <i class="fa-solid fa-mountain-sun"></i>
-
-            </div>
-
-            <div>
-
-                <h3 class="text-gray-500">
-                    Địa điểm du lịch
-                </h3>
-
-
-            </div>
-
-        </div>
-
-    </div>-->
-
-    <!-- Người dùng
-    <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition">
-
-        <div class="flex items-center gap-4">
-
-            <div class="w-14 h-14 rounded-full bg-purple-500 flex items-center justify-center text-white text-2xl">
-
-                <i class="fa-solid fa-users"></i>
-
-            </div>
-
-            <div>
-
-                <h3 class="text-gray-500">
-                    Người dùng
-                </h3>
-
-            </div>
-
-        </div>
-
-    </div> -->
-
-    <!-- Đặt phòng 
-    <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-md transition">
-
-        <div class="flex items-center gap-4">
-
-            <div class="w-14 h-14 rounded-full bg-orange-500 flex items-center justify-center text-white text-2xl">
-
-                <i class="fa-solid fa-calendar-check"></i>
-
-            </div>
-
-            <div>
-
-                <h3 class="text-gray-500">
-                    Đặt phòng
-                </h3>
-
-            </div>
+            <h3 class="text-2xl font-bold text-[#061755]">
+                {{ $tongKhachSan }}
+            </h3>
 
         </div>
 
     </div>
 
-    </div>-->
+</div>
 
-    <!-- Biểu đồ 
 
-    <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mt-6">-->
+{{-- Tổng người dùng --}}
+<div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
 
-    <!-- Doanh thu 
-    <div class="bg-white rounded-2xl p-6 shadow-sm">
+    <div class="flex items-center gap-3">
 
-        <h3 class="font-bold text-lg mb-4">
-            Doanh thu 6 tháng gần đây
-        </h3>
+        <div class="w-11 h-11 rounded-full bg-green-100 flex items-center justify-center">
 
-        <div class="h-[280px] flex items-center justify-center text-gray-400">
-
-            <i class="fa-solid fa-chart-line text-5xl"></i>
+            <i class="fa-solid fa-users text-green-600 text-lg"></i>
 
         </div>
 
-    </div>-->
+        <div>
 
-    <!-- Tỷ lệ đặt phòng 
-    <div class="bg-white rounded-2xl p-6 shadow-sm">
+            <p class="text-base text-black">
+                Tổng số người dùng
+            </p>
 
-        <h3 class="font-bold text-lg mb-4">
-            Tỷ lệ đặt phòng
-        </h3>
-
-        <div class="h-[280px] flex items-center justify-center text-gray-400">
-
-            <i class="fa-solid fa-chart-pie text-5xl"></i>
+            <h3 class="text-2xl font-bold text-[#061755]">
+                {{ $tongNguoiDung }}
+            </h3>
 
         </div>
 
     </div>
 
-    </div>-->
+</div>
 
-    <!-- Bảng + Top khách sạn 
 
-    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-6">-->
-    <!-- Đơn đặt phòng 
-    <div class="xl:col-span-2 bg-white rounded-2xl p-6 shadow-sm">
+{{-- Tổng đặt phòng --}}
+<div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
+
+    <div class="flex items-center gap-3">
+
+        <div class="w-11 h-11 rounded-full bg-orange-100 flex items-center justify-center">
+
+            <i class="fa-solid fa-calendar-check text-orange-500 text-lg"></i>
+
+        </div>
+
+        <div>
+
+            <p class="text-base text-black">
+                Tổng số đặt phòng
+            </p>
+
+            <h3 class="text-2xl font-bold text-[#061755]">
+                {{ $tongDatPhong }}
+            </h3>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{{-- Tổng đối tác --}}
+<div class="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
+
+    <div class="flex items-center gap-3">
+
+        <div class="w-11 h-11 rounded-full bg-purple-100 flex items-center justify-center">
+
+            <i class="fa-solid fa-handshake text-purple-500 text-lg"></i>
+
+        </div>
+
+        <div>
+
+            <p class="text-base text-black">
+                Tổng số đối tác
+            </p>
+
+            <h3 class="text-2xl font-bold text-[#061755]">
+                {{ $tongDoiTac }}
+            </h3>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+
+{{-- ========================================================= --}}
+{{-- BIỂU ĐỒ --}}
+{{-- ========================================================= --}}
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-5">
+
+
+    {{-- ===================================================== --}}
+    {{-- ĐẶT PHÒNG THEO THÁNG --}}
+    {{-- ===================================================== --}}
+
+    <div class="lg:col-span-2 bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
 
         <div class="flex items-center justify-between mb-4">
 
-            <h3 class="font-bold text-lg">
-                Đơn đặt phòng mới nhất
-            </h3>
+            <h2 class="text-2xl font-bold text-[#061755]">
+                Đơn đặt phòng theo tháng
+            </h2>
 
-            <button class="text-blue-600 font-medium">
-                Xem tất cả
-            </button>
+            <select
+                id="namThongKe"
+                class="border border-slate-200 rounded-lg px-3 py-2 text-sm text-black outline-none">
 
-        </div>
+                <option value="{{ now()->year }}">
+                    Năm {{ now()->year }}
+                </option>
 
-        <div class="overflow-x-auto">
-
-            <table class="w-full">
-
-                <thead>
-
-                    <tr class="border-b">
-
-                        <th class="text-left py-3">
-                            Mã đơn
-                        </th>
-
-                        <th class="text-left py-3">
-                            Khách hàng
-                        </th>
-
-                        <th class="text-left py-3">
-                            Khách sạn
-                        </th>
-
-                        <th class="text-left py-3">
-                            Trạng thái
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-
-            </table>
+            </select>
 
         </div>
 
-    </div>-->
+        <div class="h-[300px]">
 
-    <!-- Top khách sạn
-    <div class="bg-white rounded-2xl p-6 shadow-sm">
-
-        <h3 class="font-bold text-lg mb-5">
-
-            Khách sạn nổi bật
-
-        </h3>
-
-        <div class="space-y-4">
-
-
+            <canvas id="bieuDoDatPhong"></canvas>
 
         </div>
 
     </div>
 
+
+    {{-- ===================================================== --}}
+    {{-- ĐẶT PHÒNG THEO TRẠNG THÁI --}}
+    {{-- ===================================================== --}}
+
+    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+
+        <h2 class="text-2xl font-bold text-[#061755] mb-4">
+            Đặt phòng theo trạng thái
+        </h2>
+
+        <div class="h-[300px] flex items-center justify-center">
+
+            <canvas id="bieuDoTrangThai"></canvas>
+
+        </div>
+
     </div>
 
-    @endsection -->
-</body>
+</div>
 
-</html>
+
+{{-- ========================================================= --}}
+{{-- CHART.JS --}}
+{{-- ========================================================= --}}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | BIỂU ĐỒ ĐẶT PHÒNG THEO THÁNG
+    |--------------------------------------------------------------------------
+    */
+
+    const canvasDatPhong =
+        document.getElementById('bieuDoDatPhong');
+
+
+    if (canvasDatPhong) {
+
+        new Chart(canvasDatPhong, {
+
+            type: 'line',
+
+            data: {
+
+                labels: [
+
+                    'T1',
+                    'T2',
+                    'T3',
+                    'T4',
+                    'T5',
+                    'T6',
+                    'T7',
+                    'T8',
+                    'T9',
+                    'T10',
+                    'T11',
+                    'T12'
+
+                ],
+
+                datasets: [{
+
+                    label: 'Đơn đặt phòng',
+
+                    data: @json($datPhongTheoThang),
+
+                    borderColor: '#1040C5',
+
+                    backgroundColor:
+                        'rgba(16, 64, 197, 0.08)',
+
+                    fill: true,
+
+                    tension: 0.4,
+
+                    pointRadius: 4,
+
+                    pointHoverRadius: 6
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+
+                        display: false
+
+                    }
+
+                },
+
+                scales: {
+
+                    x: {
+
+                        ticks: {
+
+                            color: '#000000'
+
+                        }
+
+                    },
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        ticks: {
+
+                            precision: 0,
+
+                            color: '#000000'
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | BIỂU ĐỒ TRẠNG THÁI ĐẶT PHÒNG
+    |--------------------------------------------------------------------------
+    */
+
+    const canvasTrangThai =
+        document.getElementById('bieuDoTrangThai');
+
+
+    if (canvasTrangThai) {
+
+        new Chart(canvasTrangThai, {
+
+            type: 'doughnut',
+
+            data: {
+
+                labels: [
+
+                    'Chờ thanh toán',
+
+                    'Đã xác nhận',
+
+                    'Đã nhận phòng',
+
+                    'Đã trả phòng',
+
+                    'Đã hủy',
+
+                    'Không đến'
+
+                ],
+
+                datasets: [{
+
+                    data: @json($datPhongTheoTrangThai),
+
+                    backgroundColor: [
+
+                        '#F59E0B', // Chờ thanh toán
+
+                        '#2563EB', // Đã xác nhận
+
+                        '#10B981', // Đã nhận phòng
+
+                        '#8B5CF6', // Đã trả phòng
+
+                        '#EF4444', // Đã hủy
+
+                        '#6B7280'  // Không đến
+
+                    ],
+
+                    borderColor: '#FFFFFF',
+
+                    borderWidth: 0
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false,
+
+                cutout: '62%',
+
+                plugins: {
+
+                    legend: {
+
+                        position: 'right',
+
+                        labels: {
+
+                            color: '#000000',
+
+                            font: {
+
+                                size: 14
+
+                            },
+
+                            boxWidth: 14,
+
+                            boxHeight: 14,
+
+                            padding: 12
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+});
+
+</script>
+
+@endsection

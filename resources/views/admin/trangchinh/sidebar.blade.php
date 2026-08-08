@@ -267,35 +267,6 @@
 
         </a>
 
-        <!-- Thống kê -->
-        <p class="px-4 mt-6 mb-2 text-[11px] text-gray-400 uppercase tracking-widest">
-            Thống kê
-        </p>
-
-        <!-- Báo cáo -->
-        <a href="#" class="mx-2 flex items-center gap-3 px-4 py-2 text-sm rounded-full transition
-            {{ request()->routeIs('admin.baocao.*')
-            ? 'bg-blue-800'
-            : 'hover:bg-blue-900' }}">
-
-            <i class="fa-solid fa-chart-column w-4"></i>
-
-            Báo cáo
-
-        </a>
-
-        <!-- Thống kê -->
-        <a href="#" class="mx-2 flex items-center gap-3 px-4 py-2 text-sm rounded-full transition
-            {{ request()->routeIs('admin.thongke.*')
-            ? 'bg-blue-800'
-            : 'hover:bg-blue-900' }}">
-
-            <i class="fa-solid fa-chart-line w-4"></i>
-
-            Thống kê
-
-        </a>
-
         <!-- Cài đặt -->
         <p class="px-4 mt-6 mb-2 text-[11px] text-gray-400 uppercase tracking-widest">
             Cài đặt
