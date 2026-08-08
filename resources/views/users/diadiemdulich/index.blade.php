@@ -19,42 +19,70 @@
 
 <body class="bg-slate-50">
 
-    @include('components.navbar')
+@include('components.navbar')
 
-    <div class="pt-24">
 
-        @include('users.diadiemdulich.search')
+<div class="pt-24">
 
-        <main class="max-w-7xl mx-auto px-4 lg:px-8 py-8 space-y-8">
+    {{-- Khung tìm kiếm / nút gợi ý --}}
+    @include('users.diadiemdulich.search')
 
-            @include('users.diadiemdulich.trangthai')
 
-            @auth
+    <main class="max-w-7xl mx-auto px-4 lg:px-8 py-8 space-y-8">
+
+        {{-- Trạng thái --}}
+        @include('users.diadiemdulich.trangthai')
+
+
+        {{-- Hồ sơ sở thích --}}
+        @auth
 
             @if(isset($soThichs) && $soThichs->isNotEmpty())
 
-            @include('users.diadiemdulich.hososothich')
+                @include('users.diadiemdulich.hososothich')
 
             @endif
 
-            @endauth
+        @endauth
+
+
+        {{-- KẾT QUẢ GỢI Ý --}}
+        <div id="ketQuaGoiY">
 
             @if(isset($ketQuaGoiY) && count($ketQuaGoiY) > 0)
 
-            @include('users.diadiemdulich.ketqua')
+                @include('users.diadiemdulich.ketqua')
 
             @endif
 
-        </main>
+        </div>
 
-    </div>
+    </main>
 
-    @include('components.footer')
+</div>
 
+
+@include('components.footer')
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-    <script>
-    new Swiper(".ketQuaGoiYSwiper", {
+   <script>
+
+function khoiTaoSwiperGoiY() {
+
+    const swiperElement = document.querySelector(
+        '#ketQuaGoiY .ketQuaGoiYSwiper'
+    );
+
+    if (!swiperElement) {
+        return;
+    }
+
+    // Nếu Swiper cũ tồn tại thì hủy trước
+    if (swiperElement.swiper) {
+        swiperElement.swiper.destroy(true, true);
+    }
+
+    new Swiper(swiperElement, {
 
         slidesPerView: 1,
 
@@ -62,30 +90,40 @@
 
         navigation: {
 
-            nextEl: ".ketQuaGoiYSwiper .swiper-button-next",
+            nextEl: swiperElement.querySelector(
+                '.swiper-button-next'
+            ),
 
-            prevEl: ".ketQuaGoiYSwiper .swiper-button-prev",
+            prevEl: swiperElement.querySelector(
+                '.swiper-button-prev'
+            ),
 
         },
 
         breakpoints: {
 
             640: {
-
                 slidesPerView: 2,
-
             },
 
             1024: {
-
                 slidesPerView: 3,
-
             }
 
         }
 
     });
-    </script>
+
+}
+
+// Khởi tạo khi trang vừa mở
+document.addEventListener('DOMContentLoaded', function () {
+
+    khoiTaoSwiperGoiY();
+
+});
+
+</script>
 
 </body>
 

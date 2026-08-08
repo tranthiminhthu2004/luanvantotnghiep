@@ -403,6 +403,85 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
     });
+    // ===============================
+// TÌM KIẾM KHÁCH SẠN BẰNG AJAX
+// ===============================
+
+const formTimKiem = document.getElementById('formTimKiemKhachSan');
+
+formTimKiem.addEventListener('submit', function(event) {
+
+    // Không cho form chuyển trang
+    event.preventDefault();
+
+    const form = this;
+
+    const url = form.action;
+
+    const params = new URLSearchParams(new FormData(form));
+
+    const ketQua = document.getElementById('ketQuaKhachSan');
+
+    // Hiển thị loading
+    ketQua.innerHTML = `
+        <div class="flex justify-center items-center py-20">
+            <div class="text-center">
+
+                <i class="fa-solid fa-spinner fa-spin text-3xl text-[#1040C5]"></i>
+
+                <p class="mt-3 text-gray-500">
+                    Đang tìm khách sạn...
+                </p>
+
+            </div>
+        </div>
+    `;
+
+    fetch(url + '?' + params.toString(), {
+        method: 'GET',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Accept': 'text/html'
+        }
+    })
+    .then(response => {
+
+        if (!response.ok) {
+            throw new Error('Không thể tìm kiếm khách sạn.');
+        }
+
+        return response.text();
+
+    })
+    .then(html => {
+
+        // Thay nội dung kết quả cũ bằng kết quả mới
+        ketQua.innerHTML = html;
+
+        // Đưa người dùng xuống phần kết quả
+        ketQua.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+
+    })
+    .catch(error => {
+
+        console.error(error);
+
+        ketQua.innerHTML = `
+            <div class="bg-red-50 border border-red-200 rounded-2xl p-8 text-center">
+
+                <p class="text-red-500">
+                    Không thể tải kết quả tìm kiếm.
+                </p>
+
+            </div>
+        `;
+
+    });
+
+});
 
 });
 </script>

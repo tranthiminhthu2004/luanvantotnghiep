@@ -73,25 +73,136 @@
 
     </div>
 
-    {{-- Footer --}}
-    {{-- Footer --}}
-    <div class="border-t border-slate-200 p-6 flex justify-center">
+{{-- Footer --}}
+<div class="border-t border-slate-200 p-6 flex justify-center">
 
-        <form method="POST" action="{{ route('diadiemdulich.goiy') }}">
+    <form id="formGoiY" method="POST" action="{{ route('diadiemdulich.goiy') }}">
 
-            @csrf
+        @csrf
 
-            <button type="submit"
-                class="inline-flex items-center gap-2 bg-[#1040C5] hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition shadow-sm">
+        <button
+            type="submit"
+            id="btnGoiY"
+            class="inline-flex items-center gap-2 bg-[#1040C5] hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition shadow-sm">
 
-                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>Gợi ý điểm đến cho tôi</span>
 
-                Gợi ý điểm đến cho tôi
+        </button>
 
-            </button>
+    </form>
 
-        </form>
-
-    </div>
+</div>
 
 </section>
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const formGoiY = document.getElementById('formGoiY');
+
+    const btnGoiY = document.getElementById('btnGoiY');
+
+    const ketQuaGoiY = document.getElementById('ketQuaGoiY');
+
+
+    if (!formGoiY || !ketQuaGoiY) {
+        return;
+    }
+
+
+    formGoiY.addEventListener('submit', function (event) {
+
+        // Không cho form reload trang
+        event.preventDefault();
+
+
+        // Trạng thái nút
+        btnGoiY.disabled = true;
+
+        btnGoiY.innerHTML = `
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <span>Đang phân tích sở thích...</span>
+        `;
+
+
+        const formData = new FormData(formGoiY);
+
+
+        fetch(formGoiY.action, {
+
+            method: 'POST',
+
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'text/html'
+            },
+
+            body: formData
+
+        })
+
+        .then(response => {
+
+            if (!response.ok) {
+                throw new Error('Không thể lấy kết quả gợi ý.');
+            }
+
+            return response.text();
+
+        })
+
+        .then(html => {
+
+            // Đổ kết quả vào đúng vị trí
+            ketQuaGoiY.innerHTML = html;
+
+
+            // Khởi tạo lại Swiper nếu có
+            if (typeof khoiTaoSwiperGoiY === 'function') {
+                khoiTaoSwiperGoiY();
+            }
+
+
+            // Cuộn xuống phần kết quả
+            ketQuaGoiY.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+
+        })
+
+        .catch(error => {
+
+            console.error(error);
+
+            ketQuaGoiY.innerHTML = `
+                <div class="bg-red-50 border border-red-200 rounded-2xl p-8 text-center">
+
+                    <i class="fa-solid fa-circle-exclamation text-red-500 text-3xl"></i>
+
+                    <p class="mt-3 text-red-500 font-medium">
+                        Không thể tạo gợi ý. Vui lòng thử lại.
+                    </p>
+
+                </div>
+            `;
+
+        })
+
+        .finally(() => {
+
+            // Khôi phục nút
+            btnGoiY.disabled = false;
+
+            btnGoiY.innerHTML = `
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Gợi ý điểm đến cho tôi</span>
+            `;
+
+        });
+
+    });
+
+});
+
+</script>

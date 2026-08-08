@@ -505,7 +505,7 @@ return view(
     }
     if ($request->ajax()) {
     return view(
-        'users.trangchu.ketquatrangchu',
+        'users.khachsan.ketqua',
         compact(
             'khachSans',
             'diaDiems',

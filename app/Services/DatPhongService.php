@@ -254,20 +254,19 @@ foreach ($duLieu['chi_tiet_phong'] as $chiTiet)
                     )
                     {
 
-                        LichPhong::create([
+                    LichPhong::create([
 
-    'ma_don_dat_phong'
-        => $datPhong->ma_don_dat_phong,
+                    'ma_don_dat_phong'
+                    => $datPhong->ma_don_dat_phong,
 
-    'ma_phong'
-        => $phong->ma_phong,
+                    'ma_phong'
+                    => $phong->ma_phong,
 
-    'ngay'
-        => $ngay->format('Y-m-d'),
+                    'ngay'
+                    => $ngay->format('Y-m-d'),
 
-    'trang_thai'
-        => 'DaDat'
-
+                    'trang_thai'
+                    => 'TamGiu'
 ]);
 
     $ngay->addDay();
@@ -317,8 +316,15 @@ public function xacNhanThanhToan($maDonDatPhong)
     }
 
     $datPhong->update([
-        'trang_thai_dat_phong' => 'DaXacNhan',
-        'han_thanh_toan' => null,
+    'trang_thai_dat_phong' => 'DaXacNhan',
+    'han_thanh_toan' => null,
+    ]);
+
+    LichPhong::where(
+    'ma_don_dat_phong',
+    $maDonDatPhong
+    )->update([
+    'trang_thai' => 'DaDat'
     ]);
 
     $datPhong->load([

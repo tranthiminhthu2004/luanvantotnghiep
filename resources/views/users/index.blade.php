@@ -30,9 +30,9 @@
 <body class="bg-slate-50">
 
 @include('components.navbar')
-
+<div class="pt-24">
 @include('users.trangchu.search')
-
+</div>
 {{-- Kết quả Ajax --}}
 <div id="ketQuaTimKiemTrangChu" class="hidden"></div>
 

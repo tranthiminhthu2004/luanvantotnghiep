@@ -5,6 +5,7 @@ namespace App\Http\Controllers\DuLich;
 use App\Http\Controllers\Controller;
 use App\Models\NguoiDungNhuCau;
 use App\Services\GoiYService;
+use Illuminate\Http\Request;
 
 class UserGoiYController extends Controller
 {
@@ -41,35 +42,53 @@ class UserGoiYController extends Controller
         );
     }
 
-    public function goiY()
-    {
-        if (!auth()->check()) {
+    public function goiY(Request $request)
+{
+    if (!auth()->check()) {
 
-            return redirect()
-                ->route('login');
+        if ($request->ajax()) {
+            return response()->json([
+                'message' => 'Vui lòng đăng nhập để sử dụng chức năng gợi ý.'
+            ], 401);
         }
 
-        $maNguoiDung = auth()->user()->ma_nguoi_dung;
+        return redirect()
+            ->route('login');
+    }
 
-        $soThichs = NguoiDungNhuCau::with('nhuCau')
-            ->where(
-                'ma_nguoi_dung',
-                $maNguoiDung
-            )
-            ->orderByDesc('muc_do_uu_tien')
-            ->get();
+    $maNguoiDung = auth()->user()->ma_nguoi_dung;
 
-        $ketQuaGoiY = $this->goiYService
-            ->goiYChoNguoiDung(
-                $maNguoiDung
-            );
+    $soThichs = NguoiDungNhuCau::with('nhuCau')
+        ->where(
+            'ma_nguoi_dung',
+            $maNguoiDung
+        )
+        ->orderByDesc('muc_do_uu_tien')
+        ->get();
+
+    $ketQuaGoiY = $this->goiYService
+        ->goiYChoNguoiDung(
+            $maNguoiDung
+        );
+
+    // Nếu là AJAX → chỉ trả về phần kết quả
+    if ($request->ajax()) {
 
         return view(
-            'users.diadiemdulich.index',
+            'users.diadiemdulich.ketqua',
             compact(
-                'soThichs',
                 'ketQuaGoiY'
             )
         );
     }
+
+    // Nếu truy cập bình thường → trả về toàn bộ trang
+    return view(
+        'users.diadiemdulich.index',
+        compact(
+            'soThichs',
+            'ketQuaGoiY'
+        )
+    );
+}
 }

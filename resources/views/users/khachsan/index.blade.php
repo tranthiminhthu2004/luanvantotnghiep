@@ -23,7 +23,7 @@
 
     @include('components.navbar')
 
-<main class="pt-20 lg:pt-24">
+<main class="pt-24">
 
     @include('users.khachsan.search')
 
