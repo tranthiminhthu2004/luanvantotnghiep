@@ -139,8 +139,11 @@ public function thanhToanLai(
 
     }
 
-    $loaiThanhToan =
-        $request->loai_thanh_toan;
+    // Lấy loại thanh toán từ request, mặc định là ThanhToanToanBo
+    $loaiThanhToan = in_array(
+        $request->loai_thanh_toan,
+        ['DatCoc', 'ThanhToanToanBo']
+    ) ? $request->loai_thanh_toan : 'ThanhToanToanBo';
 
     $soTien =
         $datPhong->tong_tien;
@@ -161,6 +164,15 @@ public function thanhToanLai(
             'Đặt cọc 30% đặt phòng';
 
     }
+
+    // Tạo bản ghi ThanhToan mới để vnpayReturn cập nhật đúng
+    ThanhToan::create([
+        'ma_don_dat_phong'   => $datPhong->ma_don_dat_phong,
+        'loai_thanh_toan'    => $loaiThanhToan,
+        'so_tien'            => $soTien,
+        'phuong_thuc_thanh_toan' => 'VNPay',
+        'trang_thai_thanh_toan'  => 'ChoXuLy',
+    ]);
 
     session([
 

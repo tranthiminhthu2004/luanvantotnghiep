@@ -97,7 +97,7 @@ if ($tongSucChuaKhachSan < $soNguoi)
 
         $this->sinhToHop(
 
-            $danhSachLoaiPhong,
+            $danhSachLoaiPhong->values()->all(),
 
             $conPhong,
 

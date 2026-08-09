@@ -32,7 +32,7 @@
 
                 <div class="bg-white rounded-2xl shadow-2xl p-5">
 
-                    <div class="grid grid-cols-12 gap-3 items-end">
+                    <div class="grid grid-cols-12 gap-3 items-start">
 
                         <!-- Địa điểm -->
                         <div class="col-span-12 lg:col-span-2">
@@ -222,7 +222,7 @@
                         </div>
 
                         <!-- Nút tìm kiếm -->
-                        <div class="col-span-12 lg:col-span-1">
+                        <div class="col-span-12 lg:col-span-1 mt-[28px]">
 
                             <button type="submit"
                                 class="w-full bg-[#1040C5] hover:bg-blue-700 text-white rounded-xl py-3 h-[52px] mt-2">
@@ -441,10 +441,45 @@ formTimKiem.addEventListener('submit', function(event) {
         method: 'GET',
         headers: {
             'X-Requested-With': 'XMLHttpRequest',
-            'Accept': 'text/html'
+            'Accept': 'text/html, application/json'
         }
     })
     .then(response => {
+
+        if (response.status === 422) {
+            return response.json().then(data => {
+                // Hiển thị lỗi validate ngay dưới input
+                const errors = data.errors || {};
+                const errorDiaDiem = document.querySelector('[name="ma_dia_diem"]');
+                const errorNgayNhan = document.getElementById('ngay_nhan_phong');
+                const errorNgayTra = document.getElementById('ngay_tra_phong');
+
+                // Xoá lỗi cũ
+                document.querySelectorAll('.ajax-error-msg').forEach(el => el.remove());
+
+                if (errors.ma_dia_diem) {
+                    const p = document.createElement('p');
+                    p.className = 'text-red-500 text-sm ajax-error-msg mt-1';
+                    p.textContent = errors.ma_dia_diem[0];
+                    errorDiaDiem.closest('div').appendChild(p);
+                }
+                if (errors.ngay_nhan_phong) {
+                    const p = document.createElement('p');
+                    p.className = 'text-red-500 text-sm ajax-error-msg mt-1';
+                    p.textContent = errors.ngay_nhan_phong[0];
+                    errorNgayNhan.closest('div').appendChild(p);
+                }
+                if (errors.ngay_tra_phong) {
+                    const p = document.createElement('p');
+                    p.className = 'text-red-500 text-sm ajax-error-msg mt-1';
+                    p.textContent = errors.ngay_tra_phong[0];
+                    errorNgayTra.closest('div').appendChild(p);
+                }
+
+                ketQua.innerHTML = '';
+                throw null; // không cần hiện lỗi generic
+            });
+        }
 
         if (!response.ok) {
             throw new Error('Không thể tìm kiếm khách sạn.');
@@ -454,6 +489,11 @@ formTimKiem.addEventListener('submit', function(event) {
 
     })
     .then(html => {
+
+        if (!html) return;
+
+        // Xoá lỗi validate cũ khi tìm kiếm thành công
+        document.querySelectorAll('.ajax-error-msg').forEach(el => el.remove());
 
         // Thay nội dung kết quả cũ bằng kết quả mới
         ketQua.innerHTML = html;
@@ -466,6 +506,8 @@ formTimKiem.addEventListener('submit', function(event) {
 
     })
     .catch(error => {
+
+        if (!error) return; // lỗi validate đã xử lý ở trên
 
         console.error(error);
 

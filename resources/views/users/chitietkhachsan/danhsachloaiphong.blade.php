@@ -510,7 +510,8 @@ document.getElementById('btnApDungGoiY')?.addEventListener('click', function() {
 
         input.value = 0;
 
-        document.getElementById('hidden_room_' + id).value = 0;
+        const hiddenReset = document.getElementById('hidden_room_' + id);
+        if (hiddenReset) hiddenReset.value = 0;
 
     });
 
@@ -519,9 +520,11 @@ document.getElementById('btnApDungGoiY')?.addEventListener('click', function() {
 
         const id = item.loai_phong.ma_loai_phong;
 
-        document.getElementById('room_' + id).value = item.so_luong;
+        const roomInput = document.getElementById('room_' + id);
+        const hiddenInput = document.getElementById('hidden_room_' + id);
 
-        document.getElementById('hidden_room_' + id).value = item.so_luong;
+        if (roomInput) roomInput.value = item.so_luong;
+        if (hiddenInput) hiddenInput.value = item.so_luong;
 
     });
 
@@ -586,7 +589,9 @@ function updateCart() {
 
         const id = room.dataset.id;
 
-        const quantity = parseInt(document.getElementById('room_' + id).value || 0);
+        const inputEl = document.getElementById('room_' + id);
+        if (!inputEl) return;
+        const quantity = parseInt(inputEl.value || 0);
 
         const price = parseInt(room.dataset.price || 0);
 

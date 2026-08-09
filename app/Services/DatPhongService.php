@@ -333,9 +333,8 @@ public function xacNhanThanhToan($maDonDatPhong)
         'thanhToans'
     ]);
 
-    Mail::to($datPhong->email_khach)
-        ->send(new DatPhongThanhCongMail($datPhong));
-
+    // Mail được gửi bên ngoài transaction ở controller
+    // để tránh mail fail làm rollback toàn bộ DB
     return $datPhong;
 }
    public function huyDatPhong($maDonDatPhong)

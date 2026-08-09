@@ -274,19 +274,8 @@ class UserThanhToanController extends Controller
     return redirect()->away($url);
 }
  
-    public function thanhCong()
+    public function thanhCong($maDonDatPhong)
     {
-        $maDonDatPhong = session(
-            'ma_don_dat_phong'
-        );
-
-        if (!$maDonDatPhong)
-        {
-            return redirect()->route(
-                'users.index'
-            );
-        }
-
         $datPhong = DatPhong::with([
 
             'khachSan',
@@ -295,9 +284,7 @@ class UserThanhToanController extends Controller
 
             'thanhToans'
 
-        ])->findOrFail(
-            $maDonDatPhong
-        );
+        ])->findOrFail($maDonDatPhong);
 
         return view(
             'users.thanhtoan.thongbaothanhcong',
@@ -319,20 +306,6 @@ public function vnpayReturn(Request $request)
             );
     }
 
-    $maDonDatPhong = session('ma_don_dat_phong');
-
-    $duLieuVNPay = session('du_lieu_vnpay');
-
-    if (!$maDonDatPhong || !$duLieuVNPay) {
-
-        return redirect()
-            ->route('khachsan.index')
-            ->with(
-                'error',
-                'Phiên thanh toán đã hết hạn.'
-            );
-    }
-
   // Thanh toán chưa thành công
 if ($request->vnp_ResponseCode != '00') {
 
@@ -344,6 +317,20 @@ if ($request->vnp_ResponseCode != '00') {
         );
 }
 
+    // Lấy đơn từ vnp_TxnRef (ma_dat_phong) do VNPay gửi về
+    // Không phụ thuộc session để tránh mất session
+    $maDatPhong = $request->vnp_TxnRef;
+
+    $datPhongRecord = DatPhong::where('ma_dat_phong', $maDatPhong)->first();
+
+    if (!$datPhongRecord) {
+        return redirect()
+            ->route('lichsudatphong.index')
+            ->with('error', 'Không tìm thấy đơn đặt phòng.');
+    }
+
+    $maDonDatPhong = $datPhongRecord->ma_don_dat_phong;
+
    try {
 
     DB::beginTransaction();
@@ -351,7 +338,9 @@ if ($request->vnp_ResponseCode != '00') {
     $thanhToan = ThanhToan::where(
         'ma_don_dat_phong',
         $maDonDatPhong
-    )->firstOrFail();
+    )->where('trang_thai_thanh_toan', 'ChoXuLy')
+     ->latest('ma_thanh_toan')
+     ->firstOrFail();
 
     $thanhToan->update([
         'trang_thai_thanh_toan' => 'ThanhCong',
@@ -364,11 +353,20 @@ if ($request->vnp_ResponseCode != '00') {
 
     DB::commit();
 
+    // Gửi mail SAU commit — mail fail không ảnh hưởng trạng thái đơn
+    try {
+        \Mail::to($datPhong->email_khach)
+            ->send(new \App\Mail\DatPhongThanhCongMail($datPhong));
+    } catch (\Throwable $mailEx) {
+        \Log::error('Gửi mail xác nhận thất bại: ' . $mailEx->getMessage());
+    }
+
     session()->forget('du_lieu_vnpay');
     session()->forget('xac_nhan_dat_phong');
+    session()->forget('ma_don_dat_phong');
 
     return redirect()
-        ->route('datphong.thanhcong');
+        ->route('datphong.thanhcong', ['maDonDatPhong' => $maDonDatPhong]);
 
 } catch (\Throwable $e) {
 

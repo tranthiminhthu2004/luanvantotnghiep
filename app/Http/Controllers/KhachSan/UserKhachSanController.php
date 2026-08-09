@@ -285,7 +285,7 @@ $diaDiemDuLichs = $diaDiemDuLichs
             (int) $request->so_nguoi_cao_tuoi;
 
         $soPhong =
-            (int) $request->so_luong_phong;
+            max(1, (int) $request->so_luong_phong);
 
         $sucChuaCanThiet =
             ceil(
@@ -459,7 +459,7 @@ return view(
     }
  public function timKiem(Request $request)
 {
-     $request->validate([
+    $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
         'ma_dia_diem' => ['required'],
         'ngay_nhan_phong' => ['required'],
         'ngay_tra_phong' => ['required'],
@@ -468,6 +468,16 @@ return view(
         'ngay_nhan_phong.required' => 'Vui lòng chọn ngày nhận phòng.',
         'ngay_tra_phong.required' => 'Vui lòng chọn ngày trả phòng.',
     ]);
+
+    if ($validator->fails()) {
+        if ($request->ajax()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
+        }
+        return back()->withErrors($validator)->withInput();
+    }
+
     $query = $this->locKhachSan($request);
 
     $khachSans = $query
@@ -503,17 +513,18 @@ return view(
             ])
             ->get();
     }
+
     if ($request->ajax()) {
-    return view(
-        'users.khachsan.ketqua',
-        compact(
-            'khachSans',
-            'diaDiems',
-            'tienNghis',
-            'diaDiemDuLichs'
-        )
-    );
-}
+        return view(
+            'users.khachsan.ketqua',
+            compact(
+                'khachSans',
+                'diaDiems',
+                'tienNghis',
+                'diaDiemDuLichs'
+            )
+        );
+    }
 
     return view(
         'users.khachsan.ketqua',

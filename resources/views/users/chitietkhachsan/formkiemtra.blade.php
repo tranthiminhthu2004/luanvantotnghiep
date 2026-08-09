@@ -400,6 +400,18 @@ form.addEventListener("submit", async function (e) {
         const html = await response.text();
 
         document.getElementById("ketQuaPhong").innerHTML = html;
+
+        // Trình duyệt không tự chạy <script> trong innerHTML — cần chạy lại thủ công
+        document.getElementById("ketQuaPhong").querySelectorAll("script").forEach(function(oldScript) {
+            const newScript = document.createElement("script");
+            Array.from(oldScript.attributes).forEach(function(attr) {
+                newScript.setAttribute(attr.name, attr.value);
+            });
+            newScript.textContent = oldScript.textContent;
+            document.body.appendChild(newScript);
+            oldScript.parentNode.removeChild(oldScript);
+        });
+
         document.getElementById("ketQuaPhong").scrollIntoView({
         behavior: "smooth",
         block: "start"

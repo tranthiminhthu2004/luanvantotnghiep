@@ -21,7 +21,7 @@ Route::post(
 )->name('thanhtoan.store');
 
 Route::get(
-    '/dat-phong/thanh-cong',
+    '/dat-phong/thanh-cong/{maDonDatPhong}',
     [UserThanhToanController::class, 'thanhCong']
 )->name('datphong.thanhcong');
 
