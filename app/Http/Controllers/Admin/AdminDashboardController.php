@@ -13,9 +13,7 @@ class AdminDashboardController extends Controller
     public function index()
     {
         /*
-        |--------------------------------------------------------------------------
-        | KIỂM TRA QUYỀN ADMIN
-        |--------------------------------------------------------------------------
+        KIỂM TRA QUYỀN ADMIN
         */
 
         if (
@@ -27,9 +25,7 @@ class AdminDashboardController extends Controller
 
 
         /*
-        |--------------------------------------------------------------------------
-        | 1. THỐNG KÊ TỔNG QUAN
-        |--------------------------------------------------------------------------
+        THỐNG KÊ TỔNG QUAN
         */
 
         $tongKhachSan = KhachSan::count();
@@ -44,9 +40,7 @@ class AdminDashboardController extends Controller
 
 
         /*
-        |--------------------------------------------------------------------------
-        | 2. ĐẶT PHÒNG THEO THÁNG
-        |--------------------------------------------------------------------------
+        ĐẶT PHÒNG THEO THÁNG
         */
 
         $nam = now()->year;
@@ -66,13 +60,6 @@ class AdminDashboardController extends Controller
                 DB::raw('MONTH(ngay_dat)')
             )
             ->get();
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Tạo đủ 12 tháng
-        |--------------------------------------------------------------------------
-        */
 
         $datPhongTheoThang = [];
 
@@ -97,60 +84,42 @@ class AdminDashboardController extends Controller
 
 
         /*
-        |--------------------------------------------------------------------------
-        | 3. ĐẶT PHÒNG THEO TRẠNG THÁI
-        |--------------------------------------------------------------------------
+        ĐẶT PHÒNG THEO TRẠNG THÁI
         */
 
-        /*
-         * Lấy số lượng theo từng trạng thái
-         */
         $datPhongTheoTrangThai = [
 
-            // Chờ thanh toán
             DatPhong::where(
                 'trang_thai_dat_phong',
                 'ChoThanhToan'
             )->count(),
 
-            // Đã xác nhận
             DatPhong::where(
                 'trang_thai_dat_phong',
                 'DaXacNhan'
             )->count(),
 
-            // Đã nhận phòng
             DatPhong::where(
                 'trang_thai_dat_phong',
                 'DaNhanPhong'
             )->count(),
 
-            // Đã trả phòng
             DatPhong::where(
                 'trang_thai_dat_phong',
                 'DaTraPhong'
             )->count(),
 
-            // Đã hủy
             DatPhong::where(
                 'trang_thai_dat_phong',
                 'DaHuy'
             )->count(),
 
-            // Không đến
             DatPhong::where(
                 'trang_thai_dat_phong',
                 'KhongDen'
             )->count(),
 
         ];
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | 4. TRẢ DỮ LIỆU SANG DASHBOARD
-        |--------------------------------------------------------------------------
-        */
 
         return view(
             'admin.dashboard',

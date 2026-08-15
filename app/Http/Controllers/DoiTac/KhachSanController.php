@@ -673,7 +673,6 @@ public function luuForm4(Request $request)
         ]
     );
 
-    // Kiểm tra từng loại phòng
     $danhSachLoaiPhong = session('doitac_khachsan_form3');
 
     foreach ($danhSachLoaiPhong as $index => $loaiPhong) {
@@ -738,7 +737,6 @@ $khachSan->update([
 
     'so_gio_huy_mien_phi' => $duLieuKhachSan['so_gio_huy_mien_phi'],
 
-    // Gửi duyệt lại
     'trang_thai' => 0,
 
     'trang_thai_duyet' => 'ChoDuyet',
@@ -796,14 +794,12 @@ $khachSan->update([
 }
 if ($maKhachSanEdit) {
 
-    // Xóa toàn bộ ảnh cũ
     HinhAnhKhachSan::where(
         'ma_khach_san',
         $khachSan->ma_khach_san
     )->delete();
 }
 
-// Thêm lại ảnh
 foreach ($danhSachHinhAnh as $anh)
 {
     HinhAnhKhachSan::create([
@@ -817,7 +813,6 @@ foreach ($danhSachHinhAnh as $anh)
       
        if ($maKhachSanEdit)
 {
-    // Xóa toàn bộ tiện nghi cũ
     DB::table('khach_san_tien_nghi')
         ->where(
             'ma_khach_san',
@@ -826,7 +821,6 @@ foreach ($danhSachHinhAnh as $anh)
         ->delete();
 }
 
-// Thêm lại tiện nghi hiện tại
 foreach ($request->tien_nghi_khach_san as $maTienNghi)
 {
     DB::table('khach_san_tien_nghi')->insert([
@@ -898,20 +892,14 @@ $danhSachLoaiPhongConLai = [];
     }
     $danhSachLoaiPhongConLai[] = $loaiPhongMoi->ma_loai_phong;
 
-            /*
-            |--------------------------------------------------------------------------
-            | Ảnh loại phòng
-            |--------------------------------------------------------------------------
-            */
-
-          if ($maKhachSanEdit && !empty($loaiPhong['ma_loai_phong']))
-{
+    if ($maKhachSanEdit && !empty($loaiPhong['ma_loai_phong']))
+    {
     // Xóa ảnh cũ trong database
     HinhAnhLoaiPhong::where(
         'ma_loai_phong',
         $loaiPhongMoi->ma_loai_phong
     )->delete();
-}
+    }
 
 // Thêm lại ảnh hiện tại
 HinhAnhLoaiPhong::create([
@@ -930,7 +918,7 @@ foreach ($loaiPhong['phong'] as $phong)
         !empty($phong['ma_phong'])
     )
     {
-        // ===== Cập nhật phòng cũ =====
+        // Cập nhật phòng cũ 
 
         $phongMoi = Phong::where(
             'ma_phong',
@@ -947,7 +935,7 @@ foreach ($loaiPhong['phong'] as $phong)
     }
     else
     {
-        // ===== Tạo phòng mới =====
+        //Tạo phòng mới
 
         $phongMoi = Phong::create([
 
@@ -974,13 +962,8 @@ if ($maKhachSanEdit)
     )
     ->delete();
 }
-            /*
-            |--------------------------------------------------------------------------
-            | Tiện nghi loại phòng
-            |--------------------------------------------------------------------------
-            */
-
-           if ($maKhachSanEdit)
+/* Tiện nghi loại phòng */
+if ($maKhachSanEdit)
 {
     DB::table('loai_phong_tien_nghi')
         ->where(

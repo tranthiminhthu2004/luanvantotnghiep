@@ -65,7 +65,7 @@ class UserTrangChu extends Controller
     if ($request->ajax()) {
 
     return view(
-        'users.trangchu.ketqua',
+        'users.trangchu.ketquatrangchu',
         [
             'khachSans' => $khachSansTimKiem,
             'diaDiemDuLichs' => $diaDiemDuLichsTimKiem,

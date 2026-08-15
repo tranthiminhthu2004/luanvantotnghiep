@@ -10,9 +10,9 @@ use App\Models\KhachSan;
 
 class UserTimKiemTrangChuController extends Controller
 {
-   public function index(Request $request)
+    public function index(Request $request)
 {
-    $request->validate([
+    $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
             'ma_dia_diem' => 'required',
             'ngay_nhan_phong' => 'required',
             'ngay_tra_phong' => 'required',
@@ -21,6 +21,15 @@ class UserTimKiemTrangChuController extends Controller
             'ngay_nhan_phong.required' => 'Vui lòng chọn ngày nhận phòng.',
             'ngay_tra_phong.required' => 'Vui lòng chọn ngày trả phòng.',
     ]);
+
+    if ($validator->fails()) {
+        if ($request->ajax()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
+        }
+        return back()->withErrors($validator)->withInput();
+    }
     $diaDiems = DiaDiem::orderBy(
         'ten_dia_diem'
     )->get();

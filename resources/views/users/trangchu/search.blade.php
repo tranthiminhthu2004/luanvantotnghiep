@@ -462,8 +462,74 @@ document
                 'X-Requested-With': 'XMLHttpRequest'
             }
         })
-        .then(response => response.text())
+        .then(response => {
+            if (response.status === 422) {
+                return response.json().then(data => {
+                    const errors = data.errors || {};
+                    const errorDiaDiem = document.querySelector('#formTimKiemTrangChu select[name="ma_dia_diem"]');
+                    const errorNgayNhan = document.getElementById('trang_chu_ngay_nhan_phong');
+                    const errorNgayTra = document.getElementById('trang_chu_ngay_tra_phong');
+
+                    // Clear old error messages
+                    const errorContainers = [
+                        errorDiaDiem ? errorDiaDiem.nextElementSibling : null,
+                        errorNgayNhan ? errorNgayNhan.nextElementSibling : null,
+                        errorNgayTra ? errorNgayTra.nextElementSibling : null
+                    ];
+                    errorContainers.forEach(container => {
+                        if (container) {
+                            container.innerHTML = '';
+                        }
+                    });
+
+                    if (errors.ma_dia_diem && errorDiaDiem) {
+                        const p = document.createElement('p');
+                        p.className = 'text-red-500 text-sm ajax-error-msg mt-1';
+                        p.textContent = errors.ma_dia_diem[0];
+                        const container = errorDiaDiem.nextElementSibling;
+                        if (container) container.appendChild(p);
+                    }
+                    if (errors.ngay_nhan_phong && errorNgayNhan) {
+                        const p = document.createElement('p');
+                        p.className = 'text-red-500 text-sm ajax-error-msg mt-1';
+                        p.textContent = errors.ngay_nhan_phong[0];
+                        const container = errorNgayNhan.nextElementSibling;
+                        if (container) container.appendChild(p);
+                    }
+                    if (errors.ngay_tra_phong && errorNgayTra) {
+                        const p = document.createElement('p');
+                        p.className = 'text-red-500 text-sm ajax-error-msg mt-1';
+                        p.textContent = errors.ngay_tra_phong[0];
+                        const container = errorNgayTra.nextElementSibling;
+                        if (container) container.appendChild(p);
+                    }
+
+                    ketQua.innerHTML = '';
+                    ketQua.classList.add('hidden');
+                    noiDungTrangChu.classList.remove('hidden');
+                    throw null;
+                });
+            }
+
+            if (!response.ok) {
+                throw new Error('Có lỗi xảy ra. Vui lòng thử lại.');
+            }
+
+            return response.text();
+        })
         .then(html => {
+
+            if (!html) return;
+
+            // Clear old error messages
+            const errorDiaDiem = document.querySelector('#formTimKiemTrangChu select[name="ma_dia_diem"]');
+            const errorNgayNhan = document.getElementById('trang_chu_ngay_nhan_phong');
+            const errorNgayTra = document.getElementById('trang_chu_ngay_tra_phong');
+            [errorDiaDiem, errorNgayNhan, errorNgayTra].forEach(el => {
+                if (el && el.nextElementSibling) {
+                    el.nextElementSibling.innerHTML = '';
+                }
+            });
 
             ketQua.innerHTML = html;
 
@@ -480,6 +546,8 @@ document
 
         })
         .catch(error => {
+
+            if (error === null) return;
 
             ketQua.innerHTML = `
                 <div class="py-10 text-center text-red-500">

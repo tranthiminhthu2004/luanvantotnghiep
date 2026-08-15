@@ -8,9 +8,7 @@ use App\Models\NhuCauDuLich;
 
 class AdminNhuCauDuLichController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+   
   public function index(Request $request)
 {
     $sapXep = $request->sap_xep ?? 'desc';
@@ -28,17 +26,12 @@ class AdminNhuCauDuLichController extends Controller
         )
     );
 }
-    /**
-     * Show the form for creating a new resource.
-     */
+
    public function create()
 {
     return view('admin.nhucaudulich.create');
 }
 
-    /**
-     * Store a newly created resource in storage.
-     */
    public function store(Request $request)
 {
     $request->validate(
@@ -74,9 +67,6 @@ class AdminNhuCauDuLichController extends Controller
     );
 }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
 {
     $request->validate(
@@ -114,9 +104,6 @@ class AdminNhuCauDuLichController extends Controller
         );
 }
 
-    /**
-     * Remove the specified resource from storage.
-     */
    public function destroy(string $id)
 {
     $nhuCau = NhuCauDuLich::withCount('diaDiems')

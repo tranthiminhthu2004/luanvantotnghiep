@@ -90,12 +90,7 @@ class GoogleController extends Controller
             return redirect('/admin/dashboard');
         }
 
-        if ($user->ma_vai_tro == 3)
-        {
-           return redirect()->route(
-    'doitac.dashboard'
-);
-        }
+
 
         return redirect()->route(
             'users.index'

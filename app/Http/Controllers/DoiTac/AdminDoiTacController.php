@@ -16,7 +16,6 @@ class AdminDoiTacController extends Controller
             'hinhAnh'
         ]);
 
-        // Chỉ lấy hồ sơ do đối tác gửi
         $query->whereNotNull('ma_nguoi_dung');
 
         if ($request->filled('trang_thai_duyet')) {

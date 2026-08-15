@@ -9,9 +9,7 @@ use App\Models\DiaDiemDuLich;
 
 class AdminDiaDiemDuLichController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index(Request $request)
 {
     $sapXep = $request->sap_xep ?? 'desc';
@@ -36,9 +34,7 @@ class AdminDiaDiemDuLichController extends Controller
     );
 }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    
     public function create()
 {
     $diaDiems = DiaDiem::orderBy(
@@ -51,9 +47,6 @@ class AdminDiaDiemDuLichController extends Controller
     );
 }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
 {
     $request->validate(
@@ -143,9 +136,6 @@ class AdminDiaDiemDuLichController extends Controller
     );
 }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
 {
     $diaDiemDuLich = DiaDiemDuLich::findOrFail($id);
@@ -163,9 +153,6 @@ class AdminDiaDiemDuLichController extends Controller
     );
 }
 
-    /**
-     * Update the specified resource in storage.
-     */
    public function update(Request $request, string $id)
 {
     $request->validate(

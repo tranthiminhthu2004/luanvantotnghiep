@@ -32,7 +32,7 @@
 
                 <div class="bg-white rounded-2xl shadow-2xl p-5">
 
-                    <div class="grid grid-cols-12 gap-3 items-start">
+                    <div class="grid grid-cols-12 gap-3 items-end">
 
                         <!-- Địa điểm -->
                         <div class="col-span-12 lg:col-span-2">
@@ -222,10 +222,10 @@
                         </div>
 
                         <!-- Nút tìm kiếm -->
-                        <div class="col-span-12 lg:col-span-1 mt-[28px]">
+                        <div class="col-span-12 lg:col-span-1">
 
                             <button type="submit"
-                                class="w-full bg-[#1040C5] hover:bg-blue-700 text-white rounded-xl py-3 h-[52px] mt-2">
+                                class="w-full bg-[#1040C5] hover:bg-blue-700 text-white rounded-xl py-3 h-[46px] mt-2 transition">
 
                                 <i class="fa-solid fa-magnifying-glass"></i>
 
@@ -450,30 +450,41 @@ formTimKiem.addEventListener('submit', function(event) {
             return response.json().then(data => {
                 // Hiển thị lỗi validate ngay dưới input
                 const errors = data.errors || {};
-                const errorDiaDiem = document.querySelector('[name="ma_dia_diem"]');
+                const errorDiaDiem = document.querySelector('#formTimKiemKhachSan select[name="ma_dia_diem"]');
                 const errorNgayNhan = document.getElementById('ngay_nhan_phong');
                 const errorNgayTra = document.getElementById('ngay_tra_phong');
 
-                // Xoá lỗi cũ
-                document.querySelectorAll('.ajax-error-msg').forEach(el => el.remove());
+                const errorContainers = [
+                    errorDiaDiem ? errorDiaDiem.nextElementSibling : null,
+                    errorNgayNhan ? errorNgayNhan.nextElementSibling : null,
+                    errorNgayTra ? errorNgayTra.nextElementSibling : null
+                ];
+                errorContainers.forEach(container => {
+                    if (container) {
+                        container.innerHTML = '';
+                    }
+                });
 
-                if (errors.ma_dia_diem) {
+                if (errors.ma_dia_diem && errorDiaDiem) {
                     const p = document.createElement('p');
                     p.className = 'text-red-500 text-sm ajax-error-msg mt-1';
                     p.textContent = errors.ma_dia_diem[0];
-                    errorDiaDiem.closest('div').appendChild(p);
+                    const container = errorDiaDiem.nextElementSibling;
+                    if (container) container.appendChild(p);
                 }
-                if (errors.ngay_nhan_phong) {
+                if (errors.ngay_nhan_phong && errorNgayNhan) {
                     const p = document.createElement('p');
                     p.className = 'text-red-500 text-sm ajax-error-msg mt-1';
                     p.textContent = errors.ngay_nhan_phong[0];
-                    errorNgayNhan.closest('div').appendChild(p);
+                    const container = errorNgayNhan.nextElementSibling;
+                    if (container) container.appendChild(p);
                 }
-                if (errors.ngay_tra_phong) {
+                if (errors.ngay_tra_phong && errorNgayTra) {
                     const p = document.createElement('p');
                     p.className = 'text-red-500 text-sm ajax-error-msg mt-1';
                     p.textContent = errors.ngay_tra_phong[0];
-                    errorNgayTra.closest('div').appendChild(p);
+                    const container = errorNgayTra.nextElementSibling;
+                    if (container) container.appendChild(p);
                 }
 
                 ketQua.innerHTML = '';
@@ -493,7 +504,14 @@ formTimKiem.addEventListener('submit', function(event) {
         if (!html) return;
 
         // Xoá lỗi validate cũ khi tìm kiếm thành công
-        document.querySelectorAll('.ajax-error-msg').forEach(el => el.remove());
+        const errorDiaDiem = document.querySelector('#formTimKiemKhachSan select[name="ma_dia_diem"]');
+        const errorNgayNhan = document.getElementById('ngay_nhan_phong');
+        const errorNgayTra = document.getElementById('ngay_tra_phong');
+        [errorDiaDiem, errorNgayNhan, errorNgayTra].forEach(el => {
+            if (el && el.nextElementSibling) {
+                el.nextElementSibling.innerHTML = '';
+            }
+        });
 
         // Thay nội dung kết quả cũ bằng kết quả mới
         ketQua.innerHTML = html;

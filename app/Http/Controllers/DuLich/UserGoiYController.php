@@ -70,8 +70,6 @@ class UserGoiYController extends Controller
         ->goiYChoNguoiDung(
             $maNguoiDung
         );
-
-    // Nếu là AJAX → chỉ trả về phần kết quả
     if ($request->ajax()) {
 
         return view(

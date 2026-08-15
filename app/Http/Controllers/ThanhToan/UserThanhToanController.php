@@ -317,8 +317,6 @@ if ($request->vnp_ResponseCode != '00') {
         );
 }
 
-    // Lấy đơn từ vnp_TxnRef (ma_dat_phong) do VNPay gửi về
-    // Không phụ thuộc session để tránh mất session
     $maDatPhong = $request->vnp_TxnRef;
 
     $datPhongRecord = DatPhong::where('ma_dat_phong', $maDatPhong)->first();
@@ -353,7 +351,7 @@ if ($request->vnp_ResponseCode != '00') {
 
     DB::commit();
 
-    // Gửi mail SAU commit — mail fail không ảnh hưởng trạng thái đơn
+    // Gửi mail 
     try {
         \Mail::to($datPhong->email_khach)
             ->send(new \App\Mail\DatPhongThanhCongMail($datPhong));
