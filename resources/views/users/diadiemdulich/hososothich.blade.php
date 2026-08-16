@@ -47,7 +47,7 @@
 
                     <div class="flex justify-end gap-1">
 
-                        @for($i = 1; $i <= 5; $i++) <i class="fa-solid fa-star
+                        @for($i = 1; $i <= 5; $i++) <i class="fa-solid fa-circle
                         {{ $i <= $soThich->muc_do_uu_tien
                             ? 'text-yellow-400'
                             : 'text-slate-300' }}">
@@ -85,7 +85,7 @@
             id="btnGoiY"
             class="inline-flex items-center gap-2 bg-[#1040C5] hover:bg-blue-700 text-white px-8 py-3 rounded-xl font-semibold transition shadow-sm">
 
-            <span>Gợi ý điểm đến cho tôi</span>
+            <span>Xem gợi ý</span>
 
         </button>
 

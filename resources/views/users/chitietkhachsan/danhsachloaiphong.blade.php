@@ -414,11 +414,15 @@
                 {{-- GIỎ ĐẶT PHÒNG --}}
                 <div class="bg-white rounded-3xl shadow border border-gray-100 p-6">
 
-                    <h3 class="text-2xl font-bold mb-5">
-
-                        Giỏ đặt phòng
-
-                    </h3>
+                    <div class="flex items-center justify-between mb-5">
+                        <h3 class="text-2xl font-bold">
+                            Giỏ đặt phòng
+                        </h3>
+                        <button type="button" id="btnXoaTatCa" onclick="removeAllRooms()"
+                            class="hidden text-sm font-semibold text-red-600 hover:text-red-700 hover:underline">
+                            Xóa tất cả
+                        </button>
+                    </div>
                     @if ($errors->has('phong'))
                     <div class="mb-5  px-4 py-3 text-red-600">
                         {{ $errors->first('phong') }}
@@ -574,6 +578,28 @@ function changeRoom(id, amount) {
 
 }
 
+function removeRoom(id) {
+    const input = document.getElementById('room_' + id);
+    const hidden = document.getElementById('hidden_room_' + id);
+
+    if (input) input.value = 0;
+    if (hidden) hidden.value = 0;
+
+    updateCart();
+}
+
+function removeAllRooms() {
+    document.querySelectorAll('.room-item').forEach(function(room) {
+        const id = room.dataset.id;
+        const input = document.getElementById('room_' + id);
+        const hidden = document.getElementById('hidden_room_' + id);
+
+        if (input) input.value = 0;
+        if (hidden) hidden.value = 0;
+    });
+
+    updateCart();
+}
 
 function updateCart() {
 
@@ -608,13 +634,13 @@ function updateCart() {
             tongSucChua += quantity * capacity;
 
             html += `
-                <div class="border-b pb-4 mb-4">
+                <div class="border-b pb-4 mb-4 last:border-b-0 last:pb-0 last:mb-0">
 
-                    <div class="flex justify-between">
+                    <div class="flex justify-between items-center gap-3">
 
-                        <div>
+                        <div class="flex-1 min-w-0">
 
-                            <div class="font-semibold">${name}</div>
+                            <div class="font-semibold text-gray-800">${name}</div>
 
                             <div class="text-sm text-gray-500">
                                 ${quantity} phòng
@@ -622,9 +648,20 @@ function updateCart() {
 
                         </div>
 
-                        <div class="font-bold text-blue-600">
+                        <div class="text-right flex items-center gap-3">
 
-                            ${(quantity * price).toLocaleString('vi-VN')}đ
+                            <div class="font-bold text-blue-600">
+
+                                ${(quantity * price).toLocaleString('vi-VN')}đ
+
+                            </div>
+
+                            <button type="button" onclick="removeRoom(${id})" title="Xóa loại phòng này"
+                                class="text-gray-400 hover:text-red-600 hover:bg-red-50 p-1.5 rounded-lg transition">
+
+                                <i class="fa-solid fa-trash-can"></i>
+
+                            </button>
 
                         </div>
 
@@ -656,6 +693,15 @@ function updateCart() {
 
     document.getElementById('totalPrice').innerText =
         totalPrice.toLocaleString('vi-VN') + 'đ';
+
+    const btnXoaTatCa = document.getElementById('btnXoaTatCa');
+    if (btnXoaTatCa) {
+        if (totalRooms > 0) {
+            btnXoaTatCa.classList.remove('hidden');
+        } else {
+            btnXoaTatCa.classList.add('hidden');
+        }
+    }
 
     const btn = document.getElementById('btnDatPhong');
 

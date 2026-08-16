@@ -202,7 +202,7 @@
                 <button type="submit"
                     class="rounded-xl bg-[#1040C5] px-8 py-3 font-semibold text-white hover:bg-blue-700 transition">
 
-                    Gửi chờ duyệt
+                    Gửi đăng ký
 
                 </button>
 

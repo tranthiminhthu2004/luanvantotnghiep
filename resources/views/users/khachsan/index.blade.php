@@ -29,7 +29,7 @@
 
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-        <div id="ketQuaKhachSan">
+        <div id="ketQuaKhachSan" class="scroll-mt-28">
 
             <div class="flex flex-col lg:flex-row gap-6">
 
@@ -59,7 +59,7 @@
 
                     <div class="mt-10 flex items-center justify-center">
 
-                        {{ $khachSans->links() }}
+                        {{ $khachSans->fragment('ketQuaKhachSan')->links() }}
 
                     </div>
 
@@ -74,6 +74,25 @@
 </main>
 
 @include('components.footer')
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const hasFilter = window.location.hash === '#ketQuaKhachSan' || 
+                      urlParams.has('gia') || 
+                      urlParams.has('so_sao') || 
+                      urlParams.has('tien_nghi') || 
+                      urlParams.has('sap_xep') ||
+                      urlParams.has('page');
+
+    if (hasFilter) {
+        const ketQuaElement = document.getElementById('ketQuaKhachSan');
+        if (ketQuaElement) {
+            ketQuaElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+});
+</script>
 </body>
 
 </html>

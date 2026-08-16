@@ -149,6 +149,7 @@ if ($request->filled('tien_nghi'))
             'loaiPhongs'
         ])
         ->paginate(5)
+        ->fragment('ketQuaKhachSan')
         ->withQueryString();
 
     $diaDiems = DiaDiem::orderBy(
@@ -487,6 +488,7 @@ return view(
             'loaiPhongs'
         ])
         ->paginate(10)
+        ->fragment('ketQuaKhachSan')
         ->withQueryString();
 
     $diaDiems = DiaDiem::orderBy(

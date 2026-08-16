@@ -248,7 +248,6 @@
             @if(!empty($doiTac->mo_ta))
 
             <div class="whitespace-pre-line text-black font-medium ">
-
                 {{ $doiTac->mo_ta }}
 
             </div>
@@ -443,12 +442,11 @@
                     {{-- Mô tả --}}
                     <div class="mt-5">
 
-                        <h4 class=" text-black">
+                        <h4 class="font-semibold text-black mb-1">
                             Mô tả
                         </h4>
 
                         <p class="text-sm text-slate-600 whitespace-pre-line">
-
                             {{ $phong->mo_ta ?: 'Không có mô tả.' }}
 
                         </p>
@@ -458,7 +456,7 @@
                     {{-- Danh sách phòng --}}
                     <div class="mt-5 border-t">
 
-                        <h4 class="font-medium mb-3">
+                        <h4 class="font-medium mb-3 text-center">
 
                             Danh sách phòng
 

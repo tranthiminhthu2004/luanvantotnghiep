@@ -90,8 +90,6 @@ class GoogleController extends Controller
             return redirect('/admin/dashboard');
         }
 
-
-
         return redirect()->route(
             'users.index'
         );

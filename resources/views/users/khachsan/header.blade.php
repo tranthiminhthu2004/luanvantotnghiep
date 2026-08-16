@@ -10,7 +10,7 @@
 
     </div>
 
-    <form method="GET">
+    <form method="GET" action="{{ route('khachsan.index') }}#ketQuaKhachSan">
 
         @foreach(request()->except('sap_xep') as $key => $value)
 

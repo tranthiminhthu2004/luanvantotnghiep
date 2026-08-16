@@ -421,84 +421,94 @@
 
                             </div>
 
-                            {{-- LOẠI PHÒNG ĐÃ ĐẶT --}}
-                            <div class="mt-6">
+                        </div>
 
-                                <h3 class="text-lg font-semibold text-slate-800 mb-3">
+                    </div>
 
-                                    Loại phòng đã đặt
+                    {{-- LOẠI PHÒNG ĐÃ ĐẶT (Chiếm hết 1 hàng ngang phía dưới) --}}
+                    <div class="mt-8 pt-6 border-t border-slate-200">
 
-                                </h3>
+                        <h2 class="text-2xl font-bold text-slate-800 mb-5">
 
-                                <div class="space-y-3">
+                            Loại phòng đã đặt
 
-                                    @foreach($datPhong->chiTietDatPhong as $chiTiet)
+                        </h2>
 
-                                    <div class="rounded-lg border border-slate-200 p-4">
+                        <div class="overflow-hidden rounded-xl border border-slate-200">
 
-                                        <div class="font-semibold text-blue-600 mb-2">
+                            <div class="overflow-x-auto">
 
-                                            {{ $chiTiet->loaiPhong->ten_loai_phong }}
+                                <table class="w-full text-left min-w-[600px]">
 
-                                        </div>
+                                    <thead class="bg-slate-50 border-b border-slate-200 text-slate-700">
 
-                                        <div class="space-y-2 text-[15px]">
+                                        <tr>
 
-                                            <div class="flex">
+                                            <th class="px-6 py-4 font-semibold text-base">
 
-                                                <span class="w-36 text-slate-600">
+                                                Loại phòng
 
-                                                    Số lượng:
+                                            </th>
 
-                                                </span>
+                                            <th class="px-6 py-4 font-semibold text-base text-center">
 
-                                                <span>
+                                                Số lượng
 
-                                                    {{ $chiTiet->so_luong_phong }} phòng
+                                            </th>
 
-                                                </span>
+                                            <th class="px-6 py-4 font-semibold text-base text-center">
 
-                                            </div>
+                                                Số đêm
 
-                                            <div class="flex">
+                                            </th>
 
-                                                <span class="w-36 text-slate-600">
+                                            <th class="px-6 py-4 font-semibold text-base text-right">
 
-                                                    Số đêm:
+                                                Thành tiền
 
-                                                </span>
+                                            </th>
 
-                                                <span>
+                                        </tr>
 
-                                                    {{ $chiTiet->so_dem }} đêm
+                                    </thead>
 
-                                                </span>
+                                    <tbody class="divide-y divide-slate-200">
 
-                                            </div>
+                                        @foreach($datPhong->chiTietDatPhong as $chiTiet)
 
-                                            <div class="flex">
+                                        <tr class="hover:bg-slate-50 transition">
 
-                                                <span class="w-36 text-slate-600">
+                                            <td class="px-6 py-4 font-bold text-blue-600">
 
-                                                    Thành tiền:
+                                                {{ $chiTiet->loaiPhong->ten_loai_phong }}
 
-                                                </span>
+                                            </td>
 
-                                                <span class="font-semibold text-blue-600">
+                                            <td class="px-6 py-4 text-center text-slate-700">
 
-                                                    {{ number_format($chiTiet->thanh_tien,0,',','.') }}đ
+                                                {{ $chiTiet->so_luong_phong }} phòng
 
-                                                </span>
+                                            </td>
 
-                                            </div>
+                                            <td class="px-6 py-4 text-center text-slate-700">
 
-                                        </div>
+                                                {{ $chiTiet->so_dem }} đêm
 
-                                    </div>
+                                            </td>
 
-                                    @endforeach
+                                            <td class="px-6 py-4 text-right font-bold text-blue-600">
 
-                                </div>
+                                                {{ number_format($chiTiet->thanh_tien,0,',','.') }}đ
+
+                                            </td>
+
+                                        </tr>
+
+                                        @endforeach
+
+                                    </tbody>
+
+                                </table>
 
                             </div>
 
@@ -507,6 +517,7 @@
                     </div>
 
                 </div>
+
                 {{-- THANH TOÁN --}}
                 <div class="px-8 py-6 border-b border-slate-200">
 

@@ -1,4 +1,4 @@
-<form action="{{ route('khachsan.index') }}" method="GET">
+<form action="{{ route('khachsan.index') }}#ketQuaKhachSan" method="GET" id="formBoLocKhachSan">
 
     {{-- Giữ lại địa điểm đã tìm ở thanh Search --}}
     @if(request('ma_dia_diem'))
@@ -45,11 +45,6 @@
 
             </h3>
 
-            <a href="{{ route('khachsan.index') }}" class="text-sm text-blue-600 hover:underline">
-
-                Xóa bộ lọc
-
-            </a>
 
         </div>
 
@@ -67,7 +62,7 @@
 
                 <label class="flex items-center gap-3 cursor-pointer">
 
-                    <input type="checkbox" name="gia[]" value="duoi500"
+                    <input type="checkbox" name="gia[]" value="duoi500" onchange="this.form.submit()"
                         {{ in_array('duoi500',request('gia',[])) ? 'checked' : '' }}>
 
                     <span>
@@ -80,7 +75,7 @@
 
                 <label class="flex items-center gap-3 cursor-pointer">
 
-                    <input type="checkbox" name="gia[]" value="500-1000"
+                    <input type="checkbox" name="gia[]" value="500-1000" onchange="this.form.submit()"
                         {{ in_array('500-1000',request('gia',[])) ? 'checked' : '' }}>
 
                     <span>
@@ -93,7 +88,7 @@
 
                 <label class="flex items-center gap-3 cursor-pointer">
 
-                    <input type="checkbox" name="gia[]" value="1000-2000"
+                    <input type="checkbox" name="gia[]" value="1000-2000" onchange="this.form.submit()"
                         {{ in_array('1000-2000',request('gia',[])) ? 'checked' : '' }}>
 
                     <span>
@@ -106,7 +101,7 @@
 
                 <label class="flex items-center gap-3 cursor-pointer">
 
-                    <input type="checkbox" name="gia[]" value="tren2000"
+                    <input type="checkbox" name="gia[]" value="tren2000" onchange="this.form.submit()"
                         {{ in_array('tren2000',request('gia',[])) ? 'checked' : '' }}>
 
                     <span>
@@ -133,11 +128,11 @@
 
             <div class="space-y-3">
 
-                @for($i = 5; $i >= 3; $i--)
+                @for($i = 5; $i >= 1; $i--)
 
                 <label class="flex items-center gap-3 cursor-pointer">
 
-                    <input type="checkbox" name="so_sao[]" value="{{ $i }}"
+                    <input type="checkbox" name="so_sao[]" value="{{ $i }}" onchange="this.form.submit()"
                         {{ in_array($i,request('so_sao',[])) ? 'checked' : '' }}>
 
                     <span>
@@ -170,7 +165,7 @@
 
                 <label class="flex items-center gap-3 cursor-pointer">
 
-                    <input type="checkbox" name="tien_nghi[]" value="{{ $tienNghi->ma_tien_nghi }}"
+                    <input type="checkbox" name="tien_nghi[]" value="{{ $tienNghi->ma_tien_nghi }}" onchange="this.form.submit()"
                         {{ in_array($tienNghi->ma_tien_nghi,request('tien_nghi',[])) ? 'checked' : '' }}>
 
                     <span>
@@ -187,15 +182,6 @@
 
         </div>
 
-        <div class="space-y-3">
-
-            <button type="submit"
-                class="w-full bg-[#1040C5] hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition">
-
-                Áp dụng bộ lọc
-
-            </button>
-        </div>
 
     </div>
 

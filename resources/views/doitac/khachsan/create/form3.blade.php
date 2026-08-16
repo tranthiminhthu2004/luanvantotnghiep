@@ -191,8 +191,18 @@
                         <input type="hidden" name="loai_phong[{{ $index }}][ma_loai_phong]"
                             value="{{ $loaiPhong['ma_loai_phong'] ?? '' }}">
 
-                        {{-- preview --}}
-                        <div class="mb-3">
+                        {{-- Ô chọn file nằm ngay dưới label để căn ngang hàng với ô Giá cơ bản --}}
+                        <input type="file" accept=".jpg,.jpeg,.png,.webp" name="loai_phong[{{ $index }}][hinh_anh]"
+                            class="w-full rounded-xl border border-slate-300 px-4 py-3 bg-white">
+
+                        @error("loai_phong.$index.hinh_anh")
+                        <span class="text-red-500 text-sm block mt-1">
+                            {{ $message }}
+                        </span>
+                        @enderror
+
+                        {{-- Xem trước ảnh nằm phía dưới ô chọn file --}}
+                        <div class="mt-3">
 
                             @php
                             $anh = old("loai_phong.$index.hinh_anh_cu", $loaiPhong['hinh_anh'] ?? '');
@@ -200,30 +210,21 @@
 
                             @if($anh)
 
-                            <img src="{{ asset('images/loaiphong/'.$anh) }}"
-                                class="previewLoaiPhong w-40 h-40 rounded-xl object-cover border border-slate-300">
-
-                            <p class="text-xs text-slate-500 mt-2">
-                                Ảnh hiện tại
-                            </p>
+                            <div class="flex items-center gap-3">
+                                <img src="{{ asset('images/loaiphong/'.$anh) }}"
+                                    class="previewLoaiPhong w-28 h-28 rounded-xl object-cover border border-slate-300 shadow-sm">
+                                <span class="text-xs text-slate-500">Ảnh hiện tại</span>
+                            </div>
 
                             @else
 
-                            <img
-                                class="previewLoaiPhong hidden w-40 h-40 rounded-xl object-cover border border-slate-300">
+                            <div class="flex items-center gap-3">
+                                <img class="previewLoaiPhong hidden w-28 h-28 rounded-xl object-cover border border-slate-300 shadow-sm">
+                            </div>
 
                             @endif
 
                         </div>
-
-                        <input type="file" accept=".jpg,.jpeg,.png,.webp" name="loai_phong[{{ $index }}][hinh_anh]"
-                            class="w-full rounded-xl border border-slate-300 px-4 py-3">
-
-                        @error("loai_phong.$index.hinh_anh")
-                        <span class="text-red-500 text-sm">
-                            {{ $message }}
-                        </span>
-                        @enderror
 
                     </div>
 
@@ -424,14 +425,12 @@
 
                 <input type="hidden" data-name="ma_loai_phong" value="">
 
-                <img class="previewLoaiPhong hidden w-40 h-40 rounded-xl object-cover border border-slate-300 mb-3">
-
                 <input type="file" accept=".jpg,.jpeg,.png,.webp" data-name="hinh_anh"
-                    class="w-full rounded-xl border border-slate-300 px-4 py-3">
+                    class="w-full rounded-xl border border-slate-300 px-4 py-3 bg-white">
 
-                <p class="text-xs text-slate-500 mt-2">
-                    Chọn ảnh loại phòng.
-                </p>
+                <div class="mt-3">
+                    <img class="previewLoaiPhong hidden w-28 h-28 rounded-xl object-cover border border-slate-300 shadow-sm">
+                </div>
 
             </div>
             <div class="md:col-span-2">
