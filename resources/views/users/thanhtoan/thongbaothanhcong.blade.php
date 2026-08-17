@@ -21,13 +21,21 @@
 
     @php
 
-    $thanhToan = $datPhong->thanhToans->first();
+    $thanhToan = $datPhong->thanhToans
+        ->where('trang_thai_thanh_toan', 'ThanhCong')
+        ->sortByDesc('ma_thanh_toan')
+        ->first()
+        ?? $datPhong->thanhToans
+            ->sortByDesc('ma_thanh_toan')
+            ->first();
 
-    $soTienDaThanhToan = $thanhToan?->so_tien ?? 0;
+    $soTienDaThanhToan = $datPhong->thanhToans
+        ->where('trang_thai_thanh_toan', 'ThanhCong')
+        ->sum('so_tien');
 
     $soTienConLai = max(
-    0,
-    $datPhong->tong_tien - $soTienDaThanhToan
+        0,
+        $datPhong->tong_tien - $soTienDaThanhToan
     );
 
     @endphp

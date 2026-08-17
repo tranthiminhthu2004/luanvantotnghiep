@@ -12,8 +12,12 @@
     $khachSan = $datPhong->khachSan;
 
     $thanhToan = $datPhong->thanhToans
-    ->sortByDesc('ngay_thanh_toan')
-    ->first();
+        ->where('trang_thai_thanh_toan', 'ThanhCong')
+        ->sortByDesc('ma_thanh_toan')
+        ->first()
+        ?? $datPhong->thanhToans
+            ->sortByDesc('ma_thanh_toan')
+            ->first();
 
     $tongTien = (float) $datPhong->tong_tien;
 
@@ -267,7 +271,7 @@
 
                     <tr>
                         <td><b>Trạng thái thanh toán</b></td>
-                        <td>{{ $thanhToan->trang_thai_thanh_toan }}</td>
+                        <td>{{ $thanhToan->trang_thai_thanh_toan == 'ThanhCong' ? 'Thành công' : ($thanhToan->trang_thai_thanh_toan == 'ChoXuLy' ? 'Chờ xử lý' : 'Thất bại') }}</td>
                     </tr>
 
                     @if($thanhToan->ma_giao_dich)

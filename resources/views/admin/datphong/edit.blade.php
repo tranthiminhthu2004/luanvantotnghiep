@@ -29,27 +29,11 @@
 
         @endif
 
-        <!-- Tiêu đề -->
-        <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
-
-            <h2 class="text-3xl font-bold text-[#061755]">
-
-                Sửa đơn đặt phòng
-
-            </h2>
-
-            <p class="text-gray-500 mt-2">
-
-                Cập nhật thông tin khách hàng của đơn đặt phòng.
-
-            </p>
-
-        </div>
-
+        
         <!-- Thông tin đơn -->
         <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
 
-            <h3 class="text-xl font-bold text-black mb-6">
+            <h3 class="text-2xl font-bold text-black mb-6">
 
                 Thông tin đơn đặt phòng
 
@@ -59,7 +43,7 @@
 
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
 
                         Mã đặt phòng
 
@@ -72,7 +56,7 @@
 
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
 
                         Khách sạn
 
@@ -85,7 +69,7 @@
 
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
 
                         Trạng thái
 
@@ -120,7 +104,7 @@
 
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
 
                         Tổng tiền
 
@@ -138,7 +122,7 @@
         <!-- Thông tin lưu trú -->
         <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
 
-            <h3 class="text-xl font-bold text-black mb-6">
+            <h3 class="text-2xl font-bold text-black mb-6">
 
                 Thông tin lưu trú
 
@@ -148,7 +132,7 @@
 
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
 
                         Ngày nhận phòng
 
@@ -161,7 +145,7 @@
 
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
 
                         Ngày trả phòng
 
@@ -174,7 +158,7 @@
 
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
 
                         Số đêm
 
@@ -201,7 +185,7 @@
 
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
 
                         Trẻ em
 
@@ -214,7 +198,7 @@
 
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
 
                         Người cao tuổi
 
@@ -230,7 +214,7 @@
         </div> <!-- Thông tin khách hàng -->
         <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
 
-            <h3 class="text-xl font-bold text-black mb-6">
+            <h3 class="text-2xl font-bold text-black mb-6">
 
                 Thông tin khách hàng
 
@@ -241,7 +225,7 @@
                 <!-- Họ và tên đệm -->
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
 
                         Họ và tên đệm
 
@@ -266,7 +250,7 @@
                 <!-- Tên -->
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
 
                         Tên <span class="text-red-500">*</span>
 
@@ -290,7 +274,7 @@
                 <!-- Email -->
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
 
                         Email <span class="text-red-500">*</span>
 
@@ -314,7 +298,7 @@
                 <!-- Số điện thoại -->
                 <div>
 
-                    <label class="block text-sm font-semibold text-black">
+                    <label class="block text-base font-semibold text-black">
 
                         Số điện thoại <span class="text-red-500">*</span>
 
@@ -383,7 +367,7 @@
 
             <div class="p-6 border-b">
 
-                <h3 class="text-xl font-bold text-black">
+                <h3 class="text-2xl font-bold text-black">
 
                     Chi tiết loại phòng đã đặt
 
@@ -399,31 +383,31 @@
 
                         <tr>
 
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-black">
+                            <th class="px-6 py-4 text-left text-base font-semibold text-black">
 
                                 Loại phòng
 
                             </th>
 
-                            <th class="px-6 py-4 text-center text-sm font-semibold text-black">
+                            <th class="px-6 py-4 text-center text-base font-semibold text-black">
 
                                 Số lượng
 
                             </th>
 
-                            <th class="px-6 py-4 text-right text-sm font-semibold text-black">
+                            <th class="px-6 py-4 text-right text-base font-semibold text-black">
 
                                 Giá đặt
 
                             </th>
 
-                            <th class="px-6 py-4 text-center text-sm font-semibold text-black">
+                            <th class="px-6 py-4 text-center text-base font-semibold text-black">
 
                                 Số đêm
 
                             </th>
 
-                            <th class="px-6 py-4 text-right text-sm font-semibold text-black">
+                            <th class="px-6 py-4 text-right text-base font-semibold text-black">
 
                                 Thành tiền
 
@@ -496,7 +480,6 @@
             <a href="{{ route('admin.datphong.index') }}"
                 class="bg-slate-200 hover:bg-slate-300 text-black font-semibold px-6 py-3 rounded-full transition">
 
-                <i class="fa-solid fa-arrow-left mr-2"></i>
 
                 Quay lại
 

@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\DB;
 use App\Services\DatPhongService;
 use App\Models\ThanhToan;
 
+use App\Jobs\HuyDonDatPhongQuaHanJob;
+
 class AdminDatPhongController extends Controller
 {
     protected $phongService;
@@ -31,6 +33,8 @@ class AdminDatPhongController extends Controller
 
     public function index()
 {
+    HuyDonDatPhongQuaHanJob::dispatchSync();
+
     $query = DatPhong::with([
         'nguoiDung',
         'khachSan'

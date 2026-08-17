@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use App\Services\VNPayService;
 use App\Models\ThanhToan;
 
+use App\Jobs\HuyDonDatPhongQuaHanJob;
+
 class UserLichSuDatPhongController extends Controller
 {
     protected $datPhongService;
@@ -25,6 +27,8 @@ class UserLichSuDatPhongController extends Controller
 
     public function index()
     {
+        HuyDonDatPhongQuaHanJob::dispatchSync();
+
         $maNguoiDung = Auth::user()->ma_nguoi_dung;
 
         $datPhongs = DatPhong::with([
@@ -46,6 +50,8 @@ class UserLichSuDatPhongController extends Controller
 
     public function show($maDonDatPhong)
     {
+        HuyDonDatPhongQuaHanJob::dispatchSync();
+
         $maNguoiDung = Auth::user()->ma_nguoi_dung;
 
         $datPhong = DatPhong::with([

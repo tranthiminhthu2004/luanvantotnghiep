@@ -74,9 +74,9 @@
 
                         </span>
 
-                        <span class="text-xs font-bold text-green-600">
+                        <span class="text-xs font-bold text-[#1040C5]">
 
-                            {{ number_format($diaDiem->khoang_cach_km,1) }} km
+                            {{ number_format($diaDiem->khoang_cach_km,2) }} km
 
                         </span>
 

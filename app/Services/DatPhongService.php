@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\DatPhongThanhCongMail;
 use Illuminate\Support\Facades\DB;
+use App\Models\KhachSan;
 
 class DatPhongService
 {
@@ -111,8 +112,22 @@ foreach ($duLieu['chi_tiet_phong'] as $chiTiet)
                 ] = $phongTrong;
 
             }
+            $thoiDiemDat = now();
 
-          
+            $han24Gio = $thoiDiemDat->copy()->addHours(24);
+
+            $khachSan = KhachSan::find(
+            $duLieu['ma_khach_san']
+        );
+
+            $hanTruocNhanPhong = Carbon::parse(
+            $duLieu['ngay_nhan_phong'] . ' ' . $khachSan->gio_check_in
+        )->subHours(2);
+
+        $hanThanhToan = $han24Gio->lt($hanTruocNhanPhong)
+        ? $han24Gio
+        : $hanTruocNhanPhong;
+
             $datPhong = DatPhong::create([
 
                 'ma_dat_phong' => '',
@@ -160,10 +175,10 @@ foreach ($duLieu['chi_tiet_phong'] as $chiTiet)
                     $duLieu['ghi_chu']??null,
                     
                 'han_thanh_toan' =>
-                    now()->addHours(24),
+                    $hanThanhToan,
 
                 'ngay_dat' =>
-                    now()
+                    $thoiDiemDat
 
             ]);
 
@@ -333,8 +348,7 @@ public function xacNhanThanhToan($maDonDatPhong)
         'thanhToans'
     ]);
 
-    // Mail được gửi bên ngoài transaction ở controller
-    // để tránh mail fail làm rollback toàn bộ DB
+  
     return $datPhong;
 }
    public function huyDatPhong($maDonDatPhong)

@@ -602,9 +602,17 @@ $hinhAnh = $datPhong->khachSan->hinhAnh->first();
                 </div>
                 @php
 
-                $thanhToan = $datPhong->thanhToans->last();
+                $thanhToan = $datPhong->thanhToans
+                    ->where('trang_thai_thanh_toan', 'ThanhCong')
+                    ->sortByDesc('ma_thanh_toan')
+                    ->first()
+                    ?? $datPhong->thanhToans
+                        ->sortByDesc('ma_thanh_toan')
+                        ->first();
 
-                $daThanhToan = $datPhong->thanhToans->sum('so_tien');
+                $daThanhToan = $datPhong->thanhToans
+                    ->where('trang_thai_thanh_toan', 'ThanhCong')
+                    ->sum('so_tien');
 
                 $conLai = max($datPhong->tong_tien - $daThanhToan, 0);
 
